@@ -1,0 +1,170 @@
+
+
+Create 12 multiple-choice quiz questions about planets in our solar system, optimized for search traffic. For each question, output exactly the following fields in Markdown:
+
+Question
+
+A clear, concise MCQ prompt (e.g. “Which planet is known as the Red Planet?”)
+
+Options
+
+Four choices labeled A–D (each on its own line)
+
+Correct-Option
+
+The letter plus full text of the right answer (e.g. B: Mars)
+
+Tags
+
+Comma-separated keywords or short phrases for filtering (e.g. planet, red planet, geography)
+
+Description
+
+A single 20–30 word, SEO-rich summary that naturally weaves in long-tail keywords and captures the essence of the question (for example:
+“Famous for its iron oxide surface and nickname ‘Red Planet,’ this world is the fourth from the Sun and central to Mars rover missions.”)
+
+Output formatting:
+
+Number each MCQ 1–12.
+
+Use bold for field names exactly as above.
+
+No extra commentary or “AI” jargon—just the five fields per question, ready to copy & paste into your quiz system.
+
+
+
+1. Vendor Onboarding Portal – MVP Requirements
+Secure self-service signup (company profile, banking & tax forms)
+
+Document e-signature & storage
+
+Basic approval workflow with status tracking
+
+Notifications (email + in-app) for missing info and approvals
+
+Admin dashboard showing pending vs. approved vendors
+
+2. Partner Enablement Hub – MVP Requirements
+SSO access for partners
+
+Tiered content library (sales decks, training videos)
+
+Certification quiz engine with score recording
+
+Usage analytics for admins
+
+Simple feedback form for content gaps
+
+3. KYC / AML Compliance Automation – MVP Requirements
+ID document upload + OCR extraction
+
+Third-party sanctions / PEP list screening API integration
+
+Risk-scoring rules engine (configurable thresholds)
+
+Manual review queue with audit log
+
+Auto-generated compliance reports (PDF)
+
+4. Subscription Management Dashboard – MVP Requirements
+CRUD for plans, price, billing cycles
+
+Checkout widget (credit-card + basic invoicing)
+
+Webhook listener for payment events
+
+Customer self-service (upgrade, downgrade, cancel)
+
+MRR / churn snapshot on admin home page
+
+5. Incident Reporting Workflow – MVP Requirements
+Form to log incident (severity, description, attachments)
+
+SLA-based assignment to on-call team
+
+Slack / email notifications on status change
+
+Timeline view & root-cause notes field
+
+Export to CSV / PDF for compliance audits
+
+6. Employee Onboarding Platform – MVP Requirements
+New-hire checklist generator (IT equipment, HR docs)
+
+E-signature for contracts & policies
+
+Buddy assignment & progress tracking
+
+Calendar integration to schedule orientation sessions
+
+HR dashboard with completion percentages
+
+7. Marketplace Seller Onboarding – MVP Requirements
+Step-by-step wizard (store info, catalogue CSV upload)
+
+Automated listing quality checks (images, descriptions)
+
+Stripe Connect or similar payout setup
+
+Performance “health” meter (order defects, lateness)
+
+Contextual help articles + live-chat link
+
+8. Loan Application Processing Core – MVP Requirements
+Borrower portal for application & document uploads
+
+Soft credit-pull integration
+
+Rules engine for preliminary eligibility score
+
+Underwriter queue with decision logging
+
+Offer letter generation & e-signing
+
+9. Digital Identity Verification Gateway – MVP Requirements
+API that accepts selfie + government ID images
+
+Face-match & liveness detection via third-party service
+
+Webhook callback with verification result
+
+Management UI for failed verifications and overrides
+
+Usage metering & simple billing export
+
+10. Support Ticketing Lite – MVP Requirements
+Multi-channel ticket capture (web form & email)
+
+Priority and status fields with Kanban board view
+
+Internal notes vs. public replies separation
+
+Basic SLAs with breach alerts
+
+Search & tag filters
+
+How to use this list
+
+Pick the contracts most relevant to your product roadmap.
+
+Validate with stakeholders which user journeys are critical on day 1.
+
+Treat each bullet as a “must-have capability” for an initial release; anything not listed can be scheduled for post-MVP iterations.
+
+Write user stories & acceptance criteria under each bullet, then estimate effort.
+
+Feel free to ask if you’d like deeper detail on any specific project or guidance on prioritizing these MVP features!
+
+
+
+
+
+
+
+Past Paper
+- list of classes (by serviceId)
+- list of boards (by classId)
+
+Result 
+- list of classes (by serviceId)
+- list of boards (by classId)

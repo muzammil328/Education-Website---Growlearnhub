@@ -1,0 +1,16 @@
+export { authRouter } from './auth.router';
+export { boardRouter } from './board.router';
+export { bookRouter } from './book.router';
+export { chapterRouter } from './chapter.router';
+export { classRouter } from './class.router';
+export { classGroupRouter } from './classGroup.router';
+export { feedbackRouter } from './feedback.router';
+export { headingRouter } from './heading.router';
+export { institutionRouter } from './institution.router';
+export { mcqAttemptRouter } from './mcqAttempt.router';
+export { mcqsRouter } from './mcqs.router';
+export { serviceRouter } from './service.router';
+export { sitemapRouter } from './sitemap.router';
+export { studentRouter } from './student.router';
+export { subHeadingRouter } from './subHeading.router';
+export { authRouter as userAuthRouter } from './user.router';

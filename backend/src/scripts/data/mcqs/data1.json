@@ -1,0 +1,55 @@
+[
+  {
+    "className": "class-9",
+    "bookName": "Biology",
+    "chapterName": "Cell Structure",
+    "headingName": "Cell: The Unit of Life",
+    "subHeadingName": "Introduction to Cell",
+    "questions": [
+      {
+        "question": "What is the basic structural and functional unit of life?",
+        "options": ["Atom", "Molecule", "Cell", "Tissue"],
+        "correctOption": 2,
+        "explanation": "Cell is the basic structural and functional unit of all living organisms.",
+        "difficulty": "easy"
+      },
+      {
+        "question": "Which organelle is known as the powerhouse of the cell?",
+        "options": ["Nucleus", "Mitochondria", "Ribosome", "Golgi apparatus"],
+        "correctOption": 1,
+        "explanation": "Mitochondria produce ATP through cellular respiration.",
+        "difficulty": "easy"
+      },
+      {
+        "question": "What is the function of ribosomes?",
+        "options": ["Energy production", "Protein synthesis", "Cell division", "Waste removal"],
+        "correctOption": 1,
+        "explanation": "Ribosomes are the site of protein synthesis in the cell.",
+        "difficulty": "medium"
+      }
+    ]
+  },
+  {
+    "className": "class-10",
+    "bookName": "Biology",
+    "chapterName": "Life Processes",
+    "headingName": "Nutrition",
+    "subHeadingName": "Nutrition in Plants",
+    "questions": [
+      {
+        "question": "What is nutrition?",
+        "options": ["Process of taking food", "Process of breathing", "Process of excretion", "Process of reproduction"],
+        "correctOption": 0,
+        "explanation": "Nutrition is the process by which organisms take in and utilize food.",
+        "difficulty": "easy"
+      },
+      {
+        "question": "Which organ is responsible for pumping blood in humans?",
+        "options": ["Lungs", "Brain", "Heart", "Liver"],
+        "correctOption": 2,
+        "explanation": "The heart is a muscular organ that pumps blood throughout the body.",
+        "difficulty": "easy"
+      }
+    ]
+  }
+]

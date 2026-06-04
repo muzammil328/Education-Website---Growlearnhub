@@ -1,0 +1,22 @@
+{
+  "extends": "../../../tsconfig.base.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "composite": false,
+    "types": ["node", "express", "jest"],
+    "paths": {
+      "@/*": ["./src/*"],
+      "@database/*": ["./src/database/*"],
+      "@middleware/*": ["./src/middleware/*"],
+      "@foundation/*": ["./src/foundation/*"],
+      "@models/*": ["./src/database/models/*"],
+      "@modules/*": ["./src/database/modules/*"],
+      "@constants/*": ["./src/shared/constants/*"],
+      "@enums/*": ["./src/shared/enums/*"],
+      "@types/*": ["src/types/*"],
+      "@config/*": ["./src/config/*"]
+    }
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist"]
+}
