@@ -10,7 +10,7 @@ import {
 import { serviceService } from '@/services/service.service';
 import { z } from 'zod';
 import { createTRPCRouter, publicProcedure, superAdminProcedure, teacherProcedure } from '@/trpc/trpc';
-import { toTrpcError } from '@muzammil328/utils';
+import { toTrpcError } from '@muzammil328/trpc';
 import type { PaginatedResult } from '@muzammil328/education-packages/types';
 
 interface ServiceListItem {
