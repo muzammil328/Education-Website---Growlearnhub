@@ -3,7 +3,7 @@
 import { useState, useRef } from 'react';
 import { Button } from '@muzammil328/ui';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@muzammil328/ui';
-import { Textarea } from '@muzammil328/ui/forms';
+import { Textarea } from '@muzammil328/ui';
 import { Upload, FileJson, Download } from 'lucide-react';
 import { mcqQuestionSchema } from '@muzammil328/education-packages';
 import { toast } from '@muzammil328/ui';

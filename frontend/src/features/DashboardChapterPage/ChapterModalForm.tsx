@@ -3,7 +3,7 @@
 import React, { useMemo, useEffect, useRef } from 'react';
 import { SelectField } from '@/components/ui/select-field'
 import { DropdownLoader } from '@muzammil328/ui'
-import { Label, FormString, FormNumber } from '@muzammil328/ui/forms';
+import { Label, FormString, FormNumber } from '@muzammil328/ui';
 import { useDropdownClasses } from '@/hooks';
 import { useDropdownBooks } from '@/hooks';
 import { DropdownSkeleton } from '@/components/DropdownSkeleton';
