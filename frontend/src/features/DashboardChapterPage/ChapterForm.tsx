@@ -4,7 +4,7 @@ import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from '@muzammil328/ui';
-import { Form } from '@muzammil328/ui/forms';
+import { Form } from '@muzammil328/ui';
 import { useChapterById, useCreateChapter, useUpdateChapter } from '@/hooks';
 import { ChapterSchema, type ChapterFormValues } from '@muzammil328/education-packages';
 import { ChapterModalSkeleton } from './ChapterModalSkeleton';

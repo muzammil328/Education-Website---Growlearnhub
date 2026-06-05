@@ -4,7 +4,7 @@ import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from '@muzammil328/ui';
-import { Form } from '@muzammil328/ui/forms';
+import { Form } from '@muzammil328/ui';
 import { useBookByBookId, useCreateBook, useUpdateBook } from '@/hooks';
 import { BookSchema, type BookFormValues } from '@muzammil328/education-packages';
 import { BookModalSkeleton } from './BookModalSkeleton';

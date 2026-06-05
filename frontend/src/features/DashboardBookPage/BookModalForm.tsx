@@ -3,7 +3,7 @@
 import React, { useMemo, useState } from 'react';
 import { SelectField } from '@/components/ui/select-field'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@muzammil328/ui'
-import { Label, FormString, FormNumber } from '@muzammil328/ui/forms';
+import { Label, FormString, FormNumber } from '@muzammil328/ui';
 import { Button } from '@muzammil328/ui';
 import { DropdownLoader } from '@muzammil328/ui';
 
