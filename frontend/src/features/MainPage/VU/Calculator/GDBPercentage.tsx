@@ -1,5 +1,5 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
-import { Label, Input } from '@muzammil328/ui/forms';
+import { Label, Input } from '@muzammil328/ui';
 
 interface GDBPercentageProps {
   calculatedGDB: number;

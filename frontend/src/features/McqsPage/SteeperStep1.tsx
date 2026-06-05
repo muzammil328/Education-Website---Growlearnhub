@@ -2,7 +2,7 @@
 
 import { useState, useMemo } from 'react';
 import { Button } from '@muzammil328/ui';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@muzammil328/ui/forms';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@muzammil328/ui';
 import {
   useDropdownClasses,
   useDropdownBooks,

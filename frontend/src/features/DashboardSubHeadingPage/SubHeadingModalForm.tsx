@@ -4,7 +4,7 @@ import React, { useMemo, useEffect, useRef } from 'react';
 import { useFormContext, useWatch } from 'react-hook-form';
 import { SelectField } from '@/components/ui/select-field'
 import { DropdownLoader } from '@muzammil328/ui'
-import { FormString, FormNumber, Label } from '@muzammil328/ui/forms';
+import { FormString, FormNumber, Label } from '@muzammil328/ui';
 import { useDropdownClasses } from '@/hooks/use-class';
 import { useDropdownBooks } from '@/hooks/use-book';
 import { useDropdownChapters } from '@/hooks/use-chapter';

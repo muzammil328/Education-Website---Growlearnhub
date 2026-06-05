@@ -4,7 +4,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 
 import { Button } from '@muzammil328/ui';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@muzammil328/ui/forms';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@muzammil328/ui';
 import { DataTablePagination } from '@/components/ui/data-table-pagination';
 
 import { useMcqs } from '@/hooks/use-mcqs';

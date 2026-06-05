@@ -1,4 +1,4 @@
-import { Label } from '@muzammil328/ui/forms';
+import { Label } from '@muzammil328/ui';
 
 export default function McqModalView({
   formValues,
