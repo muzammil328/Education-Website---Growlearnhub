@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { SelectField, TagField, TextareaField } from '@/components/ui/'
-import { FormString, MultiFormSelect } from '@muzammil328/ui/forms';
+import { FormString, MultiFormSelect } from '@muzammil328/ui';
 import { useDropdownServices } from '@/hooks';
 
 export default function ClassModalForm({ isOpen = true }: { isOpen?: boolean }) {

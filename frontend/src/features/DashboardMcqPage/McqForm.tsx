@@ -4,7 +4,7 @@ import React, { useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from '@muzammil328/ui';
 import { Button } from '@muzammil328/ui';
-import { Input, Textarea, Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@muzammil328/ui/forms';
+import { Input, Textarea, Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@muzammil328/ui';
 import {
   useDropdownClasses,
   useDropdownBooks,

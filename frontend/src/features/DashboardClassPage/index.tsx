@@ -2,7 +2,7 @@
 import React, { useState, useCallback } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@muzammil328/ui/forms';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@muzammil328/ui';
 
 import { ClassTable } from '@/features/DashboardClassPage/ClassTable';
 import { DataTablePagination } from '@/components/ui/data-table-pagination';
