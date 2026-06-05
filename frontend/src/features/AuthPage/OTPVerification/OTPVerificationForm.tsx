@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import { Button } from '@muzammil328/ui';
-import { Form, InputOTP, InputOTPGroup, InputOTPSlot } from '@muzammil328/ui/forms';
+import { Form, InputOTP, InputOTPGroup, InputOTPSlot } from '@muzammil328/ui';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { toast } from '@muzammil328/ui';
 import { zodResolver } from '@hookform/resolvers/zod';

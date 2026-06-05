@@ -2,7 +2,7 @@
 import Link from 'next/link';
 import * as React from 'react';
 import { Button } from '@muzammil328/ui';
-import { Form, FormEmail, FormPassword } from '@muzammil328/ui/forms';
+import { Form, FormEmail, FormPassword } from '@muzammil328/ui';
 import { toast } from '@muzammil328/ui';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';

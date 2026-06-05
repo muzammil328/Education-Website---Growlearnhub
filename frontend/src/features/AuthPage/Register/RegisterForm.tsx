@@ -9,7 +9,7 @@ import { useRegister } from '@/hooks/use-auth';
 import type { AuthRegisterResponse } from '@muzammil328/education-packages/types';
 import { registerFormSchema, RegisterFormValues } from '@muzammil328/education-packages';
 import { getErrorMessage } from '@/lib/core-utils';
-import { Form, FormEmail, FormPassword, FormString } from '@muzammil328/ui/forms';
+import { Form, FormEmail, FormPassword, FormString } from '@muzammil328/ui';
 
 export function RegisterForm() {
   const router = useRouter();

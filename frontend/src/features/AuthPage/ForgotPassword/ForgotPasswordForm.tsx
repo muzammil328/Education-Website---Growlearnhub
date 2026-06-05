@@ -1,5 +1,5 @@
 'use client';
-import { Form, FormEmail, FormPassword } from '@muzammil328/ui/forms';
+import { Form, FormEmail, FormPassword } from '@muzammil328/ui';
 import { Button } from '@muzammil328/ui';
 import * as React from 'react';
 import { toast } from '@muzammil328/ui';
@@ -12,7 +12,7 @@ import {
   otpForgotPasswordFormSchema,
   resetPasswordFormSchema,
 } from '@muzammil328/education-packages';
-import { InputOTP, InputOTPGroup, InputOTPSlot } from '@muzammil328/ui/forms';
+import { InputOTP, InputOTPGroup, InputOTPSlot } from '@muzammil328/ui';
 import { z } from 'zod';
 
 const flowSchema = z.object({
