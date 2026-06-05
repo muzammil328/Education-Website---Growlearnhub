@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { Mcq, QuizAnswer, QuizResult } from '../online-tests/OnlineTestTypes';
 import { RadioGroup, RadioGroupItem, Button, Progress, Card, CardContent, CardDescription, CardHeader, CardTitle,  } from '@muzammil328/ui'
-import { Label, Checkbox } from '@muzammil328/ui/forms';
+import { Label, Checkbox } from '@muzammil328/ui';
 import { Clock, CheckCircle2, XCircle, Trophy } from 'lucide-react';
 import { cn } from '@muzammil328/ui';
 

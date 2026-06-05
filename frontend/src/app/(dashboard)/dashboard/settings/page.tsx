@@ -4,7 +4,7 @@ import React from 'react';
 import { useCurrentUser } from '@/hooks';
 import { Avatar, AvatarFallback, AvatarImage } from '@muzammil328/ui';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@muzammil328/ui';
-import { Label, Switch } from '@muzammil328/ui/forms';
+import { Label, Switch } from '@muzammil328/ui';
 
 export default function SettingsPage() {
   const { data: user, isLoading } = useCurrentUser();

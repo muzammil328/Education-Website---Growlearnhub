@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Input, Label } from '@muzammil328/ui/forms';
+import { Input, Label } from '@muzammil328/ui';
 
 interface QuizPercentageProps {
   calculatedQuiz: number;
