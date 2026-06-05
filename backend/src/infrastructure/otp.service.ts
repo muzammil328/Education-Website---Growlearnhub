@@ -3,6 +3,7 @@ import { Types } from 'mongoose';
 import { OtpPurposeEnum, type OtpPurposeValue } from '@muzammil328/education-packages/enums';
 import { bcryptService } from './bcrypt.service';
 import { otpRepository } from '@/repository/otp.repository';
+import { DocumentId } from '@/config/db.config';
 
 const OTP_LENGTH = 6;
 const OTP_TTL_MINUTES = 10;
@@ -18,7 +19,7 @@ function getExpiryDate(ttlMinutes = OTP_TTL_MINUTES): Date {
 }
 
 export const otpService = {
-  async createOtp(userId: Types.ObjectId, purpose: OtpPurposeValue = OtpPurposeEnum.EMAIL_VERIFICATION) {
+  async createOtp(userId: DocumentId, purpose: OtpPurposeValue = OtpPurposeEnum.EMAIL_VERIFICATION) {
     const otp = generateNumericOtp();
     const hashedOtp = await bcryptService.hash(otp);
     const expiresAt = getExpiryDate();
@@ -26,7 +27,7 @@ export const otpService = {
     await otpRepository.deleteManyByUserAndPurpose(userId, purpose);
 
     const record = await otpRepository.create({
-      userId,
+      userId: new Types.ObjectId(userId),
       hashedOtp,
       expiresAt,
       purpose,
@@ -37,7 +38,7 @@ export const otpService = {
     return { otp, recordId: String(record._id) };
   },
 
-  async verifyOtp(userId: Types.ObjectId, inputOtp: string, purpose: OtpPurposeValue) {
+  async verifyOtp(userId: DocumentId, inputOtp: string, purpose: OtpPurposeValue) {
     const record = await otpRepository.findByUserAndPurpose(userId, purpose);
     if (!record) return false;
     if (new Date() > record.expiresAt) return false;
@@ -45,7 +46,7 @@ export const otpService = {
 
     const isValid = await bcryptService.compare(inputOtp, record.hashedOtp);
 
-    await otpRepository.incrementAttempts(record._id as Types.ObjectId);
+    await otpRepository.incrementAttempts(record._id as DocumentId);
 
     return isValid;
   },

@@ -1,6 +1,6 @@
 import UserModel from '../models/user.model';
 import { IUser } from '@muzammil328/education-packages/types';
-import { BaseRepository } from '@muzammil328/foundation';
+import { BaseRepository } from '@/config/db.config';
 
 export class UserRepository extends BaseRepository<IUser> {
   constructor() {

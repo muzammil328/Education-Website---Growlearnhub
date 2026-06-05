@@ -2,7 +2,7 @@
 import { Types } from 'mongoose';
 import ChapterModel from '../models/chapter.model';
 import { IChapter } from '@muzammil328/education-packages/types';
-import { BaseRepository } from '@muzammil328/foundation';
+import { BaseRepository } from '@/config/db.config';
 
 export class ChapterRepository extends BaseRepository<IChapter> {
   constructor() {

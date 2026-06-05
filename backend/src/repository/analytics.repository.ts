@@ -1,8 +1,7 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Types } from 'mongoose';
 import AnalyticsModel from '../models/analytics.model';
 import { IAnalytics } from '@muzammil328/education-packages/types';
-import { BaseRepository } from '@muzammil328/foundation';
+import { BaseRepository, DocumentId } from '@/config/db.config';
 
 export class AnalyticsRepository extends BaseRepository<IAnalytics> {
   constructor() {
@@ -10,14 +9,14 @@ export class AnalyticsRepository extends BaseRepository<IAnalytics> {
   }
 
   async recordAttempt(
-    userId: Types.ObjectId,
-    questionId: Types.ObjectId,
+    userId: DocumentId,
+    questionId: DocumentId,
     _selectedAnswer: string,
     correct: boolean,
     timeTaken?: number,
-    chapterId?: Types.ObjectId,
-    headingId?: Types.ObjectId,
-    subHeadingId?: Types.ObjectId
+    chapterId?: DocumentId,
+    headingId?: DocumentId,
+    subHeadingId?: DocumentId
   ) {
     const existing = await this.findOne({ user: userId, question: questionId } as any);
 
@@ -39,11 +38,11 @@ export class AnalyticsRepository extends BaseRepository<IAnalytics> {
     }
 
     return this.create({
-      user: userId,
-      question: questionId,
-      chapterId,
-      headingId,
-      subHeadingId,
+      user: new Types.ObjectId(userId),
+      question: new Types.ObjectId(questionId),
+      chapterId: chapterId ? new Types.ObjectId(chapterId) : undefined,
+      headingId: headingId ? new Types.ObjectId(headingId) : undefined,
+      subHeadingId: subHeadingId ? new Types.ObjectId(subHeadingId) : undefined,
       score: correct ? 100 : 0,
       correct: correct ? 1 : 0,
       incorrect: correct ? 0 : 1,
@@ -53,16 +52,16 @@ export class AnalyticsRepository extends BaseRepository<IAnalytics> {
     });
   }
 
-  async getUserAttempts(userId: Types.ObjectId, chapterId?: Types.ObjectId, limit = 10) {
-    const query: any = { user: userId };
-    if (chapterId) query.chapterId = chapterId;
+  async getUserAttempts(userId: DocumentId, chapterId?: DocumentId, limit = 10) {
+    const query: any = { user: new Types.ObjectId(userId) };
+    if (chapterId) query.chapterId = new Types.ObjectId(chapterId);
 
     return this.findAll({ query, limit });
   }
 
-  async getUserStats(userId: Types.ObjectId) {
+  async getUserStats(userId: DocumentId) {
     const pipeline = [
-      { $match: { user: userId } },
+      { $match: { user: new Types.ObjectId(userId) } },
       {
         $group: {
           _id: null,
@@ -78,9 +77,9 @@ export class AnalyticsRepository extends BaseRepository<IAnalytics> {
     return result[0] || { totalAttempts: 0, totalCorrect: 0, totalIncorrect: 0, avgScore: 0 };
   }
 
-  async getChapterStats(userId: Types.ObjectId, chapterId: Types.ObjectId) {
+  async getChapterStats(userId: DocumentId, chapterId: DocumentId) {
     const pipeline = [
-      { $match: { user: userId, chapterId } },
+      { $match: { user: new Types.ObjectId(userId), chapterId: new Types.ObjectId(chapterId) } },
       {
         $group: {
           _id: '$chapterId',
@@ -96,9 +95,9 @@ export class AnalyticsRepository extends BaseRepository<IAnalytics> {
     return result[0] || { totalAttempts: 0, totalCorrect: 0, totalIncorrect: 0, avgScore: 0 };
   }
 
-  async getWeakTopics(userId: Types.ObjectId, threshold = 50) {
+  async getWeakTopics(userId: DocumentId, threshold = 50) {
     const pipeline: any = [
-      { $match: { user: userId } },
+      { $match: { user: new Types.ObjectId(userId) } },
       {
         $group: {
           _id: '$chapterId',
@@ -113,9 +112,9 @@ export class AnalyticsRepository extends BaseRepository<IAnalytics> {
     return this.aggregate(pipeline);
   }
 
-  async getStrongTopics(userId: Types.ObjectId, threshold = 80) {
+  async getStrongTopics(userId: DocumentId, threshold = 80) {
     const pipeline: any = [
-      { $match: { user: userId } },
+      { $match: { user: new Types.ObjectId(userId) } },
       {
         $group: {
           _id: '$chapterId',
@@ -130,14 +129,14 @@ export class AnalyticsRepository extends BaseRepository<IAnalytics> {
     return this.aggregate(pipeline);
   }
 
-  async getProgressOverTime(userId: Types.ObjectId, days = 30) {
+  async getProgressOverTime(userId: DocumentId, days = 30) {
     const startDate = new Date();
     startDate.setDate(startDate.getDate() - days);
 
     const pipeline: any = [
       {
         $match: {
-          user: userId,
+          user: new Types.ObjectId(userId),
           createdAt: { $gte: startDate },
         },
       },

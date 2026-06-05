@@ -1,6 +1,6 @@
 import FeedbackModel from '../models/feedback.model';
 import { IFeedback } from '@muzammil328/education-packages/types';
-import { BaseRepository } from '@muzammil328/foundation';
+import { BaseRepository } from '@/config/db.config';
 
 export class FeedbackRepository extends BaseRepository<IFeedback> {
   constructor() {

@@ -3,7 +3,7 @@ import type { DifficultyValue } from '@muzammil328/education-packages/enums';
 import type { Status } from '@muzammil328/education-packages/types';
 import { IMcqs } from '@muzammil328/education-packages/types';
 import McqsModel from '../models/mcqs.model';
-import { BaseRepository } from '@muzammil328/foundation';
+import { BaseRepository } from '@/config/db.config';
 
 interface McqsFilters {
   classId?: Types.ObjectId;

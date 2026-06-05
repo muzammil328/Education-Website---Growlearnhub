@@ -1,7 +1,7 @@
 import { Types } from 'mongoose';
 import BookModel from '../models/book.model';
 import { IBook } from '@muzammil328/education-packages/types';
-import { BaseRepository } from '@muzammil328/foundation';
+import { BaseRepository } from '@/config/db.config';
 
 export class BookRepository extends BaseRepository<IBook> {
   constructor() {

@@ -1,6 +1,6 @@
 import ClassModel from '../models/class.model';
 import { IClass } from '@muzammil328/education-packages/types';
-import { BaseRepository } from '@muzammil328/foundation';
+import { BaseRepository } from '@/config/db.config';
 
 export class ClassRepository extends BaseRepository<IClass> {
   constructor() {

@@ -1,7 +1,7 @@
 import { Types } from 'mongoose';
 import InstitutionModel from '../models/institution.model';
 import { IInstitution, InstitutionType } from '@muzammil328/education-packages/types';
-import { BaseRepository } from '@muzammil328/foundation';
+import { BaseRepository } from '@/config/db.config';
 
 export class InstitutionRepository extends BaseRepository<IInstitution> {
   constructor() {

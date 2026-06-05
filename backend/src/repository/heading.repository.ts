@@ -2,7 +2,7 @@
 import { Types } from 'mongoose';
 import HeadingModel from '../models/heading.model';
 import { IHeading } from '@muzammil328/education-packages/types';
-import { BaseRepository } from '@muzammil328/foundation';
+import { BaseRepository } from '@/config/db.config';
 
 export class HeadingRepository extends BaseRepository<IHeading> {
   constructor() {

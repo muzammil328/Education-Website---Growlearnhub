@@ -5,5 +5,8 @@
     "dev": "pnpm -r --parallel run dev",
     "build": "pnpm -r run build",
     "typecheck": "pnpm -r run typecheck"
+  },
+  "dependencies": {
+    "@muzammil328/db": "1.0.29"
   }
 }

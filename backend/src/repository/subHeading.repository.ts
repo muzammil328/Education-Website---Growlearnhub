@@ -2,7 +2,7 @@
 import { Types } from 'mongoose';
 import SubHeadingModel from '../models/subHeading.model';
 import { ISubHeading } from '../../../packages/src/types/subHeading.type';
-import { BaseRepository } from '@muzammil328/foundation';
+import { BaseRepository } from '@/config/db.config';
 
 export class SubHeadingRepository extends BaseRepository<ISubHeading> {
   constructor() {

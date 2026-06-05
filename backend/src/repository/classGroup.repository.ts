@@ -1,6 +1,6 @@
 import { IClassGroup } from '@muzammil328/education-packages/types';
 import ClassGroupSchema from '../models/classGroup.model';
-import { BaseRepository } from '@muzammil328/foundation';
+import { BaseRepository } from '@/config/db.config';
 
 // ---------------- ClassGroup REPOSITORY ----------------
 export class ClassGroupRepository extends BaseRepository<IClassGroup> {

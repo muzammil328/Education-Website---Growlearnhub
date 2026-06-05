@@ -1,6 +1,6 @@
 import BoardModel from '../models/board.model';
 import { IBoard } from '@muzammil328/education-packages/types';
-import { BaseRepository } from '@muzammil328/foundation';
+import { BaseRepository } from '@/config/db.config';
 
 export class BoardRepository extends BaseRepository<IBoard> {
   constructor() {

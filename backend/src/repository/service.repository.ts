@@ -2,7 +2,7 @@
 import { Types } from 'mongoose';
 import ServiceModel from '../models/service.model';
 import { IService } from '../../../packages/src/types/service.type';
-import { BaseRepository } from '@muzammil328/foundation';
+import { BaseRepository } from '@/config/db.config';
 
 export class ServiceRepository extends BaseRepository<IService> {
   constructor() {
