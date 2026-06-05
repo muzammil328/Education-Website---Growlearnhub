@@ -3,8 +3,8 @@ import { emailSchema, passwordSchema } from '@muzammil328/types';
 
 export const studentSchema = z.object({
   username: z.string().min(3),
-  email: emailSchema,
-  password: passwordSchema,
+  email: z.string().email(),
+  password: z.string().min(8),
 });
 
 export const addStudentsSchema = z.object({

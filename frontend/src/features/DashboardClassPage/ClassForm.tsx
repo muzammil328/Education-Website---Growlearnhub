@@ -6,7 +6,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from '@muzammil328/ui';
 
-import { Form } from '@muzammil328/ui/forms';
+import { Form } from '@muzammil328/ui';
 
 import { FormProps } from '@muzammil328/education-packages/types';
 import { useClassById, useCreateClass, useUpdateClass } from '@/hooks';
