@@ -15,8 +15,8 @@ importers:
   backend:
     dependencies:
       '@muzammil328/db':
-        specifier: 1.0.30
-        version: 1.0.30(@portabletext/react@6.2.0(react@19.2.6))(mongoose@8.24.0)(react@19.2.6)
+        specifier: 1.0.31
+        version: 1.0.31(@portabletext/react@6.2.0(react@19.2.6))(mongoose@8.24.0)(react@19.2.6)
       '@muzammil328/education-packages':
         specifier: workspace:*
         version: link:../packages
@@ -24,20 +24,20 @@ importers:
         specifier: 1.0.21
         version: 1.0.21(@portabletext/react@6.2.0(react@19.2.6))(mongoose@8.24.0)(react@19.2.6)(ws@8.21.0)(zod@3.25.76)
       '@muzammil328/server':
-        specifier: ^1.0.5
-        version: 1.0.5(@muzammil328/utils@1.0.14(@portabletext/react@6.2.0(react@19.2.6))(mongoose@8.24.0)(react@19.2.6))(@portabletext/react@6.2.0(react@19.2.6))(mongoose@8.24.0)(react@19.2.6)
+        specifier: ^1.0.6
+        version: 1.0.6(@muzammil328/utils@1.0.16(@portabletext/react@6.2.0(react@19.2.6))(mongoose@8.24.0)(react@19.2.6))(@portabletext/react@6.2.0(react@19.2.6))(mongoose@8.24.0)(react@19.2.6)
       '@muzammil328/services':
-        specifier: 1.0.19
-        version: 1.0.19(@portabletext/react@6.2.0(react@19.2.6))(mongoose@8.24.0)(react@19.2.6)
+        specifier: 1.0.21
+        version: 1.0.21(@portabletext/react@6.2.0(react@19.2.6))(mongoose@8.24.0)(react@19.2.6)
       '@muzammil328/trpc':
-        specifier: ^1.0.2
-        version: 1.0.2(@muzammil328/utils@1.0.14(@portabletext/react@6.2.0(react@19.2.6))(mongoose@8.24.0)(react@19.2.6))(@portabletext/react@6.2.0(react@19.2.6))(mongoose@8.24.0)(react@19.2.6)(typescript@6.0.3)
+        specifier: ^1.0.3
+        version: 1.0.3(@muzammil328/utils@1.0.16(@portabletext/react@6.2.0(react@19.2.6))(mongoose@8.24.0)(react@19.2.6))(@portabletext/react@6.2.0(react@19.2.6))(mongoose@8.24.0)(react@19.2.6)(typescript@6.0.3)
       '@muzammil328/types':
-        specifier: 1.0.5
-        version: 1.0.5(@portabletext/react@6.2.0(react@19.2.6))(mongoose@8.24.0)(react@19.2.6)
+        specifier: 1.0.15
+        version: 1.0.15(@portabletext/react@6.2.0(react@19.2.6))(mongoose@8.24.0)(react@19.2.6)
       '@muzammil328/utils':
-        specifier: 1.0.14
-        version: 1.0.14(@portabletext/react@6.2.0(react@19.2.6))(mongoose@8.24.0)(react@19.2.6)
+        specifier: 1.0.16
+        version: 1.0.16(@portabletext/react@6.2.0(react@19.2.6))(mongoose@8.24.0)(react@19.2.6)
       '@trpc/server':
         specifier: ^11.16.0
         version: 11.17.0(typescript@6.0.3)
@@ -112,8 +112,8 @@ importers:
         specifier: ^29.2.5
         version: 29.4.11(@babel/core@7.29.7)(@jest/transform@30.4.1)(@jest/types@30.4.1)(babel-jest@29.7.0(@babel/core@7.29.7))(jest-util@30.4.1)(jest@29.7.0(@types/node@20.19.9))(typescript@6.0.3)
       tsx:
-        specifier: ^4.19.2
-        version: 4.22.3
+        specifier: ^4.22.4
+        version: 4.22.4
       typescript:
         specifier: ~6.0.2
         version: 6.0.3
@@ -1165,24 +1165,34 @@ packages:
     peerDependencies:
       mongoose: '>=9'
 
-  '@muzammil328/db@1.0.30':
-    resolution: {integrity: sha512-j/U//K4QHsGWsBPLBFh6CtNdP0BW3JLMbvBD34ck1+D/QYVXmHObRuVpAkJ9NKi5Ey2DWrFoZgOa0fmHFdNChQ==, tarball: https://npm.pkg.github.com/download/@muzammil328/db/1.0.30/b75a2b9d77033c9242203a24172d5247ea8fdeb5}
+  '@muzammil328/db@1.0.31':
+    resolution: {integrity: sha512-DWoGVhsMkBtKO9OLQeB4/ecBopz96UgKHgAExWKKJ2Tr4Qeax+nn8mOELLA9bHILr45wn2MmfjB1qnYb4EFxhw==, tarball: https://npm.pkg.github.com/download/@muzammil328/db/1.0.31/d9f9788a0e7bfbb879f179a9789f341844a57d73}
     peerDependencies:
       mongoose: '>=9'
 
   '@muzammil328/integrations@1.0.21':
     resolution: {integrity: sha512-vTvNuhxQbAQc1i7V/SJd/QL+zy26lBKUnAJV6kaMXeQcqXG6eioa+NubTouRiwkPK3/le4DmIUUmx7AnAPyBeA==, tarball: https://npm.pkg.github.com/download/@muzammil328/integrations/1.0.21/5f040b0c1a8e4f42fbccd27c1f51334c3886d5c9}
 
-  '@muzammil328/server@1.0.5':
-    resolution: {integrity: sha512-jndfNbu8KMoz0N/bfsq3WUZwRTj84B0NUjQmb5V3z6GkwxaHg5Q4zeAjX8CT9kB68jFdATpJQ/oT8/9wOkJ5Xg==, tarball: https://npm.pkg.github.com/download/@muzammil328/server/1.0.5/d9aba3622e888174f84da7aa07c11c9dafaeefad}
+  '@muzammil328/server@1.0.6':
+    resolution: {integrity: sha512-G9vMJjWbbuQozLxnSHYygwQ3SsTn8+SKowttrCNT/kr/2/1YKaV5Px4N24pXy+QHquv7IbKBKIhZe5FUoDfMXA==, tarball: https://npm.pkg.github.com/download/@muzammil328/server/1.0.6/034a6b6b135f97a881799d4d29692bd6f0e72f42}
     peerDependencies:
       '@muzammil328/utils': '>=1'
 
-  '@muzammil328/services@1.0.19':
-    resolution: {integrity: sha512-0x0z1ryBSMTNkj0nifK9VbV+5uD2obgboZabnw5zmI1aVvdd9VJ41fD1OMXMp/7blwopoCCjiXONKVqITdvnkQ==, tarball: https://npm.pkg.github.com/download/@muzammil328/services/1.0.19/c87a9f262653cf74f7f830812f3a4ac53653dfb0}
+  '@muzammil328/services@1.0.20':
+    resolution: {integrity: sha512-FoAPlSuWLSZsMJgmyGfSRRiEuwqb0yDieby/40s+FxoaBpEF70KkZAtHjWnjuZKsH9IcrYfPNl0T8mM7iWmPRg==, tarball: https://npm.pkg.github.com/download/@muzammil328/services/1.0.20/9a9f02c33c7cfd6d736a8e4abc75c823407cc17e}
 
-  '@muzammil328/trpc@1.0.2':
-    resolution: {integrity: sha512-e8pRA/h3o/VjDdxAYJ8SwsKmsCH/Cr+vdG3UKJ7l4s8nfdymcWegJXkj8I0o4ENUXT+mw2fM2uB8HZ07mzPeWg==, tarball: https://npm.pkg.github.com/download/@muzammil328/trpc/1.0.2/773530434e56580b435f504e7ba67ed617bb3682}
+  '@muzammil328/services@1.0.21':
+    resolution: {integrity: sha512-jb6cmaLCIvI16CrAAhc7j7+rz77FHE+C+AlrrrU2POZHwe0XNXo3SYcS5R6llN/eWp+nrjiLarqsbcPisJYyig==, tarball: https://npm.pkg.github.com/download/@muzammil328/services/1.0.21/db1156549b3329c88e6c2d5455668455faacf929}
+
+  '@muzammil328/trpc@1.0.3':
+    resolution: {integrity: sha512-y2LKC7ieQvYcVxgNvxCAVm9e5DICwxAQv7iG1XoBMtAEjv+Dpbfej1p30oA7spKbmXx/gzCMgSLeyFYBUqeRkg==, tarball: https://npm.pkg.github.com/download/@muzammil328/trpc/1.0.3/28ea29fdc908aee990cbb61625184ba776f68d01}
+
+  '@muzammil328/types@1.0.15':
+    resolution: {integrity: sha512-36b9247NZVUByPFkI7lQVB9T5AYmgdehpJirxfMhK6Q9yycAJ6GmckL3kKFH69a6EbUPrkrgiHCi7uKcgf0sKA==, tarball: https://npm.pkg.github.com/download/@muzammil328/types/1.0.15/b744bfff5361d1f8ee7f0ae8c181d873369aa278}
+    peerDependencies:
+      '@portabletext/react': '>=6'
+      mongoose: '>=8'
+      react: '>=19'
 
   '@muzammil328/types@1.0.5':
     resolution: {integrity: sha512-ITU/wGkBK6huTKCoiCyHyDAPmTAqudCuvSAdm68uZYm+libT1lz8/wfy8nXs2lJu19p47MqXh4f8XVoiK+FChQ==, tarball: https://npm.pkg.github.com/download/@muzammil328/types/1.0.5/f4a158c7ab3684580287c67f4265794e631cd6d5}
@@ -1198,6 +1208,9 @@ packages:
 
   '@muzammil328/utils@1.0.14':
     resolution: {integrity: sha512-HMTvhBWuPdtIERdbcI4koKo1aFB2CdKORHDOFpR+8RWT57+87+YHLTYdArwbbJn0UF17yvjZDBH+bENHivJt6A==, tarball: https://npm.pkg.github.com/download/@muzammil328/utils/1.0.14/5dd8ab0d9d8fabc0c9b02d40c871baf4ba91c451}
+
+  '@muzammil328/utils@1.0.16':
+    resolution: {integrity: sha512-SK3wZ3RfiNEQwBG65M/DWde7auxG+kM2aUtobRVeVooeGTvBhgzSLbDwf8tZ729d1i1UzfTyOR5kDmk+ZDKfvQ==, tarball: https://npm.pkg.github.com/download/@muzammil328/utils/1.0.16/f519836ee32997ce4a05a1add0f1bc79900f4b6b}
 
   '@napi-rs/wasm-runtime@1.1.4':
     resolution: {integrity: sha512-3NQNNgA1YSlJb/kMH1ildASP9HW7/7kYnRI2szWJaofaS1hWmbGI4H+d3+22aGzXXN9IJ+n+GiFVcGipJP18ow==}
@@ -6034,8 +6047,8 @@ packages:
   tslib@2.8.1:
     resolution: {integrity: sha512-oJFu94HQb+KVduSUQL7wnpmqnfmLsOA/nAh6b6EH0wCEoK0/mPeXU6c3wKDV83MkOuHPRHtSXKKU99IBazS/2w==}
 
-  tsx@4.22.3:
-    resolution: {integrity: sha512-mdoNxBC/cSQObGGVQ5Bpn5i+yv7j68gk3Nfm3wFjcJg3Z0Mix9jzAFfP12prmm5eVGmDKtp0yyArrs0Q+8gZHg==}
+  tsx@4.22.4:
+    resolution: {integrity: sha512-X8EX+XV4QR5xCsrgxaED954zTDfY8KqlDtskKEL0cHhyS/P8b4IFOvGDQpsC9Q1XnLq915wEfwwY/zzskCtmhg==}
     engines: {node: '>=18.0.0'}
     hasBin: true
 
@@ -7436,8 +7449,8 @@ snapshots:
 
   '@muzammil328/db@1.0.29(@portabletext/react@6.2.0(react@19.2.6))(mongoose@9.6.2)(react@19.2.6)':
     dependencies:
-      '@muzammil328/services': 1.0.19(@portabletext/react@6.2.0(react@19.2.6))(mongoose@9.6.2)(react@19.2.6)
-      '@muzammil328/types': 1.0.5(@portabletext/react@6.2.0(react@19.2.6))(mongoose@9.6.2)(react@19.2.6)
+      '@muzammil328/services': 1.0.20(@portabletext/react@6.2.0(react@19.2.6))(mongoose@9.6.2)(react@19.2.6)
+      '@muzammil328/types': 1.0.15(@portabletext/react@6.2.0(react@19.2.6))(mongoose@9.6.2)(react@19.2.6)
       '@muzammil328/utils': 1.0.14(@portabletext/react@6.2.0(react@19.2.6))(mongoose@9.6.2)(react@19.2.6)
       ioredis: 5.10.1
       mongoose: 9.6.2
@@ -7449,11 +7462,11 @@ snapshots:
       - supports-color
       - utf-8-validate
 
-  '@muzammil328/db@1.0.30(@portabletext/react@6.2.0(react@19.2.6))(mongoose@8.24.0)(react@19.2.6)':
+  '@muzammil328/db@1.0.31(@portabletext/react@6.2.0(react@19.2.6))(mongoose@8.24.0)(react@19.2.6)':
     dependencies:
-      '@muzammil328/services': 1.0.19(@portabletext/react@6.2.0(react@19.2.6))(mongoose@8.24.0)(react@19.2.6)
-      '@muzammil328/types': 1.0.5(@portabletext/react@6.2.0(react@19.2.6))(mongoose@8.24.0)(react@19.2.6)
-      '@muzammil328/utils': 1.0.14(@portabletext/react@6.2.0(react@19.2.6))(mongoose@8.24.0)(react@19.2.6)
+      '@muzammil328/services': 1.0.21(@portabletext/react@6.2.0(react@19.2.6))(mongoose@8.24.0)(react@19.2.6)
+      '@muzammil328/types': 1.0.15(@portabletext/react@6.2.0(react@19.2.6))(mongoose@8.24.0)(react@19.2.6)
+      '@muzammil328/utils': 1.0.16(@portabletext/react@6.2.0(react@19.2.6))(mongoose@8.24.0)(react@19.2.6)
       ioredis: 5.10.1
       mongoose: 8.24.0
     transitivePeerDependencies:
@@ -7466,7 +7479,7 @@ snapshots:
 
   '@muzammil328/integrations@1.0.21(@portabletext/react@6.2.0(react@19.2.6))(mongoose@8.24.0)(react@19.2.6)(ws@8.21.0)(zod@3.25.76)':
     dependencies:
-      '@muzammil328/types': 1.0.5(@portabletext/react@6.2.0(react@19.2.6))(mongoose@8.24.0)(react@19.2.6)
+      '@muzammil328/types': 1.0.15(@portabletext/react@6.2.0(react@19.2.6))(mongoose@8.24.0)(react@19.2.6)
       openai: 6.42.0(ws@8.21.0)(zod@3.25.76)
       stripe: 17.7.0
     transitivePeerDependencies:
@@ -7476,11 +7489,11 @@ snapshots:
       - ws
       - zod
 
-  '@muzammil328/server@1.0.5(@muzammil328/utils@1.0.14(@portabletext/react@6.2.0(react@19.2.6))(mongoose@8.24.0)(react@19.2.6))(@portabletext/react@6.2.0(react@19.2.6))(mongoose@8.24.0)(react@19.2.6)':
+  '@muzammil328/server@1.0.6(@muzammil328/utils@1.0.16(@portabletext/react@6.2.0(react@19.2.6))(mongoose@8.24.0)(react@19.2.6))(@portabletext/react@6.2.0(react@19.2.6))(mongoose@8.24.0)(react@19.2.6)':
     dependencies:
-      '@muzammil328/services': 1.0.19(@portabletext/react@6.2.0(react@19.2.6))(mongoose@8.24.0)(react@19.2.6)
-      '@muzammil328/types': 1.0.5(@portabletext/react@6.2.0(react@19.2.6))(mongoose@8.24.0)(react@19.2.6)
-      '@muzammil328/utils': 1.0.14(@portabletext/react@6.2.0(react@19.2.6))(mongoose@8.24.0)(react@19.2.6)
+      '@muzammil328/services': 1.0.21(@portabletext/react@6.2.0(react@19.2.6))(mongoose@8.24.0)(react@19.2.6)
+      '@muzammil328/types': 1.0.15(@portabletext/react@6.2.0(react@19.2.6))(mongoose@8.24.0)(react@19.2.6)
+      '@muzammil328/utils': 1.0.16(@portabletext/react@6.2.0(react@19.2.6))(mongoose@8.24.0)(react@19.2.6)
       cors: 2.8.6
     transitivePeerDependencies:
       - '@portabletext/react'
@@ -7491,38 +7504,7 @@ snapshots:
       - supports-color
       - utf-8-validate
 
-  '@muzammil328/services@1.0.19(@portabletext/react@6.2.0(react@19.2.6))(mongoose@8.24.0)(react@19.2.6)':
-    dependencies:
-      '@aws-sdk/client-s3': 3.1053.0
-      '@aws-sdk/s3-request-presigner': 3.1062.0
-      '@muzammil328/types': 1.0.5(@portabletext/react@6.2.0(react@19.2.6))(mongoose@8.24.0)(react@19.2.6)
-      '@muzammil328/utils': 1.0.14(@portabletext/react@6.2.0(react@19.2.6))(mongoose@8.24.0)(react@19.2.6)
-      bcryptjs: 2.4.3
-      cloudinary: 2.10.0
-      cors: 2.8.6
-      csrf-csrf: 3.2.2
-      express: 4.22.2
-      express-rate-limit: 7.5.1(express@4.22.2)
-      handlebars: 4.7.9
-      helmet: 8.2.0
-      jsonwebtoken: 9.0.3
-      juice: 11.1.1
-      nodemailer: 8.0.8
-      pino: 9.14.0
-      pino-http: 10.5.0
-      pino-pretty: 11.3.0
-      socket.io: 4.8.3
-      winston: 3.19.0
-    transitivePeerDependencies:
-      - '@portabletext/react'
-      - bufferutil
-      - debug
-      - mongoose
-      - react
-      - supports-color
-      - utf-8-validate
-
-  '@muzammil328/services@1.0.19(@portabletext/react@6.2.0(react@19.2.6))(mongoose@9.6.2)(react@19.2.6)':
+  '@muzammil328/services@1.0.20(@portabletext/react@6.2.0(react@19.2.6))(mongoose@9.6.2)(react@19.2.6)':
     dependencies:
       '@aws-sdk/client-s3': 3.1053.0
       '@aws-sdk/s3-request-presigner': 3.1062.0
@@ -7553,10 +7535,41 @@ snapshots:
       - supports-color
       - utf-8-validate
 
-  '@muzammil328/trpc@1.0.2(@muzammil328/utils@1.0.14(@portabletext/react@6.2.0(react@19.2.6))(mongoose@8.24.0)(react@19.2.6))(@portabletext/react@6.2.0(react@19.2.6))(mongoose@8.24.0)(react@19.2.6)(typescript@6.0.3)':
+  '@muzammil328/services@1.0.21(@portabletext/react@6.2.0(react@19.2.6))(mongoose@8.24.0)(react@19.2.6)':
     dependencies:
-      '@muzammil328/server': 1.0.5(@muzammil328/utils@1.0.14(@portabletext/react@6.2.0(react@19.2.6))(mongoose@8.24.0)(react@19.2.6))(@portabletext/react@6.2.0(react@19.2.6))(mongoose@8.24.0)(react@19.2.6)
+      '@aws-sdk/client-s3': 3.1053.0
+      '@aws-sdk/s3-request-presigner': 3.1062.0
       '@muzammil328/types': 1.0.5(@portabletext/react@6.2.0(react@19.2.6))(mongoose@8.24.0)(react@19.2.6)
+      '@muzammil328/utils': 1.0.14(@portabletext/react@6.2.0(react@19.2.6))(mongoose@8.24.0)(react@19.2.6)
+      bcryptjs: 2.4.3
+      cloudinary: 2.10.0
+      cors: 2.8.6
+      csrf-csrf: 3.2.2
+      express: 4.22.2
+      express-rate-limit: 7.5.1(express@4.22.2)
+      handlebars: 4.7.9
+      helmet: 8.2.0
+      jsonwebtoken: 9.0.3
+      juice: 11.1.1
+      nodemailer: 8.0.8
+      pino: 9.14.0
+      pino-http: 10.5.0
+      pino-pretty: 11.3.0
+      socket.io: 4.8.3
+      winston: 3.19.0
+    transitivePeerDependencies:
+      - '@portabletext/react'
+      - bufferutil
+      - debug
+      - mongoose
+      - react
+      - supports-color
+      - utf-8-validate
+
+  '@muzammil328/trpc@1.0.3(@muzammil328/utils@1.0.16(@portabletext/react@6.2.0(react@19.2.6))(mongoose@8.24.0)(react@19.2.6))(@portabletext/react@6.2.0(react@19.2.6))(mongoose@8.24.0)(react@19.2.6)(typescript@6.0.3)':
+    dependencies:
+      '@muzammil328/server': 1.0.6(@muzammil328/utils@1.0.16(@portabletext/react@6.2.0(react@19.2.6))(mongoose@8.24.0)(react@19.2.6))(@portabletext/react@6.2.0(react@19.2.6))(mongoose@8.24.0)(react@19.2.6)
+      '@muzammil328/types': 1.0.15(@portabletext/react@6.2.0(react@19.2.6))(mongoose@8.24.0)(react@19.2.6)
       '@trpc/client': 11.17.0(@trpc/server@11.17.0(typescript@6.0.3))(typescript@6.0.3)
       '@trpc/server': 11.17.0(typescript@6.0.3)
       zod: 3.24.1
@@ -7570,6 +7583,20 @@ snapshots:
       - supports-color
       - typescript
       - utf-8-validate
+
+  '@muzammil328/types@1.0.15(@portabletext/react@6.2.0(react@19.2.6))(mongoose@8.24.0)(react@19.2.6)':
+    dependencies:
+      '@portabletext/react': 6.2.0(react@19.2.6)
+      mongoose: 8.24.0
+      react: 19.2.6
+      zod: 3.24.1
+
+  '@muzammil328/types@1.0.15(@portabletext/react@6.2.0(react@19.2.6))(mongoose@9.6.2)(react@19.2.6)':
+    dependencies:
+      '@portabletext/react': 6.2.0(react@19.2.6)
+      mongoose: 9.6.2
+      react: 19.2.6
+      zod: 3.24.1
 
   '@muzammil328/types@1.0.5(@portabletext/react@6.2.0(react@19.2.6))(mongoose@8.24.0)(react@19.2.6)':
     dependencies:
@@ -7587,7 +7614,7 @@ snapshots:
 
   '@muzammil328/ui@1.0.36(@floating-ui/dom@1.7.6)(@tiptap/core@3.23.6(@tiptap/pm@3.23.6))(@tiptap/pm@3.23.6)(@types/react-dom@19.2.3(@types/react@19.2.15))(@types/react@19.2.15)(mongoose@9.6.2)(react-dom@19.2.6(react@19.2.6))(react-is@19.2.7)(react@19.2.6)(redux@5.0.1)':
     dependencies:
-      '@muzammil328/types': 1.0.5(@portabletext/react@6.2.0(react@19.2.6))(mongoose@9.6.2)(react@19.2.6)
+      '@muzammil328/types': 1.0.15(@portabletext/react@6.2.0(react@19.2.6))(mongoose@9.6.2)(react@19.2.6)
       '@portabletext/react': 6.2.0(react@19.2.6)
       '@portabletext/types': 4.0.2
       '@radix-ui/react-accordion': 1.2.12(@types/react-dom@19.2.3(@types/react@19.2.15))(@types/react@19.2.15)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
@@ -7644,7 +7671,7 @@ snapshots:
 
   '@muzammil328/utils@1.0.14(@portabletext/react@6.2.0(react@19.2.6))(mongoose@8.24.0)(react@19.2.6)':
     dependencies:
-      '@muzammil328/types': 1.0.5(@portabletext/react@6.2.0(react@19.2.6))(mongoose@8.24.0)(react@19.2.6)
+      '@muzammil328/types': 1.0.15(@portabletext/react@6.2.0(react@19.2.6))(mongoose@8.24.0)(react@19.2.6)
       '@trpc/server': 10.45.4
       axios: 1.16.1
     transitivePeerDependencies:
@@ -7656,7 +7683,19 @@ snapshots:
 
   '@muzammil328/utils@1.0.14(@portabletext/react@6.2.0(react@19.2.6))(mongoose@9.6.2)(react@19.2.6)':
     dependencies:
-      '@muzammil328/types': 1.0.5(@portabletext/react@6.2.0(react@19.2.6))(mongoose@9.6.2)(react@19.2.6)
+      '@muzammil328/types': 1.0.15(@portabletext/react@6.2.0(react@19.2.6))(mongoose@9.6.2)(react@19.2.6)
+      '@trpc/server': 10.45.4
+      axios: 1.16.1
+    transitivePeerDependencies:
+      - '@portabletext/react'
+      - debug
+      - mongoose
+      - react
+      - supports-color
+
+  '@muzammil328/utils@1.0.16(@portabletext/react@6.2.0(react@19.2.6))(mongoose@8.24.0)(react@19.2.6)':
+    dependencies:
+      '@muzammil328/types': 1.0.15(@portabletext/react@6.2.0(react@19.2.6))(mongoose@8.24.0)(react@19.2.6)
       '@trpc/server': 10.45.4
       axios: 1.16.1
     transitivePeerDependencies:
@@ -13040,7 +13079,7 @@ snapshots:
 
   tslib@2.8.1: {}
 
-  tsx@4.22.3:
+  tsx@4.22.4:
     dependencies:
       esbuild: 0.28.0
     optionalDependencies:
