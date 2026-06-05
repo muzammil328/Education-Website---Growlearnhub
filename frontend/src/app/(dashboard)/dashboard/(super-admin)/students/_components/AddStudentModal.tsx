@@ -7,7 +7,7 @@ import { z } from 'zod';
 import { toast } from '@muzammil328/ui';
 import { Button } from '@muzammil328/ui';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@muzammil328/ui';
-import { Input } from '@muzammil328/ui/forms';
+import { Input } from '@muzammil328/ui';
 import { Upload, FileSpreadsheet } from 'lucide-react';
 import { emailSchema } from '@muzammil328/types';
 

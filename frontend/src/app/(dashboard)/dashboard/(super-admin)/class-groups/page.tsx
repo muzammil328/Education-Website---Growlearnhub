@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { Button } from '@muzammil328/ui';
-import { Input } from '@muzammil328/ui/forms';
+import { Input } from '@muzammil328/ui';
 import { Plus, Users } from 'lucide-react';
 import { toast } from '@muzammil328/ui';
 

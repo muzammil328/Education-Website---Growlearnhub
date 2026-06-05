@@ -1,4 +1,4 @@
-import { toTrpcError } from '@muzammil328/utils';
+import { toTrpcError } from '@muzammil328/trpc';
 import {
   SubHeadingSchema,
   getSubHeadingsInputSchema,

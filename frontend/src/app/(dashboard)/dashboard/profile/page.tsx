@@ -5,7 +5,7 @@ import { useCurrentUser, useLogout } from '@/hooks';
 import { Avatar, AvatarFallback, AvatarImage } from '@muzammil328/ui';
 import { Button } from '@muzammil328/ui';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@muzammil328/ui';
-import { Label, Input } from '@muzammil328/ui/forms';
+import { Label, Input } from '@muzammil328/ui';
 import { useRouter } from 'next/navigation';
 
 export default function ProfilePage() {
