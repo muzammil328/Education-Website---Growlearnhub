@@ -14,14 +14,22 @@ import { config } from '@/config/env.config';
 
 export async function initRedis() {
   try {
-    getRedisClient();
+    const existing = getRedisClient();
+    existing.ping();
     return;
   } catch {
     const client = createRedisClient({
       url: config.REDIS_URL,
+      enableOfflineQueue: true,
+      maxRetries: 10,
+      retryDelayMs: 200,
     });
 
-    await client.ping();
+    try {
+      await client.ping();
+    } catch {
+      // Redis unavailable — continue without it
+    }
   }
 }
 

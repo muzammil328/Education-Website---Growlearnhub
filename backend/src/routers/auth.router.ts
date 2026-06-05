@@ -1,5 +1,5 @@
 import { AppError } from '@muzammil328/server';
-import { toTrpcError } from '@muzammil328/utils';
+import { toTrpcError } from '@muzammil328/trpc';
 import { StatusCode } from '@muzammil328/types';
 import { Types } from 'mongoose';
 import { z } from 'zod';
