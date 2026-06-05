@@ -1,7 +1,7 @@
 'use client';
 import React, { useState, useCallback } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@muzammil328/ui/forms';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@muzammil328/ui';
 import { DynamicBreadcrumb } from '@/components/ui/dynamic-breadcrumb';
 
 import { DataTablePagination } from '@/components/ui/data-table-pagination';
