@@ -1,6 +1,6 @@
 import { Types } from 'mongoose';
 import { AppError } from '@muzammil328/server';
-import { toTrpcError } from '@muzammil328/utils';
+import { toTrpcError } from '@muzammil328/trpc';
 import {
   createFeedbackSchema,
   getFeedbackInputSchema,
