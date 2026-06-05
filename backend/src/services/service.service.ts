@@ -1,4 +1,4 @@
-import { AppError } from '@muzammil328/core';
+import { AppError } from '@muzammil328/server';
 import { Types } from 'mongoose';
 import { z } from 'zod';
 import { serviceRepository } from '../repository/service.repository';

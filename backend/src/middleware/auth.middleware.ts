@@ -1,12 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
-import {
-  ResponseHandler,
-  verifyAccessToken,
-  refreshAccessToken,
-  revokeToken,
-  AccessTokenPayload,
-  getDeviceInfoFromRequest,
-} from '@muzammil328/core';
+import { ResponseHandler } from '@muzammil328/server';
+import { verifyAccessToken, refreshAccessToken, revokeToken } from '@muzammil328/services';
+import type { AccessTokenPayload } from '@muzammil328/types';
+import { getDeviceInfoFromRequest } from '@muzammil328/utils';
 import { logTreeStep } from '@muzammil328/services';
 import { config } from '@config/env.config';
 

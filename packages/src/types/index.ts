@@ -1,4 +1,4 @@
-import type { SortDirection, Mode, FormProps } from '@muzammil328/core';
+import type { SortDirection, Mode, FormProps } from '@muzammil328/types';
 import {
   StatusEnum,
   PaymentStatusEnum,

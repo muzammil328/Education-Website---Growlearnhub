@@ -102,9 +102,32 @@ const { allowed, current, remaining } = await redis.checkRateLimit(key, limit, w
 | `PORT` | `7000` |
 | `NODE_ENV` | `development` |
 
+## Code Style
+
+- Always import types at the top of the file with a regular `import` statement. Never use inline `import()` type expressions like `export type Foo = import('module').Bar;`. Instead, do a top-level `import type { Bar } from 'module';` and reference `Bar` directly.
+
 ## Notable
 
 - Mongoose v8 is used (not v9) — `@muzammil328/db` expects `mongoose>=9` as peer, producing an unmet peer dep warning. This is expected.
 - TypeScript 6.x on backend, 6.x on frontend.
 - The frontend uses both `@tanstack/react-query` v5 and legacy `react-query` v3 (migration in progress). New code should use `@tanstack/react-query`.
 - Backend packages source lives at `packages/src/` — changing it affects both frontend and backend.
+
+## Reference docs (`Implement/`)
+
+Detailed API docs for `@muzammil328/db` and `@muzammil328/services`:
+
+| File | Covers |
+|---|---|
+| `Implement/README_Redis.md` | `cacheSet`, `cacheGet`, `cacheDelete`, `cacheDeletePattern`, `cacheGetOrSet`, `checkRateLimit`, `checkSlidingRateLimit` |
+| `Implement/README_Mongoose.md` | `BaseRepository`, `PipelineBuilder`, `toObjectId`, `connectMongoose`, pagination, errors |
+| `Implement/README_Auth.md` | JWT sign/verify, password hashing, OTP, CSRF, rate limiting |
+| `Implement/README_Email.md` | Email sending (Nodemailer) |
+| `Implement/README_Media.md` | File upload / media handling |
+| `Implement/README_Logger.md` | Logging utilities |
+| `Implement/README_Error.md` | Error classes and handling |
+| `Implement/README_Server.md` | HTTP server setup |
+| `Implement/README_Socket.md` | Socket.IO integration |
+| `Implement/README_Trpc.md` | tRPC router setup |
+| `Implement/README_Types.md` | Shared TypeScript types |
+| `Implement/README_Code_Style.md` | Import style conventions |

@@ -1,4 +1,4 @@
-import { ApiResponse } from '@muzammil328/core';
+import { ApiResponse } from '@muzammil328/types';
 
 export interface AuthUserProfile {
   userId: string;

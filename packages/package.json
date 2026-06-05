@@ -27,8 +27,7 @@
     }
   },
   "dependencies": {
-    "@muzammil328/core": "1.0.25",
-    "@muzammil328/foundation": "1.0.19",
+    "@muzammil328/types": "1.0.5",
     "mongoose": "^8.11.0",
     "zod": "^3.0.0"
   },

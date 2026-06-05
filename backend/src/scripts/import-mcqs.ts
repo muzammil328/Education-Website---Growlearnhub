@@ -8,7 +8,7 @@ import Chapter from '@/models/chapter.model';
 import Heading from '@/models/heading.model';
 import SubHeading from '@/models/subHeading.model';
 import Question from '@/models/mcqs.model';
-import { slugify } from '@muzammil328/core';
+import { slugify } from '@muzammil328/utils';
 
 const DATA_DIR = path.join(__dirname, 'data/mcqs');
 

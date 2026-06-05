@@ -1,4 +1,5 @@
-import { initTRPC, TRPCError } from '@trpc/server';
+import { initTRPC } from '@trpc/server';
+import { TRPCError, loggerMiddleware, toTrpcError, mergeRouters } from '@muzammil328/trpc';
 import type { TRPCContext } from './context';
 import { RoleEnum } from '@muzammil328/education-packages/enums';
 
@@ -10,7 +11,7 @@ type Role = (typeof RoleEnum)[keyof typeof RoleEnum];
 type ProcedureBuilder = typeof t.procedure;
 
 export const createTRPCRouter = t.router;
-export const publicProcedure: ProcedureBuilder = t.procedure;
+export const publicProcedure: ProcedureBuilder = t.procedure.use(loggerMiddleware);
 
 const isAuthed = t.middleware(({ ctx, next }) => {
   if (!ctx.user) {
@@ -24,7 +25,7 @@ const isAuthed = t.middleware(({ ctx, next }) => {
   });
 });
 
-export const protectedProcedure: ProcedureBuilder = t.procedure.use(isAuthed);
+export const protectedProcedure: ProcedureBuilder = t.procedure.use(isAuthed).use(loggerMiddleware);
 
 const hasRole = (allowedRoles: Role[]) =>
   t.middleware(({ ctx, next }) => {
@@ -60,3 +61,5 @@ export const teacherProcedure: ProcedureBuilder = protectedProcedure.use(hasRole
 export const studentProcedure: ProcedureBuilder = protectedProcedure.use(hasRole(STUDENT_ROLES));
 
 export const authProcedure: ProcedureBuilder = protectedProcedure;
+
+export { TRPCError, toTrpcError, mergeRouters };

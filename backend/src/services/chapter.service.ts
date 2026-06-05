@@ -1,4 +1,4 @@
-import { AppError } from '@muzammil328/core';
+import { AppError } from '@muzammil328/server';
 import { Types, type PipelineStage } from 'mongoose';
 import { chapterRepository } from '../repository/chapter.repository';
 

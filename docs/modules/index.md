@@ -5,7 +5,7 @@
 Always use:
 
 ```ts
-import { resolveObjectId } from '@muzammil328/foundation';
+import { resolveObjectId } from '@muzammil328/db';
 ```
 
 Convert all string IDs to MongoDB ObjectIds in the service layer before database operations.

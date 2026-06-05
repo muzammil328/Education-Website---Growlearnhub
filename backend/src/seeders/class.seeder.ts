@@ -1,5 +1,5 @@
 import ClassModel from '../models/class.model';
-import { slugify } from '@muzammil328/core';
+import { slugify } from '@muzammil328/utils';
 
 interface ClassData {
   name: string;

@@ -1,6 +1,5 @@
 import { z } from 'zod';
 import { StatusEnum } from '../enums';
-import { emailSchema } from '@muzammil328/types';
 
 export const InstitutionSchema = z.object({
   name: z.string().min(2),
@@ -10,7 +9,7 @@ export const InstitutionSchema = z.object({
     .min(2)
     .regex(/^[a-z0-9-]+$/)
     .optional(),
-  contactEmail: emailSchema.optional(),
+  contactEmail: z.string().email().optional(),
   address: z.string().optional(),
   status: z.nativeEnum(StatusEnum).optional().default(StatusEnum.Active),
   ownerUserId: z.string().optional(),

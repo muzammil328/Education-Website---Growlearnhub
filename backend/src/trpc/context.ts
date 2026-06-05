@@ -2,7 +2,7 @@ import { CreateExpressContextOptions } from '@trpc/server/adapters/express';
 
 type ExpressRequest = CreateExpressContextOptions['req'];
 type ExpressResponse = CreateExpressContextOptions['res'];
-import { createJwt } from '@muzammil328/core';
+import { createJwt } from '@muzammil328/services';
 import { config } from '@config/env.config';
 import User from '../models/user.model';
 

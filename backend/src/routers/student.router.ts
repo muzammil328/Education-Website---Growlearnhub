@@ -4,7 +4,7 @@ import { Types } from 'mongoose';
 import { createTRPCRouter, protectedProcedure } from '@/trpc/trpc';
 import { userRepository } from '../repository/user.repository';
 import { classGroupRepository } from '../repository/classGroup.repository';
-import { createBcrypt } from '@muzammil328/core';
+import { createBcrypt } from '@muzammil328/services';
 import { emailSchema } from '@muzammil328/types';
 import { RoleEnum } from '@muzammil328/education-packages/enums';
 

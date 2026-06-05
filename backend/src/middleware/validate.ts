@@ -1,6 +1,6 @@
 import { ValidationChain, validationResult } from 'express-validator';
 import { Request, Response, NextFunction, RequestHandler } from 'express';
-import { ResponseHandler } from '@muzammil328/core';
+import { ResponseHandler } from '@muzammil328/server';
 
 export const validate = (validations: ValidationChain[]): RequestHandler => {
   return async (req: Request, res: Response, next: NextFunction) => {

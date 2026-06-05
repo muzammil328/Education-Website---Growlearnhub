@@ -1,6 +1,6 @@
-import { AppError } from '@muzammil328/core';
-import { slugify } from '@muzammil328/core';
-import { resolveObjectId } from '@muzammil328/foundation';
+import { AppError } from '@muzammil328/server';
+import { slugify } from '@muzammil328/utils';
+import { resolveObjectId } from '@muzammil328/db';
 import { Types } from 'mongoose';
 import { classRepository } from '@/repository/class.repository';
 import {

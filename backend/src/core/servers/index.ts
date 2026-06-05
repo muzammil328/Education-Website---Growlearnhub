@@ -1,7 +1,7 @@
 import http from 'http';
 import { Express } from 'express';
 import { initSocket, closeSocket } from '@config/socket.config';
-import { closeRedis } from '@config/redis.config';
+import redis from '@config/redis.config';
 import { logTreeStep } from '@muzammil328/services';
 import { config } from '@config/env.config';
 
@@ -34,7 +34,7 @@ export async function shutdownServer(): Promise<void> {
   logTreeStep('🛑 Shutting down server...');
 
   closeSocket();
-  await closeRedis();
+  await redis.closeRedisClient();
 
   if (server) {
     const httpServer = server;

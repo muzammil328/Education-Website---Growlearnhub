@@ -1,4 +1,4 @@
-import { toTrpcError } from '@muzammil328/core';
+import { toTrpcError } from '@muzammil328/utils';
 import {
   ClassGroupSchema,
   AddStudentsToClassGroupSchema,

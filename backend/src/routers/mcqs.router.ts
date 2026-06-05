@@ -1,6 +1,7 @@
 import { z } from 'zod';
 import { Types } from 'mongoose';
-import { toTrpcError, AppError } from '@muzammil328/core';
+import { AppError } from '@muzammil328/server';
+import { toTrpcError } from '@muzammil328/utils';
 import {
   McqPayloadSchema,
   getMcqsInputSchema,

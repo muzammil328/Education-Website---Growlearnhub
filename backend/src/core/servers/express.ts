@@ -1,10 +1,9 @@
 import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import { registerRoutes } from './routes';
-import express, { Express, Request, Response, NextFunction } from 'express';
-import { flushRequestLogBuffer, logger, runWithRequestLogBuffer } from '@muzammil328/services';
-import { globalErrorHandler } from '@muzammil328/utils';
-import { createHelmet } from '@muzammil328/services';
+import express, { Express } from 'express';
+import { globalErrorHandler } from '@muzammil328/server';
+import { createHelmet, httpLogger, createCsrf, createApiRateLimiter } from '@muzammil328/services';
 import { config } from '@config/env.config';
 
 const helmetMiddleware = createHelmet();
@@ -12,51 +11,28 @@ const corsMiddleware = cors({
   origin: config.CORS_ORIGIN.split(',').filter(Boolean),
   credentials: true,
 });
+const csrfProtection = createCsrf();
+const apiRateLimiter = createApiRateLimiter();
 
-/**
- * Create and configure Express application
- * @returns Configured Express app instance
- */
 export function createExpressApp(): Express {
   const app = express();
 
-  // Security headers
   app.use(helmetMiddleware);
-
-  // CORS configuration
   app.use(corsMiddleware);
-
-  // Webhook
-
-  // Body parsers (for all other routes)
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
   app.use(cookieParser());
+  app.use(httpLogger);
+  app.use(apiRateLimiter);
+  app.use(csrfProtection);
 
-  // Request logging for API visibility in terminal
-  app.use((req: Request, res: Response, next: NextFunction) => {
-    runWithRequestLogBuffer(() => {
-      const startedAt = Date.now();
-
-      res.on('finish', () => {
-        const durationMs = Date.now() - startedAt;
-        logger.info('----------------------------------');
-        logger.info(`  ├─ HTTP ${req.method} ${req.originalUrl} -> ${res.statusCode} (${durationMs}ms)`);
-        const hasBufferedLogs = flushRequestLogBuffer();
-        if (!hasBufferedLogs) {
-          logger.info('----------------------------------');
-        }
-      });
-
-      next();
-    });
+  app.get('/csrf-token', (req, res) => {
+    res.json({ token: (req as any).csrfToken?.() });
   });
 
-  // Register all routes
   registerRoutes(app);
 
-  // Global error handling middleware (must be last)
-  app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
+  app.use((err: Error, req: express.Request, res: express.Response, next: express.NextFunction) => {
     globalErrorHandler(err, req, res, next);
   });
 

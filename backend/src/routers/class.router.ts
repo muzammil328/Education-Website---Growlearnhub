@@ -1,5 +1,5 @@
 import { Types } from 'mongoose';
-import { toTrpcError } from '@muzammil328/core';
+import { toTrpcError } from '@muzammil328/utils';
 import {
   classPayloadSchema,
   getClassesInputSchema,

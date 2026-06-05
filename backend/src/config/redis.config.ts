@@ -5,7 +5,10 @@ import {
   cacheSet,
   cacheGet,
   cacheDelete,
-  checkRateLimit
+  cacheDeletePattern,
+  cacheGetOrSet,
+  checkRateLimit,
+  checkSlidingRateLimit,
 } from '@muzammil328/db';
 import { config } from '@/config/env.config';
 
@@ -28,6 +31,9 @@ export default {
   cacheSet,
   cacheGet,
   cacheDelete,
+  cacheDeletePattern,
+  cacheGetOrSet,
   checkRateLimit,
+  checkSlidingRateLimit,
   closeRedisClient,
 };

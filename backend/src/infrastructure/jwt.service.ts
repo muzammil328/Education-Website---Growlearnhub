@@ -1,4 +1,5 @@
-import { AUTH_CONFIG, createJwt } from '@muzammil328/core';
+import { AUTH_CONFIG } from '@muzammil328/types';
+import { createJwt } from '@muzammil328/services';
 import config from '@/config/env.config';
 
 export interface TokenPayload {

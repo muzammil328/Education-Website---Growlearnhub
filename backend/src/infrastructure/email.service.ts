@@ -1,4 +1,4 @@
-import { NodemailerProvider, EmailService, createRenderer } from '@muzammil328/foundation';
+import { NodemailerProvider, EmailService, createRenderer } from '@muzammil328/services';
 import { APP_CONFIG } from '@muzammil328/education-packages';
 import { templateLoader } from '@/email/templateLoader';
 import { config } from '@config/env.config';

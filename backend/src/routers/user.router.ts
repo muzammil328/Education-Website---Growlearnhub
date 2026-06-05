@@ -1,7 +1,7 @@
 import { Types } from 'mongoose';
-import { toTrpcError } from '@muzammil328/core';
-import { AppError } from '@muzammil328/core';
-import { StatusCode } from '@muzammil328/core';
+import { AppError } from '@muzammil328/server';
+import { toTrpcError } from '@muzammil328/utils';
+import { StatusCode } from '@muzammil328/types';
 import {
   updateProfileSchema,
 } from '@muzammil328/education-packages';

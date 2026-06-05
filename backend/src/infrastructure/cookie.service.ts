@@ -1,5 +1,5 @@
 import type { Request, Response } from 'express';
-import { COOKIE_CONFIG } from '@muzammil328/core';
+import { COOKIE_CONFIG } from '@muzammil328/types';
 
 const ACCESS_COOKIE = 'token';
 const REFRESH_COOKIE = COOKIE_CONFIG.REFRESH_TOKEN_NAME;

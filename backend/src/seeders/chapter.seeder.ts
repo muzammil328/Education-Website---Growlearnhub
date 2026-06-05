@@ -1,4 +1,4 @@
-import { slugify } from '@muzammil328/core';
+import { slugify } from '@muzammil328/utils';
 import ClassModel from '../models/class.model';
 import BookModel from '../models/book.model';
 import ChapterModel from '../models/chapter.model';

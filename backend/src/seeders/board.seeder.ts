@@ -1,7 +1,7 @@
 import Class from '../models/class.model';
 import Board from '../models/board.model';
 import { Status } from '@muzammil328/education-packages/types';
-import { slugify } from '@muzammil328/core';
+import { slugify } from '@muzammil328/utils';
 
 export interface RawBoardSeed {
   className: string;

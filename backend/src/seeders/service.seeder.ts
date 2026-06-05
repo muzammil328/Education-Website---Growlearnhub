@@ -1,5 +1,5 @@
 import ServiceModel from '../models/service.model';
-import { slugify } from '@muzammil328/core';
+import { slugify } from '@muzammil328/utils';
 
 export interface RawServiceSeed {
   className: string;

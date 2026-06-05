@@ -1,6 +1,6 @@
 import { Types } from 'mongoose';
 import { resultRepository } from '../repository/result.repository';
-import { AppError } from '@muzammil328/core';
+import { AppError } from '@muzammil328/server';
 
 function escapeRegex(value: string): string {
   return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');

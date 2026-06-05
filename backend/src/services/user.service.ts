@@ -1,4 +1,4 @@
-import { AppError } from '@muzammil328/core';
+import { AppError } from '@muzammil328/server';
 import { Types } from 'mongoose';
 import { userRepository } from '../repository/user.repository';
 import { AuthUserProfile, RoleType, UpdateProfileInput } from '@muzammil328/education-packages/types';

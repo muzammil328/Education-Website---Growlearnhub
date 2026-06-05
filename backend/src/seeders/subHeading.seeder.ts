@@ -3,7 +3,7 @@ import Heading from '../models/heading.model';
 import Class from '../models/class.model';
 import Book from '../models/book.model';
 import Chapter from '../models/chapter.model';
-import { slugify } from '@muzammil328/core';
+import { slugify } from '@muzammil328/utils';
 
 export interface RawSubHeadingSeed {
   className: string;

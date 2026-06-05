@@ -4,7 +4,7 @@ import Class from '../models/class.model';
 import Book from '../models/book.model';
 import Chapter from '../models/chapter.model';
 import Mcqs from '../models/mcqs.model';
-import { slugify } from '@muzammil328/core';
+import { slugify } from '@muzammil328/utils';
 
 export interface RawMcq {
   bookName: string;
