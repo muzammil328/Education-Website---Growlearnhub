@@ -1,7 +1,7 @@
 'use client'
 
 import { useFormContext, Controller } from 'react-hook-form'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@muzammil328/ui/forms'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@muzammil328/ui'
 
 interface SelectFieldProps {
   name: string

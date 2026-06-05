@@ -5,7 +5,7 @@ import { Button } from '@muzammil328/ui';
 import { toast } from '@muzammil328/ui';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { Form, FormEmail } from '@muzammil328/ui/forms';
+import { Form, FormEmail } from '@muzammil328/ui';
 
 type FormData = {
   email: string;

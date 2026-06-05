@@ -1,6 +1,6 @@
 'use client';
 import { useState } from 'react';
-import { Textarea, Input, Label } from '@muzammil328/ui/forms';
+import { Textarea, Input, Label } from '@muzammil328/ui';
 import { Button } from '@muzammil328/ui';
 import { request } from '@/lib/axios';
 import { Heading3 } from '@muzammil328/ui';

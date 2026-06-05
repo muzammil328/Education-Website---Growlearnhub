@@ -1,7 +1,7 @@
 'use client'
 
 import { useFormContext, Controller } from 'react-hook-form'
-import { Textarea } from '@muzammil328/ui/forms'
+import { Textarea } from '@muzammil328/ui'
 
 interface TextareaFieldProps {
   name: string
