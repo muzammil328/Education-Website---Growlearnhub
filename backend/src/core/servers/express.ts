@@ -7,11 +7,14 @@ import { createHelmet, httpLogger, createCsrf, createApiRateLimiter } from '@muz
 import { config } from '@config/env.config';
 
 const helmetMiddleware = createHelmet();
+
 const corsMiddleware = cors({
   origin: config.CORS_ORIGIN.split(',').filter(Boolean),
   credentials: true,
 });
+
 const csrfProtection = createCsrf();
+
 const apiRateLimiter = createApiRateLimiter();
 
 export function createExpressApp(): Express {

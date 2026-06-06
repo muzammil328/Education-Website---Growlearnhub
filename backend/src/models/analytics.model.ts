@@ -1,6 +1,6 @@
 import mongoose, { Schema } from 'mongoose';
 import type { IAnalytics } from '@muzammil328/education-packages/types';
-import { Difficulty } from '@muzammil328/education-packages/enums';
+import { DifficultyEnum } from '@muzammil328/education-packages/enums';
 
 const OfflineAttemptSchema: Schema = new Schema({
   question: { type: Schema.Types.ObjectId, ref: 'Mcqs' },
@@ -20,7 +20,7 @@ const AnalyticsSchema: Schema = new Schema(
     correct: { type: Number, required: true },
     incorrect: { type: Number, required: true },
     timeTakenMinutes: { type: Number },
-    difficultyLevel: { type: String, enum: Object.values(Difficulty) },
+    difficultyLevel: { type: String, enum: Object.values(DifficultyEnum) },
     topicWeaknessScore: { type: Number, min: 0, max: 100 },
     attemptCount: { type: Number, default: 1 },
     offlineAttempts: [OfflineAttemptSchema],
