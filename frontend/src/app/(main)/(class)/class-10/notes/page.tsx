@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import { getNotesClass } from '@/utils/helpers/PastPaperAndNotesDynamic';
-import Class10NotesPage from '@/features/Class10Page/Class10NotesPage';
+import Class10NotesPage from '@/features/Notes/Class10';
 
 const CLASS_SLUG = 'class-10';
 

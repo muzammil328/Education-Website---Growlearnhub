@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { getDateSheetClass } from '@/utils/helpers/ResultDateSheetDynamic';
-import Class10DateSheetPage from '@/features/Class10Page/Class10DateSheetPage';
+import Class10DateSheetPage from '@/features/DateSheet/Class10';
 
 const CLASS_SLUG = 'class-10';
 

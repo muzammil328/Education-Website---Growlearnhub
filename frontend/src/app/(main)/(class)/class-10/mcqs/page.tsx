@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import Class10McqsPage from '@/features/Class10Page/Class10McqsPage';
+import Class10McqsPage from '@/features/McqsPage/Class10';
 
 const data = {
   title: 'Class 10 MCQs | Free Interactive Practice Questions | GrowLearnHub',
