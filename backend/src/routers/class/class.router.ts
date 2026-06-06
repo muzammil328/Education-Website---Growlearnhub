@@ -10,9 +10,10 @@ import { classGetByServiceSlug } from './classGetByServiceSlug';
 export const classRouter = createTRPCRouter({
   create: classCreate,
   getAll: classGetAll,
+  getDropdown: classGetDropdown,
   getById: classGetById,
+  getByServiceSlug: classGetByServiceSlug,
+  
   update: classUpdate,
   delete: classDelete,
-  getDropdown: classGetDropdown,
-  getByServiceSlug: classGetByServiceSlug,
 });

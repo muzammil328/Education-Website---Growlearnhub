@@ -22,12 +22,10 @@ export const classGetAll = superAdminProcedure
             unwind: false,
           })
           .project({
+            _id: 0,
             classId: '$_id',
             name: 1,
-            description: 1,
             status: 1,
-            imageUrl: 1,
-            tags: 1,
             serviceName: '$service.name',  // flat field, not array
           }),
 
