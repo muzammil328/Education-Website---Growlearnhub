@@ -3,7 +3,7 @@ import { z } from 'zod';
 import { Types } from 'mongoose';
 import Mcqs from '@/models/mcqs.model';
 import McqAttempt from '../models/mcqAttempt.model';
-import { McqScope } from '@muzammil328/education-packages/enums';
+import { McqScopeEnum } from '@muzammil328/education-packages/enums';
 import { createTRPCRouter, protectedProcedure } from '@/trpc/trpc';
 import { resolveUserInstitutionId } from '@/trpc/lib/resolveInstitution';
 
@@ -43,7 +43,7 @@ export const mcqAttemptRouter = createTRPCRouter({
 
     const userInstitutionId = await resolveUserInstitutionId(user.userId);
 
-    if (mcq.scope === McqScope.INSTITUTION) {
+    if (mcq.scope === McqScopeEnum.INSTITUTION) {
       const mcqInstId = mcq.institutionId ? String(mcq.institutionId) : undefined;
       if (!mcqInstId || mcqInstId !== userInstitutionId) {
         throw new TRPCError({

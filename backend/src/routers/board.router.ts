@@ -10,7 +10,7 @@ import {
 import { boardService } from '@/services/board.service';
 import { createTRPCRouter, superAdminProcedure, teacherProcedure } from '@/trpc/trpc';
 import { toTrpcError } from '@muzammil328/trpc';
-import type { PaginatedResult } from '@muzammil328/education-packages/types';
+import type { PaginatedResult } from '@muzammil328/types';
 
 const boardPayloadSchema = BoardSchema;
 
