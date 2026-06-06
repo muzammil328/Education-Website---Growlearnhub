@@ -16,5 +16,16 @@ const ChapterSchema: Schema = new Schema(
   { timestamps: true }
 );
 
+// save slug from name if not provided
+ChapterSchema.pre<IChapter>('validate', function (this: IChapter, next) {
+  if (!this.slug && this.name) {
+    this.slug = this.name
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-+|-+$/g, '');
+  }
+  next();
+});
+
 export const Chapter = mongoose.model<IChapter>('Chapter', ChapterSchema);
 export default Chapter;

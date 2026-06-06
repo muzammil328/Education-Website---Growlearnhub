@@ -15,4 +15,15 @@ const ServiceSchema: Schema<IService> = new Schema(
   { timestamps: true }
 );
 
+// save slug from name if not provided
+ServiceSchema.pre<IService>('validate', function (this: IService, next) {
+  if (!this.slug && this.name) {
+    this.slug = this.name
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-+|-+$/g, '');
+  }
+  next();
+});
+
 export default mongoose.model<IService>('Service', ServiceSchema);

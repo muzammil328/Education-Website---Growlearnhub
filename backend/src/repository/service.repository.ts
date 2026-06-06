@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Types } from 'mongoose';
 import ServiceModel from '../models/service.model';
 import { IService } from '../../../packages/src/types/service.type';

@@ -5,7 +5,7 @@ import { StatusEnum } from '@muzammil328/education-packages/enums';
 const SubHeadingSchema: Schema = new Schema(
   {
     name: { type: String, required: true },
-    slug: { type: String, required: true, lowercase: true },
+    slug: { type: String, required: true, lowercase: true, index: true },
     headingId: { type: Schema.Types.ObjectId, ref: 'Heading', required: true },
     chapterId: { type: Schema.Types.ObjectId, ref: 'Chapter', required: true },
     bookId: { type: Schema.Types.ObjectId, ref: 'Book', required: true },
@@ -16,12 +16,16 @@ const SubHeadingSchema: Schema = new Schema(
   { timestamps: true }
 );
 
-SubHeadingSchema.index({ slug: 1 });
-SubHeadingSchema.index({ headingId: 1 });
-SubHeadingSchema.index({ chapterId: 1 });
-SubHeadingSchema.index({ bookId: 1 });
-SubHeadingSchema.index({ classId: 1 });
-SubHeadingSchema.index({ headingId: 1, slug: 1 }, { unique: true });
+// save slug from name if not provided
+SubHeadingSchema.pre<ISubHeading>('validate', function (this: ISubHeading, next) {
+  if (!this.slug && this.name) {
+    this.slug = this.name
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-+|-+$/g, '');
+  }
+  next();
+});
 
 export const SubHeading = mongoose.model<ISubHeading>('SubHeading', SubHeadingSchema);
 export default SubHeading;

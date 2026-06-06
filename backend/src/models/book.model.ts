@@ -1,6 +1,40 @@
 import mongoose, { Schema } from 'mongoose';
-import type { IBook } from '@muzammil328/education-packages/types';
 import { StatusEnum } from '@muzammil328/education-packages/enums';
+import { Document, Types } from 'mongoose';
+
+interface IVUAssessmentComponent {
+  title: string;
+  weight: number; // percentage
+  description?: string;
+}
+
+interface MediumComponent {
+  slug: string;
+  name: string;
+  fileId: string;
+}
+
+interface IBook extends Document {
+  name: string;
+  slug: string;
+  code: string; // CS001, MTH001, MGT211, etc.
+  description?: string;
+  classId: Types.ObjectId;
+  serviceId?: Types.ObjectId[];
+  creditHours?: number;
+  fileId?: string; // Google Drive file ID
+  pages?: number;
+  chapters?: number;
+  status: 'active' | 'inactive';
+  image?: string;
+  totalWeight?: number; // should equal 100
+  components: IVUAssessmentComponent[];
+  medium?: MediumComponent[];
+  keywords?: string[];
+  boardId?: Types.ObjectId;
+  createdAt?: Date;
+  updatedAt?: Date;
+}
 
 const VUAssessmentComponentSchema = new Schema(
   {
@@ -18,6 +52,7 @@ const BookSchema: Schema = new Schema(
     code: { type: String, required: true, unique: true, uppercase: true },
     description: { type: String },
     classId: { type: Schema.Types.ObjectId, ref: 'Class', required: true, index: true },
+    serviceId: [{ type: Schema.Types.ObjectId, ref: 'Service', index: true }],
     creditHours: { type: Number },
     fileId: { type: String },
     pages: { type: Number },
@@ -28,6 +63,17 @@ const BookSchema: Schema = new Schema(
   },
   { timestamps: true }
 );
+
+// save slug from name if not provided
+BookSchema.pre<IBook>('validate', function (this: IBook, next) {
+  if (!this.slug && this.name) {
+    this.slug = this.name
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-+|-+$/g, '');
+  }
+  next();
+});
 
 export const Book = mongoose.model<IBook>('Book', BookSchema);
 export default Book;
