@@ -6,315 +6,140 @@ import Chapter from '../models/chapter.model';
 import Mcqs from '../models/mcqs.model';
 import { slugify } from '@muzammil328/utils';
 
-export interface RawMcq {
-  bookName: string;
-  className: string;
-  chapterName: string;
-  headingName?: string;
-  subHeadingName?: string;
-  questions: {
-    name: string;
-    description?: string;
-    tags?: string[];
-    options: { text: string; is_correct: boolean }[];
-    correctOptions: string[];
-    type: string;
-  }[];
-}
-
-export const mcqs: RawMcq[] = [
+// chapterName, headingName, subHeadingName must exactly match their seeder names
+export const mcqs = [
   {
     className: 'class-9',
     bookName: 'Biology',
-    chapterName: 'Cell Structure',
-    headingName: 'Cell: The Unit of Life',
-    subHeadingName: 'Introduction to Cell',
+    chapterName: 'Cells and Tissues',
+    headingName: 'Cell Structure',
+    subHeadingName: 'Prokaryotic Cells',
     questions: [
       {
         name: 'What is the basic structural and functional unit of life?',
-        description:
-          'This question tests knowledge of the fundamental unit of all living organisms.',
-        tags: ['biology', 'cell', 'basic'],
-        options: [
-          { text: 'Atom', is_correct: false },
-          { text: 'Molecule', is_correct: false },
-          { text: 'Cell', is_correct: true },
-          { text: 'Tissue', is_correct: false },
-        ],
-        correctOptions: ['Cell'],
+        options: [{ text: 'Atom', is_correct: false }, { text: 'Cell', is_correct: true }, { text: 'Tissue', is_correct: false }, { text: 'Organ', is_correct: false }],
         type: 'multipleChoice',
       },
       {
+        name: 'Which cells lack a membrane-bound nucleus?',
+        options: [{ text: 'Eukaryotic cells', is_correct: false }, { text: 'Prokaryotic cells', is_correct: true }, { text: 'Plant cells', is_correct: false }, { text: 'Animal cells', is_correct: false }],
+        type: 'multipleChoice',
+      },
+      {
+        name: 'Bacteria are examples of which type of cell?',
+        options: [{ text: 'Eukaryotic', is_correct: false }, { text: 'Multicellular', is_correct: false }, { text: 'Prokaryotic', is_correct: true }, { text: 'Animal', is_correct: false }],
+        type: 'multipleChoice',
+      },
+      {
+        name: 'What is the outermost layer of a prokaryotic cell?',
+        options: [{ text: 'Cell membrane', is_correct: false }, { text: 'Cell wall', is_correct: true }, { text: 'Capsule', is_correct: false }, { text: 'Nucleus', is_correct: false }],
+        type: 'multipleChoice',
+      },
+      {
+        name: 'Which structure controls what enters and leaves the cell?',
+        options: [{ text: 'Cell wall', is_correct: false }, { text: 'Nucleus', is_correct: false }, { text: 'Cell membrane', is_correct: true }, { text: 'Ribosome', is_correct: false }],
+        type: 'multipleChoice',
+      },
+    ],
+  },
+  {
+    className: 'class-9',
+    bookName: 'Biology',
+    chapterName: 'Cells and Tissues',
+    headingName: 'Cell Organelles',
+    subHeadingName: 'Mitochondria',
+    questions: [
+      {
         name: 'Which organelle is known as the powerhouse of the cell?',
-        description: 'This question is about cellular organelles and their functions.',
-        tags: ['biology', 'organelle', 'mitochondria'],
-        options: [
-          { text: 'Nucleus', is_correct: false },
-          { text: 'Mitochondria', is_correct: true },
-          { text: 'Ribosome', is_correct: false },
-          { text: 'Golgi apparatus', is_correct: false },
-        ],
-        correctOptions: ['Mitochondria'],
+        options: [{ text: 'Nucleus', is_correct: false }, { text: 'Mitochondria', is_correct: true }, { text: 'Ribosome', is_correct: false }, { text: 'Golgi apparatus', is_correct: false }],
+        type: 'multipleChoice',
+      },
+      {
+        name: 'What is produced in mitochondria?',
+        options: [{ text: 'Protein', is_correct: false }, { text: 'DNA', is_correct: false }, { text: 'ATP', is_correct: true }, { text: 'Glucose', is_correct: false }],
         type: 'multipleChoice',
       },
       {
         name: 'What is the function of ribosomes?',
-        description: 'Tests understanding of protein synthesis in cells.',
-        tags: ['biology', 'ribosome', 'protein'],
-        options: [
-          { text: 'Energy production', is_correct: false },
-          { text: 'Protein synthesis', is_correct: true },
-          { text: 'Cell division', is_correct: false },
-          { text: 'Waste removal', is_correct: false },
-        ],
-        correctOptions: ['Protein synthesis'],
+        options: [{ text: 'Energy production', is_correct: false }, { text: 'Protein synthesis', is_correct: true }, { text: 'Cell division', is_correct: false }, { text: 'Waste removal', is_correct: false }],
         type: 'multipleChoice',
       },
       {
         name: 'Which organelle contains genetic material?',
-        description: 'Understanding of DNA location in cells.',
-        tags: ['biology', 'DNA', 'nucleus'],
-        options: [
-          { text: 'Nucleus', is_correct: true },
-          { text: 'Mitochondria', is_correct: false },
-          { text: 'Ribosome', is_correct: false },
-          { text: 'Lysosome', is_correct: false },
-        ],
-        correctOptions: ['Nucleus'],
-        type: 'multipleChoice',
-      },
-      {
-        name: 'What is the function of the cell membrane?',
-        description: 'Understanding of cell membrane structure and function.',
-        tags: ['biology', 'membrane', 'transport'],
-        options: [
-          { text: 'Protein synthesis', is_correct: false },
-          { text: 'Energy production', is_correct: false },
-          { text: 'Control of substances entering and leaving cell', is_correct: true },
-          { text: 'Cell division', is_correct: false },
-        ],
-        correctOptions: ['Control of substances entering and leaving cell'],
-        type: 'multipleChoice',
-      },
-      {
-        name: 'Which cell organelle is responsible for photosynthesis?',
-        description: 'Tests knowledge of plant cell organelles.',
-        tags: ['biology', 'chloroplast', 'photosynthesis'],
-        options: [
-          { text: 'Chloroplast', is_correct: true },
-          { text: 'Mitochondria', is_correct: false },
-          { text: 'Nucleus', is_correct: false },
-          { text: 'Vacuole', is_correct: false },
-        ],
-        correctOptions: ['Chloroplast'],
-        type: 'multipleChoice',
-      },
-      {
-        name: 'What is the largest organelle in a plant cell?',
-        description: 'Understanding of plant cell structure.',
-        tags: ['biology', 'vacuole', 'plant'],
-        options: [
-          { text: 'Nucleus', is_correct: false },
-          { text: 'Vacuole', is_correct: true },
-          { text: 'Mitochondria', is_correct: false },
-          { text: 'Chloroplast', is_correct: false },
-        ],
-        correctOptions: ['Vacuole'],
-        type: 'multipleChoice',
-      },
-      {
-        name: 'Which organelle digests waste materials and cellular debris?',
-        description: 'Knowledge of lysosome function.',
-        tags: ['biology', 'lysosome', 'digestion'],
-        options: [
-          { text: 'Ribosome', is_correct: false },
-          { text: 'Lysosome', is_correct: true },
-          { text: 'Golgi apparatus', is_correct: false },
-          { text: 'Endoplasmic reticulum', is_correct: false },
-        ],
-        correctOptions: ['Lysosome'],
+        options: [{ text: 'Nucleus', is_correct: true }, { text: 'Mitochondria', is_correct: false }, { text: 'Ribosome', is_correct: false }, { text: 'Lysosome', is_correct: false }],
         type: 'multipleChoice',
       },
       {
         name: 'What is the function of the Golgi apparatus?',
-        description: 'Understanding of packaging and transport within cells.',
-        tags: ['biology', 'Golgi', 'packaging'],
-        options: [
-          { text: 'Energy production', is_correct: false },
-          { text: 'Protein synthesis', is_correct: false },
-          { text: 'Modifying and packaging proteins', is_correct: true },
-          { text: 'DNA replication', is_correct: false },
-        ],
-        correctOptions: ['Modifying and packaging proteins'],
+        options: [{ text: 'Energy production', is_correct: false }, { text: 'Protein synthesis', is_correct: false }, { text: 'Modifying and packaging proteins', is_correct: true }, { text: 'DNA replication', is_correct: false }],
+        type: 'multipleChoice',
+      },
+    ],
+  },
+  {
+    className: 'class-9',
+    bookName: 'Mathematics',
+    chapterName: 'Number Systems',
+    headingName: 'Rational Numbers',
+    subHeadingName: 'Properties of Rational Numbers',
+    questions: [
+      {
+        name: 'Which of the following is a rational number?',
+        options: [{ text: '√2', is_correct: false }, { text: 'π', is_correct: false }, { text: '3/4', is_correct: true }, { text: '√3', is_correct: false }],
         type: 'multipleChoice',
       },
       {
-        name: 'Which structure is found in plant cells but not in animal cells?',
-        description: 'Comparing plant and animal cell structures.',
-        tags: ['biology', 'plant', 'cell wall'],
-        options: [
-          { text: 'Cell wall', is_correct: true },
-          { text: 'Nucleus', is_correct: false },
-          { text: 'Mitochondria', is_correct: false },
-          { text: 'Cell membrane', is_correct: false },
-        ],
-        correctOptions: ['Cell wall'],
+        name: 'The sum of two rational numbers is always?',
+        options: [{ text: 'Irrational', is_correct: false }, { text: 'Rational', is_correct: true }, { text: 'Integer', is_correct: false }, { text: 'Natural', is_correct: false }],
         type: 'multipleChoice',
       },
       {
-        name: 'What is the function of the endoplasmic reticulum?',
-        description: 'Understanding of cellular transport systems.',
-        tags: ['biology', 'ER', 'transport'],
-        options: [
-          { text: 'Protein synthesis and transport', is_correct: true },
-          { text: 'Energy production', is_correct: false },
-          { text: 'Cell division', is_correct: false },
-          { text: 'DNA replication', is_correct: false },
-        ],
-        correctOptions: ['Protein synthesis and transport'],
+        name: 'Which of the following is NOT a rational number?',
+        options: [{ text: '0.5', is_correct: false }, { text: '7', is_correct: false }, { text: '√5', is_correct: true }, { text: '-3', is_correct: false }],
         type: 'multipleChoice',
       },
       {
-        name: 'What type of cell lacks a nucleus?',
-        description: 'Understanding of prokaryotic vs eukaryotic cells.',
-        tags: ['biology', 'prokaryote', 'nucleus'],
-        options: [
-          { text: 'Plant cell', is_correct: false },
-          { text: 'Animal cell', is_correct: false },
-          { text: 'Bacterial cell', is_correct: true },
-          { text: 'Fungal cell', is_correct: false },
-        ],
-        correctOptions: ['Bacterial cell'],
+        name: 'Every integer is a rational number. This statement is?',
+        options: [{ text: 'False', is_correct: false }, { text: 'True', is_correct: true }, { text: 'Sometimes true', is_correct: false }, { text: 'Cannot be determined', is_correct: false }],
         type: 'multipleChoice',
       },
       {
-        name: 'Which organelle is responsible for ATP production?',
-        description: 'Understanding of cellular energy generation.',
-        tags: ['biology', 'ATP', 'mitochondria'],
-        options: [
-          { text: 'Nucleus', is_correct: false },
-          { text: 'Mitochondria', is_correct: true },
-          { text: 'Ribosome', is_correct: false },
-          { text: 'Chloroplast', is_correct: false },
-        ],
-        correctOptions: ['Mitochondria'],
+        name: 'What is the decimal expansion of 1/3?',
+        options: [{ text: '0.3', is_correct: false }, { text: '0.33', is_correct: false }, { text: '0.333... (repeating)', is_correct: true }, { text: '0.13', is_correct: false }],
+        type: 'multipleChoice',
+      },
+    ],
+  },
+  {
+    className: 'class-9',
+    bookName: 'Physics',
+    chapterName: 'Physical Quantities and Measurement',
+    headingName: 'Physical Quantities',
+    subHeadingName: 'Base Quantities',
+    questions: [
+      {
+        name: 'How many base quantities are defined in the SI system?',
+        options: [{ text: '5', is_correct: false }, { text: '6', is_correct: false }, { text: '7', is_correct: true }, { text: '8', is_correct: false }],
         type: 'multipleChoice',
       },
       {
-        name: 'What is the nucleolus?',
-        description: 'Knowledge of nuclear structures.',
-        tags: ['biology', 'nucleolus', 'nucleus'],
-        options: [
-          { text: 'Another name for nucleus', is_correct: false },
-          { text: 'A structure inside the nucleus that produces ribosomes', is_correct: true },
-          { text: 'A type of organelle', is_correct: false },
-          { text: 'Part of the cell membrane', is_correct: false },
-        ],
-        correctOptions: ['A structure inside the nucleus that produces ribosomes'],
+        name: 'What is the SI unit of mass?',
+        options: [{ text: 'Gram', is_correct: false }, { text: 'Kilogram', is_correct: true }, { text: 'Pound', is_correct: false }, { text: 'Newton', is_correct: false }],
         type: 'multipleChoice',
       },
       {
-        name: 'What is the function of vacuoles in animal cells?',
-        description: 'Understanding of vacuole functions across cell types.',
-        tags: ['biology', 'vacuole', 'storage'],
-        options: [
-          { text: 'Energy production', is_correct: false },
-          { text: 'Storage of water and nutrients', is_correct: true },
-          { text: 'Protein synthesis', is_correct: false },
-          { text: 'Cell division', is_correct: false },
-        ],
-        correctOptions: ['Storage of water and nutrients'],
+        name: 'Which is a base quantity?',
+        options: [{ text: 'Force', is_correct: false }, { text: 'Velocity', is_correct: false }, { text: 'Length', is_correct: true }, { text: 'Pressure', is_correct: false }],
         type: 'multipleChoice',
       },
       {
-        name: 'Which structure is responsible for movement in flagella?',
-        description: 'Understanding of cell motility structures.',
-        tags: ['biology', 'flagella', 'movement'],
-        options: [
-          { text: 'Cilia', is_correct: false },
-          { text: 'Microtubules', is_correct: true },
-          { text: 'Cell wall', is_correct: false },
-          { text: 'Cell membrane', is_correct: false },
-        ],
-        correctOptions: ['Microtubules'],
+        name: 'The SI unit of electric current is?',
+        options: [{ text: 'Volt', is_correct: false }, { text: 'Watt', is_correct: false }, { text: 'Ampere', is_correct: true }, { text: 'Ohm', is_correct: false }],
         type: 'multipleChoice',
       },
       {
-        name: 'What is the fluid-filled space inside the cell called?',
-        description: 'Understanding of cytoplasm.',
-        tags: ['biology', 'cytoplasm', 'fluid'],
-        options: [
-          { text: 'Cytoplasm', is_correct: true },
-          { text: 'Nucleoplasm', is_correct: false },
-          { text: 'Protoplasm', is_correct: false },
-          { text: 'Cytosol', is_correct: false },
-        ],
-        correctOptions: ['Cytoplasm'],
-        type: 'multipleChoice',
-      },
-      {
-        name: 'Which organelle is involved in lipid synthesis?',
-        description: 'Understanding of cellular organelles.',
-        tags: ['biology', 'smooth ER', 'lipid'],
-        options: [
-          { text: 'Rough endoplasmic reticulum', is_correct: false },
-          { text: 'Smooth endoplasmic reticulum', is_correct: true },
-          { text: 'Ribosome', is_correct: false },
-          { text: 'Golgi apparatus', is_correct: false },
-        ],
-        correctOptions: ['Smooth endoplasmic reticulum'],
-        type: 'multipleChoice',
-      },
-      {
-        name: 'What is the primary function of chloroplasts?',
-        description: 'Understanding of photosynthesis in plant cells.',
-        tags: ['biology', 'chloroplast', 'photosynthesis'],
-        options: [
-          { text: 'Cellular respiration', is_correct: false },
-          { text: 'Photosynthesis', is_correct: true },
-          { text: 'Protein synthesis', is_correct: false },
-          { text: 'Waste removal', is_correct: false },
-        ],
-        correctOptions: ['Photosynthesis'],
-        type: 'multipleChoice',
-      },
-      {
-        name: 'Which type of cell has a cell wall made of cellulose?',
-        description: 'Understanding of plant cell structure.',
-        tags: ['biology', 'cell wall', 'cellulose'],
-        options: [
-          { text: 'Animal cells', is_correct: false },
-          { text: 'Bacterial cells', is_correct: false },
-          { text: 'Plant cells', is_correct: true },
-          { text: 'Fungal cells', is_correct: false },
-        ],
-        correctOptions: ['Plant cells'],
-        type: 'multipleChoice',
-      },
-      {
-        name: 'What is the role of peroxisomes in the cell?',
-        description: 'Understanding of specialized organelles.',
-        tags: ['biology', 'peroxisome', 'detox'],
-        options: [
-          { text: 'Energy production', is_correct: false },
-          { text: 'Breaking down hydrogen peroxide', is_correct: true },
-          { text: 'Protein synthesis', is_correct: false },
-          { text: 'DNA replication', is_correct: false },
-        ],
-        correctOptions: ['Breaking down hydrogen peroxide'],
-        type: 'multipleChoice',
-      },
-      {
-        name: 'Which organelle is responsible for degrading old organelles?',
-        description: 'Understanding of cellular recycling.',
-        tags: ['biology', 'autophagy', 'lysosome'],
-        options: [
-          { text: 'Ribosome', is_correct: false },
-          { text: 'Lysosome', is_correct: true },
-          { text: 'Mitochondria', is_correct: false },
-          { text: 'Nucleus', is_correct: false },
-        ],
-        correctOptions: ['Lysosome'],
+        name: 'Which of the following is a derived quantity?',
+        options: [{ text: 'Mass', is_correct: false }, { text: 'Time', is_correct: false }, { text: 'Speed', is_correct: true }, { text: 'Temperature', is_correct: false }],
         type: 'multipleChoice',
       },
     ],
@@ -322,73 +147,67 @@ export const mcqs: RawMcq[] = [
   {
     className: 'class-10',
     bookName: 'Biology',
-    chapterName: 'Life Processes',
-    headingName: 'Nutrition',
-    subHeadingName: 'Nutrition in Plants',
+    chapterName: 'Gaseous Exchange',
+    headingName: 'Gaseous Exchange in Animals',
+    subHeadingName: 'Gills and Lungs',
     questions: [
       {
-        name: 'What is nutrition?',
-        description: 'Understanding the basic concept of nutrition.',
-        tags: ['biology', 'nutrition', 'life processes'],
-        options: [
-          { text: 'Process of taking food', is_correct: true },
-          { text: 'Process of breathing', is_correct: false },
-          { text: 'Process of excretion', is_correct: false },
-          { text: 'Process of reproduction', is_correct: false },
-        ],
-        correctOptions: ['Process of taking food'],
+        name: 'Which organ is responsible for gaseous exchange in fish?',
+        options: [{ text: 'Lungs', is_correct: false }, { text: 'Skin', is_correct: false }, { text: 'Gills', is_correct: true }, { text: 'Trachea', is_correct: false }],
         type: 'multipleChoice',
       },
       {
-        name: 'Which organ is responsible for pumping blood in humans?',
-        description: 'Understanding of circulatory system.',
-        tags: ['biology', 'heart', 'circulatory'],
-        options: [
-          { text: 'Lungs', is_correct: false },
-          { text: 'Brain', is_correct: false },
-          { text: 'Heart', is_correct: true },
-          { text: 'Liver', is_correct: false },
-        ],
-        correctOptions: ['Heart'],
+        name: 'What gas is taken in during breathing?',
+        options: [{ text: 'Carbon dioxide', is_correct: false }, { text: 'Nitrogen', is_correct: false }, { text: 'Oxygen', is_correct: true }, { text: 'Hydrogen', is_correct: false }],
         type: 'multipleChoice',
       },
       {
-        name: 'What is the function of hemoglobin?',
-        description: 'Understanding of blood components.',
-        tags: ['biology', 'hemoglobin', 'blood'],
-        options: [
-          { text: 'Fight infections', is_correct: false },
-          { text: 'Carry oxygen', is_correct: true },
-          { text: 'Clot blood', is_correct: false },
-          { text: 'Produce hormones', is_correct: false },
-        ],
-        correctOptions: ['Carry oxygen'],
+        name: 'What is the main organ of respiration in humans?',
+        options: [{ text: 'Heart', is_correct: false }, { text: 'Lungs', is_correct: true }, { text: 'Kidney', is_correct: false }, { text: 'Liver', is_correct: false }],
         type: 'multipleChoice',
       },
       {
-        name: 'Which organ is the main organ of respiration?',
-        description: 'Understanding of respiratory system.',
-        tags: ['biology', 'respiration', 'lungs'],
-        options: [
-          { text: 'Heart', is_correct: false },
-          { text: 'Lungs', is_correct: true },
-          { text: 'Liver', is_correct: false },
-          { text: 'Kidney', is_correct: false },
-        ],
-        correctOptions: ['Lungs'],
+        name: 'Breathing in is called?',
+        options: [{ text: 'Exhalation', is_correct: false }, { text: 'Inhalation', is_correct: true }, { text: 'Expiration', is_correct: false }, { text: 'Diffusion', is_correct: false }],
         type: 'multipleChoice',
       },
       {
-        name: 'What is excretion?',
-        description: 'Understanding of waste removal.',
-        tags: ['biology', 'excretion', 'waste'],
-        options: [
-          { text: 'Taking in food', is_correct: false },
-          { text: 'Removal of waste products', is_correct: true },
-          { text: 'Movement of body', is_correct: false },
-          { text: 'Response to stimuli', is_correct: false },
-        ],
-        correctOptions: ['Removal of waste products'],
+        name: 'Which gas is released during exhalation?',
+        options: [{ text: 'Oxygen', is_correct: false }, { text: 'Nitrogen', is_correct: false }, { text: 'Carbon dioxide', is_correct: true }, { text: 'Hydrogen', is_correct: false }],
+        type: 'multipleChoice',
+      },
+    ],
+  },
+  {
+    className: 'class-10',
+    bookName: 'Mathematics',
+    chapterName: 'Quadratic Equations',
+    headingName: 'Methods of Solving Quadratic Equations',
+    subHeadingName: 'Quadratic Formula',
+    questions: [
+      {
+        name: 'The quadratic formula is used to find the roots of which type of equation?',
+        options: [{ text: 'Linear', is_correct: false }, { text: 'Cubic', is_correct: false }, { text: 'Quadratic', is_correct: true }, { text: 'Exponential', is_correct: false }],
+        type: 'multipleChoice',
+      },
+      {
+        name: 'What is the standard form of a quadratic equation?',
+        options: [{ text: 'ax + b = 0', is_correct: false }, { text: 'ax² + bx + c = 0', is_correct: true }, { text: 'ax³ + b = 0', is_correct: false }, { text: 'a/x + b = 0', is_correct: false }],
+        type: 'multipleChoice',
+      },
+      {
+        name: 'The discriminant b² - 4ac < 0 means roots are?',
+        options: [{ text: 'Real and equal', is_correct: false }, { text: 'Real and unequal', is_correct: false }, { text: 'Complex (imaginary)', is_correct: true }, { text: 'Zero', is_correct: false }],
+        type: 'multipleChoice',
+      },
+      {
+        name: 'If discriminant = 0, the quadratic has?',
+        options: [{ text: 'No real roots', is_correct: false }, { text: 'Two distinct roots', is_correct: false }, { text: 'Two equal real roots', is_correct: true }, { text: 'Infinite roots', is_correct: false }],
+        type: 'multipleChoice',
+      },
+      {
+        name: 'What is the sum of roots of ax² + bx + c = 0?',
+        options: [{ text: 'c/a', is_correct: false }, { text: 'b/a', is_correct: false }, { text: '-b/a', is_correct: true }, { text: '-c/a', is_correct: false }],
         type: 'multipleChoice',
       },
     ],
@@ -396,73 +215,67 @@ export const mcqs: RawMcq[] = [
   {
     className: 'class-11',
     bookName: 'Biology',
-    chapterName: 'Diversity of Living Organisms',
-    headingName: 'Taxonomy',
-    subHeadingName: 'Classification of Living Organisms',
+    chapterName: 'The Cell',
+    headingName: 'Cell Division',
+    subHeadingName: 'Mitosis',
     questions: [
       {
-        name: 'What is the basic unit of classification?',
-        description: 'Understanding of taxonomic hierarchy.',
-        tags: ['biology', 'taxonomy', 'classification'],
-        options: [
-          { text: 'Species', is_correct: true },
-          { text: 'Genus', is_correct: false },
-          { text: 'Family', is_correct: false },
-          { text: 'Order', is_correct: false },
-        ],
-        correctOptions: ['Species'],
+        name: 'Mitosis results in how many daughter cells?',
+        options: [{ text: 'One', is_correct: false }, { text: 'Two', is_correct: true }, { text: 'Four', is_correct: false }, { text: 'Eight', is_correct: false }],
         type: 'multipleChoice',
       },
       {
-        name: 'Which kingdom includes prokaryotes?',
-        description: 'Understanding of five kingdom classification.',
-        tags: ['biology', 'kingdom', 'prokaryote'],
-        options: [
-          { text: 'Animalia', is_correct: false },
-          { text: 'Plantae', is_correct: false },
-          { text: 'Monera', is_correct: true },
-          { text: 'Fungi', is_correct: false },
-        ],
-        correctOptions: ['Monera'],
+        name: 'Which phase of mitosis involves chromosome alignment at the cell equator?',
+        options: [{ text: 'Prophase', is_correct: false }, { text: 'Anaphase', is_correct: false }, { text: 'Metaphase', is_correct: true }, { text: 'Telophase', is_correct: false }],
         type: 'multipleChoice',
       },
       {
-        name: 'What is the mode of nutrition in fungi?',
-        description: 'Understanding of fungal nutrition.',
-        tags: ['biology', 'fungi', 'nutrition'],
-        options: [
-          { text: 'Autotrophic', is_correct: false },
-          { text: 'Saprophytic', is_correct: true },
-          { text: 'Parasitic', is_correct: false },
-          { text: 'Holozolic', is_correct: false },
-        ],
-        correctOptions: ['Saprophytic'],
+        name: 'What is the purpose of mitosis in multicellular organisms?',
+        options: [{ text: 'Sexual reproduction', is_correct: false }, { text: 'Growth and repair', is_correct: true }, { text: 'Genetic variation', is_correct: false }, { text: 'Gamete formation', is_correct: false }],
         type: 'multipleChoice',
       },
       {
-        name: 'Which organism is called the friendly bacterium?',
-        description: 'Understanding of beneficial bacteria.',
-        tags: ['biology', 'bacteria', 'intestine'],
-        options: [
-          { text: 'E. coli', is_correct: true },
-          { text: 'Salmonella', is_correct: false },
-          { text: 'Streptococcus', is_correct: false },
-          { text: 'Clostridium', is_correct: false },
-        ],
-        correctOptions: ['E. coli'],
+        name: 'In mitosis, the daughter cells are genetically?',
+        options: [{ text: 'Different from parent', is_correct: false }, { text: 'Identical to parent', is_correct: true }, { text: 'Haploid', is_correct: false }, { text: 'Triploid', is_correct: false }],
         type: 'multipleChoice',
       },
       {
-        name: 'What is the scientific name of onion?',
-        description: 'Understanding of binomial nomenclature.',
-        tags: ['biology', 'taxonomy', 'scientific name'],
-        options: [
-          { text: 'Allium cepa', is_correct: true },
-          { text: 'Solanum tuberosum', is_correct: false },
-          { text: 'Musa paradisiaca', is_correct: false },
-          { text: 'Carica papaya', is_correct: false },
-        ],
-        correctOptions: ['Allium cepa'],
+        name: 'Which phase comes first in mitosis?',
+        options: [{ text: 'Metaphase', is_correct: false }, { text: 'Anaphase', is_correct: false }, { text: 'Prophase', is_correct: true }, { text: 'Telophase', is_correct: false }],
+        type: 'multipleChoice',
+      },
+    ],
+  },
+  {
+    className: 'class-11',
+    bookName: 'Physics',
+    chapterName: 'Measurements',
+    headingName: 'Physical Quantities and Units',
+    subHeadingName: 'SI Units',
+    questions: [
+      {
+        name: 'SI stands for?',
+        options: [{ text: 'Standard International', is_correct: false }, { text: 'Systeme Internationale', is_correct: true }, { text: 'Scientific Index', is_correct: false }, { text: 'System of Instruments', is_correct: false }],
+        type: 'multipleChoice',
+      },
+      {
+        name: 'The SI unit of force is?',
+        options: [{ text: 'Joule', is_correct: false }, { text: 'Watt', is_correct: false }, { text: 'Newton', is_correct: true }, { text: 'Pascal', is_correct: false }],
+        type: 'multipleChoice',
+      },
+      {
+        name: 'What is the SI unit of temperature?',
+        options: [{ text: 'Celsius', is_correct: false }, { text: 'Fahrenheit', is_correct: false }, { text: 'Kelvin', is_correct: true }, { text: 'Rankine', is_correct: false }],
+        type: 'multipleChoice',
+      },
+      {
+        name: 'The SI unit of energy is?',
+        options: [{ text: 'Watt', is_correct: false }, { text: 'Newton', is_correct: false }, { text: 'Joule', is_correct: true }, { text: 'Calorie', is_correct: false }],
+        type: 'multipleChoice',
+      },
+      {
+        name: 'Which is the SI unit of luminous intensity?',
+        options: [{ text: 'Lux', is_correct: false }, { text: 'Candela', is_correct: true }, { text: 'Lumen', is_correct: false }, { text: 'Watt', is_correct: false }],
         type: 'multipleChoice',
       },
     ],
@@ -470,73 +283,67 @@ export const mcqs: RawMcq[] = [
   {
     className: 'class-12',
     bookName: 'Biology',
-    chapterName: 'Reproduction',
-    headingName: 'Reproduction in Organisms',
-    subHeadingName: 'Asexual Reproduction',
+    chapterName: 'Nervous Coordination',
+    headingName: 'Nervous System',
+    subHeadingName: 'Central Nervous System',
     questions: [
       {
-        name: 'What is asexual reproduction?',
-        description: 'Understanding of reproduction types.',
-        tags: ['biology', 'reproduction', 'asexual'],
-        options: [
-          { text: 'Fusion of gametes', is_correct: false },
-          { text: 'Reproduction without gamete fusion', is_correct: true },
-          { text: 'Reproduction involving two parents', is_correct: false },
-          { text: 'Formation of buds', is_correct: false },
-        ],
-        correctOptions: ['Reproduction without gamete fusion'],
+        name: 'The Central Nervous System consists of?',
+        options: [{ text: 'Spinal cord only', is_correct: false }, { text: 'Brain only', is_correct: false }, { text: 'Brain and spinal cord', is_correct: true }, { text: 'Nerves and ganglia', is_correct: false }],
         type: 'multipleChoice',
       },
       {
-        name: 'Which organ produces eggs in humans?',
-        description: 'Understanding of human reproductive system.',
-        tags: ['biology', 'reproduction', 'ovary'],
-        options: [
-          { text: 'Uterus', is_correct: false },
-          { text: 'Ovary', is_correct: true },
-          { text: 'Fallopian tube', is_correct: false },
-          { text: 'Testis', is_correct: false },
-        ],
-        correctOptions: ['Ovary'],
+        name: 'Which part of the brain controls balance and coordination?',
+        options: [{ text: 'Cerebrum', is_correct: false }, { text: 'Medulla', is_correct: false }, { text: 'Cerebellum', is_correct: true }, { text: 'Hypothalamus', is_correct: false }],
         type: 'multipleChoice',
       },
       {
-        name: 'What is fertilization?',
-        description: 'Understanding of reproduction process.',
-        tags: ['biology', 'fertilization', 'gametes'],
-        options: [
-          { text: 'Fusion of male and female gametes', is_correct: true },
-          { text: 'Release of egg', is_correct: false },
-          { text: 'Formation of zygote', is_correct: false },
-          { text: 'Development of embryo', is_correct: false },
-        ],
-        correctOptions: ['Fusion of male and female gametes'],
+        name: 'Neurons transmit signals using?',
+        options: [{ text: 'Blood', is_correct: false }, { text: 'Electrical impulses', is_correct: true }, { text: 'Hormones', is_correct: false }, { text: 'Enzymes', is_correct: false }],
         type: 'multipleChoice',
       },
       {
-        name: 'What is the function of placenta?',
-        description: 'Understanding of embryonic development.',
-        tags: ['biology', 'placenta', 'embryo'],
-        options: [
-          { text: 'Produce eggs', is_correct: false },
-          { text: 'Exchange of substances between mother and embryo', is_correct: true },
-          { text: 'Produce sperm', is_correct: false },
-          { text: 'Store nutrients', is_correct: false },
-        ],
-        correctOptions: ['Exchange of substances between mother and embryo'],
+        name: 'The gap between two neurons is called?',
+        options: [{ text: 'Axon', is_correct: false }, { text: 'Dendrite', is_correct: false }, { text: 'Synapse', is_correct: true }, { text: 'Myelin', is_correct: false }],
         type: 'multipleChoice',
       },
       {
-        name: 'Which type of reproduction occurs in yeast?',
-        description: 'Understanding of asexual reproduction in organisms.',
-        tags: ['biology', 'yeast', 'budding'],
-        options: [
-          { text: 'Binary fission', is_correct: false },
-          { text: 'Budding', is_correct: true },
-          { text: 'Spore formation', is_correct: false },
-          { text: 'Fragmentation', is_correct: false },
-        ],
-        correctOptions: ['Budding'],
+        name: 'Which part of the brain controls breathing and heartbeat?',
+        options: [{ text: 'Cerebrum', is_correct: false }, { text: 'Cerebellum', is_correct: false }, { text: 'Medulla oblongata', is_correct: true }, { text: 'Thalamus', is_correct: false }],
+        type: 'multipleChoice',
+      },
+    ],
+  },
+  {
+    className: 'class-12',
+    bookName: 'Physics',
+    chapterName: 'Electrostatics',
+    headingName: 'Electric Charge',
+    subHeadingName: 'Coulombs Law',
+    questions: [
+      {
+        name: 'Coulombs law gives the force between?',
+        options: [{ text: 'Magnets', is_correct: false }, { text: 'Point charges', is_correct: true }, { text: 'Masses', is_correct: false }, { text: 'Currents', is_correct: false }],
+        type: 'multipleChoice',
+      },
+      {
+        name: 'The SI unit of electric charge is?',
+        options: [{ text: 'Ampere', is_correct: false }, { text: 'Volt', is_correct: false }, { text: 'Coulomb', is_correct: true }, { text: 'Farad', is_correct: false }],
+        type: 'multipleChoice',
+      },
+      {
+        name: 'Like charges?',
+        options: [{ text: 'Attract each other', is_correct: false }, { text: 'Repel each other', is_correct: true }, { text: 'Have no effect', is_correct: false }, { text: 'Neutralize each other', is_correct: false }],
+        type: 'multipleChoice',
+      },
+      {
+        name: 'Electric force is inversely proportional to?',
+        options: [{ text: 'Distance', is_correct: false }, { text: 'Square of distance', is_correct: true }, { text: 'Cube of distance', is_correct: false }, { text: 'Product of charges', is_correct: false }],
+        type: 'multipleChoice',
+      },
+      {
+        name: 'Which particle carries negative charge?',
+        options: [{ text: 'Proton', is_correct: false }, { text: 'Neutron', is_correct: false }, { text: 'Electron', is_correct: true }, { text: 'Positron', is_correct: false }],
         type: 'multipleChoice',
       },
     ],
@@ -556,103 +363,74 @@ export async function seedMcqs() {
       const bookSlug = slugify(raw.bookName);
       const chapterSlug = slugify(raw.chapterName);
 
-      const classDoc = await Class.findOne({
-        status: 'active',
-        slug: classSlug,
-      });
-
+      const classDoc = await Class.findOne({ status: 'active', slug: classSlug });
       if (!classDoc) {
-        console.log(`Skipping "${raw.chapterName}": class "${raw.className}" not found.`);
+        console.log(`Skipping "${raw.chapterName}": class not found.`);
         skipped.push(`${raw.className} - ${raw.bookName} - ${raw.chapterName}`);
         continue;
       }
 
-      const bookDoc = await Book.findOne({
-        slug: bookSlug,
-        classId: classDoc._id,
-        status: 'active',
-      });
-
+      const bookDoc = await Book.findOne({ slug: bookSlug, classId: classDoc._id, status: 'active' });
       if (!bookDoc) {
         console.log(`Skipping "${raw.chapterName}": book "${raw.bookName}" not found.`);
         skipped.push(`${raw.className} - ${raw.bookName} - ${raw.chapterName}`);
         continue;
       }
 
-      const chapterDoc = await Chapter.findOne({
-        slug: chapterSlug,
-        bookId: bookDoc._id,
-        status: 'active',
-      });
-
+      const chapterDoc = await Chapter.findOne({ slug: chapterSlug, bookId: bookDoc._id, status: 'active' });
       if (!chapterDoc) {
-        console.log(`Skipping "${raw.chapterName}": chapter "${raw.chapterName}" not found.`);
+        console.log(`Skipping "${raw.chapterName}": chapter not found.`);
         skipped.push(`${raw.className} - ${raw.bookName} - ${raw.chapterName}`);
         continue;
       }
 
-      let headingDoc: typeof Heading.prototype | null = null;
+      let headingDoc: any = null;
       if (raw.headingName) {
-        const headingSlug = slugify(raw.headingName);
-        headingDoc = await Heading.findOne({
-          slug: headingSlug,
-          chapterId: chapterDoc._id,
-          status: 'active',
-        });
+        headingDoc = await Heading.findOne({ slug: slugify(raw.headingName), chapterId: chapterDoc._id });
       }
 
-      let subHeadingDoc: typeof SubHeading.prototype | null = null;
+      let subHeadingDoc: any = null;
       if (raw.subHeadingName && headingDoc) {
-        const subHeadingSlug = slugify(raw.subHeadingName);
-        subHeadingDoc = await SubHeading.findOne({
-          slug: subHeadingSlug,
-          headingId: headingDoc._id,
-          status: 'active',
-        });
+        subHeadingDoc = await SubHeading.findOne({ slug: slugify(raw.subHeadingName), headingId: headingDoc._id });
       }
 
-      for (const question of raw.questions) {
-        const mcqSlug = slugify(question.name);
+      for (const q of raw.questions) {
+        const mcqSlug = slugify(q.name);
+        const correctOptionIndex = q.options.findIndex(opt => opt.is_correct);
 
-        const correctOptionIndex = question.options.findIndex(opt => opt.is_correct);
-
-        const mcqData = {
-          name: question.name,
-          slug: mcqSlug,
-          description: question.description || '',
-          question: question.name,
-          options: question.options.map(opt => opt.text),
-          correctOption: correctOptionIndex >= 0 ? correctOptionIndex : 0,
-          status: 'active' as const,
-          classId: classDoc._id,
-          bookId: bookDoc._id,
-          chapterId: chapterDoc._id,
-          headingId: headingDoc?._id || undefined,
-          subHeadingId: subHeadingDoc?._id || undefined,
-        };
-
-        const existingMcq = await Mcqs.findOne({ slug: mcqSlug });
-
-        if (existingMcq) {
-          existingMcq.name = question.name;
-          existingMcq.question = question.name;
-          existingMcq.options = question.options.map(opt => opt.text);
-          existingMcq.correctOption = correctOptionIndex >= 0 ? correctOptionIndex : 0;
-          existingMcq.description = question.description || '';
-          existingMcq.classId = classDoc._id;
-          existingMcq.bookId = bookDoc._id;
-          existingMcq.chapterId = chapterDoc._id;
-          existingMcq.headingId = headingDoc?._id || undefined;
-          existingMcq.subHeadingId = subHeadingDoc?._id || undefined;
-          await existingMcq.save();
+        const existing = await Mcqs.findOne({ slug: mcqSlug });
+        if (existing) {
+          existing.name = q.name;
+          existing.question = q.name;
+          existing.options = q.options.map(o => o.text);
+          existing.correctOption = correctOptionIndex >= 0 ? correctOptionIndex : 0;
+          existing.classId = classDoc._id;
+          existing.bookId = bookDoc._id;
+          existing.chapterId = chapterDoc._id;
+          existing.headingId = headingDoc?._id;
+          existing.subHeadingId = subHeadingDoc?._id;
+          await existing.save();
           updatedCount += 1;
-          console.log(`Updated MCQ: ${question.name}`);
+          console.log(`Updated MCQ: ${q.name}`);
           continue;
         }
 
-        await Mcqs.create(mcqData);
+        await Mcqs.create({
+          name: q.name,
+          slug: mcqSlug,
+          question: q.name,
+          options: q.options.map(o => o.text),
+          correctOption: correctOptionIndex >= 0 ? correctOptionIndex : 0,
+          status: 'active',
+          classId: classDoc._id,
+          bookId: bookDoc._id,
+          chapterId: chapterDoc._id,
+          headingId: headingDoc?._id,
+          subHeadingId: subHeadingDoc?._id,
+        });
+
         createdCount += 1;
-        console.log(`Created MCQ: ${question.name}`);
+        console.log(`Created MCQ: ${q.name}`);
       }
     }
 

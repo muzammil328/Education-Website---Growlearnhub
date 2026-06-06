@@ -6,3 +6,4 @@ export * from './heading.seeder';
 export * from './mcqs.seeder';
 export * from './service.seeder';
 export * from './subHeading.seeder';
+export * from './user.seeder';
