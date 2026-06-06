@@ -1,6 +1,6 @@
 import mongoose, { Schema } from 'mongoose';
 import type { IOtp } from '@muzammil328/education-packages/types';
-import { OtpPurposeEnum, OTP_PURPOSE_VALUES } from '@muzammil328/education-packages/enums';
+import { OtpPurposeEnum } from '@muzammil328/education-packages/enums';
 
 const OtpSchema: Schema = new Schema(
   {
@@ -9,7 +9,7 @@ const OtpSchema: Schema = new Schema(
     expiresAt: { type: Date, required: true },
     purpose: {
       type: String,
-      enum: OTP_PURPOSE_VALUES,
+      enum: OtpPurposeEnum,
       required: true,
     },
     attempts: { type: Number, default: 0 },

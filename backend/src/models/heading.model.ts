@@ -1,6 +1,6 @@
 import mongoose, { Schema } from 'mongoose';
 import type { IHeading } from '@muzammil328/education-packages/types';
-import { EntityStatus, ENTITY_STATUS_VALUES } from '@muzammil328/education-packages/enums';
+import { StatusEnum } from '@muzammil328/education-packages/enums';
 
 const HeadingSchema: Schema<IHeading> = new Schema(
   {
@@ -9,7 +9,7 @@ const HeadingSchema: Schema<IHeading> = new Schema(
     chapterId: { type: Schema.Types.ObjectId, ref: 'Chapter', required: true },
     bookId: { type: Schema.Types.ObjectId, ref: 'Book', required: true },
     classId: { type: Schema.Types.ObjectId, ref: 'Class', required: true },
-    status: { type: String, enum: ENTITY_STATUS_VALUES, default: EntityStatus.ACTIVE },
+    status: { type: String, enum: Object.values(StatusEnum), default: StatusEnum.Active },
     order: { type: Number },
   },
   { timestamps: true }

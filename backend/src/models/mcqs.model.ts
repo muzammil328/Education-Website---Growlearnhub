@@ -1,9 +1,7 @@
 import mongoose, { Schema } from 'mongoose';
 import type { IMcqs } from '@muzammil328/education-packages/types';
-import { Difficulty, EntityStatus, McqScope } from '@muzammil328/education-packages/enums';
+import { StatusEnum, DifficultyEnum, McqScopeEnum } from '@muzammil328/education-packages/enums';
 
-// Schema is typed as Schema (not Schema<IMcqs>) because the new DNA fields extend beyond
-// the published IMcqs interface. The model registration below still enforces IMcqs.
 const McqsSchema: Schema = new Schema(
   {
     name: { type: String, required: true, trim: true, minlength: 3 },
@@ -16,8 +14,8 @@ const McqsSchema: Schema = new Schema(
     subHeadingId: { type: Schema.Types.ObjectId, ref: 'SubHeading' },
     scope: {
       type: String,
-      enum: Object.values(McqScope),
-      default: McqScope.GLOBAL,
+      enum: Object.values(McqScopeEnum),
+      default: McqScopeEnum.GLOBAL,
       index: true,
     },
     institutionId: { type: Schema.Types.ObjectId, ref: 'Institution', index: true },
@@ -33,10 +31,10 @@ const McqsSchema: Schema = new Schema(
     },
     correctOption: { type: Number, required: true, min: 0 },
     explanation: { type: String, trim: true, maxlength: 2000 },
-    difficulty: { type: String, enum: Object.values(Difficulty), default: Difficulty.MEDIUM },
+    difficulty: { type: String, enum: Object.values(DifficultyEnum), default: DifficultyEnum.Medium },
     aiHint: { type: String, trim: true, maxlength: 500 },
     isPremium: { type: Boolean, default: false },
-    status: { type: String, enum: Object.values(EntityStatus), default: EntityStatus.ACTIVE },
+    status: { type: String, enum: Object.values(StatusEnum), default: StatusEnum.Active },
     cognitiveLevel: { type: String, enum: ['recall', 'understand', 'apply', 'analyze'] },
     distractorType: {
       type: String,

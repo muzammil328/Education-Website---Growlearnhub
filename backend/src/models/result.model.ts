@@ -1,6 +1,6 @@
 import mongoose, { Schema } from 'mongoose';
 import type { IResult } from '@muzammil328/education-packages/types';
-import { EntityStatus, ENTITY_STATUS_VALUES } from '@muzammil328/education-packages/enums';
+import { StatusEnum } from '@muzammil328/education-packages/enums';
 
 const ResultSchema: Schema<IResult> = new Schema(
   {
@@ -8,7 +8,7 @@ const ResultSchema: Schema<IResult> = new Schema(
     slug: { type: String, required: true, lowercase: true, trim: true },
     classId: { type: Schema.Types.ObjectId, ref: 'Class', required: true },
     description: { type: String },
-    status: { type: String, enum: ENTITY_STATUS_VALUES, default: EntityStatus.ACTIVE },
+    status: { type: String, enum: Object.values(StatusEnum), default: StatusEnum.Active },
   },
   { timestamps: true }
 );
