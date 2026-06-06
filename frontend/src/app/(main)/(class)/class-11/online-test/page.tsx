@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
-import ClassOnlineTestPage from '@/features/OnlineTestPage/Class9';
+import Class11OnlineTestPage from '@/features/OnlineTest/Class11';
 
 const data = {
-  title: 'Class 11 Online Tests – Free Chapter-wise Practice | GrowLearnHub',
+  title: 'Class 11 Online Tests \u2013 Free Chapter-wise Practice | GrowLearnHub',
   description:
     'Take free Class 11 online tests chapter-wise. Practice Biology, Chemistry and Physics with instant scoring, detailed feedback, and performance tracking.',
   keywords: [
@@ -21,8 +21,6 @@ const data = {
   url: 'https://growlearnhub.com/class-11/online-test/',
   index: true,
   follow: true,
-  className: 'class-11',
-  classNumber: '11',
 };
 
 export const metadata: Metadata = {
@@ -49,5 +47,5 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <ClassOnlineTestPage data={data} />;
+  return <Class11OnlineTestPage />;
 }

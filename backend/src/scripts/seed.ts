@@ -1,4 +1,4 @@
-import { seedClasses, classes } from '@/seeders/class.seeder';
+import { seedClasses, linkClassServices, classes } from '@/seeders/class.seeder';
 import { seedBoards, boards } from '@/seeders/board.seeder';
 import { seedBooks, books } from '@/seeders/book.seeder';
 import { seedChapters, chapters } from '@/seeders/chapter.seeder';
@@ -6,6 +6,7 @@ import { seedHeadings } from '@/seeders/heading.seeder';
 import { seedSubHeadings } from '@/seeders/subHeading.seeder';
 import { seedServices } from '@/seeders/service.seeder';
 import { seedMcqs } from '@/seeders/mcqs.seeder';
+import { seedUsers } from '@/seeders/user.seeder';
 import { config, connectMongo, disconnectMongo } from '@/config';
 
 const SEED_ORDER = [
@@ -16,7 +17,9 @@ const SEED_ORDER = [
   { name: 'heading', fn: seedHeadings, data: [] },
   { name: 'subHeading', fn: seedSubHeadings, data: [] },
   { name: 'service', fn: seedServices, data: [] },
+  { name: 'linkClassServices', fn: linkClassServices, data: [] },
   { name: 'mcqs', fn: seedMcqs, data: [] },
+  { name: 'user', fn: seedUsers, data: [] },
 ];
 
 async function run() {
