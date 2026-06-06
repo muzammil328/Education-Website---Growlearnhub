@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import { generatePageMetadata } from '@/lib/seo';
-import Class10BookPage from '@/features/Class10Page/Class10BookPage';
+import Class10BookPage from '@/features/Books/Class10';
 
 const CLASS_DISPLAY = '10';
 
