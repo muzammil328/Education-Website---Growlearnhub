@@ -1,6 +1,18 @@
 import { trpc } from '@/trpc/trpc';
 import { GetChapterProps } from '../types';
 
+// public
+export const useChaptersBySlug = (classSlug?: string, bookSlug?: string) => {
+  return trpc.chapter.getBySlug.useQuery(
+    { classSlug: classSlug || '', bookSlug: bookSlug || '' },
+    {
+      enabled: Boolean(classSlug && bookSlug),
+      retry: false,
+      refetchOnWindowFocus: false,
+    }
+  );
+};
+
 // dashboard
 export const useChapters = (params: GetChapterProps) => {
   return trpc.chapter.getAll.useQuery(
@@ -39,13 +51,6 @@ export const useDropdownChapters = (
       refetchOnWindowFocus: false,
       staleTime: 60_000,
     }
-  );
-};
-
-export const useChapterBySlug = (slug?: string) => {
-  return trpc.chapter.getBySlug.useQuery(
-    { slug: slug || '' },
-    { enabled: Boolean(slug), retry: false, refetchOnWindowFocus: false }
   );
 };
 

@@ -69,13 +69,6 @@ export const useBookByClassName = (className?: string) => {
   );
 };
 
-export const useBookByClassSlug = (classSlug?: string) => {
-  return trpc.book.getByClassSlug.useQuery(
-    { classSlug: classSlug || '' },
-    { enabled: Boolean(classSlug), retry: false, refetchOnWindowFocus: false }
-  );
-};
-
 export const useBookById = (bookId?: string) => {
   return trpc.book.getById.useQuery(
     { id: bookId || '' },
