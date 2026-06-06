@@ -1,5 +1,6 @@
 
 @import 'tailwindcss';
+@import '@muzammil328/ui/styles.css';
 @source '../../../../../packages/ui/src/**/*.{ts,tsx}';
 @source '../../../../../packages/ui/dist/src/**/*.{js,ts,tsx}';
 

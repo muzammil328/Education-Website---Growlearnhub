@@ -1,6 +1,6 @@
 import { createTRPCRouter } from './trpc';
 import { authRouter } from '../routers/auth.router';
-import { classRouter } from '../routers/class.router';
+import { classRouter } from '../routers/class/class.router';
 import { bookRouter } from '../routers/book.router';
 import { chapterRouter } from '../routers/chapter.router';
 import { headingRouter } from '../routers/heading.router';
