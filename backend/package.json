@@ -17,7 +17,7 @@
     "prepare": "husky"
   },
   "dependencies": {
-    "@muzammil328/db": "1.0.34",
+    "@muzammil328/db": "1.0.35",
     "@muzammil328/education-packages": "workspace:*",
     "@muzammil328/integrations": "1.0.21",
     "@muzammil328/server": "^1.0.6",

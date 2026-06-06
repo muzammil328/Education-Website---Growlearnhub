@@ -11,7 +11,7 @@ import { serviceService } from '@/services/service.service';
 import { z } from 'zod';
 import { createTRPCRouter, publicProcedure, superAdminProcedure, teacherProcedure } from '@/trpc/trpc';
 import { toTrpcError } from '@muzammil328/trpc';
-import type { PaginatedResult } from '@muzammil328/education-packages/types';
+import type { PaginatedResult } from '@muzammil328/types';
 
 interface ServiceListItem {
   serviceId: unknown;

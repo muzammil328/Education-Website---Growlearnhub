@@ -11,7 +11,7 @@ import {
   deleteMcqInputSchema,
   mcqScopeSchema,
 } from '@muzammil328/education-packages';
-import { RoleEnum, McqScope } from '@muzammil328/education-packages/enums';
+import { RoleEnum, McqScopeEnum } from '@muzammil328/education-packages/enums';
 import Mcqs from '../models/mcqs.model';
 import { createTRPCRouter, teacherProcedure, protectedProcedure } from '@/trpc/trpc';
 import { resolveUserInstitutionId } from '@/trpc/lib/resolveInstitution';
@@ -22,7 +22,7 @@ const SUPER_ADMIN_ROLES = new Set<string>([RoleEnum.SuperAdmin]);
 // the field). Mongoose default values apply only at write time, so existing
 // documents created before the schema change still need to be visible.
 const GLOBAL_SCOPE_MATCH = {
-  $or: [{ scope: McqScope.GLOBAL }, { scope: { $exists: false } }],
+  $or: [{ scope: McqScopeEnum.GLOBAL }, { scope: { $exists: false } }],
 };
 
 async function institutionVisibilityFilter(ctx: {
@@ -36,9 +36,9 @@ async function institutionVisibilityFilter(ctx: {
   if (!institutionId) return GLOBAL_SCOPE_MATCH;
   return {
     $or: [
-      { scope: McqScope.GLOBAL },
+      { scope: McqScopeEnum.GLOBAL },
       { scope: { $exists: false } },
-      { scope: McqScope.INSTITUTION, institutionId: new Types.ObjectId(institutionId) },
+      { scope: McqScopeEnum.INSTITUTION, institutionId: new Types.ObjectId(institutionId) },
     ],
   };
 }
@@ -292,19 +292,19 @@ export const mcqsRouter = createTRPCRouter({
       let institutionId: Types.ObjectId | undefined;
 
       if (isSuperAdmin) {
-        scope = input.scope ?? McqScope.GLOBAL;
+        scope = input.scope ?? McqScopeEnum.GLOBAL;
         institutionId =
-          scope === McqScope.INSTITUTION && userInstitutionId
+          scope === McqScopeEnum.INSTITUTION && userInstitutionId
             ? new Types.ObjectId(userInstitutionId)
             : undefined;
-        if (scope === McqScope.INSTITUTION && !institutionId) {
+        if (scope === McqScopeEnum.INSTITUTION && !institutionId) {
           throw toTrpcError(AppError.badRequest('Institution-scoped MCQ requires an institution'));
         }
       } else {
         if (!userInstitutionId) {
           throw toTrpcError(AppError.forbidden('Account is not linked to an institution'));
         }
-        scope = McqScope.INSTITUTION;
+        scope = McqScopeEnum.INSTITUTION;
         institutionId = new Types.ObjectId(userInstitutionId);
       }
 
@@ -356,7 +356,7 @@ export const mcqsRouter = createTRPCRouter({
       const userInstitutionId = await resolveUserInstitutionId(user.userId);
       const mcqInstId = existing.institutionId ? String(existing.institutionId) : undefined;
       if (
-        existing.scope !== McqScope.INSTITUTION ||
+        existing.scope !== McqScopeEnum.INSTITUTION ||
         !mcqInstId ||
         mcqInstId !== userInstitutionId
       ) {
