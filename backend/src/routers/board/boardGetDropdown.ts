@@ -5,13 +5,16 @@ import {
   StatusEnum,
 } from '@muzammil328/education-packages';
 import { superAdminProcedure } from '@/trpc/trpc';
-import { buildMatch } from '@muzammil328/db';
+import { buildMatch, toObjectId } from '@muzammil328/db';
 
 export const boardGetDropdown = superAdminProcedure
   .input(getBoardDropdownInputSchema)
   .query(async ({ input }) => {
     try {
       const { classId } = input;
+      if(!classId) {
+        throw new Error('classId is required');
+      }
 
       const result = await boardRepository.aggregate({
         pipeline: boardRepository
@@ -19,7 +22,7 @@ export const boardGetDropdown = superAdminProcedure
           .match(
             buildMatch({
               status: StatusEnum.Active,
-              classId: classId,
+              classId: toObjectId(classId),
             }),
           )
           .sort({ name: 1 })

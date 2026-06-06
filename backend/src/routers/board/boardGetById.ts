@@ -3,7 +3,7 @@ import { boardRepository } from '@/repository/board.repository';
 import { getBoardByIdInputSchema } from '@muzammil328/education-packages';
 import { superAdminProcedure } from '@/trpc/trpc';
 import { AppError } from '@muzammil328/server';
-import { buildMatch } from '@muzammil328/db';
+import { buildMatch, toObjectId } from '@muzammil328/db';
 
 export const boardGetById = superAdminProcedure
     .input(getBoardByIdInputSchema)
@@ -15,7 +15,7 @@ export const boardGetById = superAdminProcedure
                     // match by id (instead of aggregateById)
                     .match(
                         buildMatch({
-                            _id: input.id,
+                            _id: toObjectId(input.id),
                         }),
                     )
 

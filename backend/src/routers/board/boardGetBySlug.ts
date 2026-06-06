@@ -10,7 +10,6 @@ export const boardGetBySlug = publicProcedure
   .query(async ({ input }) => {
     try {
       const classSlug = input.classSlug.trim();
-      const boardSlug = input.boardSlug?.trim();
 
       if (!classSlug) {
         throw AppError.badRequest('Class slug is required');
@@ -33,8 +32,7 @@ export const boardGetBySlug = publicProcedure
 
           // filter by class slug after join
           .match({
-            'class.slug': classSlug,
-            ...(boardSlug ? { 'slug': boardSlug } : {}),
+            ...(classSlug ? { 'class.slug': classSlug } : {}),
           })
 
           .project({

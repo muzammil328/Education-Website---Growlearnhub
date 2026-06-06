@@ -13,6 +13,17 @@ const BoardSchema: Schema = new Schema(
   { timestamps: true }
 );
 
+// save slug from name if not provided
+BoardSchema.pre<IBoard>('validate', function (next) {
+  if (!this.slug && this.name) {
+    this.slug = this.name
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-+|-+$/g, '');
+  }
+  next();
+});
+
 BoardSchema.index({ slug: 1, classId: 1 }, { unique: true });
 
 export default mongoose.model<IBoard>('Board', BoardSchema);
