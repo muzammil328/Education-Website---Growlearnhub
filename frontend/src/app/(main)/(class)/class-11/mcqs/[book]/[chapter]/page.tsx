@@ -1,14 +1,9 @@
 import type { Metadata } from 'next';
 import UserLayout from '@/components/layout/UserLayout';
 import { Heading2 } from '@muzammil328/ui';
-import { SectionGrid } from '@/features/McqsPage/server/McqSections';
-import {
-  buildListLink,
-  getHeadingsByBook,
-  slugifyPathSegment,
-} from '@/features/McqsPage/server/mcq-data';
 import { removeDashAndUppercase } from '@/lib/removeDashAndUppercase';
 import { config } from '@/config';
+import Class11McqsBookChapterPage from '@/features/McqsPage/Class11/Chapter';
 
 interface PageProps {
   params: Promise<{ book: string; chapter: string }>;
@@ -60,29 +55,21 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 export default async function Page({ params }: PageProps) {
   const { book, chapter } = await params;
   const data = buildData(book, chapter);
-  const headingsResponse = await getHeadingsByBook(CLASS_SLUG, book, chapter);
+  const bookLabel = removeDashAndUppercase(book);
+  const chapterLabel = removeDashAndUppercase(chapter);
 
   return (
     <UserLayout title={data.title} image={data.image} canonical={data.canonical} url={data.url}>
       <article className="space-y-8">
         <header className="space-y-3">
           <Heading2 className="mb-2" weight="bold" size="sm">
-            Class 11 {removeDashAndUppercase(book)} {removeDashAndUppercase(chapter)} Topics
+            Class 11 {bookLabel} {chapterLabel} Topics
           </Heading2>
-          <p className="text-base">Continue into heading-level MCQs from here.</p>
+          <p className="text-base">
+            Move from chapters into the topic hierarchy for {chapterLabel}.
+          </p>
         </header>
-
-        <SectionGrid
-          title="Topics"
-          emptyMessage="No topics found for this chapter."
-          items={headingsResponse.items.map(item => ({
-            title: item.name,
-            link: buildListLink(
-              `${CLASS_SLUG}/mcqs/${book}/${chapter}`,
-              slugifyPathSegment(item.name)
-            ),
-          }))}
-        />
+        <Class11McqsBookChapterPage bookSlug={book} chapterSlug={chapter} />
       </article>
     </UserLayout>
   );

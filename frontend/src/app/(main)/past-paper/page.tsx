@@ -1,6 +1,6 @@
 import React from 'react';
 import type { Metadata } from 'next';
-import PastPaperPage from '@/features/PastPaperPage';
+import PastPaperPage from '@/features/PastPaper';
 
 const data = {
   title: 'Past Papers – All Classes | GrowLearnHub',

@@ -1,13 +1,7 @@
 import { z } from 'zod';
-import {
-  Difficulty,
-  difficultySchema,
-  EntityStatus,
-  entityStatusSchema,
-  StatusEnum,
-} from '../enums';
+import { DifficultyEnum, StatusEnum } from '../enums';
 
-const statusSchema = entityStatusSchema.default(EntityStatus.ACTIVE);
+const statusSchema = z.nativeEnum(StatusEnum).default(StatusEnum.Active);
 
 export const mcqOptionSchema = z.string().trim().min(1);
 
@@ -16,7 +10,7 @@ export const mcqQuestionSchema = z.object({
   options: z.array(mcqOptionSchema).min(2),
   correctOption: z.number().int().nonnegative(),
   explanation: z.string().trim().optional().default(''),
-  difficulty: difficultySchema.default(Difficulty.MEDIUM),
+  difficulty: z.nativeEnum(DifficultyEnum).default(DifficultyEnum.Medium),
   status: statusSchema,
   classId: z.string().trim().optional(),
   bookId: z.string().trim().optional(),
@@ -47,7 +41,7 @@ export const getMcqsInputSchema = z.object({
   chapterId: z.string().optional(),
   headingId: z.string().optional(),
   subHeadingId: z.string().optional(),
-  difficulty: difficultySchema.optional(),
+  difficulty: z.nativeEnum(DifficultyEnum).optional(),
 });
 
 export const getMcqDropdownInputSchema = z.object({

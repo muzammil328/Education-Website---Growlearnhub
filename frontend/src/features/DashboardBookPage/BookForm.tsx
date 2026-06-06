@@ -6,7 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from '@muzammil328/ui';
 import { Form } from '@muzammil328/ui';
 import { useBookByBookId, useCreateBook, useUpdateBook } from '@/hooks';
-import { BookSchema, type BookFormValues } from '@muzammil328/education-packages';
+import { bookCreateSchema, type BookCreateInput } from '@muzammil328/education-packages';
 import { BookModalSkeleton } from './BookModalSkeleton';
 import BookModalView from './BookModalView';
 import BookModalForm from './BookModalForm';
@@ -34,7 +34,7 @@ export function BookForm({
     (isEdit || isView) && isOpen ? bookId : undefined
   );
 
-  const editDefaults: BookFormValues =
+  const editDefaults: BookCreateInput =
     (isEdit || isView) && bookData
       ? {
           name: bookData.name || '',
@@ -58,8 +58,8 @@ export function BookForm({
           components: [],
         };
 
-  const form = useForm<BookFormValues>({
-    resolver: zodResolver(BookSchema),
+  const form = useForm<BookCreateInput>({
+    resolver: zodResolver(bookCreateSchema),
     defaultValues: editDefaults,
     mode: 'onChange',
   });
@@ -77,7 +77,7 @@ export function BookForm({
     }
   }, [isOpen, form]);
 
-  const onSubmit = (values: BookFormValues) => {
+  const onSubmit = (values: BookCreateInput) => {
     const submitData = {
       ...values,
       classId: values.classId,

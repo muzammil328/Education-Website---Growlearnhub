@@ -1,59 +1,47 @@
 import type { Metadata } from 'next';
-import {} from '@/features/McqsPage/server/mcq-data';
-import ClassMcqsPage from '@/features/McqsPage/Class';
-import { config } from '@/config';
+import Class12McqsPage from '@/features/McqsPage/Class12';
 
-const CLASS_SLUG = 'class-12';
-const image = '/12th/class_12_mcqs.webp';
+const data = {
+  title: 'Class 12 MCQs | Free Interactive Practice Questions | GrowLearnHub',
+  description:
+    'Browse Class 12 MCQs by subject and chapter. Practice objective questions with answers and keep your revision organized.',
+  keywords: [
+    'class 12 mcqs',
+    '12th class mcqs',
+    'class 12 subject wise mcqs',
+    'class 12 chapter wise mcqs',
+    'growlearnhub class 12 mcqs',
+  ],
+  image: '/12th/class_12_mcqs.webp',
+  canonical: '/class-12/mcqs/',
+  url: 'https://growlearnhub.com/class-12/mcqs/',
+  index: true,
+  follow: true,
+};
 
-function buildData() {
-  return {
-    title: 'Class 12 MCQs',
-    description: 'Browse Class 12 subjects and continue through the MCQ hierarchy.',
-    canonical: `/${CLASS_SLUG}/mcqs/`,
-    url: `${config.SITE_URL}/${CLASS_SLUG}/mcqs/`,
-    image,
-  };
-}
-
-export const revalidate = 432000;
-
-export async function generateMetadata(): Promise<Metadata> {
-  const data = buildData();
-
-  return {
+export const metadata: Metadata = {
+  title: data.title,
+  description: data.description,
+  keywords: data.keywords,
+  openGraph: {
     title: data.title,
     description: data.description,
-    alternates: { canonical: data.canonical },
-    robots: { index: true, follow: true, googleBot: { index: true, follow: true } },
-    openGraph: {
-      title: data.title,
-      description: data.description,
-      url: data.url,
-      images: [{ url: data.image, alt: data.title }],
-    },
-    twitter: {
-      title: data.title,
-      description: data.description,
-      images: { url: data.image, alt: data.title },
-    },
-  };
-}
+    url: data.url,
+    images: [{ url: data.image, alt: data.title }],
+  },
+  alternates: { canonical: data.canonical },
+  robots: {
+    index: data.index,
+    follow: data.follow,
+    googleBot: { index: data.index, follow: data.follow },
+  },
+  twitter: {
+    title: data.title,
+    description: data.description,
+    images: { url: data.image, alt: data.title },
+  },
+};
 
-export default async function Page() {
-  const data = buildData();
-
-  return (
-    <ClassMcqsPage
-      title={data.title}
-      image={data.image}
-      canonical={data.canonical}
-      url={data.url}
-      classSlug={CLASS_SLUG}
-      className={CLASS_SLUG}
-      heading="Class 12 MCQs"
-      intro="Pick a subject to continue through the MCQ hierarchy."
-      emptyMessage="No subjects found for Class 12."
-    />
-  );
+export default function Page() {
+  return <Class12McqsPage />;
 }

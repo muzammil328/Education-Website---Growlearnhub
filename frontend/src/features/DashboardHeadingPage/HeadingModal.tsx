@@ -40,7 +40,7 @@ export function HeadingModal({
   };
 
   return (
-    <>
+    <div>
       {trigger === null ? null : trigger ? (
         <div onClick={() => handleOpenChange(true)}>{trigger}</div>
       ) : (
@@ -53,23 +53,21 @@ export function HeadingModal({
           {resolvedTrigger}
         </Button>
       )}
-      {isOpen && (
-        <Dialog open={isOpen} onOpenChange={handleOpenChange}>
-          <DialogContent className="max-h-[90vh] overflow-y-auto">
-            <DialogHeader>
-              <DialogTitle>{resolvedTitle}</DialogTitle>
-            </DialogHeader>
-            <HeadingForm
-              key={`${mode}-${headingId ?? 'new'}-${isOpen ? 'open' : 'closed'}`}
-              isOpen={isOpen}
-              setIsOpen={handleOpenChange}
-              headingId={headingId}
-              onClose={() => handleOpenChange(false)}
-              mode={mode}
-            />
-          </DialogContent>
-        </Dialog>
-      )}
-    </>
+      <Dialog open={!!isOpen} onOpenChange={handleOpenChange}>
+        <DialogContent className="fixed left-1/2 top-1/2 z-50 w-full max-w-lg -translate-x-1/2 -translate-y-1/2 rounded-lg border bg-background p-6 shadow-xl max-h-[90vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>{resolvedTitle}</DialogTitle>
+          </DialogHeader>
+          <HeadingForm
+            key={`${mode}-${headingId ?? 'new'}-${isOpen ? 'open' : 'closed'}`}
+            isOpen={isOpen}
+            setIsOpen={handleOpenChange}
+            headingId={headingId}
+            onClose={() => handleOpenChange(false)}
+            mode={mode}
+          />
+        </DialogContent>
+      </Dialog>
+    </div>
   );
 }

@@ -11,7 +11,7 @@ export default function ClassModalForm({ isOpen = true }: { isOpen?: boolean }) 
     isLoading: isLoadingServices,
   } = useDropdownServices(undefined, { enabled: isOpen });
   return (
-    <React.Fragment>
+    <div className="space-y-4">
       <FormString name="name" label="Name" placeholder="Enter Class Name" />
 
       <div className="space-y-2">
@@ -48,6 +48,6 @@ export default function ClassModalForm({ isOpen = true }: { isOpen?: boolean }) 
           { value: 'inactive', label: 'Inactive' },
         ]}
       />
-    </React.Fragment>
+    </div>
   );
 }

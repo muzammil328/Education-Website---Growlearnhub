@@ -1,9 +1,10 @@
 import { z } from 'zod';
-import { EntityStatus, entityStatusSchema, StatusEnum } from '../enums';
+import { StatusEnum } from '../enums';
 
-const statusSchema = entityStatusSchema.default(EntityStatus.ACTIVE);
+const statusSchema = z.nativeEnum(StatusEnum).default(StatusEnum.Active);
 
-export const SubHeadingSchema = z.object({
+// Create SubHeading
+export const subHeadingCreateSchema = z.object({
   name: z.string().trim().min(1),
   slug: z.string().trim().optional(),
   classId: z.string().trim().min(1),
@@ -14,7 +15,9 @@ export const SubHeadingSchema = z.object({
   status: statusSchema,
   order: z.number().optional(),
 });
+export type SubHeadingCreateInput = z.infer<typeof subHeadingCreateSchema>;
 
+// Get SubHeadings
 export const getSubHeadingsInputSchema = z.object({
   status: z.nativeEnum(StatusEnum).optional().default(StatusEnum.Active),
   page: z.number().int().positive().optional().default(1),
@@ -27,30 +30,42 @@ export const getSubHeadingsInputSchema = z.object({
   chapterId: z.string().optional(),
   headingId: z.string().optional(),
 });
+export type GetSubHeadingsInput = z.infer<typeof getSubHeadingsInputSchema>;
 
+// Get SubHeading Dropdown
 export const getSubHeadingDropdownInputSchema = z.object({
-  search: z.string().trim().optional(),
   classId: z.string().optional(),
   bookId: z.string().optional(),
   chapterId: z.string().optional(),
   headingId: z.string().optional(),
 });
+export type GetSubHeadingDropdownInput = z.infer<typeof getSubHeadingDropdownInputSchema>;
 
+// Get SubHeading by ID
 export const getSubHeadingBySlugInputSchema = z.object({
-  slug: z.string().min(1),
+  classSlug: z.string().min(1),
+  bookSlug: z.string().min(1),
+  chapterSlug: z.string().min(1),
+  headingSlug: z.string().min(1),
+  subHeadingSlug: z.string().min(1),
 });
+export type GetSubHeadingBySlugInput = z.infer<typeof getSubHeadingBySlugInputSchema>;
 
+// Get SubHeading by Slug
 export const getSubHeadingByIdInputSchema = z.object({
   id: z.string().min(1),
 });
+export type GetSubHeadingByIdInput = z.infer<typeof getSubHeadingByIdInputSchema>;
 
-export const updateSubHeadingInputSchema = z.object({
-  id: z.string().min(1),
-  updates: SubHeadingSchema,
-});
-
+// Delete SubHeading
 export const deleteSubHeadingInputSchema = z.object({
   id: z.string().min(1),
 });
+export type DeleteSubHeadingInput = z.infer<typeof deleteSubHeadingInputSchema>;
 
-export type SubHeadingFormValues = z.infer<typeof SubHeadingSchema>;
+// Update SubHeading
+export const updateSubHeadingInputSchema = z.object({
+  id: z.string().min(1),
+  updates: subHeadingCreateSchema,
+});
+export type UpdateSubHeadingInput = z.infer<typeof updateSubHeadingInputSchema>;

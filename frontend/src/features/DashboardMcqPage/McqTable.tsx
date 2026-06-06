@@ -1,6 +1,6 @@
 'use client';
 import React, { useState } from 'react';
-import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from '@/components/ui/table';
+import { TableRoot as Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from '@muzammil328/ui';
 import { DeleteModal } from '@muzammil328/ui';
 import { Skeleton } from '@muzammil328/ui';
 import { toast } from '@muzammil328/ui';
@@ -138,6 +138,7 @@ export function McqTable({ data = [], isLoading }: McqTableProps) {
         title="Delete MCQ"
         description="Are you sure you want to delete this MCQ? This action cannot be undone."
         isLoading={deleteMcqsMutation.isPending}
+        className="bg-background"
       />
     </>
   );

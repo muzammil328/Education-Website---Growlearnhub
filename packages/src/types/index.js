@@ -1,7 +1,5 @@
 export * from './auth.type';
-export * from './book.type';
 export * from './chapter.type';
-export * from './class.type';
 export * from './classGroup.type';
 export * from './feedback.type';
 export * from './adaptiveRecommendation.type';

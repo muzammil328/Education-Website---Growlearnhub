@@ -1,14 +1,9 @@
 import type { Metadata } from 'next';
 import UserLayout from '@/components/layout/UserLayout';
 import { Heading2 } from '@muzammil328/ui';
-import { SectionGrid } from '@/features/McqsPage/server/McqSections';
-import {
-  buildListLink,
-  getHeadingsByBook,
-  slugifyPathSegment,
-} from '@/features/McqsPage/server/mcq-data';
 import { removeDashAndUppercase } from '@/lib/removeDashAndUppercase';
 import { config } from '@/config';
+import Class9McqsBookChapterPage from '@/features/McqsPage/Class9/Chapter';
 
 interface PageProps {
   params: Promise<{ book: string; chapter: string }>;
@@ -60,7 +55,6 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 export default async function Page({ params }: PageProps) {
   const { book, chapter } = await params;
   const data = buildData(book, chapter);
-  const headingsResponse = await getHeadingsByBook(CLASS_SLUG, book, chapter);
   const bookLabel = removeDashAndUppercase(book);
   const chapterLabel = removeDashAndUppercase(chapter);
 
@@ -75,18 +69,7 @@ export default async function Page({ params }: PageProps) {
             Move from chapters into the topic hierarchy for {chapterLabel}.
           </p>
         </header>
-
-        <SectionGrid
-          title="Topics"
-          emptyMessage="No topics found for this chapter."
-          items={headingsResponse.items.map(item => ({
-            title: item.name,
-            link: buildListLink(
-              `${CLASS_SLUG}/mcqs/${book}/${chapter}`,
-              slugifyPathSegment(item.name)
-            ),
-          }))}
-        />
+        <Class9McqsBookChapterPage bookSlug={book} chapterSlug={chapter} />
       </article>
     </UserLayout>
   );

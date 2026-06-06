@@ -12,15 +12,14 @@ import { useBooks } from '@/hooks';
 import { SlidersHorizontal } from 'lucide-react';
 import { DynamicBreadcrumb } from '@/components/ui/dynamic-breadcrumb';
 import { BookTable } from './BookTable';
-import { Status, SortOrder } from '@muzammil328/education-packages/types';
-import { EntityStatus } from '@muzammil328/education-packages/enums';
+import { StatusEnum } from '@muzammil328/education-packages';
 
 export default function BookPage({
   status: queryStatus,
   sort: querySort,
   order: queryOrder = 'asc',
 }: {
-  status?: Status;
+  status?: StatusEnum;
   sort?: string;
   order?: SortOrder;
 }) {
@@ -177,8 +176,8 @@ export default function BookPage({
                   <SelectValue placeholder="Select Status" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value={EntityStatus.ACTIVE}>Active</SelectItem>
-                  <SelectItem value={EntityStatus.INACTIVE}>Inactive</SelectItem>
+                  <SelectItem value={StatusEnum.Active}>Active</SelectItem>
+                  <SelectItem value={StatusEnum.Inactive}>Inactive</SelectItem>
                 </SelectContent>
               </Select>
             </div>

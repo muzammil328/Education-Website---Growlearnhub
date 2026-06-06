@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from '@/components/ui/table';
+import { TableRoot as Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from '@muzammil328/ui';
 import { DeleteModal } from '@muzammil328/ui';
 import { Skeleton } from '@muzammil328/ui';
 import { toast } from '@muzammil328/ui';
@@ -178,6 +178,7 @@ export function ChapterTable({
         title="Delete Chapter"
         description="Are you sure you want to delete this chapter? This action cannot be undone."
         isLoading={deleteChapterMutation.isPending}
+        className="bg-background"
       />
     </>
   );

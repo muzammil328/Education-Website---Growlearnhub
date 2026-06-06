@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import OnlineTestClass9Page from '@/features/OnlineTestPage/Class9';
+import Class9OnlineTestPage from '@/features/OnlineTest/Class9';
 
 const data = {
   title: 'Class 9 Online Tests – Free Chapter-wise Practice | GrowLearnHub',
@@ -21,8 +21,6 @@ const data = {
   url: 'https://growlearnhub.com/class-9/online-test/',
   index: true,
   follow: true,
-  className: 'class-9',
-  classNumber: '9',
 };
 
 export const metadata: Metadata = {
@@ -49,5 +47,5 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <OnlineTestClass9Page data={data} />;
+  return <Class9OnlineTestPage />;
 }

@@ -1,6 +1,6 @@
 import React from 'react';
 import type { Metadata } from 'next';
-import BookPage from '@/features/BookPage';
+import BookPage from '@/features/Books';
 
 const data = {
   title: 'Books – All Classes | GrowLearnHub',

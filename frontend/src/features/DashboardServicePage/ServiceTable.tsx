@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from '@/components/ui/table';
+import { TableRoot as Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from '@muzammil328/ui';
 import { DeleteModal } from '@muzammil328/ui';
 import { Skeleton } from '@muzammil328/ui';
 import { toast } from '@muzammil328/ui';
@@ -154,6 +154,7 @@ export function ServiceTable({
         title="Delete Service"
         description="Are you sure you want to delete this service? This action cannot be undone."
         isLoading={deleteServiceMutation.isPending}
+        className="bg-background"
       />
     </>
   );

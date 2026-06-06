@@ -1,13 +1,6 @@
-import React from 'react';
 import { Metadata } from 'next';
-import UserLayout from '@/components/layout/UserLayout';
-import CardSmall from '@/components/card/SmallCard';
-import { Heading2 } from '@muzammil328/ui';
-import {
-  getNotesClass,
-  NOTES_BOARD,
-  NOTES_SUBJECTS,
-} from '@/utils/helpers/PastPaperAndNotesDynamic';
+import { getNotesClass } from '@/utils/helpers/PastPaperAndNotesDynamic';
+import Class12NotesPage from '@/features/Notes/Class12';
 
 const CLASS_SLUG = 'class-12';
 
@@ -35,76 +28,5 @@ export function generateMetadata(): Metadata {
 }
 
 export default function Page() {
-  const classItem = getNotesClass(CLASS_SLUG);
-
-  if (!classItem) {
-    return <div>Class not found</div>;
-  }
-
-  return (
-    <UserLayout
-      title={`${classItem.className} Notes 2025`}
-      image={classItem.image}
-      canonical={`/${CLASS_SLUG}/notes/`}
-      url={`https://growlearnhub.com/${CLASS_SLUG}/notes/`}
-    >
-      <article className="">
-        <header className="mb-8">
-          <Heading2 className="mb-2" weight="bold" size="sm">
-            {classItem.className} Notes – All Subjects
-          </Heading2>
-          <p className="text-base">{classItem.summary}</p>
-        </header>
-
-        <section className="mb-8">
-          <h3 className="mb-4 text-xl font-semibold">Subjects Available</h3>
-          <div className="my-5 grid grid-cols-1 gap-4 md:grid-cols-2">
-            {NOTES_SUBJECTS.map(subject => (
-              <CardSmall
-                key={subject.slug}
-                title={subject.name}
-                link={`${CLASS_SLUG}/notes/${NOTES_BOARD.slug}/${subject.slug}`}
-              />
-            ))}
-          </div>
-        </section>
-
-        <section className="mb-8">
-          <h3 className="mb-3 text-lg font-semibold">How to Use These Notes</h3>
-          <ul className="list-inside space-y-2">
-            <li>
-              <strong>Read chapters in order:</strong> Follow the chapter-wise structure to build a
-              solid foundation
-            </li>
-            <li>
-              <strong>Review key concepts:</strong> Focus on highlighted important concepts and
-              definitions
-            </li>
-            <li>
-              <strong>Practice questions:</strong> Solve included practice questions to reinforce
-              understanding
-            </li>
-          </ul>
-        </section>
-
-        <section className="border-t pt-6">
-          <h3 className="mb-3 text-lg font-semibold">Related Resources</h3>
-          <div className="flex flex-wrap gap-2">
-            <a
-              href={`/${CLASS_SLUG}/past-paper`}
-              className="inline-block rounded-md bg-primary px-3 py-2 text-sm text-white hover:bg-primary/90"
-            >
-              Past Papers
-            </a>
-            <a
-              href={`/${CLASS_SLUG}/date-sheet`}
-              className="inline-block rounded-md bg-primary px-3 py-2 text-sm text-white hover:bg-primary/90"
-            >
-              Date Sheet
-            </a>
-          </div>
-        </section>
-      </article>
-    </UserLayout>
-  );
+  return <Class12NotesPage />;
 }

@@ -31,18 +31,18 @@ export default function SubHeadingTableActionButton({
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-32">
-        <DropdownMenuItem className="cursor-pointer" onClick={onView}>
+        <DropdownMenuItem className="cursor-pointer" onClick={() => setTimeout(() => onView?.(), 0)}>
           <Eye className="mr-2 h-4 w-4" />
           View
         </DropdownMenuItem>
-        <DropdownMenuItem className="cursor-pointer" onClick={onEdit}>
+        <DropdownMenuItem className="cursor-pointer" onClick={() => setTimeout(() => onEdit?.(), 0)}>
           <PenLine className="mr-2 h-4 w-4" />
           Edit
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem
           className="cursor-pointer text-red-600 focus:text-red-600 focus:bg-red-50"
-          onClick={() => setDeleteConfirmId(subHeadingId)}
+          onClick={() => setTimeout(() => setDeleteConfirmId(subHeadingId), 0)}
           disabled={deleteSubHeadingMutation.isPending}
         >
           <Trash2 className="mr-2 h-4 w-4" />

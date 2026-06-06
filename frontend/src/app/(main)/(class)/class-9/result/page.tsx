@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { getResultClass } from '@/utils/helpers/ResultDateSheetDynamic';
-import Class9PairingSchemePage from '@/features/PairingSchemePage/Class9';
+import Class9ResultPage from '@/features/Result/Class9';
 
 const CLASS_SLUG = 'class-9';
 
@@ -47,23 +47,5 @@ export function generateMetadata(): Metadata {
 }
 
 export default function Page() {
-  const classItem = getResultClass(CLASS_SLUG);
-
-  if (!classItem) {
-    return null;
-  }
-
-  const canonical = `/${CLASS_SLUG}/result/`;
-  const url = `https://growlearnhub.com${canonical}`;
-
-  return (
-    <Class9PairingSchemePage
-      title={`${classItem.className} Result 2025`}
-      image={classItem.image}
-      canonical={canonical}
-      url={url}
-      classSlug={CLASS_SLUG}
-      description={classItem.summary}
-    />
-  );
+  return <Class9ResultPage />;
 }

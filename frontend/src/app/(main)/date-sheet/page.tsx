@@ -1,6 +1,6 @@
 import React from 'react';
 import type { Metadata } from 'next';
-import DateSheetPage from '@/features/DateSheetPage';
+import DateSheetPage from '@/features/DateSheet';
 
 const data = {
   title: 'Date Sheets – All Classes | GrowLearnHub',

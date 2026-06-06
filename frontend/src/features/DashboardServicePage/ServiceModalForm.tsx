@@ -4,7 +4,7 @@ import React, { useMemo } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { SelectField } from '@/components/ui/'
 import { FormString, Label, Textarea, MultiFormSelect } from '@muzammil328/ui';
-import { useDropdownClasses } from '@/hooks/use-class';
+import { useDropdownClasses } from '@/hooks/use-public';
 
 export default function ServiceModalForm({ isOpen = true }: { isOpen?: boolean }) {
   const { data: classData, isLoading: classLoading } = useDropdownClasses(isOpen);
@@ -19,7 +19,7 @@ export default function ServiceModalForm({ isOpen = true }: { isOpen?: boolean }
   }, [classData]);
 
   return (
-    <React.Fragment>
+    <div className="space-y-4">
       <FormString name="name" label="Name" placeholder="Enter Service Name" />
 
       <MultiFormSelect
@@ -54,6 +54,6 @@ export default function ServiceModalForm({ isOpen = true }: { isOpen?: boolean }
           { value: 'inactive', label: 'Inactive' },
         ]}
       />
-    </React.Fragment>
+    </div>
   );
 }

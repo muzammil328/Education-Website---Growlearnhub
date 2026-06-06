@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
 import UserLayout from '@/components/layout/UserLayout';
-import {} from '@/features/McqsPage/server/mcq-data';
+
 import { removeDashAndUppercase } from '@/lib/removeDashAndUppercase';
-import ClassWiseChapters from '@/features/McqsPage/Class/Chapter';
+import Class11McqsBookPage from '@/features/McqsPage/Class11/Book';
 import { config } from '@/config';
 
 interface PageProps {
@@ -64,15 +64,11 @@ export default async function Page({ params }: PageProps) {
   return (
     <UserLayout title={data.title} image={data.image} canonical={data.canonical} url={data.url}>
       <article className="space-y-8">
-        <ClassWiseChapters
-          classSlug={CLASS_SLUG}
-          className={CLASS_SLUG}
-          bookSlug={book}
-          bookName={book}
-          heading={`Class 11 ${bookLabel} Chapters`}
-          intro="Choose a chapter to continue into topic-wise MCQs."
-          emptyMessage="No chapters found for this subject."
-        />
+        <header className="space-y-3">
+          <h2 className="text-xl font-bold">{`Class 11 ${bookLabel} Chapters`}</h2>
+          <p>Choose a chapter to continue into topic-wise MCQs.</p>
+        </header>
+        <Class11McqsBookPage bookSlug={book} />
       </article>
     </UserLayout>
   );

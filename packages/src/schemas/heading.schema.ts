@@ -1,16 +1,19 @@
 import { z } from 'zod';
-import { EntityStatus, entityStatusSchema, StatusEnum } from '../enums';
+import { StatusEnum } from '../enums';
 
-export const HeadingSchema = z.object({
+// Create Heading
+export const headingCreateSchema = z.object({
   name: z.string().trim().min(1),
   slug: z.string().trim().optional(),
   classId: z.string().trim().min(1),
   bookId: z.string().trim().min(1),
   chapterId: z.string().trim().min(1),
-  status: entityStatusSchema.default(EntityStatus.ACTIVE),
+  status: z.nativeEnum(StatusEnum).default(StatusEnum.Active),
   order: z.number().optional(),
 });
+export type CreateHeadingInput = z.infer<typeof headingCreateSchema>;
 
+// Get Headings
 export const getHeadingsInputSchema = z.object({
   status: z.nativeEnum(StatusEnum).optional().default(StatusEnum.Active),
   page: z.number().int().positive().optional().default(1),
@@ -21,33 +24,39 @@ export const getHeadingsInputSchema = z.object({
     .default('createdAt'),
   sortDirection: z.enum(['asc', 'desc']).optional().default('desc'),
   search: z.string().trim().optional(),
-  classId: z.string().optional(),
-  bookId: z.string().optional(),
-  chapterId: z.string().optional(),
 });
 
+// Get Heading Dropdown
 export const getHeadingDropdownInputSchema = z.object({
-  search: z.string().trim().optional(),
   classId: z.string().optional(),
   bookId: z.string().optional(),
   chapterId: z.string().optional(),
 });
+export type GetHeadingDropdownInput = z.infer<typeof getHeadingDropdownInputSchema>;
 
-export const getHeadingBySlugInputSchema = z.object({
-  slug: z.string().min(1),
-});
-
+// Get Heading by ID
 export const getHeadingByIdInputSchema = z.object({
   id: z.string().min(1),
 });
+export type GetHeadingByIdInput = z.infer<typeof getHeadingByIdInputSchema>;
 
-export const updateHeadingInputSchema = z.object({
-  id: z.string().min(1),
-  updates: HeadingSchema,
+// Get Heading by Slug
+export const getHeadingBySlugInputSchema = z.object({
+  classSlug: z.string().min(1),
+  bookSlug: z.string().min(1),
+  chapterSlug: z.string().min(1),
 });
+export type GetHeadingBySlugInput = z.infer<typeof getHeadingBySlugInputSchema>;
 
+// Delete Heading
 export const deleteHeadingInputSchema = z.object({
   id: z.string().min(1),
 });
+export type DeleteHeadingInput = z.infer<typeof deleteHeadingInputSchema>;
 
-export type HeadingFormValues = z.infer<typeof HeadingSchema>;
+// Update Heading
+export const updateHeadingInputSchema = z.object({
+  id: z.string().min(1),
+  updates: headingCreateSchema,
+});
+export type UpdateHeadingInput = z.infer<typeof updateHeadingInputSchema>;

@@ -13,8 +13,8 @@ import { DashboardClassPageProps } from '@/types/class.types';
 import { SlidersHorizontal } from 'lucide-react';
 import { ClassModal } from './ClassModal';
 import { DynamicBreadcrumb } from '@/components/ui/dynamic-breadcrumb';
-import { Status, SortOrder } from '@muzammil328/education-packages/types';
-import { EntityStatus } from '@muzammil328/education-packages/enums';
+import { StatusEnum, Status } from '@muzammil328/education-packages';
+import { SortOrder } from '@muzammil328/db';
 
 export default function DashboardClassPage({
   status: queryStatus,
@@ -31,9 +31,9 @@ export default function DashboardClassPage({
   const [sortField, setSortField] = useState(querySort);
   const [sortOrder] = useState<SortOrder>(queryOrder);
 
-  const [status, setStatus] = useState<Status>(() => {
+  const [status, setStatus] = useState<StatusEnum>(() => {
     const urlStatus = searchParams.get('status');
-    return (urlStatus as Status) || queryStatus || 'active';
+    return (urlStatus as StatusEnum) || queryStatus || StatusEnum.ACTIVE;
   });
 
   const [isClassViewOpen, setIsClassViewOpen] = useState(false);
@@ -42,7 +42,7 @@ export default function DashboardClassPage({
   const [selectedClassId, setSelectedClassId] = useState<string | null>(null);
 
   const updateURL = useCallback(
-    (newStatus: Status, newSort: string | undefined, newOrder: SortOrder) => {
+    (newStatus: StatusEnum, newSort: string | undefined, newOrder: SortOrder) => {
       const params = new URLSearchParams();
       params.set('status', newStatus);
       if (newSort) params.set('sort', newSort);
@@ -54,7 +54,7 @@ export default function DashboardClassPage({
   );
 
   const handleStatusChange = (value: string) => {
-    const newStatus = value as Status;
+    const newStatus = value as StatusEnum;
     setStatus(newStatus);
     setPage(1);
     updateURL(newStatus, sortField, sortOrder);
@@ -127,8 +127,8 @@ export default function DashboardClassPage({
                 <SelectValue placeholder="Select Status" />
               </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value={EntityStatus.ACTIVE}>Active</SelectItem>
-                  <SelectItem value={EntityStatus.INACTIVE}>Inactive</SelectItem>
+                  <SelectItem value={StatusEnum.ACTIVE}>Active</SelectItem>
+                  <SelectItem value={StatusEnum.INACTIVE}>Inactive</SelectItem>
                 </SelectContent>
             </Select>
           </div>

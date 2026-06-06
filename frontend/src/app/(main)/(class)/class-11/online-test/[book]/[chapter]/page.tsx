@@ -1,7 +1,7 @@
 import UserLayout from '@/components/layout/UserLayout';
 import { removeDashAndUppercase } from '@/lib/removeDashAndUppercase';
 import React from 'react';
-import OnlineTestChapterView from '@/features/OnlineTestPage/Class9/Chapter';
+import OnlineTestChapterView from '@/features/OnlineTest/Class11/Chapter';
 import { config } from '@/config';
 
 interface McqsBookChapter {

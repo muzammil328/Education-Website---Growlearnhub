@@ -1,5 +1,4 @@
 import { z } from 'zod';
-import { emailSchema, passwordSchema } from '@muzammil328/types';
 
 export const studentSchema = z.object({
   username: z.string().min(3),

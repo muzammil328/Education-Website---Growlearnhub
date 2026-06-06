@@ -165,7 +165,7 @@ export default function HeadingModalForm({ initialSelection }: HeadingModalFormP
   }, [chapterData, initialSelection?.chapterId, initialSelection?.chapterName]);
 
   return (
-    <React.Fragment>
+    <div>
       <FormString name="name" label="Name" placeholder="Enter Heading Name" />
 
       <div className="space-y-2">
@@ -190,10 +190,10 @@ export default function HeadingModalForm({ initialSelection }: HeadingModalFormP
 
       <div className="space-y-2">
         {!effectiveClassId ? (
-          <React.Fragment>
+          <div>
             <Label>Book</Label>
             <p className="text-sm text-muted-foreground py-2">Select a class first</p>
-          </React.Fragment>
+          </div>
         ) : bookLoading ? (
           <DropdownSkeleton />
         ) : (
@@ -215,10 +215,10 @@ export default function HeadingModalForm({ initialSelection }: HeadingModalFormP
 
       <div className="space-y-2">
         {!effectiveBookId ? (
-          <React.Fragment>
+          <div>
             <Label>Chapter</Label>
             <p className="text-sm text-muted-foreground py-2">Select a book first</p>
-          </React.Fragment>
+          </div>
         ) : chapterLoading ? (
           <DropdownSkeleton />
         ) : (
@@ -251,6 +251,6 @@ export default function HeadingModalForm({ initialSelection }: HeadingModalFormP
           { value: 'inactive', label: 'Inactive' },
         ]}
       />
-    </React.Fragment>
+    </div>
   );
 }

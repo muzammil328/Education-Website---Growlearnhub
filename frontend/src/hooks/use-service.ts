@@ -36,10 +36,10 @@ export const useDropdownServices = (
   );
 };
 
-export const useServiceBySlug = (slug?: string) => {
+export const useServiceBySlug = (classSlug?: string) => {
   return trpc.service.getBySlug.useQuery(
-    { slug: slug || '' },
-    { enabled: Boolean(slug), retry: false, refetchOnWindowFocus: false }
+    { classSlug: classSlug || '' },
+    { enabled: Boolean(classSlug), retry: false, refetchOnWindowFocus: false }
   );
 };
 

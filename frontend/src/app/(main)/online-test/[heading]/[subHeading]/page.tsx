@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { config } from '@/config';
-import OnlineTestSubHeadingPage from '@/features/OnlineTestPage/SubHeading';
+import OnlineTestSubHeadingPage from '@/features/OnlineTest/SubHeading';
 
 interface PageProps {
   params: Promise<{ heading: string; subHeading: string }>;

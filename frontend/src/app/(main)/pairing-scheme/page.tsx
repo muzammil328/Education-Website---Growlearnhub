@@ -1,6 +1,6 @@
 import React from 'react';
 import type { Metadata } from 'next';
-import PairingSchemePage from '@/features/PairingSchemePage';
+import PairingSchemePage from '@/features/PairingScheme';
 
 const data = {
   title: 'Pairing Schemes – All Classes | GrowLearnHub',

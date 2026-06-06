@@ -1,12 +1,8 @@
-import React from 'react';
 import { Metadata } from 'next';
-import UserLayout from '@/components/layout/UserLayout';
-import CardSmall from '@/components/card/SmallCard';
-import Link from 'next/link';
-import { getPairingClass } from '@/utils/helpers/PairingSchemeDynamic';
+import Class11PairingSchemePage from '@/features/PairingScheme/Class11';
 
 const data = {
-  title: '11th Class Pairing Scheme 2025 – All Boards | GrowLearnHub',
+  title: '11th Class Pairing Scheme 2025 \u2013 All Boards | GrowLearnHub',
   description:
     'Download the official 11th Class Pairing Scheme 2025 for all Boards. Select your board below and get the updated paper scheme instantly on GrowLearnHub.',
   keywords: [
@@ -28,64 +24,7 @@ const data = {
 };
 
 export default function Page() {
-  const classItem = getPairingClass('class-11');
-
-  if (!classItem) {
-    return null;
-  }
-
-  return (
-    <UserLayout title={data.title} image={data.image} canonical={data.canonical} url={data.url}>
-      <article className="max-w-none">
-        <header>
-          <h2 className="text-2xl font-semibold text-primary">Class 11 Pairing Scheme 2025</h2>
-          <p className="text-foreground/80">{classItem.summary}</p>
-        </header>
-
-        <section className="mt-8">
-          <h3 className="text-xl font-semibold text-foreground">Board Selection</h3>
-          <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2">
-            <CardSmall
-              title={classItem.board.name}
-              link={`class-11/pairing-scheme/${classItem.board.slug}`}
-            />
-          </div>
-        </section>
-
-        <section className="mt-8">
-          <h3 className="text-xl font-semibold text-foreground">Subject-wise Pairing Schemes</h3>
-          <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2">
-            {classItem.board.subjects.map(subject => (
-              <CardSmall
-                key={subject.slug}
-                title={subject.name}
-                link={`class-11/pairing-scheme/${classItem.board.slug}/${subject.slug}`}
-              />
-            ))}
-          </div>
-        </section>
-
-        <section className="mt-8">
-          <h3 className="text-xl font-semibold text-foreground">Pairing Scheme Flow</h3>
-          <p className="text-foreground/80">
-            You can move between{' '}
-            <Link href="/class-10/pairing-scheme" className="text-primary hover:underline">
-              Class 10
-            </Link>
-            ,{' '}
-            <Link href="/class-11/pairing-scheme" className="text-primary hover:underline">
-              Class 11
-            </Link>
-            , and{' '}
-            <Link href="/class-12/pairing-scheme" className="text-primary hover:underline">
-              Class 12
-            </Link>{' '}
-            to maintain continuity in board exam planning.
-          </p>
-        </section>
-      </article>
-    </UserLayout>
-  );
+  return <Class11PairingSchemePage />;
 }
 
 export const metadata: Metadata = {

@@ -38,14 +38,14 @@ export default function ChapterModalForm({ isOpen = true }: { isOpen?: boolean }
   }, [bookData]);
 
   return (
-    <React.Fragment>
+    <div>
       <FormString name="name" label="Name" placeholder="Enter Chapter Name" />
 
       <div className="space-y-2">
         {isLoadingClasses ? (
           <DropdownSkeleton />
         ) : (
-          <React.Fragment>
+          <div>
             <Label>Class</Label>
             <DropdownLoader
               isLoading={isLoadingClasses}
@@ -55,20 +55,20 @@ export default function ChapterModalForm({ isOpen = true }: { isOpen?: boolean }
             >
               <SelectField name="classId" placeholder="Select class" options={classOptions} />
             </DropdownLoader>
-          </React.Fragment>
+          </div>
         )}
       </div>
 
       <div className="space-y-2">
         {!selectedClassId ? (
-          <React.Fragment>
+          <div>
             <Label>Book</Label>
             <p className="text-sm text-muted-foreground py-2">Select a class first</p>
-          </React.Fragment>
+          </div>
         ) : isLoadingBooks ? (
           <DropdownSkeleton />
         ) : (
-          <React.Fragment>
+          <div>
             <Label>Book</Label>
             <DropdownLoader
               isLoading={isLoadingBooks}
@@ -78,7 +78,7 @@ export default function ChapterModalForm({ isOpen = true }: { isOpen?: boolean }
             >
               <SelectField name="bookId" placeholder="Select book" options={bookOptions} />
             </DropdownLoader>
-          </React.Fragment>
+          </div>
         )}
       </div>
 
@@ -102,6 +102,6 @@ export default function ChapterModalForm({ isOpen = true }: { isOpen?: boolean }
           { value: 'inactive', label: 'Inactive' },
         ]}
       />
-    </React.Fragment>
+    </div>
   );
 }

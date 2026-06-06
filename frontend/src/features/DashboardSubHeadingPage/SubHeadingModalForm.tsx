@@ -5,8 +5,8 @@ import { useFormContext, useWatch } from 'react-hook-form';
 import { SelectField } from '@/components/ui/select-field'
 import { DropdownLoader } from '@muzammil328/ui'
 import { FormString, FormNumber, Label } from '@muzammil328/ui';
-import { useDropdownClasses } from '@/hooks/use-class';
-import { useDropdownBooks } from '@/hooks/use-book';
+import { useDropdownClasses } from '@/hooks/use-public';
+import { useDropdownBooks } from '@/hooks/use-public';
 import { useDropdownChapters } from '@/hooks/use-chapter';
 import { useDropdownHeadings } from '@/hooks/use-heading';
 import { DropdownSkeleton } from '@/components/DropdownSkeleton';
@@ -245,7 +245,7 @@ export default function SubHeadingModalForm({ initialSelection }: SubHeadingModa
   }, [headingData, initialSelection?.headingId, initialSelection?.headingName]);
 
   return (
-    <React.Fragment>
+    <div>
       <FormString name="name" label="Name" placeholder="Enter SubHeading Name" />
 
       <div className="space-y-2">
@@ -270,10 +270,10 @@ export default function SubHeadingModalForm({ initialSelection }: SubHeadingModa
 
       <div className="space-y-2">
         {!effectiveClassId ? (
-          <React.Fragment>
+          <div>
             <Label>Book</Label>
             <p className="text-sm text-muted-foreground py-2">Select a class first</p>
-          </React.Fragment>
+          </div>
         ) : bookLoading ? (
           <DropdownSkeleton />
         ) : (
@@ -295,10 +295,10 @@ export default function SubHeadingModalForm({ initialSelection }: SubHeadingModa
 
       <div className="space-y-2">
         {!effectiveBookId ? (
-          <React.Fragment>
+          <div>
             <Label>Chapter</Label>
             <p className="text-sm text-muted-foreground py-2">Select a book first</p>
-          </React.Fragment>
+          </div>
         ) : chapterLoading ? (
           <DropdownSkeleton />
         ) : (
@@ -320,10 +320,10 @@ export default function SubHeadingModalForm({ initialSelection }: SubHeadingModa
 
       <div className="space-y-2">
         {!effectiveChapterId ? (
-          <React.Fragment>
+          <div>
             <Label>Heading</Label>
             <p className="text-sm text-muted-foreground py-2">Select a chapter first</p>
-          </React.Fragment>
+          </div>
         ) : headingLoading ? (
           <DropdownSkeleton />
         ) : (
@@ -356,6 +356,6 @@ export default function SubHeadingModalForm({ initialSelection }: SubHeadingModa
           { value: 'inactive', label: 'Inactive' },
         ]}
       />
-    </React.Fragment>
+    </div>
   );
 }

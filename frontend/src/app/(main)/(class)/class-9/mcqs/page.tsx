@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
-import ClassMcqsPage from '@/features/McqsPage/Class';
-import { config } from '@/config';
+import Class9McqsPage from '@/features/McqsPage/Class9';
 
 const data = {
   title: 'Class 9 MCQs | Free Interactive Practice Questions | GrowLearnHub',
@@ -43,20 +42,6 @@ export const metadata: Metadata = {
   },
 };
 
-export const revalidate = 432000;
-
-export default async function Page() {
-  return (
-    <ClassMcqsPage
-      title={data.title}
-      image={data.image}
-      canonical={data.canonical}
-      url={data.url}
-      classSlug="class-9"
-      className="class-9"
-      heading="Class 9 MCQs - Subject-wise Practice"
-      intro="Practice Class 9 MCQs by subject, then move into chapter and topic-level practice with the dedicated server-rendered routes."
-      emptyMessage="No subjects found for Class 9."
-    />
-  );
+export default function Page() {
+  return <Class9McqsPage />;
 }

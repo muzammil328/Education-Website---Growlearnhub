@@ -2,7 +2,7 @@ import React from 'react';
 import UserLayout from '@/components/layout/UserLayout';
 import { removeDashAndUppercase } from '@/lib/removeDashAndUppercase';
 import { notFound } from 'next/navigation';
-import OnlineTestClass9ChapterPage from '@/features/OnlineTestPage/Class9/Chapter';
+import OnlineTestClass9ChapterPage from '@/features/OnlineTest/Class9/Chapter';
 import { config } from '@/config';
 
 interface McqsBookChapter {

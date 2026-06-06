@@ -1,6 +1,6 @@
 import React from 'react';
 import type { Metadata } from 'next';
-import ResultPage from '@/features/ResultPage';
+import ResultPage from '@/features/Result';
 
 const data = {
   title: 'Results – All Classes | GrowLearnHub',

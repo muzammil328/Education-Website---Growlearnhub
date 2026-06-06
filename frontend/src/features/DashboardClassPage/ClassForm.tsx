@@ -8,15 +8,18 @@ import { toast } from '@muzammil328/ui';
 
 import { Form } from '@muzammil328/ui';
 
-import { FormProps } from '@muzammil328/education-packages/types';
 import { useClassById, useCreateClass, useUpdateClass } from '@/hooks';
-import { ClassSchema, type ClassFormValues } from '@muzammil328/education-packages';
+import { classCreateSchema, type ClassCreateInput } from '@muzammil328/education-packages';
 import ClassModalSkeleton from './ClassModalSkeleton';
 import ClassModalView from './ClassModalView';
 import ClassModalForm from './ClassModalForm';
 import { ModalFormActionButton } from '@/components/ModalFormActionButton';
 
-interface DashboardClassFormProps extends FormProps {
+interface DashboardClassFormProps {
+  isOpen: boolean;
+  setIsOpen?: (open: boolean) => void;
+  mode?: 'add' | 'edit' | 'view';
+  onClose?: () => void;
   classId?: string;
 }
 
@@ -37,8 +40,8 @@ export function ClassForm({
     (isEdit || isView) && isOpen ? classId : undefined
   );
 
-  const form = useForm<ClassFormValues>({
-    resolver: zodResolver(ClassSchema),
+  const form = useForm<ClassCreateInput>({
+    resolver: zodResolver(classCreateSchema),
     defaultValues: {
       name: '',
       description: '',
@@ -73,7 +76,7 @@ export function ClassForm({
     }
   }, [classData, form, isEdit, isOpen, isView, mode]);
 
-  const onSubmit = (values: ClassFormValues) => {
+  const onSubmit = (values: ClassCreateInput) => {
     if (isEdit && classId) {
       updateClassMutation.mutate(
         {
