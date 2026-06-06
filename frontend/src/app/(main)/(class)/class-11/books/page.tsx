@@ -1,43 +1,8 @@
 import { Metadata } from 'next';
-import Link from 'next/link';
-import UserLayout from '@/components/layout/UserLayout';
-import CardSmall from '@/components/card/SmallCard';
 import { generatePageMetadata } from '@/lib/seo';
-import { createTRPCProxyClient, httpBatchLink } from '@trpc/client';
-import type { AppRouter } from '@backend-trpc/router';
-import { config } from '@/config';
+import Class11BookPage from '@/features/Books/Class11';
 
-export const revalidate = 604800; // 7 days in seconds
-
-interface BookItem {
-  name: string;
-  slug: string;
-}
-
-async function getBooks(): Promise<BookItem[]> {
-  try {
-    const trpcClient = createTRPCProxyClient<AppRouter>({
-      links: [
-        httpBatchLink({
-          url: `${config.API_URL}/trpc`,
-        }),
-      ],
-    });
-
-    const result = await trpcClient.book.getByClassName.query({ className: CLASS_SLUG });
-    return result || [];
-  } catch {
-    return [];
-  }
-}
-
-const CLASS_SLUG = 'class-11';
 const CLASS_DISPLAY = '11';
-
-interface BookItem {
-  name: string;
-  slug: string;
-}
 
 const data = {
   title: `Class ${CLASS_DISPLAY} Books PDF Download | Subject-Wise 11th Class Textbooks`,
@@ -65,83 +30,6 @@ const data = {
 
 export const metadata: Metadata = generatePageMetadata(data);
 
-export default async function Page() {
-  const books = await getBooks();
-
-  return (
-    <UserLayout
-      title={metadata.title as string}
-      image="/11th/class_11_book_growlearnhub.png"
-      canonical="/class-11/books/"
-      url="https://growlearnhub.com/class-11/books/"
-    >
-      <article className="max-w-none">
-        <section className="mb-8">
-          <p className="lead text-foreground/90">
-            Get complete <strong>Class {CLASS_DISPLAY} books in PDF</strong> for all major subjects
-            in one place. This page helps students quickly access textbook resources for daily
-            study, assignments, and annual exam preparation.
-          </p>
-          <p className="text-foreground/80 mt-4">
-            Looking for other grades too? Visit{' '}
-            <Link href="/class-9/books" className="font-medium text-primary hover:underline">
-              Class 9 books
-            </Link>{' '}
-            and{' '}
-            <Link href="/class-10/books" className="font-medium text-primary hover:underline">
-              Class 10 books
-            </Link>{' '}
-            for more subject-wise textbook collections.
-          </p>
-        </section>
-
-        <section className="mb-12">
-          <h2 className="border-b border-border py-2 text-2xl font-semibold text-primary">
-            Available Subjects for Class {CLASS_DISPLAY} Books
-          </h2>
-          <p className="text-foreground/80 mt-4">
-            Browse the subjects below and open the book page you need. Each subject offers English
-            and Urdu medium options with chapter-wise navigation.
-          </p>
-
-          {books.length > 0 ? (
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-2 mt-6">
-              {books.map(book => (
-                <CardSmall
-                  key={book.slug}
-                  title={book.name}
-                  link={`${CLASS_SLUG}/books/${book.slug}`}
-                />
-              ))}
-            </div>
-          ) : (
-            <p className="text-foreground/60 mt-4">No books available at the moment.</p>
-          )}
-        </section>
-
-        <section className="mb-12">
-          <h2 className="text-2xl font-semibold text-primary">
-            How to Use These Class {CLASS_DISPLAY} Books
-          </h2>
-          <ol className="list-decimal list-inside space-y-3 text-foreground/80 mt-4">
-            <li>Select your subject from the cards above.</li>
-            <li>Choose your preferred medium (English or Urdu).</li>
-            <li>Open the book page and choose the chapter you want to study.</li>
-            <li>Read online or download the PDF for offline revision.</li>
-            <li>Use these books regularly for tests, homework, and final exam practice.</li>
-          </ol>
-        </section>
-
-        <section className="mb-6">
-          <h2 className="text-2xl font-semibold text-primary">Why Students Use GrowLearnHub</h2>
-          <ul className="list-disc list-inside space-y-2 text-foreground/80 mt-4">
-            <li>Subject-wise organization for faster navigation</li>
-            <li>Free access to Class {CLASS_DISPLAY} textbook resources</li>
-            <li>Useful for school study and board exam preparation</li>
-            <li>Simple structure for mobile and desktop users</li>
-          </ul>
-        </section>
-      </article>
-    </UserLayout>
-  );
+export default function Page() {
+  return <Class11BookPage />;
 }
