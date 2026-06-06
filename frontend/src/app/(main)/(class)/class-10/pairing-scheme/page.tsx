@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import Class10PairingSchemePage from '@/features/Class10Page/Class10PairingSchemePage';
+import Class10PairingSchemePage from '@/features/PairingScheme/Class10';
 
 const data = {
   title: '10th Class Pairing Scheme 2025 \u2013 All Boards | GrowLearnHub',

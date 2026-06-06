@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import Class10OnlineTestPage from '@/features/Class10Page/Class10OnlineTestPage';
+import Class10OnlineTestPage from '@/features/OnlineTest/Class10';
 
 const data = {
   title: 'Class 10 Online Tests \u2013 Free Chapter-wise Practice | GrowLearnHub',

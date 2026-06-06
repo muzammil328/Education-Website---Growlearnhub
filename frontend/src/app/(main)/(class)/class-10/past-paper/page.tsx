@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import { getPastPaperClass } from '@/utils/helpers/PastPaperAndNotesDynamic';
-import Class10PastPaperPage from '@/features/Class10Page/Class10PastPaperPage';
+import Class10PastPaperPage from '@/features/PastPaper/Class10';
 
 const CLASS_SLUG = 'class-10';
 

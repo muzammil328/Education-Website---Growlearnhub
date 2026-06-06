@@ -1,7 +1,7 @@
 import React from 'react';
 import UserLayout from '@/components/layout/UserLayout';
 import { removeDashAndUppercase } from '@/lib/removeDashAndUppercase';
-import ClassBookOnlineTest from '@/features/OnlineTestPage/Class9/Book';
+import ClassBookOnlineTest from '@/features/OnlineTest/Class10/Book';
 import { config } from '@/config';
 
 interface McqsBook {
