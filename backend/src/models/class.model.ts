@@ -1,6 +1,17 @@
-import mongoose, { Schema } from 'mongoose';
-import type { IClass } from '@muzammil328/education-packages/types';
-import { EntityStatus, ENTITY_STATUS_VALUES } from '@muzammil328/education-packages/enums';
+import mongoose, { Document, Schema, Types } from 'mongoose';
+import { Status, StatusEnum } from '@muzammil328/education-packages/enums';
+
+export interface IClass extends Document {
+  name: string;
+  slug: string;
+  description?: string;
+  serviceId?: Types.ObjectId[];
+  status: Status;
+  image?: string;
+  keywords?: string[];
+  createdAt?: Date;
+  updatedAt?: Date;
+}
 
 const ClassSchema: Schema = new Schema(
   {
@@ -8,7 +19,7 @@ const ClassSchema: Schema = new Schema(
     slug: { type: String, required: true, unique: true, lowercase: true, index: true },
     description: { type: String },
     serviceId: [{ type: Schema.Types.ObjectId, ref: 'Service', index: true }],
-    status: { type: String, enum: ENTITY_STATUS_VALUES, default: EntityStatus.ACTIVE },
+    status: { type: String, enum: StatusEnum, default: StatusEnum.Active },
     image: { type: String },
     keywords: [{ type: String }],
   },

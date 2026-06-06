@@ -17,7 +17,7 @@ const coreJwt = createJwt({
   accessSecret: config.JWT_ACCESS_TOKEN_SECRET_KEY || 'fallback-access-secret-that-is-at-least-32-chars-long!!',
   refreshSecret: config.JWT_REFRESH_TOKEN_SECRET_KEY,
   accessExpiresIn: AUTH_CONFIG.ACCESS_TOKEN_EXPIRY,
-  refreshExpiresIn: `${AUTH_CONFIG.REFRESH_TOKEN_EXPIRY_DAYS}d`,
+  refreshExpiresIn: `${AUTH_CONFIG.REFRESH_TOKEN_EXPIRY}d`,
 });
 
 export const jwtService = {
