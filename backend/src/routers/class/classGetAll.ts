@@ -22,7 +22,7 @@ export const classGetAll = superAdminProcedure
             unwind: false,
           })
           .project({
-            _id: 1,
+            classId: '$_id',
             name: 1,
             description: 1,
             status: 1,
@@ -43,15 +43,7 @@ export const classGetAll = superAdminProcedure
       return {
         success: true,
         message: 'Classes fetched successfully',
-        data: data.map((item) => ({
-          classId: String(item._id),
-          name: item.name,
-          status: item.status,
-          description: item.description ?? null,
-          image: item.imageUrl ?? null,
-          keywords: item.tags ?? [],
-          serviceName: item.serviceName ?? null,
-        })),
+        data,
         pagination,
       };
     } catch (e) {

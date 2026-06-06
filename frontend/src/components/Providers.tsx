@@ -56,6 +56,20 @@ async function getAccessToken(): Promise<string | null> {
   return getCookie('token');
 }
 
+let csrfTokenCache: string | null = null;
+
+async function getCsrfToken(): Promise<string | null> {
+  if (csrfTokenCache) return csrfTokenCache;
+  try {
+    const res = await fetch(`${config.API_URL}/csrf-token`, { credentials: 'include' });
+    const data = await res.json();
+    csrfTokenCache = data.token ?? null;
+    return csrfTokenCache;
+  } catch {
+    return null;
+  }
+}
+
 setupApiClient({
   baseURL: config.API_URL,
   tokenGetter: getAccessToken,
@@ -93,13 +107,12 @@ export default function Provider({ children }: QueryProviderProps) {
             return fetch(url, { ...opts, credentials: 'include' });
           },
           headers: async () => {
-            const token = await getAccessToken();
+            const [token, csrfToken] = await Promise.all([getAccessToken(), getCsrfToken()]);
 
-            return token
-              ? {
-                  Authorization: `Bearer ${token}`,
-                }
-              : {};
+            return {
+              ...(token ? { Authorization: `Bearer ${token}` } : {}),
+              ...(csrfToken ? { 'x-csrf-token': csrfToken } : {}),
+            };
           },
         }),
       ],

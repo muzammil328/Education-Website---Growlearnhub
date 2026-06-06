@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from '@/components/ui/table';
+import { TableRoot as Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from '@muzammil328/ui';
 import { Button } from '@muzammil328/ui';
 import { Skeleton } from '@muzammil328/ui';
 import { Trash2 } from 'lucide-react';

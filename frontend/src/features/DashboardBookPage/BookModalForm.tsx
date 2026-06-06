@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { SelectField } from '@/components/ui/select-field'
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@muzammil328/ui'
 import { Label, FormString, FormNumber } from '@muzammil328/ui';
@@ -131,7 +131,7 @@ export default function BookModalForm({ isOpen = true }: { isOpen?: boolean }) {
   }, [classData]);
 
   return (
-    <React.Fragment>
+    <div className="space-y-4">
       <FormString name="name" label="Name" placeholder="Enter Book Name" />
 
       <FormString name="code" label="Code" placeholder="Enter Book Code (e.g., MTH101)" />
@@ -140,7 +140,7 @@ export default function BookModalForm({ isOpen = true }: { isOpen?: boolean }) {
         {isLoadingClasses ? (
           <DropdownSkeleton />
         ) : (
-          <React.Fragment>
+          <div>
             <Label>Class</Label>
             <DropdownLoader
               isLoading={isLoadingClasses}
@@ -150,7 +150,7 @@ export default function BookModalForm({ isOpen = true }: { isOpen?: boolean }) {
             >
               <SelectField name="classId" placeholder="Select a class" options={classOptions} />
             </DropdownLoader>
-          </React.Fragment>
+          </div>
         )}
       </div>
 
@@ -187,6 +187,6 @@ export default function BookModalForm({ isOpen = true }: { isOpen?: boolean }) {
           { value: 'inactive', label: 'Inactive' },
         ]}
       />
-    </React.Fragment>
+    </div>
   );
 }
