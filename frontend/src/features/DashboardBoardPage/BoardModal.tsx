@@ -17,8 +17,14 @@ export function BoardModal({
   trigger,
   triggerLabel,
   title,
+  isOpen: isOpenProp,
+  onOpenChange,
 }: DashboardBoardModalProps) {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpenLocal, setIsOpenLocal] = useState(false);
+
+  const isControlled = isOpenProp !== undefined;
+  const isOpen = isControlled ? !!isOpenProp : isOpenLocal;
+  const setIsOpen = isControlled ? (onOpenChange ?? (() => {})) : setIsOpenLocal;
 
   const isEdit = mode === 'edit';
   const isView = mode === 'view';
@@ -31,8 +37,8 @@ export function BoardModal({
 
   return (
     <div>
-      {trigger ? (
-        <Button onClick={() => setIsOpen(true)}>{resolvedTrigger}</Button>
+      {trigger === null ? null : trigger ? (
+        <div onClick={() => setIsOpen(true)}>{trigger}</div>
       ) : (
         <Button
           onClick={() => setIsOpen(true)}

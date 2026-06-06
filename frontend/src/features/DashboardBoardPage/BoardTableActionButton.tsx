@@ -9,22 +9,20 @@ import {
 } from '@muzammil328/ui';
 import { Button } from '@muzammil328/ui';
 import { Eye, PenLine, Trash2, MoreHorizontal } from 'lucide-react';
-import { BoardModal } from './BoardModal';
 
 export default function BoardTableActionButton({
   boardId,
   setDeleteConfirmId,
   deleteBoardMutation,
+  onView,
+  onEdit,
 }: {
   boardId: string;
   setDeleteConfirmId: (id: string | null) => void;
-  deleteBoardMutation: {
-    isPending: boolean;
-  };
+  deleteBoardMutation: { isPending: boolean };
+  onView?: () => void;
+  onEdit?: () => void;
 }) {
-  const handleDeleteClick = (boardId: string) => {
-    setDeleteConfirmId(boardId);
-  };
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -33,30 +31,18 @@ export default function BoardTableActionButton({
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-32">
-        <BoardModal
-          mode="view"
-          boardId={boardId}
-          trigger={
-            <DropdownMenuItem className="cursor-pointer">
-              <Eye className="mr-2 h-4 w-4" />
-              View
-            </DropdownMenuItem>
-          }
-        />
-        <BoardModal
-          mode="edit"
-          boardId={boardId}
-          trigger={
-            <DropdownMenuItem className="cursor-pointer">
-              <PenLine className="mr-2 h-4 w-4" />
-              Edit
-            </DropdownMenuItem>
-          }
-        />
+        <DropdownMenuItem className="cursor-pointer" onClick={() => setTimeout(() => onView?.(), 0)}>
+          <Eye className="mr-2 h-4 w-4" />
+          View
+        </DropdownMenuItem>
+        <DropdownMenuItem className="cursor-pointer" onClick={() => setTimeout(() => onEdit?.(), 0)}>
+          <PenLine className="mr-2 h-4 w-4" />
+          Edit
+        </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem
           className="cursor-pointer text-red-600 focus:text-red-600 focus:bg-red-50"
-          onClick={() => handleDeleteClick(boardId)}
+          onClick={() => setTimeout(() => setDeleteConfirmId(boardId), 0)}
           disabled={deleteBoardMutation.isPending}
         >
           <Trash2 className="mr-2 h-4 w-4" />

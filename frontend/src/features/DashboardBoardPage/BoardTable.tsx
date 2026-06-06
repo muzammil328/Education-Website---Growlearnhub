@@ -1,13 +1,14 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from '@/components/ui/table';
+import { TableRoot as Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from '@muzammil328/ui';
 import { DeleteModal } from '@muzammil328/ui';
 import { Skeleton } from '@muzammil328/ui';
 import { toast } from '@muzammil328/ui';
 import { useDeleteBoard } from '@/hooks';
 import { type RouterOutputs, type TrpcError } from '@/trpc/trpc';
 import BoardTableActionButton from './BoardTableActionButton';
+import { BoardModal } from './BoardModal';
 
 interface BoardTableProps {
   data: {
@@ -22,6 +23,9 @@ interface BoardTableProps {
 export function BoardTable({ data = [], isLoading }: BoardTableProps) {
   const deleteBoardMutation = useDeleteBoard();
   const [deleteConfirmId, setDeleteConfirmId] = useState<string | null>(null);
+  const [selectedBoardId, setSelectedBoardId] = useState<string | null>(null);
+  const [isBoardViewOpen, setIsBoardViewOpen] = useState(false);
+  const [isBoardEditOpen, setIsBoardEditOpen] = useState(false);
 
   const handleDeleteConfirm = () => {
     if (!deleteConfirmId) return;
@@ -84,6 +88,8 @@ export function BoardTable({ data = [], isLoading }: BoardTableProps) {
                     boardId={boardItem.boardId}
                     setDeleteConfirmId={setDeleteConfirmId}
                     deleteBoardMutation={deleteBoardMutation}
+                    onView={() => { setSelectedBoardId(boardItem.boardId); setIsBoardViewOpen(true); }}
+                    onEdit={() => { setSelectedBoardId(boardItem.boardId); setIsBoardEditOpen(true); }}
                   />
                 </TableCell>
               </TableRow>
@@ -98,6 +104,22 @@ export function BoardTable({ data = [], isLoading }: BoardTableProps) {
         </TableBody>
       </Table>
 
+      <BoardModal
+        mode="view"
+        boardId={selectedBoardId ?? undefined}
+        isOpen={isBoardViewOpen}
+        onOpenChange={open => { setIsBoardViewOpen(open); if (!open) setSelectedBoardId(null); }}
+        trigger={null}
+      />
+
+      <BoardModal
+        mode="edit"
+        boardId={selectedBoardId ?? undefined}
+        isOpen={isBoardEditOpen}
+        onOpenChange={open => { setIsBoardEditOpen(open); if (!open) setSelectedBoardId(null); }}
+        trigger={null}
+      />
+
       <DeleteModal
         open={deleteConfirmId !== null}
         onOpenChange={open => !open && handleDeleteCancel()}
@@ -105,6 +127,7 @@ export function BoardTable({ data = [], isLoading }: BoardTableProps) {
         title="Delete Board"
         description="Are you sure you want to delete this board? This action cannot be undone."
         isLoading={deleteBoardMutation.isPending}
+        className="bg-background"
       />
     </>
   );
