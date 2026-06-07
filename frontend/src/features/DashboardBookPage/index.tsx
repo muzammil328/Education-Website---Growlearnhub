@@ -3,14 +3,8 @@ import React, { useState, useCallback, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@muzammil328/ui';
 import { Button } from '@muzammil328/ui';
-import { Plus } from 'lucide-react';
-
-import { DataTablePagination } from '@/components/ui/data-table-pagination';
-
-import { useBooks } from '@/hooks';
-
 import { SlidersHorizontal } from 'lucide-react';
-import { DynamicBreadcrumb } from '@/components/ui/dynamic-breadcrumb';
+import { DashboardPageHeader } from '@/components/DashboardPageHeader';
 import { BookTable } from './BookTable';
 import { StatusEnum } from '@muzammil328/education-packages';
 
@@ -124,11 +118,11 @@ export default function BookPage({
 
   const bookData = responseData?.data ?? [];
 
-  const paginationData = responseData?.pagination ?? {
-    totalRecords: 0,
-    totalPages: 1,
-    currentPage: 1,
-    limit: 10,
+  const paginationData = {
+    totalRecords: responseData?.pagination?.totalRecords ?? 0,
+    totalPages: responseData?.pagination?.totalPages ?? 1,
+    currentPage: responseData?.pagination?.page ?? 1,
+    limit: responseData?.pagination?.pageSize ?? 10,
   };
 
   if (error && !isLoading) {
@@ -146,30 +140,27 @@ export default function BookPage({
   }
 
   return (
-    <div className="border rounded-md">
-      <div className="flex items-center justify-between">
-        <div className="flex flex-col items-start">
-          <h1 className="text-3xl font-bold pb-2">Book Management</h1>
-          <DynamicBreadcrumb />
-        </div>
-        <Button onClick={() => setIsAddBookOpen(true)} size="sm">
-          <Plus className="h-4 w-4 mr-2" />
-          Add Book
-        </Button>
-      </div>
-      <div className="p-4 border-b">
+    <div>
+      <DashboardPageHeader
+        title="Book Management"
+        description="Manage textbooks and study materials for each class"
+        action={
+          <Button onClick={() => setIsAddBookOpen(true)} size="lg">
+            Add Book
+          </Button>
+        }
+      />
+      <div className="border rounded-md pb-3">
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <input
-              type="text"
-              placeholder="Search books..."
-              className="py-2 px-3 focus:outline-none h-10 w-64 border rounded-md"
-              value={search}
-              onChange={e => setSearch(e.target.value)}
-            />
-          </div>
+          <input
+            type="text"
+            placeholder="Search books..."
+            className="py-2 px-3 focus:outline-none h-12"
+            value={search}
+            onChange={e => setSearch(e.target.value)}
+          />
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-4">
             <div className="space-y-2 w-32">
               <Select onValueChange={handleStatusChange} value={status}>
                 <SelectTrigger className="w-full">
@@ -199,22 +190,20 @@ export default function BookPage({
             </div>
           </div>
         </div>
-      </div>
 
-      <BookTable
-        data={bookData}
-        isLoading={isLoading}
-        isBookViewOpen={isBookViewOpen}
-        setIsBookViewOpen={setIsBookViewOpen}
-        isBookEditOpen={isBookEditOpen}
-        setIsBookEditOpen={setIsBookEditOpen}
-        selectedBookId={selectedBookId}
-        setSelectedBookId={setSelectedBookId}
-        isAddBookOpen={isAddBookOpen}
-        setIsAddBookOpen={setIsAddBookOpen}
-      />
+        <BookTable
+          data={bookData}
+          isLoading={isLoading}
+          isBookViewOpen={isBookViewOpen}
+          setIsBookViewOpen={setIsBookViewOpen}
+          isBookEditOpen={isBookEditOpen}
+          setIsBookEditOpen={setIsBookEditOpen}
+          selectedBookId={selectedBookId}
+          setSelectedBookId={setSelectedBookId}
+          isAddBookOpen={isAddBookOpen}
+          setIsAddBookOpen={setIsAddBookOpen}
+        />
 
-      <div className="border-t p-4">
         <DataTablePagination
           canPreviousPage={paginationData.currentPage > 1}
           canNextPage={paginationData.currentPage < paginationData.totalPages}

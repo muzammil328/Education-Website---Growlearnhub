@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useMemo, useEffect, useRef } from 'react';
+import { useFormContext } from 'react-hook-form';
 import { SelectField } from '@/components/ui/select-field'
 import { DropdownLoader } from '@muzammil328/ui'
 import { Label, FormString, FormNumber } from '@muzammil328/ui';
@@ -8,34 +9,84 @@ import { useDropdownClasses } from '@/hooks';
 import { useDropdownBooks } from '@/hooks';
 import { DropdownSkeleton } from '@/components/DropdownSkeleton';
 
-export default function ChapterModalForm({ isOpen = true }: { isOpen?: boolean }) {
+export default function ChapterModalForm({
+  isOpen = true,
+  initialSelection,
+}: {
+  isOpen?: boolean;
+  initialSelection?: {
+    classId?: string;
+    className?: string;
+    bookId?: string;
+    bookName?: string;
+  };
+}) {
   const {
     data: classData,
     isLoading: isLoadingClasses,
     error: classesError,
   } = useDropdownClasses(isOpen);
 
+  const { watch, setValue } = useFormContext();
+  const selectedClassId = watch('classId');
+  const selectedBookId = watch('bookId');
+
   const {
     data: bookData,
     isLoading: isLoadingBooks,
     error: booksError,
-  } = useDropdownBooks(undefined, { enabled: isOpen });
+  } = useDropdownBooks(
+    selectedClassId ? { classId: selectedClassId } : undefined,
+    { enabled: isOpen && Boolean(selectedClassId) }
+  );
 
   const classOptions = useMemo(() => {
-    if (!classData) return [];
-    return classData.map(item => ({
+    const options = (classData || []).map(item => ({
       value: item.value || '',
       label: item.label || 'Unnamed Class',
     }));
-  }, [classData]);
+    if (
+      initialSelection?.classId &&
+      initialSelection.className &&
+      !options.some(o => o.value === initialSelection.classId)
+    ) {
+      options.unshift({ value: initialSelection.classId, label: initialSelection.className });
+    }
+    return options;
+  }, [classData, initialSelection?.classId, initialSelection?.className]);
 
   const bookOptions = useMemo(() => {
-    if (!bookData) return [];
-    return bookData.map(item => ({
+    const options = (bookData || []).map(item => ({
       value: item.value || '',
       label: item.label || 'Unnamed Book',
     }));
-  }, [bookData]);
+    if (
+      initialSelection?.bookId &&
+      initialSelection.bookName &&
+      !options.some(o => o.value === initialSelection.bookId)
+    ) {
+      options.unshift({ value: initialSelection.bookId, label: initialSelection.bookName });
+    }
+    return options;
+  }, [bookData, initialSelection?.bookId, initialSelection?.bookName]);
+
+  const didHydrateInitialSelection = useRef(false);
+
+  useEffect(() => {
+    if (didHydrateInitialSelection.current || !initialSelection) {
+      return;
+    }
+
+    didHydrateInitialSelection.current = true;
+
+    if (!selectedClassId && initialSelection.classId) {
+      setValue('classId', initialSelection.classId, { shouldValidate: false });
+    }
+
+    if (!selectedBookId && initialSelection.bookId) {
+      setValue('bookId', initialSelection.bookId, { shouldValidate: false });
+    }
+  }, [initialSelection, selectedClassId, selectedBookId, setValue]);
 
   return (
     <div>
@@ -53,7 +104,7 @@ export default function ChapterModalForm({ isOpen = true }: { isOpen?: boolean }
               isEmpty={classOptions.length === 0}
               emptyMessage="No active classes found."
             >
-              <SelectField name="classId" placeholder="Select class" options={classOptions} />
+              <SelectField key={initialSelection?.classId || 'class'} name="classId" placeholder="Select class" options={classOptions} />
             </DropdownLoader>
           </div>
         )}
@@ -76,7 +127,7 @@ export default function ChapterModalForm({ isOpen = true }: { isOpen?: boolean }
               isEmpty={bookOptions.length === 0}
               emptyMessage="No active books found for this class."
             >
-              <SelectField name="bookId" placeholder="Select book" options={bookOptions} />
+              <SelectField key={initialSelection?.bookId || 'book'} name="bookId" placeholder="Select book" options={bookOptions} />
             </DropdownLoader>
           </div>
         )}

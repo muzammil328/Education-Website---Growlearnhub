@@ -11,8 +11,8 @@ export default function ChapterModalView({
     order?: number;
     className?: string;
     bookName?: string;
-    class?: { classId: string; className: string };
-    book?: { bookId: string; bookName: string };
+    class?: { classId: string; name: string };
+    book?: { bookId: string; name: string };
   };
 }) {
   return (
@@ -24,13 +24,13 @@ export default function ChapterModalView({
       <div>
         <span className="text-gray-500">Class</span>
         <p className="font-medium">
-          {formValues.class?.className || formValues.className || formValues.classId || '-'}
+          {formValues.class?.name || formValues.className || formValues.classId || '-'}
         </p>
       </div>
       <div>
         <span className="text-gray-500">Book</span>
         <p className="font-medium">
-          {formValues.book?.bookName || formValues.bookName || formValues.bookId || '-'}
+          {formValues.book?.name || formValues.bookName || formValues.bookId || '-'}
         </p>
       </div>
       <div>

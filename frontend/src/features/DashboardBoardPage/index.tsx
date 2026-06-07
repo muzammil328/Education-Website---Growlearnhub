@@ -30,6 +30,7 @@ export default function DashboardBoardPage({
 
   const [page, setPage] = useState(1);
   const [limit] = useState(10);
+  const [isAddBoardOpen, setIsAddBoardOpen] = useState(false);
 
   const [sortField, setSortField] = useState<'name' | 'status' | 'createdAt' | 'updatedAt'>(
     (querySort as 'name' | 'status' | 'createdAt' | 'updatedAt') || 'name'
@@ -108,9 +109,7 @@ export default function DashboardBoardPage({
         title="Board Management"
         description="Define and configure academic board types and offerings"
         action={
-          <Button>
-            Create Board
-          </Button>
+          <BoardModal mode="add" isOpen={isAddBoardOpen} onOpenChange={setIsAddBoardOpen} />
         }
       />
       <div className="border rounded-md pb-3">
