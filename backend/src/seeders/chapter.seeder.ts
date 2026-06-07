@@ -113,7 +113,9 @@ export async function seedChapters() {
         continue;
       }
 
-      const existing = await ChapterModel.findOne({ slug: chapterSlug, bookId: bookDoc._id });
+      const existing = await ChapterModel.findOne({
+        $or: [{ slug: chapterSlug, bookId: bookDoc._id }, { name: raw.chapterName, bookId: bookDoc._id }],
+      });
       if (existing) {
         existing.name = raw.chapterName;
         existing.order = raw.order;
@@ -124,17 +126,25 @@ export async function seedChapters() {
         continue;
       }
 
-      await ChapterModel.create({
-        name: raw.chapterName,
-        slug: chapterSlug,
-        bookId: bookDoc._id,
-        classId: classDoc._id,
-        order: raw.order,
-        status: raw.status,
-      });
-
-      createdCount += 1;
-      console.log(`Created Chapter: ${raw.chapterName} (${raw.bookName})`);
+      try {
+        await ChapterModel.create({
+          name: raw.chapterName,
+          slug: chapterSlug,
+          bookId: bookDoc._id,
+          classId: classDoc._id,
+          order: raw.order,
+          status: raw.status,
+        });
+        createdCount += 1;
+        console.log(`Created Chapter: ${raw.chapterName} (${raw.bookName})`);
+      } catch (err: any) {
+        if (err.code === 11000) {
+          console.log(`Skipping duplicate Chapter: ${raw.chapterName} (${raw.bookName})`);
+          skipped.push(`${raw.className} - ${raw.bookName} - ${raw.chapterName}`);
+        } else {
+          throw err;
+        }
+      }
     }
 
     console.log('Chapter seeding completed.');

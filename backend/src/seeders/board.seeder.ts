@@ -57,8 +57,7 @@ export async function seedBoards() {
       }
 
       const existingBoard = await Board.findOne({
-        slug: boardSlug,
-        classId: classDoc._id,
+        $or: [{ slug: boardSlug, classId: classDoc._id }, { name: raw.name, classId: classDoc._id }],
       });
 
       if (existingBoard) {
@@ -71,16 +70,24 @@ export async function seedBoards() {
         continue;
       }
 
-      await Board.create({
-        name: raw.name,
-        slug: boardSlug,
-        classId: classDoc._id,
-        description: raw.description,
-        status: raw.status ?? 'active',
-      });
-
-      createdCount += 1;
-      console.log(`Created Board: ${raw.name} (${raw.className})`);
+      try {
+        await Board.create({
+          name: raw.name,
+          slug: boardSlug,
+          classId: classDoc._id,
+          description: raw.description,
+          status: raw.status ?? 'active',
+        });
+        createdCount += 1;
+        console.log(`Created Board: ${raw.name} (${raw.className})`);
+      } catch (err: any) {
+        if (err.code === 11000) {
+          console.log(`Skipping duplicate Board: ${raw.name} (${raw.className})`);
+          skipped.push(`${raw.className} - ${raw.name}`);
+        } else {
+          throw err;
+        }
+      }
     }
 
     console.log('Board seeding completed.');

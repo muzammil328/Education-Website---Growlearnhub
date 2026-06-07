@@ -67,7 +67,9 @@ export async function seedBooks() {
       }
 
       const bookSlug = slugify(raw.name);
-      const existingBook = await BookModel.findOne({ slug: bookSlug, classId: classDoc._id });
+      const existingBook = await BookModel.findOne({
+        $or: [{ slug: bookSlug, classId: classDoc._id }, { code: raw.code }],
+      });
 
       if (existingBook) {
         existingBook.name = raw.name;

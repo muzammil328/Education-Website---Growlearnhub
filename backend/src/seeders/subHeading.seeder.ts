@@ -135,7 +135,9 @@ export async function seedSubHeadings() {
         continue;
       }
 
-      const existing = await SubHeading.findOne({ slug: subHeadingSlug, headingId: headingDoc._id });
+      const existing = await SubHeading.findOne({
+        $or: [{ slug: subHeadingSlug, headingId: headingDoc._id }, { name: raw.name, headingId: headingDoc._id }],
+      });
       if (existing) {
         existing.name = raw.name;
         existing.order = raw.order;
@@ -146,19 +148,27 @@ export async function seedSubHeadings() {
         continue;
       }
 
-      await SubHeading.create({
-        name: raw.name,
-        slug: subHeadingSlug,
-        headingId: headingDoc._id,
-        chapterId: chapterDoc._id,
-        bookId: bookDoc._id,
-        classId: classDoc._id,
-        order: raw.order,
-        status: raw.status ?? 'active',
-      });
-
-      createdCount += 1;
-      console.log(`Created SubHeading: ${raw.name}`);
+      try {
+        await SubHeading.create({
+          name: raw.name,
+          slug: subHeadingSlug,
+          headingId: headingDoc._id,
+          chapterId: chapterDoc._id,
+          bookId: bookDoc._id,
+          classId: classDoc._id,
+          order: raw.order,
+          status: raw.status ?? 'active',
+        });
+        createdCount += 1;
+        console.log(`Created SubHeading: ${raw.name}`);
+      } catch (err: any) {
+        if (err.code === 11000) {
+          console.log(`Skipping duplicate SubHeading: ${raw.name}`);
+          skipped.push(`${raw.headingName} - ${raw.name}`);
+        } else {
+          throw err;
+        }
+      }
     }
 
     console.log('SubHeading seeding completed.');

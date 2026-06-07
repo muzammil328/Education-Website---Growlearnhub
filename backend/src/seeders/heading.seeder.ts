@@ -138,7 +138,9 @@ export async function seedHeadings() {
         continue;
       }
 
-      const existing = await Heading.findOne({ slug: headingSlug, chapterId: chapterDoc._id });
+      const existing = await Heading.findOne({
+        $or: [{ slug: headingSlug, chapterId: chapterDoc._id }, { name: raw.name, chapterId: chapterDoc._id }],
+      });
       if (existing) {
         existing.name = raw.name;
         existing.order = raw.order;
@@ -149,18 +151,26 @@ export async function seedHeadings() {
         continue;
       }
 
-      await Heading.create({
-        name: raw.name,
-        slug: headingSlug,
-        chapterId: chapterDoc._id,
-        bookId: bookDoc._id,
-        classId: classDoc._id,
-        order: raw.order,
-        status: raw.status,
-      });
-
-      createdCount += 1;
-      console.log(`Created Heading: ${raw.name}`);
+      try {
+        await Heading.create({
+          name: raw.name,
+          slug: headingSlug,
+          chapterId: chapterDoc._id,
+          bookId: bookDoc._id,
+          classId: classDoc._id,
+          order: raw.order,
+          status: raw.status,
+        });
+        createdCount += 1;
+        console.log(`Created Heading: ${raw.name}`);
+      } catch (err: any) {
+        if (err.code === 11000) {
+          console.log(`Skipping duplicate Heading: ${raw.name}`);
+          skipped.push(`${raw.className} - ${raw.bookName} - ${raw.chapterName} - ${raw.name}`);
+        } else {
+          throw err;
+        }
+      }
     }
 
     console.log('Heading seeding completed.');
