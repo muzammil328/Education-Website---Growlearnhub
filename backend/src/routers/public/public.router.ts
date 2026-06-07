@@ -2,18 +2,20 @@ import { createTRPCRouter } from '@/trpc/trpc';
 import { serviceByClassSlug } from './serviceByClassSlug';
 import { bookGetByClassAndServiceSlug } from './bookGetByClassAndServiceSlug';
 import { chapterGetByClassAndServiceAndSubjectSlug } from './chapterGetByClassAndServiceAndSubjectSlug';
+import { headingGetByClassAndServiceAndSubjectAndChapterSlug } from './headingGetByClassAndServiceAndSubjectAndChapterSlug';
+import { subHeadingGetByClassAndServiceAndSubjectAndChapterAndHeadingSlug } from './subHeadingGetByClassAndServiceAndSubjectAndChapterAndHeadingSlug';
 import { boardGetBySlug } from './boardGetBySlug';
 import { classGetByServiceSlug } from './classGetByServiceSlug';
-import { headingGetBySlug } from './headingGetBySlug';
-import { subHeadingGetBySlug } from './subHeadingGetBySlug';
+import { mcqsBySlug } from './mcqsBySlug';
 
 export const publicRouter = createTRPCRouter({
   getServiceByClassSlug: serviceByClassSlug,
   getBookByClassAndServiceSlug: bookGetByClassAndServiceSlug,
   getChapterByClassAndServiceAndSubjectSlug: chapterGetByClassAndServiceAndSubjectSlug,
+  getByHeadingClassAndServiceAndSubjectAndChapterSlug: headingGetByClassAndServiceAndSubjectAndChapterSlug,
+  getBySubHeadingClassAndServiceAndSubjectAndChapterAndHeadingSlug: subHeadingGetByClassAndServiceAndSubjectAndChapterAndHeadingSlug,
 
   getByBoardSlug: boardGetBySlug,
-  getByHeadingSlug: headingGetBySlug,
-  getBySubHeadingSlug: subHeadingGetBySlug,
   getByClassServiceSlug: classGetByServiceSlug,
+  mcqsBySlug,
 });

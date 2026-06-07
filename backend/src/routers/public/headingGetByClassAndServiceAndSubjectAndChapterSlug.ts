@@ -5,7 +5,7 @@ import { getHeadingBySlugInputSchema } from '@muzammil328/education-packages';
 import { publicProcedure } from '@/trpc/trpc';
 import { buildMatch } from '@muzammil328/db';
 
-export const headingGetBySlug = publicProcedure
+export const headingGetByClassAndServiceAndSubjectAndChapterSlug = publicProcedure
   .input(getHeadingBySlugInputSchema)
   .query(async ({ input }) => {
     try {

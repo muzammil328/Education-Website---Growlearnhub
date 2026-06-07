@@ -1,7 +1,7 @@
 'use client';
 import { useState, useMemo } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useMcqs } from '@/hooks';
+import { useMcqsBySlug } from '@/hooks/use-public';
 import { cn } from '@muzammil328/ui';
 
 type Mode = 'online-test' | 'mcqs';
@@ -11,11 +11,10 @@ interface AnswerState {
 }
 
 interface McqItem {
-  _id: string;
+  mcqId: string;
   question: string;
   options: string[];
   correctOption: number;
-  status: string;
   className?: string;
   bookName?: string;
   chapterName?: string;
@@ -29,35 +28,36 @@ export default function LivePage() {
 
   const mode = (searchParams.get('mode') as Mode) || 'mcqs';
 
-  const classId = searchParams.get('class') || undefined;
-  const bookId = searchParams.get('book') || undefined;
-  const chapterId = searchParams.get('chapter') || undefined;
-  const headingId = searchParams.get('heading') || undefined;
-  const subHeadingId = searchParams.get('subHeading') || undefined;
+  const classSlug = searchParams.get('class') || undefined;
+  const bookSlug = searchParams.get('book') || undefined;
+  const chapterSlug = searchParams.get('chapter') || undefined;
+  const headingSlug = searchParams.get('heading') || undefined;
+  const subHeadingSlug = searchParams.get('subHeading') || undefined;
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [answers, setAnswers] = useState<AnswerState>({});
   const [showResults, setShowResults] = useState(false);
+  const [page, setPage] = useState(1);
+  const [quizStarted, setQuizStarted] = useState(false);
+  const limit = 10;
 
-  const { data, isLoading, error } = useMcqs({
-    status: 'active',
-    page: 1,
-    limit: 10,
-    sort: 'name',
-    sortDirection: 'asc',
-    classId: classId,
-    bookId: bookId,
-    chapterId: chapterId,
-    headingId: headingId,
-    subHeadingId: subHeadingId,
-  });
+  const { data, isLoading, error } = useMcqsBySlug(
+    classSlug,
+    bookSlug,
+    chapterSlug,
+    headingSlug,
+    subHeadingSlug,
+    page,
+    limit
+  );
 
   const mcqs: McqItem[] = Array.isArray(data?.data) ? (data.data as McqItem[]) : [];
+  const totalPages = data?.pagination?.totalPages ?? 0;
 
   const score = useMemo(() => {
     let correct = 0;
     mcqs.forEach(mcq => {
-      const selectedAnswer = answers[mcq._id];
+      const selectedAnswer = answers[mcq.mcqId];
       if (selectedAnswer !== undefined && selectedAnswer === mcq.correctOption) {
         correct++;
       }
@@ -70,7 +70,7 @@ export default function LivePage() {
     if (!currentMcq) return;
     setAnswers(prev => ({
       ...prev,
-      [currentMcq._id]: optionIndex,
+      [currentMcq.mcqId]: optionIndex,
     }));
   };
 
@@ -162,8 +162,17 @@ export default function LivePage() {
     );
   }
 
-  if (mode === 'mcqs') {
-    return <McqsListPage mcqs={mcqs} router={router} />;
+  if (!quizStarted) {
+    return (
+      <McqsListPage
+        mcqs={mcqs}
+        page={page}
+        totalPages={totalPages}
+        onPageChange={setPage}
+        mode={mode}
+        onStart={() => setQuizStarted(true)}
+      />
+    );
   }
 
   if (showResults) {
@@ -246,7 +255,7 @@ export default function LivePage() {
           {currentMcq?.options && currentMcq.options.length > 0 ? (
             <div className="space-y-3">
               {currentMcq.options.map((optionText: string, idx: number) => {
-                const selectedAnswer = answers[currentMcq._id];
+                const selectedAnswer = answers[currentMcq.mcqId];
                 const isSelected = selectedAnswer === idx;
                 return (
                   <button
@@ -314,7 +323,7 @@ export default function LivePage() {
                   'w-3 h-3 rounded-full transition',
                   idx === currentIndex
                     ? 'bg-blue-600'
-                    : answers[mcqs[idx]?._id] !== undefined
+                    : answers[mcqs[idx]?.mcqId] !== undefined
                       ? 'bg-green-500'
                       : 'bg-slate-300'
                 )}
@@ -343,7 +352,21 @@ export default function LivePage() {
   );
 }
 
-function McqsListPage({ mcqs, router }: { mcqs: McqItem[]; router: ReturnType<typeof useRouter> }) {
+function McqsListPage({
+  mcqs,
+  page,
+  totalPages,
+  onPageChange,
+  mode = 'mcqs',
+  onStart,
+}: {
+  mcqs: McqItem[];
+  page: number;
+  totalPages: number;
+  onPageChange: (p: number) => void;
+  mode?: string;
+  onStart?: () => void;
+}) {
   return (
     <div className="min-h-screen bg-linear-to-br from-slate-50 to-slate-100 py-8 px-4">
       <div className="max-w-4xl mx-auto">
@@ -355,12 +378,12 @@ function McqsListPage({ mcqs, router }: { mcqs: McqItem[]; router: ReturnType<ty
         <div className="grid gap-4">
           {mcqs.map((mcq, idx) => (
             <div
-              key={mcq._id}
+              key={mcq.mcqId}
               className="bg-white rounded-2xl shadow-sm hover:shadow-md transition p-6 border border-slate-100"
             >
               <div className="flex items-start gap-4">
                 <span className="shrink-0 w-10 h-10 bg-blue-100 text-blue-600 rounded-xl flex items-center justify-center font-semibold">
-                  {idx + 1}
+                  {(page - 1) * 10 + idx + 1}
                 </span>
                 <div className="flex-1 min-w-0">
                   <h3 className="text-lg font-semibold text-slate-900 mb-2">{mcq.question}</h3>
@@ -386,49 +409,66 @@ function McqsListPage({ mcqs, router }: { mcqs: McqItem[]; router: ReturnType<ty
                       </span>
                     )}
                   </div>
-                  <span
-                    className={cn(
-                      'inline-flex items-center px-3 py-1 rounded-full text-sm font-medium',
-                      mcq.status === 'active'
-                        ? 'bg-green-100 text-green-700'
-                        : 'bg-amber-100 text-amber-700'
-                    )}
-                  >
-                    {mcq.status === 'active' ? 'Active' : 'Pending'}
-                  </span>
                 </div>
-                <button
-                  onClick={() => {
-                    const params = new URLSearchParams({ mode: 'online-test' });
-                    if (mcq.className) params.set('class', mcq.className);
-                    if (mcq.bookName) params.set('book', mcq.bookName);
-                    if (mcq.chapterName) params.set('chapter', mcq.chapterName);
-                    if (mcq.headingName) params.set('heading', mcq.headingName);
-                    if (mcq.subHeadingName) params.set('subHeading', mcq.subHeadingName);
-                    router.push(`/live/online-test?${params.toString()}`);
-                  }}
-                  className="px-4 py-2 bg-blue-600 text-white rounded-xl font-medium hover:bg-blue-700 transition flex items-center gap-2"
-                >
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"
-                    />
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                    />
-                  </svg>
-                  Start Test
-                </button>
+                {mode === 'online-test' && (
+                  <button
+                    onClick={onStart}
+                    className="px-4 py-2 bg-blue-600 text-white rounded-xl font-medium hover:bg-blue-700 transition flex items-center gap-2 shrink-0"
+                  >
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"
+                      />
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                      />
+                    </svg>
+                    Start Test
+                  </button>
+                )}
               </div>
             </div>
           ))}
         </div>
+
+        {totalPages > 1 && (
+          <div className="flex items-center justify-center gap-2 mt-8">
+            <button
+              onClick={() => onPageChange(page - 1)}
+              disabled={page <= 1}
+              className="px-4 py-2 rounded-xl font-medium transition disabled:opacity-50 disabled:cursor-not-allowed bg-white text-slate-700 hover:bg-slate-50 border border-slate-200"
+            >
+              Previous
+            </button>
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map(p => (
+              <button
+                key={p}
+                onClick={() => onPageChange(p)}
+                className={cn(
+                  'w-10 h-10 rounded-xl font-medium transition',
+                  p === page
+                    ? 'bg-blue-600 text-white'
+                    : 'bg-white text-slate-700 hover:bg-slate-50 border border-slate-200'
+                )}
+              >
+                {p}
+              </button>
+            ))}
+            <button
+              onClick={() => onPageChange(page + 1)}
+              disabled={page >= totalPages}
+              className="px-4 py-2 rounded-xl font-medium transition disabled:opacity-50 disabled:cursor-not-allowed bg-white text-slate-700 hover:bg-slate-50 border border-slate-200"
+            >
+              Next
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );

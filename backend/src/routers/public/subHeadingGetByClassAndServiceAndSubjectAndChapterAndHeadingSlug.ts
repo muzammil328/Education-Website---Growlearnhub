@@ -5,7 +5,7 @@ import { getSubHeadingBySlugInputSchema } from '@muzammil328/education-packages'
 import { publicProcedure } from '@/trpc/trpc';
 import { buildMatch } from '@muzammil328/db';
 
-export const subHeadingGetBySlug = publicProcedure
+export const subHeadingGetByClassAndServiceAndSubjectAndChapterAndHeadingSlug = publicProcedure
   .input(getSubHeadingBySlugInputSchema)
   .query(async ({ input }) => {
     try {
@@ -13,7 +13,6 @@ export const subHeadingGetBySlug = publicProcedure
       const bookSlug = input.bookSlug?.trim();
       const chapterSlug = input.chapterSlug?.trim();
       const headingSlug = input.headingSlug?.trim();
-      const subHeadingSlug = input.subHeadingSlug?.trim();
 
 
       if (!classSlug) {
@@ -62,22 +61,12 @@ export const subHeadingGetBySlug = publicProcedure
             unwind: false,
           })
 
-          .lookupOne({
-            from: 'subHeadings',
-            localField: 'subHeadingId',
-            foreignField: '_id',
-            as: 'subHeading',
-            pick: ['name', 'slug'],
-            unwind: false,
-          })
-
           // filter by class slug after join
           .match({
-            'class.slug': classSlug,
+            ...(classSlug ? { 'class.slug': classSlug } : {}),
             ...(bookSlug ? { 'book.slug': bookSlug } : {}),
             ...(chapterSlug ? { 'chapter.slug': chapterSlug } : {}),
             ...(headingSlug ? { 'heading.slug': headingSlug } : {}),
-            ...(subHeadingSlug ? { 'subHeading.slug': subHeadingSlug } : {}),
           })
 
           .project({

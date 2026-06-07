@@ -52,7 +52,7 @@ export default async function page({ params }: PageProps) {
 
   return (
     <UserLayout title={data.title} canonical={data.canonical} image={data.image} url={data.url}>
-      <OnlineTestClass9ChapterPage className="class-9" bookName={slug1} chapterName={slug2} />
+      <OnlineTestClass9ChapterPage className="class-9" bookSlug={slug1} chapterSlug={slug2} />
     </UserLayout>
   );
 }

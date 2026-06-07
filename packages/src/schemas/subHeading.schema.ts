@@ -47,7 +47,6 @@ export const getSubHeadingBySlugInputSchema = z.object({
   bookSlug: z.string().min(1),
   chapterSlug: z.string().min(1),
   headingSlug: z.string().min(1),
-  subHeadingSlug: z.string().min(1),
 });
 export type GetSubHeadingBySlugInput = z.infer<typeof getSubHeadingBySlugInputSchema>;
 

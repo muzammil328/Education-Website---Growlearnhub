@@ -2,54 +2,55 @@ import React from 'react';
 import UserLayout from '@/components/layout/UserLayout';
 import { removeDashAndUppercase } from '@/lib/removeDashAndUppercase';
 import { notFound } from 'next/navigation';
-import OnlineTestClass9BookPage from '@/features/OnlineTest/Class9/Book';
+import OnlineTestClass9HeadingPage from '@/features/OnlineTest/Class9/Heading';
 import { config } from '@/config';
 
 interface PageProps {
-  params: Promise<{ book: string }>;
+  params: Promise<{ book: string; chapter: string; heading: string }>;
 }
 
 const image = '/9th/class_9_online_test.webp';
 
 export default async function page({ params }: PageProps) {
-  const { book } = await params;
-  const slug = book;
-  const SlugRemoveDashAndUppercase = removeDashAndUppercase(slug);
+  const { book, chapter, heading } = await params;
 
-  if (!book) {
+  if (!book || !chapter || !heading) {
     notFound();
   }
 
   return (
     <UserLayout
-      title={`Class 9 ${SlugRemoveDashAndUppercase} Online Test`}
-      canonical={`/class-9/online-test/${slug}`}
+      title={`Class 9 ${removeDashAndUppercase(book)} ${removeDashAndUppercase(chapter)} ${removeDashAndUppercase(heading)} Online Test`}
+      canonical={`/class-9/online-test/${book}/${chapter}/${heading}`}
       image={image}
-      url={`https://growlearnhub.com/class-9/online-test/${slug}`}
+      url={`https://growlearnhub.com/class-9/online-test/${book}/${chapter}/${heading}`}
     >
-      <OnlineTestClass9BookPage className="class-9" bookSlug={slug} />
+      <OnlineTestClass9HeadingPage
+        className="class-9"
+        bookSlug={book}
+        chapterSlug={chapter}
+        headingSlug={heading}
+      />
     </UserLayout>
   );
 }
 
 export async function generateMetadata({ params }: PageProps) {
-  const { book } = await params;
-  const slug = book;
-  const url = `${config.SITE_URL ?? ''}/class-9/online-test/${slug}/`;
-  const canonical = `/class-9/online-test/${slug}/`;
+  const { book, chapter, heading } = await params;
 
-  const SlugRemoveDashAndUppercase = removeDashAndUppercase(slug);
+  const url = `${config.SITE_URL ?? ''}/class-9/online-test/${book}/${chapter}/${heading}/`;
+  const canonical = `/class-9/online-test/${book}/${chapter}/${heading}/`;
 
   try {
-    const title = `Class 9 ${SlugRemoveDashAndUppercase} Online Test`;
-    const description = `Class 9 ${SlugRemoveDashAndUppercase} Online Test page offering a wide range of practice questions, online tests, and detailed answers for thorough exam preparation.`;
+    const title = `Class 9 ${removeDashAndUppercase(book)} ${removeDashAndUppercase(chapter)} ${removeDashAndUppercase(heading)} Online Test`;
+    const description = `Class 9 ${removeDashAndUppercase(book)} ${removeDashAndUppercase(chapter)} ${removeDashAndUppercase(heading)} Online Test — practice with chapter-wise quizzes, instant scoring, and detailed feedback.`;
     const keywords = [
+      'class 9 online test',
+      'class 9 chapter wise test',
       'class 9 biology online test',
       'class 9 chemistry online test',
-      'class 9 maths online test',
       'class 9 physics online test',
-      'class 9 history online test',
-      'class 9 geography online test',
+      'free class 9 quiz',
     ];
 
     return {

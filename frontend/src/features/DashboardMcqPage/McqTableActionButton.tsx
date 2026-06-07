@@ -41,7 +41,7 @@ export default function TableActionButton({
             </DropdownMenuItem>
           }
         />
-        <McqsModal
+        <McqModal
           mode="edit"
           mcqId={mcqId}
           trigger={

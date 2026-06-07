@@ -1,14 +1,16 @@
 import { trpc } from '@/trpc/trpc';
 
-export const useServiceBySlug = (classSlug?: string) => {
-  return trpc.service.getBySlug.useQuery(
+// get service by class slug
+export const useServiceByClassSlug = (classSlug?: string) => {
+  return trpc.public.getServiceByClassSlug.useQuery(
     { classSlug: classSlug || '' },
     { enabled: Boolean(classSlug), retry: false, refetchOnWindowFocus: false }
   );
 };
 
-export const useBooksBySlug = (classSlug: string, serviceSlug?: string) => {
-  const { data, isLoading, error } = trpc.book.getBySlug.useQuery({
+// get books by class and service slug
+export const useBooksByClassAndServiceSlug = (classSlug: string, serviceSlug?: string) => {
+  const { data, isLoading, error } = trpc.public.getBookByClassAndServiceSlug.useQuery({
     classSlug,
     serviceSlug,
   });
@@ -18,6 +20,80 @@ export const useBooksBySlug = (classSlug: string, serviceSlug?: string) => {
     isLoading,
     error,
   };
+};
+
+// get chapters by class, service and subject slug
+export const useChapterByClassAndBookSlug = (classSlug?: string, bookSlug?: string) => {
+  return trpc.public.getChapterByClassAndServiceAndSubjectSlug.useQuery(
+    { classSlug: classSlug || '', bookSlug: bookSlug || '' },
+    {
+      enabled: Boolean(classSlug && bookSlug),
+      retry: false,
+      refetchOnWindowFocus: false,
+    }
+  );
+};
+
+// get headings by class, service, subject and chapter slug
+export const useHeadingByClassAndSubjectAndChapterSlug = (classSlug?: string, bookSlug?: string, chapterSlug?: string) => {
+  return trpc.public.getByHeadingClassAndServiceAndSubjectAndChapterSlug.useQuery(
+    { classSlug: classSlug || '', bookSlug: bookSlug || '', chapterSlug: chapterSlug || '' },
+    {
+      enabled: Boolean(classSlug && bookSlug && chapterSlug),
+      retry: false,
+      refetchOnWindowFocus: false,
+    }
+  );
+};
+
+// get subheading by class, service, subject, chapter and heading slug
+export const useSubHeadingByClassAndSubjectAndChapterAndHeadingSlug = (
+  classSlug?: string,
+  bookSlug?: string,
+  chapterSlug?: string,
+  headingSlug?: string
+) => {
+  return trpc.public.getBySubHeadingClassAndServiceAndSubjectAndChapterAndHeadingSlug.useQuery(
+    {
+      classSlug: classSlug || '',
+      bookSlug: bookSlug || '',
+      chapterSlug: chapterSlug || '',
+      headingSlug: headingSlug || '',
+    },
+    {
+      enabled: Boolean(classSlug && bookSlug && chapterSlug && headingSlug),
+      retry: false,
+      refetchOnWindowFocus: false,
+    }
+  );
+};
+
+// get mcqs by class, book, chapter, heading, subHeading slugs
+export const useMcqsBySlug = (
+  classSlug?: string,
+  bookSlug?: string,
+  chapterSlug?: string,
+  headingSlug?: string,
+  subHeadingSlug?: string,
+  page: number = 1,
+  limit: number = 10
+) => {
+  return trpc.public.mcqsBySlug.useQuery(
+    {
+      classSlug: classSlug || '',
+      bookSlug: bookSlug || '',
+      chapterSlug: chapterSlug || '',
+      headingSlug: headingSlug || '',
+      subHeadingSlug: subHeadingSlug || '',
+      page,
+      limit,
+    },
+    {
+      enabled: Boolean(classSlug && bookSlug && chapterSlug),
+      retry: false,
+      refetchOnWindowFocus: false,
+    }
+  );
 };
 
 export const useClassesBySlug = (serviceSlug: string) => {
@@ -30,45 +106,4 @@ export const useClassesBySlug = (serviceSlug: string) => {
     isLoading,
     error,
   };
-};
-
-export const useChapterBySlug = (classSlug?: string, bookSlug?: string) => {
-  return trpc.chapter.getBySlug.useQuery(
-    { classSlug: classSlug || '', bookSlug: bookSlug || '' },
-    {
-      enabled: Boolean(classSlug && bookSlug),
-      retry: false,
-      refetchOnWindowFocus: false,
-    }
-  );
-};
-
-export const useHeadingBySlug = (classSlug?: string, bookSlug?: string, chapterSlug?: string) => {
-  return trpc.heading.getBySlug.useQuery(
-    { classSlug: classSlug || '', bookSlug: bookSlug || '', chapterSlug: chapterSlug || '' },
-    {
-      enabled: Boolean(classSlug && bookSlug && chapterSlug),
-      retry: false,
-      refetchOnWindowFocus: false,
-    }
-  );
-};
-
-export const useChaptersBySlug = (classSlug?: string, bookSlug?: string) => {
-  return trpc.chapter.getBySlug.useQuery(
-    { classSlug: classSlug || '', bookSlug: bookSlug || '' },
-    {
-      enabled: Boolean(classSlug && bookSlug),
-      retry: false,
-      refetchOnWindowFocus: false,
-    }
-  );
-};
-
-
-export const useSubHeadingBySlug = (slug?: string) => {
-  return trpc.subHeading.getBySlug.useQuery(
-    { slug: slug || '' },
-    { enabled: Boolean(slug), retry: false, refetchOnWindowFocus: false }
-  );
 };

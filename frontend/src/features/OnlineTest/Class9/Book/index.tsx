@@ -1,66 +1,19 @@
+'use client';
 import React from 'react';
 import CardSmall from '@/components/card/SmallCard';
 import { Heading2 } from '@muzammil328/ui';
-import {
-  decodeRouteParam,
-  slugifyPathSegment,
-  toClassDisplayName,
-  toDisplayName,
-} from '@/lib/class-filter';
+import { useChapterByClassAndBookSlug } from '@/hooks/use-public';
+import { toDisplayName } from '@/lib/class-filter';
 
 export default function OnlineTestClass9BookPage({
   className,
   bookSlug,
-  bookName,
 }: {
   className: string;
   bookSlug: string;
-  bookName?: string;
 }) {
-  const decodedBookName = bookName ? decodeRouteParam(bookName) : toDisplayName(bookSlug);
-  const normalizedClassName = toClassDisplayName(className);
-
-  const [chapters, setChapters] = React.useState<Array<{ name: string; slug: string }>>([]);
-  const [isLoading, setIsLoading] = React.useState(true);
-  const [error, setError] = React.useState<string | null>(null);
-
-  React.useEffect(() => {
-    let isMounted = true;
-
-    const fetchChapters = async () => {
-      try {
-        setIsLoading(true);
-        setError(null);
-
-        const items = await getChaptersByClassAndBookName(normalizedClassName, decodedBookName);
-
-        if (!isMounted) {
-          return;
-        }
-
-        setChapters(
-          items.map(item => ({
-            name: item.name,
-            slug: item.slug || slugifyPathSegment(item.name),
-          }))
-        );
-      } catch {
-        if (isMounted) {
-          setError('Failed to load chapters');
-        }
-      } finally {
-        if (isMounted) {
-          setIsLoading(false);
-        }
-      }
-    };
-
-    void fetchChapters();
-
-    return () => {
-      isMounted = false;
-    };
-  }, [decodedBookName, normalizedClassName]);
+  const { data, isLoading, error } = useChapterByClassAndBookSlug(className, bookSlug);
+  const chapters = data?.data ?? [];
 
   if (isLoading) {
     return (
@@ -96,7 +49,7 @@ export default function OnlineTestClass9BookPage({
 
   return (
     <div>
-      <Heading2>Chapter Wise Online Test</Heading2>
+      <Heading2>{toDisplayName(bookSlug)} — Chapter Wise Online Test</Heading2>
       <div className="my-5 grid grid-cols-1 gap-4 md:grid-cols-2">
         {chapters.map(chapter => (
           <CardSmall

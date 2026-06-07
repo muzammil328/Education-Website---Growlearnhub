@@ -3,25 +3,26 @@ import UserLayout from '@/components/layout/UserLayout';
 import { Heading2 } from '@muzammil328/ui';
 import { removeDashAndUppercase } from '@/lib/removeDashAndUppercase';
 import { config } from '@/config';
-import Class9McqsBookChapterPage from '@/features/McqsPage/Class9/Chapter';
+import Class9McqsHeadingPage from '@/features/McqsPage/Class9/Heading';
 
 interface PageProps {
-  params: Promise<{ subject: string; chapter: string }>;
+  params: Promise<{ subject: string; chapter: string; Heading: string }>;
 }
 
 const CLASS_SLUG = 'class-9';
 const image = '/9th/class_9_mcqs.webp';
 
-function buildData(subject: string, chapter: string) {
+function buildData(subject: string, chapter: string, heading: string) {
   const subjectLabel = removeDashAndUppercase(subject);
   const chapterLabel = removeDashAndUppercase(chapter);
+  const headingLabel = removeDashAndUppercase(heading);
 
   return {
-    title: `Class 9 ${subjectLabel} ${chapterLabel} Topics`,
-    description: `Explore topics in Class 9 ${subjectLabel} ${chapterLabel} and continue to topic-specific MCQs.`,
-    keywords: [`Class 9 ${subjectLabel} ${chapterLabel} topics`, `${chapterLabel} MCQs for Class 9`],
-    canonical: `/${CLASS_SLUG}/mcqs/${subject}/${chapter}/`,
-    url: `${config.SITE_URL}/${CLASS_SLUG}/mcqs/${subject}/${chapter}/`,
+    title: `Class 9 ${subjectLabel} ${chapterLabel} ${headingLabel} Topics`,
+    description: `Explore sub-topics in Class 9 ${subjectLabel} ${chapterLabel} ${headingLabel} and continue to topic-specific MCQs.`,
+    keywords: [`Class 9 ${subjectLabel} ${chapterLabel} ${headingLabel} topics`, `${headingLabel} MCQs for Class 9`],
+    canonical: `/${CLASS_SLUG}/mcqs/${subject}/${chapter}/${heading}/`,
+    url: `${config.SITE_URL}/${CLASS_SLUG}/mcqs/${subject}/${chapter}/${heading}/`,
     image,
   };
 }
@@ -29,8 +30,8 @@ function buildData(subject: string, chapter: string) {
 export const revalidate = 432000;
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-  const { subject, chapter } = await params;
-  const data = buildData(subject, chapter);
+  const { subject, chapter, Heading } = await params;
+  const data = buildData(subject, chapter, Heading);
 
   return {
     title: data.title,
@@ -53,23 +54,24 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 }
 
 export default async function Page({ params }: PageProps) {
-  const { subject, chapter } = await params;
-  const data = buildData(subject, chapter);
+  const { subject, chapter, Heading } = await params;
+  const data = buildData(subject, chapter, Heading);
   const subjectLabel = removeDashAndUppercase(subject);
   const chapterLabel = removeDashAndUppercase(chapter);
+  const headingLabel = removeDashAndUppercase(Heading);
 
   return (
     <UserLayout title={data.title} image={data.image} canonical={data.canonical} url={data.url}>
       <article className="space-y-8">
         <header className="space-y-3">
           <Heading2 className="mb-2" weight="bold" size="sm">
-            Class 9 {subjectLabel} {chapterLabel} Topics
+            Class 9 {subjectLabel} {chapterLabel} {headingLabel} Topics
           </Heading2>
           <p className="text-base">
-            Move from chapters into the topic hierarchy for {chapterLabel}.
+            Move from headings into the sub-topic hierarchy for {headingLabel}.
           </p>
         </header>
-        <Class9McqsBookChapterPage bookSlug={subject} chapterSlug={chapter} />
+        <Class9McqsHeadingPage bookSlug={subject} chapterSlug={chapter} headingSlug={Heading} />
       </article>
     </UserLayout>
   );

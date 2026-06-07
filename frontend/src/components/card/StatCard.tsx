@@ -9,7 +9,7 @@ interface StatCardProps {
 
 const StatCard = ({ title, count, icon }: StatCardProps) => {
   return (
-    <Card className="relative transition-all hover:bg-black/90 dark:bg-[#09090b]">
+    <Card className="relative transition-all">
       <CardContent className="p-6">
         <div className="flex items-center gap-4">
           <div className="rounded-xl bg-destructive p-3">{icon}</div>

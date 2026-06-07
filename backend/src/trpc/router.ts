@@ -1,5 +1,6 @@
 import { createTRPCRouter } from './trpc';
 import { authRouter } from '../routers/auth.router';
+import { userAuthRouter } from '../routers';
 import { classRouter } from '../routers/class/class.router';
 import { bookRouter } from '../routers/book/book.router';
 import { chapterRouter } from '../routers/chapter/chapter.router';
@@ -17,6 +18,7 @@ import { publicRouter } from '../routers/public/public.router';
 
 export const appRouter = createTRPCRouter({
   auth: authRouter,
+  user: userAuthRouter,
   class: classRouter,
   book: bookRouter,
   chapter: chapterRouter,

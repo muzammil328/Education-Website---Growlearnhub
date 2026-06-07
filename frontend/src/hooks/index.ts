@@ -13,3 +13,4 @@ export * from './use-subHeading';
 export * from './use-user';
 export * from './use-mcq-attempt';
 export * from './use-student';
+export * from './use-dashboard';
