@@ -4,14 +4,14 @@ import React from 'react';
 import CardSmall from '@/components/card/SmallCard';
 import UserLayout from '@/components/layout/UserLayout';
 import { Heading2 } from '@muzammil328/ui';
-import { useBooksBySlug } from '@/hooks/use-public';
+import { useBooksByClassAndServiceSlug } from '@/hooks/use-public';
 
 const CLASS_SLUG = 'class-11';
 const CLASS_NUMBER = '11';
 const SERVICE_SLUG = 'online-test';
 
 export default function Class11OnlineTestPage() {
-  const { books, isLoading, error } = useBooksBySlug(CLASS_SLUG, SERVICE_SLUG);
+  const { books, isLoading, error } = useBooksByClassAndServiceSlug(CLASS_SLUG, SERVICE_SLUG);
 
   return (
     <UserLayout

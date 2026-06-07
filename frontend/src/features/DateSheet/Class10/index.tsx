@@ -4,13 +4,13 @@ import React from 'react';
 import Link from 'next/link';
 import CardSmall from '@/components/card/SmallCard';
 import UserLayout from '@/components/layout/UserLayout';
-import { useBooksBySlug } from '@/hooks/use-public';
+import { useBooksByClassAndServiceSlug } from '@/hooks/use-public';
 
 const CLASS_SLUG = 'class-10';
 const SERVICE_SLUG = 'date-sheet';
 
 export default function Class10DateSheetPage() {
-  const { books, isLoading, error } = useBooksBySlug(CLASS_SLUG, SERVICE_SLUG);
+  const { books, isLoading, error } = useBooksByClassAndServiceSlug(CLASS_SLUG, SERVICE_SLUG);
 
   return (
     <UserLayout

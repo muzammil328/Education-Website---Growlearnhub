@@ -4,13 +4,13 @@ import React from 'react';
 import Link from 'next/link';
 import UserLayout from '@/components/layout/UserLayout';
 import CardSmall from '@/components/card/SmallCard';
-import { useBooksBySlug } from '@/hooks/use-public';
+import { useBooksByClassAndServiceSlug } from '@/hooks/use-public';
 
 const CLASS_SLUG = 'class-11';
 const CLASS_DISPLAY = '11';
 
 export default function Class11BookPage() {
-  const { books, isLoading, error } = useBooksBySlug(CLASS_SLUG, 'books');
+  const { books, isLoading, error } = useBooksByClassAndServiceSlug(CLASS_SLUG, 'books');
 
   return (
     <UserLayout

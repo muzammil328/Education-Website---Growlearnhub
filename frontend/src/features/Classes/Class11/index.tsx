@@ -3,10 +3,10 @@ import React from 'react';
 import UserLayout from '@/components/layout/UserLayout';
 import CardSmall from '@/components/card/SmallCard';
 import UnorderedList from '@/components/elements/list/UnorderedList';
-import { useServiceBySlug } from '@/hooks/use-public';
+import { useServiceByClassSlug } from '@/hooks/use-public';
 
 export default function Class11() {
-  const { data: servicesData, isLoading, error } = useServiceBySlug('class-11');
+  const { data: servicesData, isLoading, error } = useServiceByClassSlug('class-11');
   const services = servicesData?.data ?? [];
 
   if (isLoading) return null;

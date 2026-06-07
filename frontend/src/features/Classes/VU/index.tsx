@@ -2,10 +2,10 @@
 import React from 'react';
 import UserLayout from '@/components/layout/UserLayout';
 import CardSmall from '@/components/card/SmallCard';
-import { useServiceBySlug } from '@/hooks/use-public';
+import { useServiceByClassSlug } from '@/hooks/use-public';
 
 export default function VU() {
-  const { data: servicesData, isLoading, error } = useServiceBySlug('vu');
+  const { data: servicesData, isLoading, error } = useServiceByClassSlug('vu');
   const services = servicesData?.data ?? [];
 
   if (isLoading) return null;

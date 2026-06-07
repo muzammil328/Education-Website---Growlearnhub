@@ -1,6 +1,6 @@
 'use client';
 
-import { useChapterBySlug } from '@/hooks/use-public';
+import { useChapterByClassAndBookSlug } from '@/hooks/use-public';
 import Link from 'next/link';
 
 interface Props {
@@ -10,7 +10,7 @@ interface Props {
 const CLASS_SLUG = 'class-10';
 
 export default function Class10McqsBookPage({ bookSlug }: Props) {
-  const { data, isLoading, error } = useChapterBySlug(CLASS_SLUG, bookSlug);
+  const { data, isLoading, error } = useChapterByClassAndBookSlug(CLASS_SLUG, bookSlug);
 
   if (isLoading) return <p>Loading chapters...</p>;
   if (error) return <p>Failed to load chapters.</p>;

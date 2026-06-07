@@ -1,6 +1,6 @@
 'use client';
 
-import { useHeadingBySlug } from '@/hooks/use-public';
+import { useHeadingByClassAndSubjectAndChapterSlug } from '@/hooks/use-public';
 import Link from 'next/link';
 
 interface Props {
@@ -11,7 +11,7 @@ interface Props {
 const CLASS_SLUG = 'class-12';
 
 export default function Class12McqsBookChapterPage({ bookSlug, chapterSlug }: Props) {
-  const { data, isLoading, error } = useHeadingBySlug(CLASS_SLUG, bookSlug, chapterSlug);
+  const { data, isLoading, error } = useHeadingByClassAndSubjectAndChapterSlug(CLASS_SLUG, bookSlug, chapterSlug);
 
   if (isLoading) return <p>Loading headings...</p>;
   if (error) return <p>Failed to load headings.</p>;
