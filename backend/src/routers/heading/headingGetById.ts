@@ -3,7 +3,7 @@ import { headingRepository } from '@/repository/heading.repository';
 import { getHeadingByIdInputSchema } from '@muzammil328/education-packages';
 import { superAdminProcedure } from '@/trpc/trpc';
 import { AppError } from '@muzammil328/server';
-import { buildMatch } from '@muzammil328/db';
+import { buildMatch, toObjectId } from '@muzammil328/db';
 
 export const headingGetById = superAdminProcedure
     .input(getHeadingByIdInputSchema)
@@ -15,7 +15,7 @@ export const headingGetById = superAdminProcedure
                     // match by id (instead of aggregateById)
                     .match(
                         buildMatch({
-                            _id: input.id,
+                            _id: toObjectId(input.id),
                         }),
                     )
 
@@ -25,6 +25,26 @@ export const headingGetById = superAdminProcedure
                         localField: 'classId',
                         foreignField: '_id',
                         as: 'class',
+                        pick: ['name', '_id'],
+                        unwind: false,
+                    })
+
+                    // join book
+                    .lookupOne({
+                        from: 'books',
+                        localField: 'bookId',
+                        foreignField: '_id',
+                        as: 'book',
+                        pick: ['name', '_id'],
+                        unwind: false,
+                    })
+
+                    // join chapter
+                    .lookupOne({
+                        from: 'chapters',
+                        localField: 'chapterId',
+                        foreignField: '_id',
+                        as: 'chapter',
                         pick: ['name', '_id'],
                         unwind: false,
                     })
@@ -40,17 +60,34 @@ export const headingGetById = superAdminProcedure
                     // shape response
                     .project({
                         _id: 0,
-                        classId: '$_id',
+                        headingId: '$_id',
                         name: 1,
                         description: 1,
                         status: 1,
+                        classId: 1,
+                        bookId: 1,
+                        chapterId: 1,
                         serviceId: 1,
                         services: 1,
+                        order: 1,
+                        createdAt: 1,
+                        updatedAt: 1,
                         class: {
-                            $map: {
-                                input: '$class',
-                                as: 'cls',
-                                in: { classId: '$$cls._id', name: '$$cls.name' },
+                            $let: {
+                                vars: { c: { $first: '$class' } },
+                                in: { classId: '$$c._id', name: '$$c.name' },
+                            },
+                        },
+                        book: {
+                            $let: {
+                                vars: { b: { $first: '$book' } },
+                                in: { bookId: '$$b._id', name: '$$b.name' },
+                            },
+                        },
+                        chapter: {
+                            $let: {
+                                vars: { ch: { $first: '$chapter' } },
+                                in: { chapterId: '$$ch._id', name: '$$ch.name' },
                             },
                         },
                     })
