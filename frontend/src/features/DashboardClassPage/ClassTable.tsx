@@ -1,5 +1,7 @@
 'use client';
+import React, { useState } from 'react';
 import { TableRoot as Table, TableHeader, TableRow, TableHead, TableBody, TableCell, Skeleton, toast } from '@muzammil328/ui';
+import { DeleteModal } from '@muzammil328/ui';
 import { FolderOpen } from 'lucide-react';
 import { useDeleteClass } from '@/hooks';
 import type { DashboardClassTableProps as ClassRow } from '@/types/class.types';
@@ -28,10 +30,12 @@ export function ClassTable({
   setSelectedClassId,
 }: ClassTableProps) {
   const deleteClassMutation = useDeleteClass();
+  const [deleteConfirmId, setDeleteConfirmId] = useState<string | null>(null);
 
-  const handleDelete = (id: string) => {
+  const handleDeleteConfirm = () => {
+    if (!deleteConfirmId) return;
     deleteClassMutation.mutate(
-      { id },
+      { id: deleteConfirmId },
       {
         onSuccess: (response: { message?: string }) => {
           toast.success(response.message || 'Class deleted successfully');
@@ -41,6 +45,7 @@ export function ClassTable({
         },
       }
     );
+    setDeleteConfirmId(null);
   };
 
   const handleView = (classId: string) => {
@@ -90,7 +95,8 @@ export function ClassTable({
                 <TableCell>{classItem.status}</TableCell>
                 <TableCell className="text-right">
                   <TableActionButton
-                    onDelete={() => handleDelete(classItem.classId)}
+                    classId={classItem.classId}
+                    setDeleteConfirmId={setDeleteConfirmId}
                     deleteClassMutation={deleteClassMutation}
                     onView={() => handleView(classItem.classId)}
                     onEdit={() => handleEdit(classItem.classId)}
@@ -119,32 +125,37 @@ export function ClassTable({
         </TableBody>
       </Table>
 
-      {isClassViewOpen && (
-        <ClassModal
-          mode="view"
-          classId={selectedClassId ?? undefined}
-          isOpen={isClassViewOpen}
-          onOpenChange={open => {
-            if (setIsClassViewOpen) setIsClassViewOpen(open);
-            if (!open && setSelectedClassId) setSelectedClassId(null);
-          }}
-          trigger={null}
-        />
-      )}
+      <ClassModal
+        mode="view"
+        classId={selectedClassId ?? undefined}
+        isOpen={isClassViewOpen}
+        onOpenChange={open => {
+          if (setIsClassViewOpen) setIsClassViewOpen(open);
+          if (!open && setSelectedClassId) setSelectedClassId(null);
+        }}
+        trigger={null}
+      />
 
-      {isClassEditOpen && (
-        <ClassModal
-          mode="edit"
-          classId={selectedClassId ?? undefined}
-          isOpen={isClassEditOpen}
-          onOpenChange={open => {
-            if (setIsClassEditOpen) setIsClassEditOpen(open);
-            if (!open && setSelectedClassId) setSelectedClassId(null);
-          }}
-          trigger={null}
-        />
-      )}
+      <ClassModal
+        mode="edit"
+        classId={selectedClassId ?? undefined}
+        isOpen={isClassEditOpen}
+        onOpenChange={open => {
+          if (setIsClassEditOpen) setIsClassEditOpen(open);
+          if (!open && setSelectedClassId) setSelectedClassId(null);
+        }}
+        trigger={null}
+      />
 
+      <DeleteModal
+        open={deleteConfirmId !== null}
+        onOpenChange={open => !open && setDeleteConfirmId(null)}
+        onConfirm={handleDeleteConfirm}
+        title="Delete Class"
+        description="Are you sure you want to delete this class? This action cannot be undone."
+        isLoading={deleteClassMutation.isPending}
+        className="bg-background"
+      />
     </>
   );
 }

@@ -1,219 +1,118 @@
-import React, { ReactNode } from 'react';
+import type { LucideIcon } from 'lucide-react';
 import {
-  Home,
+  LayoutDashboard,
   BookOpen,
+  CalendarDays,
+  CircleHelp,
+  Briefcase,
+  GraduationCap,
   Book,
-  Plus,
-  Settings,
   FileText,
-  MessageSquare,
+  Heading1,
+  Heading2,
+  ClipboardList,
+  Users,
+  UsersRound,
+  Mail,
   Bug,
   Lightbulb,
-  Users,
-  GraduationCap,
 } from 'lucide-react';
 import type { UserRole as ContractUserRole } from '@muzammil328/education-packages/enums';
 
 export type UserRole = `${ContractUserRole}`;
 
-export type IconName =
-  | 'Home'
-  | 'BookOpen'
-  | 'Book'
-  | 'FileText'
-  | 'Settings'
-  | 'Plus'
-  | 'MessageSquare'
-  | 'Bug'
-  | 'Lightbulb'
-  | 'Users'
-  | 'GraduationCap';
-
-export function getIcon(iconName: IconName): React.ReactNode {
-  const iconProps = { className: 'h-4 w-4' };
-
-  switch (iconName) {
-    case 'Home':
-      return React.createElement(Home, iconProps);
-    case 'BookOpen':
-      return React.createElement(BookOpen, iconProps);
-    case 'Book':
-      return React.createElement(Book, iconProps);
-    case 'Settings':
-      return React.createElement(Settings, iconProps);
-    case 'FileText':
-      return React.createElement(FileText, iconProps);
-    case 'Plus':
-      return React.createElement(Plus, iconProps);
-    case 'MessageSquare':
-      return React.createElement(MessageSquare, iconProps);
-    case 'Bug':
-      return React.createElement(Bug, iconProps);
-    case 'Lightbulb':
-      return React.createElement(Lightbulb, iconProps);
-    case 'Users':
-      return React.createElement(Users, iconProps);
-    case 'GraduationCap':
-      return React.createElement(GraduationCap, iconProps);
-    default:
-      return React.createElement(Home, iconProps);
-  }
-}
-
-export interface RouteItem {
+export interface NavItemDef {
   label: string;
-  slug: string; // URL path
-  roles: UserRole[] | 'all'; // 'all' means visible to all roles
+  path: string;
+  icon: LucideIcon;
+  roles: UserRole[] | 'all';
 }
 
-export interface RouteSection {
+export interface SectionDef {
   label: string;
-  slug: string; // URL path
-  icon: IconName;
-  roles: UserRole[] | 'all'; // 'all' means visible to all roles
-  submenu?: RouteItem[];
+  items: NavItemDef[];
 }
 
-/**
- * All available routes
- */
-export const ROUTES: RouteSection[] = [
+export const MAIN_SECTIONS: SectionDef[] = [
   {
-    label: 'Overview',
-    slug: '/dashboard',
-    icon: 'Home',
-    roles: 'all',
-  },
-  {
-    label: 'Courses',
-    slug: '/dashboard/courses',
-    icon: 'BookOpen',
-    roles: 'all',
-  },
-  {
-    label: 'Events',
-    slug: '/dashboard/events',
-    icon: 'Book',
-    roles: 'all',
-  },
-  {
-    label: 'Mcqs',
-    slug: '/dashboard/mcqs',
-    icon: 'Book',
-    roles: ['admin', 'teacher', 'super-admin'],
-    submenu: [
+    label: 'Learning Management',
+    items: [
+      { label: 'Overview', path: '/dashboard', icon: LayoutDashboard, roles: 'all' },
+      { label: 'Courses', path: '/dashboard/courses', icon: BookOpen, roles: 'all' },
+      { label: 'Events', path: '/dashboard/events', icon: CalendarDays, roles: 'all' },
       {
-        label: 'Add',
-        slug: '/dashboard/mcqs/add',
+        label: 'MCQs',
+        path: '/dashboard/mcqs',
+        icon: CircleHelp,
         roles: ['admin', 'teacher', 'super-admin'],
       },
+      { label: 'Services', path: '/dashboard/service', icon: Briefcase, roles: ['super-admin'] },
+    ],
+  },
+  {
+    label: 'Academic Structure',
+    items: [
+      { label: 'Classes', path: '/dashboard/class', icon: GraduationCap, roles: ['super-admin'] },
+      { label: 'Books', path: '/dashboard/book', icon: Book, roles: ['super-admin'] },
+      { label: 'Chapters', path: '/dashboard/chapter', icon: FileText, roles: ['super-admin'] },
       {
-        label: 'View All',
-        slug: '/dashboard/mcqs',
-        roles: ['admin', 'teacher', 'super-admin'],
+        label: 'Headings',
+        path: '/dashboard/heading',
+        icon: Heading1,
+        roles: ['super-admin'],
+      },
+      {
+        label: 'Sub Headings',
+        path: '/dashboard/sub-heading',
+        icon: Heading2,
+        roles: ['super-admin'],
+      },
+      {
+        label: 'Boards',
+        path: '/dashboard/boards',
+        icon: ClipboardList,
+        roles: ['super-admin'],
       },
     ],
   },
   {
-    label: 'Services',
-    slug: '/dashboard/service',
-    icon: 'BookOpen',
-    roles: ['super-admin'],
-  },
-  {
-    label: 'Class',
-    slug: '/dashboard/class',
-    icon: 'BookOpen',
-    roles: ['super-admin'],
-  },
-  {
-    label: 'Book',
-    slug: '/dashboard/book',
-    icon: 'BookOpen',
-    roles: ['super-admin'],
-  },
-  {
-    label: 'Chapter',
-    slug: '/dashboard/chapter',
-    icon: 'BookOpen',
-    roles: ['super-admin'],
-  },
-  {
-    label: 'Heading',
-    slug: '/dashboard/heading',
-    icon: 'BookOpen',
-    roles: ['super-admin'],
-  },
-  {
-    label: 'Sub Heading',
-    slug: '/dashboard/sub-heading',
-    icon: 'BookOpen',
-    roles: ['super-admin'],
-  },
-  {
-    label: 'Board',
-    slug: '/dashboard/boards',
-    icon: 'BookOpen',
-    roles: ['super-admin'],
-  },
-  {
-    label: 'Contact Us',
-    slug: '/dashboard/contact-us',
-    icon: 'MessageSquare',
-    roles: ['super-admin'],
-  },
-  {
-    label: 'Bug Report',
-    slug: '/dashboard/bug-report',
-    icon: 'Bug',
-    roles: ['super-admin'],
-  },
-  {
-    label: 'Feature Request',
-    slug: '/dashboard/feature-request',
-    icon: 'Lightbulb',
-    roles: ['super-admin'],
-  },
-  {
-    label: 'Students',
-    slug: '/dashboard/students',
-    icon: 'Users',
-    roles: ['teacher', 'super-admin'],
-  },
-  {
-    label: 'Class Groups',
-    slug: '/dashboard/class-groups',
-    icon: 'GraduationCap',
-    roles: ['teacher', 'super-admin'],
+    label: 'User Management',
+    items: [
+      {
+        label: 'Students',
+        path: '/dashboard/students',
+        icon: Users,
+        roles: ['teacher', 'super-admin'],
+      },
+      {
+        label: 'Class Groups',
+        path: '/dashboard/class-groups',
+        icon: UsersRound,
+        roles: ['teacher', 'super-admin'],
+      },
+    ],
   },
 ];
 
-interface SidebarItem {
-  label: string;
-  path: string;
-  icon?: ReactNode;
-  submenu?: SidebarItem[];
-}
+export const SUPPORT_SECTION: SectionDef = {
+  label: 'Support',
+  items: [
+    { label: 'Contact Us', path: '/dashboard/contact-us', icon: Mail, roles: ['super-admin'] },
+    { label: 'Bug Report', path: '/dashboard/bug-report', icon: Bug, roles: ['super-admin'] },
+    {
+      label: 'Feature Request',
+      path: '/dashboard/feature-request',
+      icon: Lightbulb,
+      roles: ['super-admin'],
+    },
+  ],
+};
 
-export function convertRoutes(routes: RouteSection[], role: UserRole): SidebarItem[] {
-  return (
-    routes
-      // ✅ filter main routes
-      .filter(route => route.roles === 'all' || route.roles.includes(role))
-      .map(route => {
-        const filteredSubmenu = route.submenu
-          ?.filter(sub => sub.roles === 'all' || sub.roles.includes(role))
-          .map(sub => ({
-            label: sub.label,
-            path: sub.slug,
-          }));
-
-        return {
-          label: route.label,
-          path: route.slug,
-          icon: getIcon(route.icon),
-          submenu: filteredSubmenu && filteredSubmenu.length > 0 ? filteredSubmenu : undefined,
-        };
-      })
-  );
+export function getFilteredSection(section: SectionDef, role: UserRole): SectionDef {
+  return {
+    ...section,
+    items: section.items.filter(
+      item => item.roles === 'all' || item.roles.includes(role)
+    ),
+  };
 }

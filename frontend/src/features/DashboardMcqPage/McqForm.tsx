@@ -14,7 +14,7 @@ import {
   useCreateMcqs,
   useUpdateMcqs,
 } from '@/hooks';
-import { EntityStatus, Difficulty } from '@muzammil328/education-packages/enums';
+import { StatusEnum, Difficulty } from '@muzammil328/education-packages/enums';
 import { Plus, Trash2 } from 'lucide-react';
 
 interface Question {
@@ -305,8 +305,8 @@ export function McqForm({ isOpen, mcqId, onClose, mode, initialData }: McqFormPr
               <SelectValue placeholder="Select Status" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value={EntityStatus.ACTIVE}>Active</SelectItem>
-              <SelectItem value={EntityStatus.INACTIVE}>Inactive</SelectItem>
+              <SelectItem value={StatusEnum.Active}>Active</SelectItem>
+              <SelectItem value={StatusEnum.Inactive}>Inactive</SelectItem>
             </SelectContent>
           </Select>
         </div>
@@ -468,8 +468,8 @@ export function McqForm({ isOpen, mcqId, onClose, mode, initialData }: McqFormPr
                       <SelectValue placeholder="Select Status" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value={EntityStatus.ACTIVE}>Active</SelectItem>
-                      <SelectItem value={EntityStatus.INACTIVE}>Inactive</SelectItem>
+                      <SelectItem value={StatusEnum.Active}>Active</SelectItem>
+                      <SelectItem value={StatusEnum.Inactive}>Inactive</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>

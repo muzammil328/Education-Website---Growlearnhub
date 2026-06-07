@@ -11,12 +11,14 @@ import { Button } from '@muzammil328/ui';
 import { Eye, PenLine, Trash2, MoreHorizontal } from 'lucide-react';
 
 export default function ClassTableActionButton({
-  onDelete,
+  classId,
+  setDeleteConfirmId,
   deleteClassMutation,
   onView,
   onEdit,
 }: {
-  onDelete: () => void;
+  classId: string;
+  setDeleteConfirmId: (id: string | null) => void;
   deleteClassMutation: {
     isPending: boolean;
   };
@@ -42,7 +44,7 @@ export default function ClassTableActionButton({
         <DropdownMenuSeparator />
         <DropdownMenuItem
           className="cursor-pointer text-red-600 focus:text-red-600 focus:bg-red-50"
-          onClick={() => setTimeout(() => onDelete(), 0)}
+          onClick={() => setTimeout(() => setDeleteConfirmId(classId), 0)}
           disabled={deleteClassMutation.isPending}
         >
           <Trash2 className="mr-2 h-4 w-4" />

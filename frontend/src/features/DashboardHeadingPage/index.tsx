@@ -3,14 +3,14 @@ import React, { useState, useCallback, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@muzammil328/ui';
 import { Button } from '@muzammil328/ui';
-import { Plus, SlidersHorizontal } from 'lucide-react';
+import { SlidersHorizontal } from 'lucide-react';
 
 import { DataTablePagination } from '@/components/ui/data-table-pagination';
-import { DynamicBreadcrumb } from '@/components/ui/dynamic-breadcrumb';
+import { DashboardPageHeader } from '@/components/DashboardPageHeader';
 
 import { useHeadings } from '@/hooks';
 import { SortOrder, Status } from '@muzammil328/education-packages/types';
-import { EntityStatus } from '@muzammil328/education-packages/enums';
+import { StatusEnum } from '@muzammil328/education-packages/enums';
 import { HeadingTable } from './HeadingTable';
 
 type DashboardHeadingPageProps = {
@@ -141,11 +141,11 @@ export default function HeadingPage({
 
   const headingData = responseData?.data ?? [];
 
-  const paginationData = responseData?.pagination ?? {
-    totalRecords: 0,
-    totalPages: 1,
-    currentPage: 1,
-    limit: 10,
+  const paginationData = {
+    totalRecords: responseData?.pagination?.totalRecords ?? 0,
+    totalPages: responseData?.pagination?.totalPages ?? 1,
+    currentPage: responseData?.pagination?.page ?? 1,
+    limit: responseData?.pagination?.pageSize ?? 10,
   };
 
   if (error && !isLoading) {
@@ -163,39 +163,35 @@ export default function HeadingPage({
   }
 
   return (
-    <div className="border rounded-md">
-      <div className="flex items-center justify-between">
-        <div className="flex flex-col items-start">
-          <h1 className="text-3xl font-bold pb-2">Heading Management</h1>
-          <DynamicBreadcrumb />
-        </div>
-        <Button onClick={() => setIsAddHeadingOpen(true)} size="sm">
-          <Plus className="h-4 w-4 mr-2" />
-          Add Heading
-        </Button>
-      </div>
-
-      <div className="p-4 border-b">
+    <div>
+      <DashboardPageHeader
+        title="Heading Management"
+        description="Create and organize content headings by subject and chapter"
+        action={
+          <Button onClick={() => setIsAddHeadingOpen(true)} size="lg">
+            Add Heading
+          </Button>
+        }
+      />
+      <div className="border rounded-md pb-3">
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <input
-              type="text"
-              placeholder="Search headings..."
-              className="py-2 px-3 focus:outline-none h-10 w-64 border rounded-md"
-              value={search}
-              onChange={e => setSearch(e.target.value)}
-            />
-          </div>
+          <input
+            type="text"
+            placeholder="Search headings..."
+            className="py-2 px-3 focus:outline-none h-12"
+            value={search}
+            onChange={e => setSearch(e.target.value)}
+          />
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-4">
             <div className="space-y-2 w-32">
               <Select onValueChange={handleStatusChange} value={status}>
                 <SelectTrigger className="w-full">
                   <SelectValue placeholder="Select Status" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value={EntityStatus.ACTIVE}>Active</SelectItem>
-                  <SelectItem value={EntityStatus.INACTIVE}>Inactive</SelectItem>
+                  <SelectItem value={StatusEnum.Active}>Active</SelectItem>
+                  <SelectItem value={StatusEnum.Inactive}>Inactive</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -219,9 +215,8 @@ export default function HeadingPage({
             </div>
           </div>
         </div>
-      </div>
 
-      <HeadingTable
+        <HeadingTable
         data={headingData}
         isLoading={isLoading}
         isHeadingViewOpen={isHeadingViewOpen}
@@ -234,7 +229,6 @@ export default function HeadingPage({
         setIsAddHeadingOpen={setIsAddHeadingOpen}
       />
 
-      <div className="border-t p-4">
         <DataTablePagination
           canPreviousPage={paginationData.currentPage > 1}
           canNextPage={paginationData.currentPage < paginationData.totalPages}

@@ -103,51 +103,59 @@ export default function DashboardClassPage({
   }
 
   return (
-    <div className="border rounded-md pb-3">
+    <div>
       <DashboardPageHeader
         title="Class Management"
         description="Manage academic classes and their board affiliations"
         action={<ClassModal mode="add" isOpen={isAddClassOpen} onOpenChange={setIsAddClassOpen} />}
-        searchValue={search}
-        onSearchChange={setSearch}
-        searchPlaceholder="Search classes..."
-      >
-        <div className="space-y-2 w-32">
-          <Select onValueChange={handleStatusChange} value={status}>
-            <SelectTrigger className="w-full">
-              <SelectValue placeholder="Select Status" />
-            </SelectTrigger>
-              <SelectContent>
-                <SelectItem value={StatusEnum.ACTIVE}>Active</SelectItem>
-                <SelectItem value={StatusEnum.INACTIVE}>Inactive</SelectItem>
-              </SelectContent>
-          </Select>
-        </div>
-
-        <div className="space-y-2">
-          <Select onValueChange={handleSortFieldChange} value={sortField || 'name'}>
-            <SelectTrigger className="w-full">
-              <SlidersHorizontal className="h-4 w-4" />
-              <SelectValue placeholder="Select Sort" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="name">Name</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
-      </DashboardPageHeader>
-
-      <ClassTable
-        data={classData}
-        isLoading={isLoading}
-        isClassViewOpen={isClassViewOpen}
-        setIsClassViewOpen={setIsClassViewOpen}
-        isClassEditOpen={isClassEditOpen}
-        setIsClassEditOpen={setIsClassEditOpen}
-        selectedClassId={selectedClassId}
-        setSelectedClassId={setSelectedClassId}
       />
-      <div className="border-t pt-3 px-2">
+      <div className="border rounded-md pb-3">
+        <div className="flex items-center justify-between">
+          <input
+            type="text"
+            placeholder="Search classes..."
+            className="py-2 px-3 focus:outline-none h-12"
+            value={search}
+            onChange={e => setSearch(e.target.value)}
+          />
+
+          <div className="flex items-center gap-4">
+            <div className="space-y-2 w-32">
+              <Select onValueChange={handleStatusChange} value={status}>
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Select Status" />
+                </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value={StatusEnum.ACTIVE}>Active</SelectItem>
+                    <SelectItem value={StatusEnum.INACTIVE}>Inactive</SelectItem>
+                  </SelectContent>
+              </Select>
+            </div>
+
+            <div className="space-y-2">
+              <Select onValueChange={handleSortFieldChange} value={sortField || 'name'}>
+                <SelectTrigger className="w-full">
+                  <SlidersHorizontal className="h-4 w-4" />
+                  <SelectValue placeholder="Select Sort" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="name">Name</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+        </div>
+
+        <ClassTable
+          data={classData}
+          isLoading={isLoading}
+          isClassViewOpen={isClassViewOpen}
+          setIsClassViewOpen={setIsClassViewOpen}
+          isClassEditOpen={isClassEditOpen}
+          setIsClassEditOpen={setIsClassEditOpen}
+          selectedClassId={selectedClassId}
+          setSelectedClassId={setSelectedClassId}
+        />
         <DataTablePagination
           canPreviousPage={paginationData.currentPage > 1}
           canNextPage={paginationData.currentPage < paginationData.totalPages}

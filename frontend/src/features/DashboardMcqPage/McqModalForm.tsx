@@ -5,7 +5,7 @@ import { useDropdownBooks } from '@/hooks';
 import { useDropdownChapters } from '@/hooks';
 import { useDropdownHeadings } from '@/hooks';
 import { useDropdownSubHeadings } from '@/hooks';
-import { EntityStatus } from '@muzammil328/education-packages/enums';
+import { StatusEnum } from '@muzammil328/education-packages/enums';
 
 interface McqModalFormProps {
   form: {
@@ -168,8 +168,8 @@ export function McqModalForm({ form, isView, isOpen = true }: McqModalFormProps)
             disabled={isView}
             className="w-full px-3 py-2 border rounded-md"
           >
-            <option value={EntityStatus.ACTIVE}>Active</option>
-            <option value={EntityStatus.INACTIVE}>Inactive</option>
+            <option value={StatusEnum.Active}>Active</option>
+            <option value={StatusEnum.Inactive}>Inactive</option>
           </select>
         </div>
       </div>

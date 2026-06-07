@@ -6,7 +6,7 @@ import { Plus, Trash2 } from 'lucide-react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { McqBulkImport } from './McqBulkImport';
 import { Step1Data } from './index';
-import { EntityStatus, Difficulty } from '@muzammil328/education-packages/enums';
+import { StatusEnum, Difficulty } from '@muzammil328/education-packages/enums';
 
 interface Question {
   question: string;
@@ -14,7 +14,7 @@ interface Question {
   correctOption: number;
   explanation: string;
   difficulty: `${Difficulty}`;
-  status: `${EntityStatus}`;
+  status: `${StatusEnum}`;
 }
 
 interface SteepperStep2Props {
@@ -234,8 +234,8 @@ export function SteepperStep2({ questions, onNext, onBack, step1Data }: Steepper
                     }}
                     className="w-full px-3 py-2 border rounded-md"
                   >
-                    <option value={EntityStatus.ACTIVE}>Active</option>
-                    <option value={EntityStatus.INACTIVE}>Inactive</option>
+                    <option value={StatusEnum.Active}>Active</option>
+                    <option value={StatusEnum.Inactive}>Inactive</option>
                   </select>
                 </div>
               </div>
