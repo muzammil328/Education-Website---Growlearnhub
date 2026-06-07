@@ -40,17 +40,24 @@ export const bookGetById = superAdminProcedure
                     // shape response
                     .project({
                         _id: 0,
-                        classId: '$_id',
+                        bookId: '$_id',
                         name: 1,
                         description: 1,
                         status: 1,
+                        classId: 1,
                         serviceId: 1,
                         services: 1,
+                        code: 1,
+                        creditHours: 1,
+                        fileId: 1,
+                        pages: 1,
+                        image: 1,
+                        totalWeight: 1,
+                        components: 1,
                         class: {
-                            $map: {
-                                input: '$class',
-                                as: 'cls',
-                                in: { classId: '$$cls._id', name: '$$cls.name' },
+                            $let: {
+                                vars: { c: { $first: '$class' } },
+                                in: { classId: '$$c._id', name: '$$c.name' },
                             },
                         },
                     })

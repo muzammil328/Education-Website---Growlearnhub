@@ -36,8 +36,8 @@ export const classGetById = superAdminProcedure
                         name: 1,
                         description: 1,
                         status: 1,
-                        image: '$imageUrl',
-                        keywords: '$tags',
+                        image: 1,
+                        keywords: 1,
                         service: {
                             $map: {
                                 input: '$service',

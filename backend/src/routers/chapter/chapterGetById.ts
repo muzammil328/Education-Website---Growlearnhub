@@ -29,6 +29,16 @@ export const chapterGetById = superAdminProcedure
                         unwind: false,
                     })
 
+                    // join book
+                    .lookupOne({
+                        from: 'books',
+                        localField: 'bookId',
+                        foreignField: '_id',
+                        as: 'book',
+                        pick: ['name', '_id'],
+                        unwind: false,
+                    })
+
                     // join service
                     .lookup({
                         from: 'services',
@@ -40,17 +50,28 @@ export const chapterGetById = superAdminProcedure
                     // shape response
                     .project({
                         _id: 0,
-                        classId: '$_id',
+                        chapterId: '$_id',
                         name: 1,
                         description: 1,
                         status: 1,
+                        classId: 1,
+                        bookId: 1,
                         serviceId: 1,
                         services: 1,
+                        content: 1,
+                        order: 1,
+                        createdAt: 1,
+                        updatedAt: 1,
                         class: {
-                            $map: {
-                                input: '$class',
-                                as: 'cls',
-                                in: { classId: '$$cls._id', name: '$$cls.name' },
+                            $let: {
+                                vars: { c: { $first: '$class' } },
+                                in: { classId: '$$c._id', name: '$$c.name' },
+                            },
+                        },
+                        book: {
+                            $let: {
+                                vars: { b: { $first: '$book' } },
+                                in: { bookId: '$$b._id', name: '$$b.name' },
                             },
                         },
                     })

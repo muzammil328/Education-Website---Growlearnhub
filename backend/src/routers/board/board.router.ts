@@ -3,7 +3,6 @@ import { boardGetAll } from './boardGetAll';
 import { boardGetDropdown } from './boardGetDropdown';
 import { boardGetById } from './boardGetById';
 import { boardDelete } from './boardDelete';
-import { boardGetBySlug } from './boardGetBySlug';
 import { boardCreate } from './boardCreate';
 import { boardUpdate } from './boardUpdate';
 
@@ -11,7 +10,6 @@ export const boardRouter = createTRPCRouter({
   getAll: boardGetAll,
   getDropdown: boardGetDropdown,
   getById: boardGetById,
-  getBySlug: boardGetBySlug,
   create: boardCreate,
   update: boardUpdate,
   delete: boardDelete,

@@ -29,9 +29,10 @@ export const bookGetAll = superAdminProcedure
           })
           .project({
             _id: 0,
-            classId: '$_id',
+            bookId: '$_id',
             name: 1,
             status: 1,
+            classId: 1,
             className: '$class.name',
             serviceId: 1,
             services: 1,
