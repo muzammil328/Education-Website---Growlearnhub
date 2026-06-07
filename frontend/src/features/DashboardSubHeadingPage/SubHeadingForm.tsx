@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from '@muzammil328/ui';
@@ -11,7 +11,7 @@ import {
   useCreateSubHeading,
   useUpdateSubHeading,
 } from '@/hooks/use-subHeading';
-import { SubHeadingSchema, type SubHeadingFormValues } from '@muzammil328/education-packages';
+import { subHeadingCreateSchema, type SubHeadingCreateInput } from '@muzammil328/education-packages';
 import { SubHeadingModalSkeleton } from './SubHeadingModalSkeleton';
 import SubHeadingModalView from './SubHeadingModalView';
 import SubHeadingModalForm from './SubHeadingModalForm';
@@ -38,33 +38,45 @@ export function SubHeadingForm({
     (isEdit || isView) && isOpen ? subHeadingId : undefined
   );
 
-  const editDefaults =
-    (isEdit || isView) && subHeadingData
-      ? {
-          name: subHeadingData.name || '',
-          classId: String(subHeadingData.class?.classId || subHeadingData.classId || ''),
-          bookId: String(subHeadingData.book?.bookId || subHeadingData.bookId || ''),
-          chapterId: String(subHeadingData.chapter?.chapterId || subHeadingData.chapterId || ''),
-          headingId: String(subHeadingData.heading?.headingId || subHeadingData.headingId || ''),
-          status: (subHeadingData.status || 'active') as 'active' | 'inactive',
-          order: subHeadingData.order,
-        }
-      : {
-          name: '',
-          classId: '',
-          bookId: '',
-          chapterId: '',
-          headingId: '',
-          status: 'active' as const,
-        };
-
-  const form = useForm<SubHeadingFormValues>({
-    resolver: zodResolver(SubHeadingSchema),
-    defaultValues: editDefaults,
+  const form = useForm<SubHeadingCreateInput>({
+    resolver: zodResolver(subHeadingCreateSchema),
+    defaultValues: {
+      name: '',
+      classId: '',
+      bookId: '',
+      chapterId: '',
+      headingId: '',
+      status: 'active' as const,
+    },
     mode: 'onChange',
   });
 
-  const onSubmit = (values: SubHeadingFormValues) => {
+  useEffect(() => {
+    if ((isEdit || isView) && subHeadingData) {
+      const item = subHeadingData.data;
+      form.reset({
+        name: item.name || '',
+        classId: String(item.classId || item.class?.classId || ''),
+        bookId: String(item.bookId || item.book?.bookId || ''),
+        chapterId: String(item.chapterId || item.chapter?.chapterId || ''),
+        headingId: String(item.headingId || item.heading?.headingId || ''),
+        status: (item.status as 'active' | 'inactive') || 'active',
+        order: item.order,
+      });
+    }
+    if (!isOpen) {
+      form.reset({
+        name: '',
+        classId: '',
+        bookId: '',
+        chapterId: '',
+        headingId: '',
+        status: 'active' as const,
+      });
+    }
+  }, [subHeadingData, form, isEdit, isView, isOpen]);
+
+  const onSubmit = (values: SubHeadingCreateInput) => {
     if (isEdit && subHeadingId) {
       updateSubHeadingMutation.mutate(
         { id: subHeadingId, updates: values },
@@ -94,7 +106,6 @@ export function SubHeadingForm({
   };
 
   const isLoading = createSubHeadingMutation.isPending || updateSubHeadingMutation.isPending;
-  const formValues = form.getValues();
   const submitLabel = isEdit ? 'Update SubHeading' : isView ? '' : 'Add SubHeading';
   const isInitialLoading = (isEdit || isView) && isOpen && !subHeadingData;
 
@@ -102,16 +113,16 @@ export function SubHeadingForm({
     return <SubHeadingModalSkeleton />;
   }
 
-  const viewProps =
-    isView && subHeadingData
-      ? {
-          ...formValues,
-          class: subHeadingData.class,
-          book: subHeadingData.book,
-          chapter: subHeadingData.chapter,
-          heading: subHeadingData.heading,
-        }
-      : formValues;
+  const item = subHeadingData?.data;
+  const viewProps = isView && item
+    ? {
+        ...form.getValues(),
+        class: item.class,
+        book: item.book,
+        chapter: item.chapter,
+        heading: item.heading,
+      }
+    : form.getValues();
 
   return (
     <Form {...form}>
@@ -121,20 +132,16 @@ export function SubHeadingForm({
         ) : (
           <SubHeadingModalForm
             initialSelection={
-              subHeadingData
+              item
                 ? {
-                    classId: String(subHeadingData.class?.classId || subHeadingData.classId || ''),
-                    className: subHeadingData.class?.className,
-                    bookId: String(subHeadingData.book?.bookId || subHeadingData.bookId || ''),
-                    bookName: subHeadingData.book?.bookName,
-                    chapterId: String(
-                      subHeadingData.chapter?.chapterId || subHeadingData.chapterId || ''
-                    ),
-                    chapterName: subHeadingData.chapter?.chapterName,
-                    headingId: String(
-                      subHeadingData.heading?.headingId || subHeadingData.headingId || ''
-                    ),
-                    headingName: subHeadingData.heading?.headingName,
+                    classId: String(item.classId || item.class?.classId || ''),
+                    className: item.class?.name,
+                    bookId: String(item.bookId || item.book?.bookId || ''),
+                    bookName: item.book?.name,
+                    chapterId: String(item.chapterId || item.chapter?.chapterId || ''),
+                    chapterName: item.chapter?.name,
+                    headingId: String(item.headingId || item.heading?.headingId || ''),
+                    headingName: item.heading?.name,
                   }
                 : undefined
             }

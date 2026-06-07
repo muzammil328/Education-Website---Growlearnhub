@@ -5,8 +5,8 @@ import { useFormContext, useWatch } from 'react-hook-form';
 import { SelectField } from '@/components/ui/select-field'
 import { DropdownLoader } from '@muzammil328/ui'
 import { FormString, FormNumber, Label } from '@muzammil328/ui';
-import { useDropdownClasses } from '@/hooks/use-public';
-import { useDropdownBooks } from '@/hooks/use-public';
+import { useDropdownClasses } from '@/hooks/use-class';
+import { useDropdownBooks } from '@/hooks/use-book';
 import { useDropdownChapters } from '@/hooks/use-chapter';
 import { useDropdownHeadings } from '@/hooks/use-heading';
 import { DropdownSkeleton } from '@/components/DropdownSkeleton';
@@ -64,7 +64,7 @@ export default function SubHeadingModalForm({ initialSelection }: SubHeadingModa
     data: chapterData,
     isLoading: chapterLoading,
     error: chapterError,
-  } = useDropdownChapters(effectiveBookId ? { bookId: effectiveBookId } : undefined);
+  } = useDropdownChapters(effectiveBookId ? { bookId: effectiveBookId, classId: effectiveClassId } : undefined);
 
   const {
     data: headingData,
@@ -259,6 +259,7 @@ export default function SubHeadingModalForm({ initialSelection }: SubHeadingModa
             emptyMessage="No active classes found."
           >
             <SelectField
+              key={initialSelection?.classId || 'class'}
               name="classId"
               label="Class"
               placeholder="Select Class Name"
@@ -284,6 +285,7 @@ export default function SubHeadingModalForm({ initialSelection }: SubHeadingModa
             emptyMessage="No active books found for this class."
           >
             <SelectField
+              key={initialSelection?.bookId || 'book'}
               name="bookId"
               label="Book"
               placeholder="Select Book Name"
@@ -309,6 +311,7 @@ export default function SubHeadingModalForm({ initialSelection }: SubHeadingModa
             emptyMessage="No active chapters found for this book."
           >
             <SelectField
+              key={initialSelection?.chapterId || 'chapter'}
               name="chapterId"
               label="Chapter"
               placeholder="Select Chapter Name"
@@ -334,6 +337,7 @@ export default function SubHeadingModalForm({ initialSelection }: SubHeadingModa
             emptyMessage="No active headings found for this chapter."
           >
             <SelectField
+              key={initialSelection?.headingId || 'heading'}
               name="headingId"
               label="Heading"
               placeholder="Select Heading Name"

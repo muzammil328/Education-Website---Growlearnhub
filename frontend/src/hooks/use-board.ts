@@ -8,6 +8,7 @@ export const useBoards = (
     limit?: number;
     sort?: 'name' | 'status' | 'createdAt' | 'updatedAt';
     sortDirection?: 'asc' | 'desc';
+    search?: string;
   } = {}
 ) => {
   return trpc.board.getAll.useQuery(
@@ -17,6 +18,7 @@ export const useBoards = (
       limit: params.limit,
       sort: params.sort as 'name' | 'status' | 'createdAt' | 'updatedAt' | undefined,
       sortDirection: params.sortDirection,
+      search: params.search,
     },
     {
       retry: false,

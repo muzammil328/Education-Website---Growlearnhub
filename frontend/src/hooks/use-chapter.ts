@@ -1,19 +1,8 @@
 import { trpc } from '@/trpc/trpc';
 import { GetChapterProps } from '../types';
 
-// public
-export const useChaptersBySlug = (classSlug?: string, bookSlug?: string) => {
-  return trpc.chapter.getBySlug.useQuery(
-    { classSlug: classSlug || '', bookSlug: bookSlug || '' },
-    {
-      enabled: Boolean(classSlug && bookSlug),
-      retry: false,
-      refetchOnWindowFocus: false,
-    }
-  );
-};
+// ─── Queries ──────────────────────────────────────────────────────────────────
 
-// dashboard
 export const useChapters = (params: GetChapterProps) => {
   return trpc.chapter.getAll.useQuery(
     {
@@ -40,31 +29,17 @@ export const useChapters = (params: GetChapterProps) => {
 };
 
 export const useDropdownChapters = (
-  params?: { bookId?: string },
+  params?: { bookId?: string; classId?: string },
   options?: { enabled?: boolean }
 ) => {
   return trpc.chapter.getDropdown.useQuery(
-    { bookId: params?.bookId },
+    { bookId: params?.bookId, classId: params?.classId },
     {
       enabled: options?.enabled ?? true,
       retry: 1,
       refetchOnWindowFocus: false,
       staleTime: 60_000,
     }
-  );
-};
-
-export const useChapterByClassAndBookName = (className?: string, bookName?: string) => {
-  return trpc.chapter.getByClassAndBookName.useQuery(
-    { className: className || '', bookName: bookName || '' },
-    { enabled: Boolean(className && bookName), retry: false, refetchOnWindowFocus: false }
-  );
-};
-
-export const useChapterByClassSlugAndChapterSlug = (classSlug?: string, chapterSlug?: string) => {
-  return trpc.chapter.getByClassSlugAndChapterSlug.useQuery(
-    { classSlug: classSlug || '', chapterSlug: chapterSlug || '' },
-    { enabled: Boolean(classSlug && chapterSlug), retry: false, refetchOnWindowFocus: false }
   );
 };
 
@@ -80,6 +55,8 @@ export const useChapterById = (chapterId?: string) => {
     }
   );
 };
+
+// ─── Mutations ────────────────────────────────────────────────────────────────
 
 export const useCreateChapter = () => {
   const utils = trpc.useUtils();
@@ -117,55 +94,3 @@ export const useDeleteChapter = () => {
     },
   });
 };
-
-// user
-
-// export const useChaptersByIds = (
-//   classId?: string,
-//   bookId?: string,
-//   chapterId?: string,
-//   status?: string
-// ) => {
-//   return useQuery<GetChapterByIdsResponse, Error>({
-//     queryKey: [
-//       'classes',
-//       'classId',
-//       classId,
-//       'bookId',
-//       bookId,
-//       'chapterId',
-//       chapterId,
-//       'status',
-//       status,
-//     ],
-//     queryFn: () => chapterService.getChapterByIds(classId, bookId, chapterId, status),
-//     enabled: Boolean(classId || bookId || chapterId || status),
-//     retry: false,
-//     refetchOnWindowFocus: false,
-//   });
-// };
-
-// export const useChaptersByNames = (
-//   className?: string,
-//   bookName?: string,
-//   chapterName?: string,
-//   status?: string
-// ) => {
-//   return useQuery<GetChapterByNamesResponse, Error>({
-//     queryKey: [
-//       'classes',
-//       'className',
-//       className,
-//       'bookName',
-//       bookName,
-//       'chapterName',
-//       chapterName,
-//       'status',
-//       status,
-//     ],
-//     queryFn: () => chapterService.getChapterByNames(className, bookName, chapterName, status),
-//     enabled: Boolean(className || bookName || chapterName || status),
-//     retry: false,
-//     refetchOnWindowFocus: false,
-//   });
-// };

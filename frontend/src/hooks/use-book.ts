@@ -1,8 +1,9 @@
 import { trpc } from '@/trpc/trpc';
-import { GetBookProps } from '../types';
+import { GetBooksInput } from '@muzammil328/education-packages';
 
-// dashboard
-export const useBooks = (params: GetBookProps) => {
+// ─── Queries ──────────────────────────────────────────────────────────────────
+
+export const useBooks = (params: GetBooksInput) => {
   return trpc.book.getAll.useQuery(
     {
       status: params.status,
@@ -48,27 +49,6 @@ export const useDropdownBooks = (
   );
 };
 
-export const useBookBySlug = (slug?: string) => {
-  return trpc.book.getBySlug.useQuery(
-    { slug: slug || '' },
-    { enabled: Boolean(slug), retry: false, refetchOnWindowFocus: false }
-  );
-};
-
-export const useBookByName = (name?: string) => {
-  return trpc.book.getByName.useQuery(
-    { name: name || '' },
-    { enabled: Boolean(name), retry: false, refetchOnWindowFocus: false }
-  );
-};
-
-export const useBookByClassName = (className?: string) => {
-  return trpc.book.getByClassName.useQuery(
-    { className: className || '' },
-    { enabled: Boolean(className), retry: false, refetchOnWindowFocus: false }
-  );
-};
-
 export const useBookById = (bookId?: string) => {
   return trpc.book.getById.useQuery(
     { id: bookId || '' },
@@ -82,9 +62,7 @@ export const useBookById = (bookId?: string) => {
   );
 };
 
-export const useBookByBookId = (bookId?: string) => {
-  return useBookById(bookId);
-};
+// ─── Mutations ────────────────────────────────────────────────────────────────
 
 export const useCreateBook = () => {
   const utils = trpc.useUtils();
@@ -116,24 +94,3 @@ export const useDeleteBook = () => {
     },
   });
 };
-
-// user
-// export const useBooksByIds = (classId?: string, bookId?: string, status?: string) => {
-//   return useQuery<GetClassByIdsResponse, Error>({
-//     queryKey: ['classes', 'classId', classId, 'bookId', bookId, 'status', status],
-//     queryFn: () => bookService.getBookByIds(classId, bookId, status),
-//     enabled: Boolean(classId),
-//     retry: false,
-//     refetchOnWindowFocus: false,
-//   });
-// };
-
-// export const useBookByNames = (className?: string, bookName?: string, status?: string) => {
-//   return useQuery<GetClassByNamesResponse, Error>({
-//     queryKey: ['classes', 'className', className, 'bookName', bookName, 'status', status],
-//     queryFn: () => bookService.getBookByNames(className, bookName, status),
-//     enabled: Boolean(className || bookName || status),
-//     retry: false,
-//     refetchOnWindowFocus: false,
-//   });
-// };

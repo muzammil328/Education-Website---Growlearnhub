@@ -1,9 +1,9 @@
-import { GetClassProps } from '@/types/class.types';
+import { GetClassesInput } from '@muzammil328/education-packages';
 import { trpc } from '@/trpc/trpc';
 
 // ─── Queries ──────────────────────────────────────────────────────────────────
 
-export const useClasses = (params: GetClassProps) => {
+export const useClasses = (params: GetClassesInput) => {
   return trpc.class.getAll.useQuery(
     {
       status: params.status,
@@ -74,17 +74,4 @@ export const useDeleteClass = () => {
       utils.class.getAll.invalidate();
     },
   });
-};
-
-// ─── Deprecated wrappers (kept for backward compatibility) ────────────────────
-
-/** @deprecated Use `useDropdownClasses` instead */
-export const useClassByNames = (search?: string) => {
-  return trpc.class.getDropdown.useQuery(
-    { search: search || '' },
-    {
-      retry: false,
-      refetchOnWindowFocus: false,
-    }
-  );
 };

@@ -9,6 +9,7 @@ import { FolderOpen } from 'lucide-react';
 import type { DashboardServiceTableProps } from '@muzammil328/education-packages/types';
 import ServiceTableActionButton from './ServiceTableActionButton';
 import { ServiceModal } from './ServiceModal';
+import { useDeleteService } from '@/hooks';
 
 interface ServiceTableProps {
   data: DashboardServiceTableProps[];

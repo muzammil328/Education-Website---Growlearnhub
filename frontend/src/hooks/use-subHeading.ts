@@ -1,7 +1,8 @@
 import { GetSubHeadingProps } from '../types';
 import { trpc } from '@/trpc/trpc';
 
-// dashboard
+// ─── Queries ──────────────────────────────────────────────────────────────────
+
 export const useSubheadings = (params: GetSubHeadingProps) => {
   return trpc.subHeading.getAll.useQuery(
     {
@@ -48,13 +49,6 @@ export const useDropdownSubHeadings = (
   );
 };
 
-export const useSubHeadingBySlug = (slug?: string) => {
-  return trpc.subHeading.getBySlug.useQuery(
-    { slug: slug || '' },
-    { enabled: Boolean(slug), retry: false, refetchOnWindowFocus: false }
-  );
-};
-
 export const useSubHeadingById = (id?: string) => {
   return trpc.subHeading.getById.useQuery(
     { id: id || '' },
@@ -67,6 +61,8 @@ export const useSubHeadingById = (id?: string) => {
     }
   );
 };
+
+// ─── Mutations ────────────────────────────────────────────────────────────────
 
 export const useCreateSubHeading = () => {
   const utils = trpc.useUtils();
@@ -95,64 +91,3 @@ export const useDeleteSubHeading = () => {
     },
   });
 };
-
-// user
-
-// export const useSubheadingByIds = (
-//   classId?: string,
-//   bookId?: string,
-//   chapterId?: string,
-//   headingId?: string,
-//   subHeadingId?: string,
-//   status?: string
-// ) => {
-//   return useQuery<GetSubHeadingByIdsResponse, Error>({
-//     queryKey: ['subHeading', 'byIds', classId, bookId, chapterId, headingId, subHeadingId, status],
-//     queryFn: () =>
-//       subHeadingService.getSubHeadingByIds(
-//         classId,
-//         bookId,
-//         chapterId,
-//         headingId,
-//         subHeadingId,
-//         status
-//       ),
-//     enabled: Boolean(classId || bookId || chapterId || headingId || subHeadingId),
-//     retry: false,
-//     refetchOnWindowFocus: false,
-//   });
-// };
-
-// export const useSubheadingByNames = (
-//   className?: string,
-//   bookName?: string,
-//   chapterName?: string,
-//   headingName?: string,
-//   subHeadingName?: string,
-//   status?: string
-// ) => {
-//   return useQuery<GetSubHeadingByNamesResponse, Error>({
-//     queryKey: [
-//       'subHeading',
-//       'byNames',
-//       className,
-//       bookName,
-//       chapterName,
-//       headingName,
-//       subHeadingName,
-//       status,
-//     ],
-//     queryFn: () =>
-//       subHeadingService.getSubHeadingByNames(
-//         className,
-//         bookName,
-//         chapterName,
-//         headingName,
-//         subHeadingName,
-//         status
-//       ),
-//     enabled: Boolean(className || bookName || chapterName || headingName || subHeadingName),
-//     retry: false,
-//     refetchOnWindowFocus: false,
-//   });
-// };

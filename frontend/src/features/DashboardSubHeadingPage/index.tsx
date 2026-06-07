@@ -7,12 +7,12 @@ import { Plus, SlidersHorizontal } from 'lucide-react';
 
 import { SubHeadingTable } from '@/features/DashboardSubHeadingPage/SubHeadingTable';
 import { DataTablePagination } from '@/components/ui/data-table-pagination';
-import { DynamicBreadcrumb } from '@/components/ui/dynamic-breadcrumb';
+import { DashboardPageHeader } from '@/components/DashboardPageHeader';
 
 import { useSubheadings } from '@/hooks';
 
 import { SortOrder, Status } from '@muzammil328/education-packages/types';
-import { EntityStatus } from '@muzammil328/education-packages/enums';
+import { StatusEnum } from '@muzammil328/education-packages/enums';
 
 type DashboardSubHeadingPageProps = {
   status?: Status;
@@ -115,11 +115,11 @@ export default function DashboardSubHeadingPage({
 
   const subHeadingData = Array.isArray(responseData?.data) ? responseData.data : [];
 
-  const paginationData = responseData?.pagination ?? {
-    totalRecords: 0,
-    totalPages: 1,
-    currentPage: 1,
-    limit: 10,
+  const paginationData = {
+    totalRecords: responseData?.pagination?.totalRecords ?? 0,
+    totalPages: responseData?.pagination?.totalPages ?? 1,
+    currentPage: responseData?.pagination?.page ?? 1,
+    limit: responseData?.pagination?.pageSize ?? 10,
   };
 
   if (error && !isLoading) {
@@ -137,91 +137,80 @@ export default function DashboardSubHeadingPage({
   }
 
   return (
-    <div className="border rounded-md">
-      <div className="flex items-center justify-between">
-        <div className="flex flex-col items-start">
-          <h1 className="text-3xl font-bold pb-2">SubHeading Management</h1>
-          <DynamicBreadcrumb />
+    <div>
+      <DashboardPageHeader
+        title="Sub Heading Management"
+        description="Break down headings into focused sub-topics for deeper learning"
+        action={
+          <Button onClick={() => setIsAddSubHeadingOpen(true)} size="sm">
+            <Plus className="h-4 w-4 mr-2" />
+            Add SubHeading
+          </Button>
+        }
+        searchValue={search}
+        onSearchChange={setSearch}
+        searchPlaceholder="Search subheadings..."
+      >
+        <div className="space-y-2 w-32">
+          <Select onValueChange={handleStatusChange} value={status}>
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder="Select Status" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value={StatusEnum.Active}>Active</SelectItem>
+              <SelectItem value={StatusEnum.Inactive}>Inactive</SelectItem>
+            </SelectContent>
+          </Select>
         </div>
-        <Button onClick={() => setIsAddSubHeadingOpen(true)} size="sm">
-          <Plus className="h-4 w-4 mr-2" />
-          Add SubHeading
-        </Button>
-      </div>
 
-      <div className="p-4 border-b">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <input
-              type="text"
-              placeholder="Search subheadings..."
-              className="py-2 px-3 focus:outline-none h-10 w-64 border rounded-md"
-              value={search}
-              onChange={e => setSearch(e.target.value)}
-            />
-          </div>
-
-          <div className="flex items-center gap-3">
-            <div className="space-y-2 w-32">
-              <Select onValueChange={handleStatusChange} value={status}>
-                <SelectTrigger className="w-full">
-                  <SelectValue placeholder="Select Status" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value={EntityStatus.ACTIVE}>Active</SelectItem>
-                  <SelectItem value={EntityStatus.INACTIVE}>Inactive</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-
-            <div className="space-y-2">
-              <Select onValueChange={handleSortFieldChange} value={sortField || 'name'}>
-                <SelectTrigger className="w-full">
-                  <SlidersHorizontal className="h-4 w-4" />
-                  <SelectValue placeholder="Select Sort" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="name">Name</SelectItem>
-                  <SelectItem value="className">Class Name</SelectItem>
-                  <SelectItem value="bookName">Book Name</SelectItem>
-                  <SelectItem value="chapterName">Chapter Name</SelectItem>
-                  <SelectItem value="headingName">Heading Name</SelectItem>
-                  <SelectItem value="status">Status</SelectItem>
-                  <SelectItem value="createdAt">Created Date</SelectItem>
-                  <SelectItem value="updatedAt">Updated Date</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-          </div>
+        <div className="space-y-2">
+          <Select onValueChange={handleSortFieldChange} value={sortField || 'name'}>
+            <SelectTrigger className="w-full">
+              <SlidersHorizontal className="h-4 w-4" />
+              <SelectValue placeholder="Select Sort" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="name">Name</SelectItem>
+              <SelectItem value="className">Class Name</SelectItem>
+              <SelectItem value="bookName">Book Name</SelectItem>
+              <SelectItem value="chapterName">Chapter Name</SelectItem>
+              <SelectItem value="headingName">Heading Name</SelectItem>
+              <SelectItem value="status">Status</SelectItem>
+              <SelectItem value="createdAt">Created Date</SelectItem>
+              <SelectItem value="updatedAt">Updated Date</SelectItem>
+            </SelectContent>
+          </Select>
         </div>
-      </div>
+      </DashboardPageHeader>
+      <div className="border rounded-md">
 
-      <SubHeadingTable
-        data={subHeadingData}
-        isLoading={isLoading}
-        isSubHeadingViewOpen={isSubHeadingViewOpen}
-        setIsSubHeadingViewOpen={setIsSubHeadingViewOpen}
-        isSubHeadingEditOpen={isSubHeadingEditOpen}
-        setIsSubHeadingEditOpen={setIsSubHeadingEditOpen}
-        selectedSubHeadingId={selectedSubHeadingId}
-        setSelectedSubHeadingId={setSelectedSubHeadingId}
-        isAddSubHeadingOpen={isAddSubHeadingOpen}
-        setIsAddSubHeadingOpen={setIsAddSubHeadingOpen}
-      />
-
-      <div className="border-t p-4">
-        <DataTablePagination
-          canPreviousPage={paginationData.currentPage > 1}
-          canNextPage={paginationData.currentPage < paginationData.totalPages}
-          previousPage={() => setPage(p => Math.max(1, p - 1))}
-          nextPage={() => setPage(p => Math.min(paginationData.totalPages, p + 1))}
-          selectedRows={subHeadingData.length}
-          totalRows={paginationData.totalRecords}
-          pageCount={paginationData.totalPages}
-          pageIndex={paginationData.currentPage - 1}
-          pageSize={paginationData.limit}
-          setPage={handlePageChange}
+        <SubHeadingTable
+          data={subHeadingData}
+          isLoading={isLoading}
+          isSubHeadingViewOpen={isSubHeadingViewOpen}
+          setIsSubHeadingViewOpen={setIsSubHeadingViewOpen}
+          isSubHeadingEditOpen={isSubHeadingEditOpen}
+          setIsSubHeadingEditOpen={setIsSubHeadingEditOpen}
+          selectedSubHeadingId={selectedSubHeadingId}
+          setSelectedSubHeadingId={setSelectedSubHeadingId}
+          isAddSubHeadingOpen={isAddSubHeadingOpen}
+          setIsAddSubHeadingOpen={setIsAddSubHeadingOpen}
         />
+
+        <div className="border-t p-4">
+          <DataTablePagination
+            canPreviousPage={paginationData.currentPage > 1}
+            canNextPage={paginationData.currentPage < paginationData.totalPages}
+            previousPage={() => setPage(p => Math.max(1, p - 1))}
+            nextPage={() => setPage(p => Math.min(paginationData.totalPages, p + 1))}
+            selectedRows={subHeadingData.length}
+            totalRows={paginationData.totalRecords}
+            pageCount={paginationData.totalPages}
+            pageIndex={paginationData.currentPage - 1}
+            pageSize={paginationData.limit}
+            setPage={handlePageChange}
+          />
+        </div>
       </div>
     </div>
   );
