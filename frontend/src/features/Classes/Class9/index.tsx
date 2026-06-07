@@ -5,19 +5,20 @@ import CardSmall from '@/components/card/SmallCard';
 import UnorderedList from '@/components/elements/list/UnorderedList';
 import { useServiceBySlug } from '@/hooks/use-public';
 
-interface Class9PageProps {
-  title: string;
-  image: string;
-  canonical: string;
-  url: string;
-}
-
-export default function Class9Page({ title, image, canonical, url }: Class9PageProps) {
-  const { data: servicesData } = useServiceBySlug('class-9');
+export default function Class9() {
+  const { data: servicesData, isLoading, error } = useServiceBySlug('class-9');
   const services = servicesData?.data ?? [];
 
+  if (isLoading) return null;
+  if (error) return null;
+
   return (
-    <UserLayout title={title} image={image} canonical={canonical} url={url}>
+    <UserLayout
+      title="Class 9 Study Resources | Notes, MCQs, Online Tests & Past Papers"
+      image="/class_9_growlearnhub.png"
+      canonical="/class-9/"
+      url="https://growlearnhub.com/class-9/"
+    >
       <p>
         Welcome to the <strong>Class 9</strong> page! Here, you&apos;ll find a comprehensive list of
         textbooks and resources that are essential for students in the 9th grade.

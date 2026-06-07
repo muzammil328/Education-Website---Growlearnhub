@@ -8,7 +8,7 @@ export default function BookModalView({
     code?: string;
     classId?: string | string[];
     className?: string;
-    class?: { classId: string; className: string };
+    class?: { classId: string; name: string };
     description?: string;
     status: string;
     creditHours?: number;
@@ -33,7 +33,7 @@ export default function BookModalView({
       <div>
         <span className="text-gray-500">Class</span>
         <p className="font-medium">
-          {formValues.class?.className ||
+          {formValues.class?.name ||
             formValues.className ||
             (Array.isArray(formValues.classId)
               ? formValues.classId.join(', ')

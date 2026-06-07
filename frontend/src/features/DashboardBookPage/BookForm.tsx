@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from '@muzammil328/ui';
 import { Form } from '@muzammil328/ui';
-import { useBookByBookId, useCreateBook, useUpdateBook } from '@/hooks';
+import { useBookById, useCreateBook, useUpdateBook } from '@/hooks';
 import { bookCreateSchema, type BookCreateInput } from '@muzammil328/education-packages';
 import { BookModalSkeleton } from './BookModalSkeleton';
 import BookModalView from './BookModalView';
@@ -30,41 +30,40 @@ export function BookForm({
   const createBookMutation = useCreateBook();
   const updateBookMutation = useUpdateBook();
 
-  const { data: bookData } = useBookByBookId(
+  const { data: bookData } = useBookById(
     (isEdit || isView) && isOpen ? bookId : undefined
   );
 
-  const editDefaults: BookCreateInput =
-    (isEdit || isView) && bookData
-      ? {
-          name: bookData.name || '',
-          code: bookData.code || '',
-          classId: String(bookData.classId || bookData.class?.classId || ''),
-          description: bookData.description || '',
-          status: (bookData.status || 'active') as 'active' | 'inactive',
-          creditHours: bookData.creditHours,
-          fileId: bookData.fileId,
-          pages: bookData.pages,
-          image: bookData.image,
-          totalWeight: bookData.totalWeight,
-          components: bookData.components ?? [],
-        }
-      : {
-          name: '',
-          code: '',
-          classId: '',
-          description: '',
-          status: 'active',
-          components: [],
-        };
-
   const form = useForm<BookCreateInput>({
     resolver: zodResolver(bookCreateSchema),
-    defaultValues: editDefaults,
+    defaultValues: {
+      name: '',
+      code: '',
+      classId: '',
+      description: '',
+      status: 'active',
+      components: [],
+    },
     mode: 'onChange',
   });
 
   useEffect(() => {
+    if ((isEdit || isView) && bookData) {
+      const item = bookData.data;
+      form.reset({
+        name: item.name || '',
+        code: item.code || '',
+        classId: String(item.classId || item.class?.classId || ''),
+        description: item.description || '',
+        status: (item.status as 'active' | 'inactive') || 'active',
+        creditHours: item.creditHours,
+        fileId: item.fileId,
+        pages: item.pages,
+        image: item.image,
+        totalWeight: item.totalWeight,
+        components: item.components ?? [],
+      });
+    }
     if (!isOpen) {
       form.reset({
         name: '',
@@ -75,7 +74,7 @@ export function BookForm({
         components: [],
       });
     }
-  }, [isOpen, form]);
+  }, [bookData, form, isEdit, isView, isOpen]);
 
   const onSubmit = (values: BookCreateInput) => {
     const submitData = {
@@ -117,7 +116,7 @@ export function BookForm({
   const isInitialLoading = (isEdit || isView) && isOpen && !bookData;
 
   // Use bookData if available (from API), otherwise use form values
-  const viewData = isView && bookData ? bookData : form.getValues();
+  const viewData = isView && bookData ? bookData.data : form.getValues();
   const submitLabel = isEdit ? 'Update Book' : isView ? '' : 'Add Book';
 
   if (isInitialLoading) {
@@ -127,7 +126,7 @@ export function BookForm({
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-        {isView ? <BookModalView formValues={viewData} /> : <BookModalForm />}
+        {isView ? <BookModalView formValues={viewData} /> : <BookModalForm isOpen={isOpen} initialSelection={bookData?.data ? { classId: bookData.data.classId || bookData.data.class?.classId, className: bookData.data.class?.name } : undefined} />}
         <ModalFormActionButton
           onClose={onClose}
           label={submitLabel}

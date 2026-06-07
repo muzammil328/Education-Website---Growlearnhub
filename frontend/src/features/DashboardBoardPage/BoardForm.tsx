@@ -7,7 +7,7 @@ import { toast } from '@muzammil328/ui';
 import { Form } from '@muzammil328/ui';
 import { useBoardById, useCreateBoard, useUpdateBoard } from '@/hooks';
 import { type RouterOutputs, type TrpcError } from '@/trpc/trpc';
-import { BoardSchema, type BoardFormValues } from '@muzammil328/education-packages';
+import { boardCreateSchema, type BoardCreateInput } from '@muzammil328/education-packages';
 import { BoardModalSkeleton } from './BoardModalSkeleton';
 import BoardModalView from './BoardModalView';
 import BoardModalForm from './BoardModalForm';
@@ -60,13 +60,13 @@ export function BoardForm({
     };
   })();
 
-  const form = useForm<BoardFormValues>({
-    resolver: zodResolver(BoardSchema),
+  const form = useForm<BoardCreateInput>({
+    resolver: zodResolver(boardCreateSchema),
     defaultValues: editDefaults,
     mode: 'onChange',
   });
 
-  const onSubmit = (values: BoardFormValues) => {
+  const onSubmit = (values: BoardCreateInput) => {
     const submitData = {
       ...values,
       classId: Array.isArray(values.classId) ? values.classId[0] : values.classId || '',

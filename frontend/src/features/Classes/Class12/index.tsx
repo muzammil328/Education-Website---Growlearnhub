@@ -1,29 +1,24 @@
+'use client';
 import React from 'react';
 import UserLayout from '@/components/layout/UserLayout';
 import CardSmall from '@/components/card/SmallCard';
 import UnorderedList from '@/components/elements/list/UnorderedList';
+import { useServiceBySlug } from '@/hooks/use-public';
 
-interface Class12PageProps {
-  title: string;
-  image: string;
-  canonical: string;
-  url: string;
-}
+export default function Class12() {
+  const { data: servicesData, isLoading, error } = useServiceBySlug('class-12');
+  const services = servicesData?.data ?? [];
 
-const resources = [
-  { name: 'Online Test', slug: 'online-test' },
-  { name: 'MCQs', slug: 'mcqs' },
-  { name: 'Books', slug: 'books' },
-  { name: 'Past Paper', slug: 'past-paper' },
-  { name: 'Notes', slug: 'notes' },
-  { name: 'Date Sheet', slug: 'date-sheet' },
-  { name: 'Pairing Scheme', slug: 'pairing-scheme' },
-  { name: 'Result', slug: 'result' },
-];
+  if (isLoading) return null;
+  if (error) return null;
 
-export default function Class12Page({ title, image, canonical, url }: Class12PageProps) {
   return (
-    <UserLayout title={title} image={image} canonical={canonical} url={url}>
+    <UserLayout
+      title="Class 12 Study Resources | Notes, MCQs, Online Tests & Past Papers"
+      image="/class_12_growlearnhub.png"
+      canonical="/class-12/"
+      url="https://growlearnhub.com/class-12/"
+    >
       <p>
         Welcome to the <strong>Class 12</strong> page! Here, you&apos;ll find a comprehensive list
         of textbooks and resources that are essential for students in the 12th grade.
@@ -46,18 +41,22 @@ export default function Class12Page({ title, image, canonical, url }: Class12Pag
         ]}
       />
 
-      <h2 className="py-2 text-primary border-b text-2xl font-semibold border-border">
-        Quick Access Resources
-      </h2>
-      <div className="my-5 grid grid-cols-1 gap-4 md:grid-cols-2">
-        {resources.map(resource => (
-          <CardSmall
-            key={resource.slug}
-            title={resource.name}
-            link={`class-12/${resource.slug}`}
-          />
-        ))}
-      </div>
+      {services.length > 0 && (
+        <>
+          <h2 className="py-2 text-primary border-b text-2xl font-semibold border-border">
+            Quick Access Resources
+          </h2>
+          <div className="my-5 grid grid-cols-1 gap-4 md:grid-cols-2">
+            {services.map((service: { name: string; slug: string }) => (
+              <CardSmall
+                key={service.slug}
+                title={service.name}
+                link={`class-12/${service.slug}`}
+              />
+            ))}
+          </div>
+        </>
+      )}
 
       <h3 className="text-xl py-2 text-destructive">Online Tests for Class 12</h3>
       <p>

@@ -21,7 +21,7 @@ export function SelectField({ name, placeholder, options, label, className }: Se
         name={name}
         control={control}
         render={({ field }) => (
-          <Select onValueChange={field.onChange} value={field.value}>
+          <Select key={field.value || 'empty'} onValueChange={field.onChange} value={field.value}>
             <SelectTrigger>
               <SelectValue placeholder={placeholder} />
             </SelectTrigger>

@@ -5,19 +5,20 @@ import CardSmall from '@/components/card/SmallCard';
 import UnorderedList from '@/components/elements/list/UnorderedList';
 import { useServiceBySlug } from '@/hooks/use-public';
 
-interface Class10PageProps {
-  title: string;
-  image: string;
-  canonical: string;
-  url: string;
-}
-
-export default function Class10Page({ title, image, canonical, url }: Class10PageProps) {
-  const { data: servicesData } = useServiceBySlug('class-10');
+export default function Class10() {
+  const { data: servicesData, isLoading, error } = useServiceBySlug('class-10');
   const services = servicesData?.data ?? [];
 
+  if (isLoading) return null;
+  if (error) return null;
+
   return (
-    <UserLayout title={title} image={image} canonical={canonical} url={url}>
+    <UserLayout
+      title="Class 10 Study Resources | Notes, MCQs, Online Tests & Past Papers"
+      image="/class_10_growlearnhub.png"
+      canonical="/class-10/"
+      url="https://growlearnhub.com/class-10/"
+    >
       <p>
         Welcome to the <strong>Class 10</strong> page! Here, you&apos;ll find a comprehensive list
         of textbooks and resources that are essential for students in the 10th grade.

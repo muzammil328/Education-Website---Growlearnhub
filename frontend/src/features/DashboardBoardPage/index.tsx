@@ -10,8 +10,11 @@ import { BoardTable } from '@/features/DashboardBoardPage/BoardTable';
 import { useBoards } from '@/hooks';
 
 import type { Status, SortOrder } from '@muzammil328/education-packages/types';
-import { EntityStatus } from '@muzammil328/education-packages/enums';
+import { StatusEnum } from '@muzammil328/education-packages/enums';
 import { SlidersHorizontal } from 'lucide-react';
+
+import { DashboardPageHeader } from '@/components/DashboardPageHeader';
+import { BoardModal } from '@/features/DashboardBoardPage/BoardModal';
 
 export default function DashboardBoardPage({
   status: queryStatus = 'active',
@@ -88,11 +91,11 @@ export default function DashboardBoardPage({
 
   const boardData = responseData?.data ?? [];
 
-  const paginationData = responseData?.pagination ?? {
-    totalRecords: 0,
-    totalPages: 1,
-    currentPage: 1,
-    limit: 10,
+  const paginationData = {
+    totalRecords: responseData?.pagination?.totalRecords ?? 0,
+    totalPages: responseData?.pagination?.totalPages ?? 1,
+    currentPage: responseData?.pagination?.page ?? 1,
+    limit: responseData?.pagination?.pageSize ?? 10,
   };
 
   if (error) {
@@ -100,7 +103,17 @@ export default function DashboardBoardPage({
   }
 
   return (
-    <div className="border rounded-md pb-3">
+    <div>
+      <DashboardPageHeader
+        title="Board Management"
+        description="Define and configure academic board types and offerings"
+        action={
+          <Button>
+            Create Board
+          </Button>
+        }
+      />
+      <div className="border rounded-md pb-3">
       <div className="flex items-center justify-between">
         <input
           type="text"
@@ -115,8 +128,8 @@ export default function DashboardBoardPage({
                 <SelectValue placeholder="Select Status" />
               </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value={EntityStatus.ACTIVE}>Active</SelectItem>
-                  <SelectItem value={EntityStatus.INACTIVE}>Inactive</SelectItem>
+                  <SelectItem value={StatusEnum.Active}>Active</SelectItem>
+                  <SelectItem value={StatusEnum.Inactive}>Inactive</SelectItem>
                 </SelectContent>
             </Select>
           </div>
@@ -148,6 +161,7 @@ export default function DashboardBoardPage({
         pageSize={paginationData.limit}
         setPage={page => setPage(page + 1)}
       />
+    </div>
     </div>
   );
 }

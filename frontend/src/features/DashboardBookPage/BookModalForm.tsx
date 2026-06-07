@@ -115,7 +115,16 @@ function AssessmentComponentsForm() {
   );
 }
 
-export default function BookModalForm({ isOpen = true }: { isOpen?: boolean }) {
+export default function BookModalForm({
+  isOpen = true,
+  initialSelection,
+}: {
+  isOpen?: boolean;
+  initialSelection?: {
+    classId?: string;
+    className?: string;
+  };
+}) {
   const {
     data: classData,
     isLoading: isLoadingClasses,
@@ -123,12 +132,19 @@ export default function BookModalForm({ isOpen = true }: { isOpen?: boolean }) {
   } = useDropdownClasses(isOpen);
 
   const classOptions = useMemo(() => {
-    if (!classData) return [];
-    return classData.map((item: { value?: string; label?: string }) => ({
+    const options = (classData || []).map((item: { value?: string; label?: string }) => ({
       value: item.value || '',
       label: item.label || 'Unnamed Class',
     }));
-  }, [classData]);
+    if (
+      initialSelection?.classId &&
+      initialSelection.className &&
+      !options.some(o => o.value === initialSelection.classId)
+    ) {
+      options.unshift({ value: initialSelection.classId, label: initialSelection.className });
+    }
+    return options;
+  }, [classData, initialSelection?.classId, initialSelection?.className]);
 
   return (
     <div className="space-y-4">
@@ -148,7 +164,7 @@ export default function BookModalForm({ isOpen = true }: { isOpen?: boolean }) {
               isEmpty={classOptions.length === 0}
               emptyMessage="No active classes found."
             >
-              <SelectField name="classId" placeholder="Select a class" options={classOptions} />
+              <SelectField key={initialSelection?.classId || 'class'} name="classId" placeholder="Select a class" options={classOptions} />
             </DropdownLoader>
           </div>
         )}
