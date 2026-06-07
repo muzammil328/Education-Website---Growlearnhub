@@ -1,25 +1,30 @@
+export type ClassViewData = {
+  name: string;
+  slug?: string;
+  description?: string;
+  image?: string;
+  serviceIds?: string[];
+  keywords?: string[];
+  status: string;
+};
+
+type ServiceItem = {
+  serviceId: string;
+  name: string;
+};
+
 export default function ClassModalView({
   formValues,
+  services,
 }: {
-  formValues: {
-    name: string;
-    slug?: string;
-    description?: string;
-    image?: string;
-    serviceId?: string[];
-    keywords?: string[];
-    status: string;
-  };
+  formValues: ClassViewData;
+  services?: ServiceItem[];
 }) {
   return (
     <div className="space-y-4">
       <div>
         <span className="text-gray-500">Name</span>
         <p className="font-medium">{formValues.name || '-'}</p>
-      </div>
-      <div>
-        <span className="text-gray-500">Slug</span>
-        <p className="font-medium">{formValues.slug || '-'}</p>
       </div>
       <div>
         <span className="text-gray-500">Description</span>
@@ -31,7 +36,11 @@ export default function ClassModalView({
       </div>
       <div>
         <span className="text-gray-500">Services</span>
-        <p className="font-medium">{formValues.serviceId?.join(', ') || '-'}</p>
+        <p className="font-medium">
+          {services?.length
+            ? services.map(s => s.name).join(', ')
+            : '-'}
+        </p>
       </div>
       <div>
         <span className="text-gray-500">Keywords</span>

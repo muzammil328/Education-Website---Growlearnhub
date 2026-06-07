@@ -10,15 +10,27 @@ import { useDropdownBooks } from '@/hooks';
 import { useDropdownChapters } from '@/hooks';
 import { DropdownSkeleton } from '@/components/DropdownSkeleton';
 
+interface InitialSelection {
+  classId?: string;
+  className?: string;
+  bookId?: string;
+  bookName?: string;
+  chapterId?: string;
+  chapterName?: string;
+}
+
 interface HeadingModalFormProps {
-  initialSelection?: {
-    classId?: string;
-    className?: string;
-    bookId?: string;
-    bookName?: string;
-    chapterId?: string;
-    chapterName?: string;
-  };
+  initialSelection?: InitialSelection;
+}
+
+interface SelectOption {
+  value: string;
+  label: string;
+}
+
+interface DropdownItem {
+  value?: string;
+  label?: string;
 }
 
 export default function HeadingModalForm({ initialSelection }: HeadingModalFormProps) {
@@ -47,7 +59,7 @@ export default function HeadingModalForm({ initialSelection }: HeadingModalFormP
     data: chapterData,
     isLoading: chapterLoading,
     error: chapterError,
-  } = useDropdownChapters(effectiveBookId ? { bookId: effectiveBookId } : undefined);
+  } = useDropdownChapters(effectiveBookId ? { bookId: effectiveBookId, classId: effectiveClassId } : undefined);
 
   useEffect(() => {
     if (didHydrateInitialSelection.current || !initialSelection) {
@@ -179,6 +191,7 @@ export default function HeadingModalForm({ initialSelection }: HeadingModalFormP
             emptyMessage="No active classes found."
           >
             <SelectField
+              key={initialSelection?.classId || 'class'}
               name="classId"
               label="Class"
               placeholder="Select Class Name"
@@ -204,6 +217,7 @@ export default function HeadingModalForm({ initialSelection }: HeadingModalFormP
             emptyMessage="No active books found for this class."
           >
             <SelectField
+              key={initialSelection?.bookId || 'book'}
               name="bookId"
               label="Book"
               placeholder="Select Book Name"
@@ -229,6 +243,7 @@ export default function HeadingModalForm({ initialSelection }: HeadingModalFormP
             emptyMessage="No active chapters found for this book."
           >
             <SelectField
+              key={initialSelection?.chapterId || 'chapter'}
               name="chapterId"
               label="Chapter"
               placeholder="Select Chapter Name"

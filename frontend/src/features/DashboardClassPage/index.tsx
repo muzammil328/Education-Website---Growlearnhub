@@ -12,7 +12,7 @@ import { useClasses } from '@/hooks';
 import { DashboardClassPageProps } from '@/types/class.types';
 import { SlidersHorizontal } from 'lucide-react';
 import { ClassModal } from './ClassModal';
-import { DynamicBreadcrumb } from '@/components/ui/dynamic-breadcrumb';
+import { DashboardPageHeader } from '@/components/DashboardPageHeader';
 import { StatusEnum, Status } from '@muzammil328/education-packages';
 import { SortOrder } from '@muzammil328/db';
 
@@ -81,11 +81,11 @@ export default function DashboardClassPage({
 
   const classData = responseData?.data ?? [];
 
-  const paginationData = responseData?.pagination ?? {
-    totalRecords: 0,
-    totalPages: 1,
-    currentPage: 1,
-    limit: 10,
+  const paginationData = {
+    totalRecords: responseData?.pagination?.totalRecords ?? 0,
+    totalPages: responseData?.pagination?.totalPages ?? 1,
+    currentPage: responseData?.pagination?.page ?? 1,
+    limit: responseData?.pagination?.pageSize ?? 10,
   };
 
   if (error && !isLoading) {
@@ -104,48 +104,38 @@ export default function DashboardClassPage({
 
   return (
     <div className="border rounded-md pb-3">
-      <div className="flex items-center justify-between mb-4">
-        <div className="flex flex-col items-start">
-          <h1 className="text-3xl font-bold pb-2">Class Management</h1>
-          <DynamicBreadcrumb />
-        </div>
-        <ClassModal mode="add" isOpen={isAddClassOpen} onOpenChange={setIsAddClassOpen} />
-      </div>
-      <div className="flex items-center justify-between">
-        <input
-          type="text"
-          placeholder="Search classes..."
-          className="py-2 px-3 focus:outline-none h-12 border rounded-md"
-          value={search}
-          onChange={e => setSearch(e.target.value)}
-        />
-
-        <div className="flex items-center gap-4">
-          <div className="space-y-2 w-32">
-            <Select onValueChange={handleStatusChange} value={status}>
-              <SelectTrigger className="w-full">
-                <SelectValue placeholder="Select Status" />
-              </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value={StatusEnum.ACTIVE}>Active</SelectItem>
-                  <SelectItem value={StatusEnum.INACTIVE}>Inactive</SelectItem>
-                </SelectContent>
-            </Select>
-          </div>
-
-          <div className="space-y-2">
-            <Select onValueChange={handleSortFieldChange} value={sortField || 'name'}>
-              <SelectTrigger className="w-full">
-                <SlidersHorizontal className="h-4 w-4" />
-                <SelectValue placeholder="Select Sort" />
-              </SelectTrigger>
+      <DashboardPageHeader
+        title="Class Management"
+        description="Manage academic classes and their board affiliations"
+        action={<ClassModal mode="add" isOpen={isAddClassOpen} onOpenChange={setIsAddClassOpen} />}
+        searchValue={search}
+        onSearchChange={setSearch}
+        searchPlaceholder="Search classes..."
+      >
+        <div className="space-y-2 w-32">
+          <Select onValueChange={handleStatusChange} value={status}>
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder="Select Status" />
+            </SelectTrigger>
               <SelectContent>
-                <SelectItem value="name">Name</SelectItem>
+                <SelectItem value={StatusEnum.ACTIVE}>Active</SelectItem>
+                <SelectItem value={StatusEnum.INACTIVE}>Inactive</SelectItem>
               </SelectContent>
-            </Select>
-          </div>
+          </Select>
         </div>
-      </div>
+
+        <div className="space-y-2">
+          <Select onValueChange={handleSortFieldChange} value={sortField || 'name'}>
+            <SelectTrigger className="w-full">
+              <SlidersHorizontal className="h-4 w-4" />
+              <SelectValue placeholder="Select Sort" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="name">Name</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+      </DashboardPageHeader>
 
       <ClassTable
         data={classData}

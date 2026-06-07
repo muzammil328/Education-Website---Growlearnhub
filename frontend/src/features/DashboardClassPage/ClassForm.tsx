@@ -11,7 +11,7 @@ import { Form } from '@muzammil328/ui';
 import { useClassById, useCreateClass, useUpdateClass } from '@/hooks';
 import { classCreateSchema, type ClassCreateInput } from '@muzammil328/education-packages';
 import ClassModalSkeleton from './ClassModalSkeleton';
-import ClassModalView from './ClassModalView';
+import ClassModalView, { type ClassViewData } from './ClassModalView';
 import ClassModalForm from './ClassModalForm';
 import { ModalFormActionButton } from '@/components/ModalFormActionButton';
 
@@ -45,7 +45,7 @@ export function ClassForm({
     defaultValues: {
       name: '',
       description: '',
-      serviceId: [],
+      serviceIds: [],
       image: '',
       keywords: [],
       status: 'active',
@@ -55,20 +55,21 @@ export function ClassForm({
 
   useEffect(() => {
     if ((isEdit || isView) && isOpen && classData) {
+      const item = classData.data;
       form.reset({
-        name: classData.name || '',
-        description: classData.description || '',
-        serviceId: Array.isArray(classData.serviceId) ? classData.serviceId : [],
-        image: classData.image || '',
-        keywords: Array.isArray(classData.keywords) ? classData.keywords : [],
-        status: (classData.status as 'active' | 'inactive') || 'active',
+        name: item.name || '',
+        description: item.description || '',
+        serviceIds: Array.isArray(item.service) ? item.service.map(s => s.serviceId) : [],
+        image: item.image || '',
+        keywords: Array.isArray(item.keywords) ? item.keywords : [],
+        status: (item.status as 'active' | 'inactive') || 'active',
       });
     }
     if (mode === 'add' && isOpen) {
       form.reset({
         name: '',
         description: '',
-        serviceId: [],
+        serviceIds: [],
         image: '',
         keywords: [],
         status: 'active',
@@ -111,15 +112,16 @@ export function ClassForm({
   const isLoading = createClassMutation.isPending || updateClassMutation.isPending;
   const formValues = form.getValues();
   const submitLabel = isEdit ? 'Update Class' : isView ? '' : 'Add Class';
+  const item = classData?.data;
 
-  if (isLoadingClass && !classData && isEdit) {
+  if (isLoadingClass && !classData && (isEdit || isView)) {
     return <ClassModalSkeleton />;
   }
 
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit, errors => console.error('Form validation errors:', errors))} className="space-y-4">
-        {isView ? <ClassModalView formValues={formValues} /> : <ClassModalForm isOpen={isOpen} />}
+        {isView ? <ClassModalView formValues={formValues} services={item?.service} /> : <ClassModalForm isOpen={isOpen} />}
         <ModalFormActionButton
           onClose={onClose}
           label={submitLabel}

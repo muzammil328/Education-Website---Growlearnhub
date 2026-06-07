@@ -1,13 +1,13 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from '@muzammil328/ui';
 import { Form } from '@muzammil328/ui';
 import { FormProps } from '@muzammil328/education-packages/types';
 import { useHeadingById, useCreateHeading, useUpdateHeading } from '@/hooks';
-import { HeadingSchema, type HeadingFormValues } from '@muzammil328/education-packages';
+import { headingCreateSchema, type CreateHeadingInput } from '@muzammil328/education-packages';
 import { HeadingModalSkeleton } from './HeadingModalSkeleton';
 import HeadingModalView from './HeadingModalView';
 import HeadingModalForm from './HeadingModalForm';
@@ -34,31 +34,34 @@ export function HeadingForm({
     (isEdit || isView) && isOpen ? headingId : undefined
   );
 
-  const editDefaults =
-    (isEdit || isView) && headingData
-      ? {
-          name: headingData.name || '',
-          classId: String(headingData.class?.classId || headingData.classId || ''),
-          bookId: String(headingData.book?.bookId || headingData.bookId || ''),
-          chapterId: String(headingData.chapter?.chapterId || headingData.chapterId || ''),
-          status: (headingData.status || 'active') as 'active' | 'inactive',
-          order: headingData.order,
-        }
-      : {
-          name: '',
-          classId: '',
-          bookId: '',
-          chapterId: '',
-          status: 'active' as const,
-        };
+  const headingResponse = headingData?.data;
 
-  const form = useForm<HeadingFormValues>({
-    resolver: zodResolver(HeadingSchema),
-    defaultValues: editDefaults,
+  const form = useForm<CreateHeadingInput>({
+    resolver: zodResolver(headingCreateSchema),
+    defaultValues: {
+      name: '',
+      classId: '',
+      bookId: '',
+      chapterId: '',
+      status: 'active',
+    },
     mode: 'onChange',
   });
 
-  const onSubmit = (values: HeadingFormValues) => {
+  useEffect(() => {
+    if (headingResponse) {
+      form.reset({
+        name: headingResponse.name || '',
+        classId: String(headingResponse.class?.classId || headingResponse.classId || ''),
+        bookId: String(headingResponse.book?.bookId || headingResponse.bookId || ''),
+        chapterId: String(headingResponse.chapter?.chapterId || headingResponse.chapterId || ''),
+        status: (headingResponse.status || 'active') as 'active' | 'inactive',
+        order: headingResponse.order,
+      });
+    }
+  }, [headingResponse, form.reset, isEdit, isView]);
+
+  const onSubmit = (values: CreateHeadingInput) => {
     if (isEdit && headingId) {
       updateHeadingMutation.mutate(
         { id: headingId, updates: values },
@@ -88,7 +91,7 @@ export function HeadingForm({
   };
 
   const isLoading = createHeadingMutation.isPending || updateHeadingMutation.isPending;
-  const viewData = isView && headingData ? headingData : form.getValues();
+  const viewData = isView && headingResponse ? headingResponse : form.getValues();
   const submitLabel = isEdit ? 'Update Heading' : isView ? '' : 'Add Heading';
   const isInitialLoading = (isEdit || isView) && isOpen && !headingData;
 
@@ -104,14 +107,14 @@ export function HeadingForm({
         ) : (
           <HeadingModalForm
             initialSelection={
-              headingData
+              headingResponse
                 ? {
-                    classId: headingData.class?.classId || headingData.classId,
-                    className: headingData.class?.className,
-                    bookId: headingData.book?.bookId || headingData.bookId,
-                    bookName: headingData.book?.bookName,
-                    chapterId: headingData.chapter?.chapterId || headingData.chapterId,
-                    chapterName: headingData.chapter?.chapterName,
+                    classId: headingResponse.class?.classId || headingResponse.classId,
+                    className: headingResponse.class?.name,
+                    bookId: headingResponse.book?.bookId || headingResponse.bookId,
+                    bookName: headingResponse.book?.name,
+                    chapterId: headingResponse.chapter?.chapterId || headingResponse.chapterId,
+                    chapterName: headingResponse.chapter?.name,
                   }
                 : undefined
             }

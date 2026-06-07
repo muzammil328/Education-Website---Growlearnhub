@@ -29,7 +29,7 @@ export default function ClassModalForm({ isOpen = true }: { isOpen?: boolean }) 
       />
 
       <MultiFormSelect
-        name="serviceId"
+        name="serviceIds"
         label="Services"
         placeholder="Select services"
         options={servicesResponse ?? []}

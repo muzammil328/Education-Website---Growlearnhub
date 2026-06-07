@@ -6,10 +6,11 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { Button } from '@muzammil328/ui';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@muzammil328/ui';
 import { DataTablePagination } from '@/components/ui/data-table-pagination';
+import { DashboardPageHeader } from '@/components/DashboardPageHeader';
 
 import { useMcqs } from '@/hooks/use-mcqs';
 import type { Status } from '@muzammil328/education-packages/types';
-import { EntityStatus } from '@muzammil328/education-packages/enums';
+import { StatusEnum } from '@muzammil328/education-packages/enums';
 import { Plus, SlidersHorizontal } from 'lucide-react';
 import { McqModal } from './McqModal';
 import { McqTable } from './McqTable';
@@ -31,6 +32,7 @@ export default function DashboardMcqsPage({
 
   const [page, setPage] = useState(1);
   const [limit] = useState(10);
+  const [search, setSearch] = useState('');
 
   const [sortField, setSortField] = useState<
     'question' | 'status' | 'createdAt' | 'updatedAt' | 'difficulty'
@@ -84,15 +86,16 @@ export default function DashboardMcqsPage({
     limit,
     sort: sortField,
     sortDirection: sortOrder,
+    search,
   });
 
   const mcqData = responseData?.data ?? [];
 
-  const paginationData = responseData?.pagination ?? {
-    totalRecords: 0,
-    totalPages: 1,
-    currentPage: 1,
-    limit: 10,
+  const paginationData = {
+    totalRecords: responseData?.pagination?.totalRecords ?? 0,
+    totalPages: responseData?.pagination?.totalPages ?? 1,
+    currentPage: responseData?.pagination?.page ?? 1,
+    limit: responseData?.pagination?.pageSize ?? 10,
   };
 
   if (error) {
@@ -101,40 +104,10 @@ export default function DashboardMcqsPage({
 
   return (
     <div className="border rounded-md pb-3">
-      <div className="flex items-center justify-between">
-        <input
-          type="text"
-          placeholder="Search MCQs..."
-          className="py-2 px-3 focus:outline-none h-12"
-        />
-
-        <div className="flex items-center gap-4">
-          <div className="space-y-2 w-32">
-            <Select onValueChange={handleStatusChange} value={status}>
-              <SelectTrigger className="w-full">
-                <SelectValue placeholder="Select Status" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">All</SelectItem>
-                <SelectItem value={EntityStatus.ACTIVE}>Active</SelectItem>
-                <SelectItem value={EntityStatus.INACTIVE}>Inactive</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-
-          <div className="space-y-2">
-            <Select onValueChange={handleSortFieldChange} value={sortField || 'question'}>
-              <SelectTrigger className="w-full">
-                <SlidersHorizontal className="h-4 w-4" />
-                <SelectValue placeholder="Select Sort" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="question">Question</SelectItem>
-                <SelectItem value="createdAt">Created At</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-
+      <DashboardPageHeader
+        title="MCQ Management"
+        description="Manage multiple-choice questions for assessments"
+        action={
           <McqModal
             mode="add"
             trigger={
@@ -143,8 +116,39 @@ export default function DashboardMcqsPage({
               </Button>
             }
           />
+        }
+        searchValue={search}
+        onSearchChange={setSearch}
+        searchPlaceholder="Search MCQs..."
+      >
+        <div className="space-y-2 w-32">
+          <Select onValueChange={handleStatusChange} value={status}>
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder="Select Status" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">All</SelectItem>
+              <SelectItem value={StatusEnum.Active}>Active</SelectItem>
+              <SelectItem value={StatusEnum.Inactive}>Inactive</SelectItem>
+            </SelectContent>
+          </Select>
         </div>
-      </div>
+
+        <div className="space-y-2">
+          <Select onValueChange={handleSortFieldChange} value={sortField || 'question'}>
+            <SelectTrigger className="w-full">
+              <SlidersHorizontal className="h-4 w-4" />
+              <SelectValue placeholder="Select Sort" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="question">Question</SelectItem>
+              <SelectItem value="createdAt">Created At</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+      </DashboardPageHeader>
+
+      <McqTable data={mcqData} isLoading={isLoading} />
 
       <McqTable data={mcqData} isLoading={isLoading} />
       <div className="border-t pt-3 px-2">

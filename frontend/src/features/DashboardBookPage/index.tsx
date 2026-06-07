@@ -4,9 +4,12 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@muzammil328/ui';
 import { Button } from '@muzammil328/ui';
 import { SlidersHorizontal } from 'lucide-react';
+import { DataTablePagination } from '@/components/ui/data-table-pagination';
+import { useBooks } from '@/hooks';
 import { DashboardPageHeader } from '@/components/DashboardPageHeader';
 import { BookTable } from './BookTable';
 import { StatusEnum } from '@muzammil328/education-packages';
+import type { Status, SortOrder } from '@muzammil328/education-packages/types';
 
 export default function BookPage({
   status: queryStatus,
