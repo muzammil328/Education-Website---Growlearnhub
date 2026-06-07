@@ -53,3 +53,22 @@ export const useHeadingBySlug = (classSlug?: string, bookSlug?: string, chapterS
     }
   );
 };
+
+export const useChaptersBySlug = (classSlug?: string, bookSlug?: string) => {
+  return trpc.chapter.getBySlug.useQuery(
+    { classSlug: classSlug || '', bookSlug: bookSlug || '' },
+    {
+      enabled: Boolean(classSlug && bookSlug),
+      retry: false,
+      refetchOnWindowFocus: false,
+    }
+  );
+};
+
+
+export const useSubHeadingBySlug = (slug?: string) => {
+  return trpc.subHeading.getBySlug.useQuery(
+    { slug: slug || '' },
+    { enabled: Boolean(slug), retry: false, refetchOnWindowFocus: false }
+  );
+};

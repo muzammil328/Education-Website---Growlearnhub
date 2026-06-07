@@ -4,7 +4,7 @@ import React, { useMemo } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { SelectField } from '@/components/ui/'
 import { FormString, Label, Textarea, MultiFormSelect } from '@muzammil328/ui';
-import { useDropdownClasses } from '@/hooks/use-public';
+import { useDropdownClasses } from '@/hooks/use-class';
 
 export default function ServiceModalForm({ isOpen = true }: { isOpen?: boolean }) {
   const { data: classData, isLoading: classLoading } = useDropdownClasses(isOpen);

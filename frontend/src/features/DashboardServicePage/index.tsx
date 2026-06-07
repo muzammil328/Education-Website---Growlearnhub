@@ -2,7 +2,7 @@
 import React, { useState, useCallback } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@muzammil328/ui';
-import { DynamicBreadcrumb } from '@/components/ui/dynamic-breadcrumb';
+import { DashboardPageHeader } from '@/components/DashboardPageHeader';
 
 import { DataTablePagination } from '@/components/ui/data-table-pagination';
 import { ServiceTable } from '@/features/DashboardServicePage/ServiceTable';
@@ -14,7 +14,7 @@ import type {
   Status,
   SortOrder,
 } from '@muzammil328/education-packages/types';
-import { EntityStatus } from '@muzammil328/education-packages/enums';
+import { StatusEnum } from '@muzammil328/education-packages/enums';
 import { SlidersHorizontal } from 'lucide-react';
 
 type DashboardServicePageProps = {
@@ -83,11 +83,11 @@ export default function DashboardServicePage({
 
   const serviceData = (responseData?.data ?? []) as DashboardServiceTableProps[];
 
-  const paginationData = responseData?.pagination ?? {
-    totalRecords: 0,
-    totalPages: 1,
-    currentPage: 1,
-    limit: 10,
+  const paginationData = {
+    totalRecords: responseData?.pagination?.totalRecords ?? 0,
+    totalPages: responseData?.pagination?.totalPages ?? 1,
+    currentPage: responseData?.pagination?.page ?? 1,
+    limit: responseData?.pagination?.pageSize ?? 10,
   };
 
   if (error && !isLoading) {
@@ -106,51 +106,40 @@ export default function DashboardServicePage({
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-4">
-        <div className="flex flex-col items-start">
-          <h1 className="text-3xl font-bold pb-2">Service Management</h1>
-          <DynamicBreadcrumb />
+      <DashboardPageHeader
+        title="Service Management"
+        description="Define and configure academic service types and offerings"
+        action={<ServiceModal mode="add" isOpen={isServiceAddOpen} onOpenChange={setIsServiceAddOpen} />}
+        searchValue={search}
+        onSearchChange={setSearch}
+        searchPlaceholder="Search services..."
+      >
+        <div className="space-y-2 w-32">
+          <Select onValueChange={handleStatusChange} value={status}>
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder="Select Status" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value={StatusEnum.Active}>Active</SelectItem>
+              <SelectItem value={StatusEnum.Inactive}>Inactive</SelectItem>
+            </SelectContent>
+          </Select>
         </div>
-        <ServiceModal mode="add" isOpen={isServiceAddOpen} onOpenChange={setIsServiceAddOpen} />
-      </div>
+
+        <div className="space-y-2">
+          <Select onValueChange={handleSortFieldChange} value={sortField || 'name'}>
+            <SelectTrigger className="w-full">
+              <SlidersHorizontal className="h-4 w-4" />
+              <SelectValue placeholder="Select Sort" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="name">Name</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
+      </DashboardPageHeader>
 
       <div className="border rounded-md pb-3">
-        <div className="flex items-center justify-between gap-4 mb-4 p-4">
-          <input
-            type="text"
-            placeholder="Search services..."
-            className="py-2 px-3 focus:outline-none h-12 border rounded-md flex-1"
-            value={search}
-            onChange={e => setSearch(e.target.value)}
-          />
-
-          <div className="flex items-center gap-4">
-            <div className="space-y-2 w-32">
-              <Select onValueChange={handleStatusChange} value={status}>
-                <SelectTrigger className="w-full">
-                  <SelectValue placeholder="Select Status" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value={EntityStatus.ACTIVE}>Active</SelectItem>
-                  <SelectItem value={EntityStatus.INACTIVE}>Inactive</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-
-            <div className="space-y-2">
-              <Select onValueChange={handleSortFieldChange} value={sortField || 'name'}>
-                <SelectTrigger className="w-full">
-                  <SlidersHorizontal className="h-4 w-4" />
-                  <SelectValue placeholder="Select Sort" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="name">Name</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-          </div>
-        </div>
-
         <ServiceTable
           data={serviceData}
           isLoading={isLoading}

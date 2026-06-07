@@ -1,8 +1,8 @@
-import type { EntityStatus, UserRole as DomainUserRole, SortOrderEnum } from '@muzammil328/education-packages/enums';
+import type { StatusEnum, UserRole as DomainUserRole, SortOrderEnum } from '@muzammil328/education-packages/enums';
 
 export type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>;
 
-export type Status = `${EntityStatus}`;
+export type Status = `${StatusEnum}`;
 export type SortOrder = `${SortOrderEnum}`;
 
 export type UserRole = `${DomainUserRole}`;

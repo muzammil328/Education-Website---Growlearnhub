@@ -7,7 +7,7 @@ import { toast } from '@muzammil328/ui';
 import { Form } from '@muzammil328/ui';
 import { FormProps } from '@muzammil328/education-packages/types';
 import { useServiceById, useCreateService, useUpdateService } from '@/hooks/use-service';
-import { ServiceSchema, type CreateServiceRequest } from '@muzammil328/education-packages';
+import { serviceCreateSchema, type ServiceCreateInput } from '@muzammil328/education-packages';
 import { ServiceModalSkeleton } from './ServiceModalSkeleton';
 import ServiceModalView from './ServiceModalView';
 import ServiceModalForm from './ServiceModalForm';
@@ -34,8 +34,8 @@ export function ServiceForm({
     (isEdit || isView) && isOpen ? serviceId : undefined
   );
 
-  const form = useForm<CreateServiceRequest>({
-    resolver: zodResolver(ServiceSchema),
+  const form = useForm<ServiceCreateInput>({
+    resolver: zodResolver(serviceCreateSchema),
     defaultValues: {
       name: '',
       slug: '',
@@ -69,7 +69,7 @@ export function ServiceForm({
     }
   }, [serviceData, form, isEdit, isView, isOpen]);
 
-  const onSubmit = (values: CreateServiceRequest) => {
+  const onSubmit = (values: ServiceCreateInput) => {
     const slug = values.name
       .toLowerCase()
       .trim()

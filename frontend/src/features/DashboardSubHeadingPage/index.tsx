@@ -142,47 +142,54 @@ export default function DashboardSubHeadingPage({
         title="Sub Heading Management"
         description="Break down headings into focused sub-topics for deeper learning"
         action={
-          <Button onClick={() => setIsAddSubHeadingOpen(true)} size="sm">
-            <Plus className="h-4 w-4 mr-2" />
+          <Button onClick={() => setIsAddSubHeadingOpen(true)} size="lg">
             Add SubHeading
           </Button>
         }
-        searchValue={search}
-        onSearchChange={setSearch}
-        searchPlaceholder="Search subheadings..."
-      >
-        <div className="space-y-2 w-32">
-          <Select onValueChange={handleStatusChange} value={status}>
-            <SelectTrigger className="w-full">
-              <SelectValue placeholder="Select Status" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value={StatusEnum.Active}>Active</SelectItem>
-              <SelectItem value={StatusEnum.Inactive}>Inactive</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
+      />
+      <div className="border rounded-md pb-3">
+        <div className="flex items-center justify-between">
+          <input
+            type="text"
+            placeholder="Search subheadings..."
+            className="py-2 px-3 focus:outline-none h-12"
+            value={search}
+            onChange={e => setSearch(e.target.value)}
+          />
 
-        <div className="space-y-2">
-          <Select onValueChange={handleSortFieldChange} value={sortField || 'name'}>
-            <SelectTrigger className="w-full">
-              <SlidersHorizontal className="h-4 w-4" />
-              <SelectValue placeholder="Select Sort" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="name">Name</SelectItem>
-              <SelectItem value="className">Class Name</SelectItem>
-              <SelectItem value="bookName">Book Name</SelectItem>
-              <SelectItem value="chapterName">Chapter Name</SelectItem>
-              <SelectItem value="headingName">Heading Name</SelectItem>
-              <SelectItem value="status">Status</SelectItem>
-              <SelectItem value="createdAt">Created Date</SelectItem>
-              <SelectItem value="updatedAt">Updated Date</SelectItem>
-            </SelectContent>
-          </Select>
+          <div className="flex items-center gap-4">
+            <div className="space-y-2 w-32">
+              <Select onValueChange={handleStatusChange} value={status}>
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Select Status" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value={StatusEnum.Active}>Active</SelectItem>
+                  <SelectItem value={StatusEnum.Inactive}>Inactive</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="space-y-2">
+              <Select onValueChange={handleSortFieldChange} value={sortField || 'name'}>
+                <SelectTrigger className="w-full">
+                  <SlidersHorizontal className="h-4 w-4" />
+                  <SelectValue placeholder="Select Sort" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="name">Name</SelectItem>
+                  <SelectItem value="className">Class Name</SelectItem>
+                  <SelectItem value="bookName">Book Name</SelectItem>
+                  <SelectItem value="chapterName">Chapter Name</SelectItem>
+                  <SelectItem value="headingName">Heading Name</SelectItem>
+                  <SelectItem value="status">Status</SelectItem>
+                  <SelectItem value="createdAt">Created Date</SelectItem>
+                  <SelectItem value="updatedAt">Updated Date</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
         </div>
-      </DashboardPageHeader>
-      <div className="border rounded-md">
 
         <SubHeadingTable
           data={subHeadingData}
@@ -197,20 +204,18 @@ export default function DashboardSubHeadingPage({
           setIsAddSubHeadingOpen={setIsAddSubHeadingOpen}
         />
 
-        <div className="border-t p-4">
-          <DataTablePagination
-            canPreviousPage={paginationData.currentPage > 1}
-            canNextPage={paginationData.currentPage < paginationData.totalPages}
-            previousPage={() => setPage(p => Math.max(1, p - 1))}
-            nextPage={() => setPage(p => Math.min(paginationData.totalPages, p + 1))}
-            selectedRows={subHeadingData.length}
-            totalRows={paginationData.totalRecords}
-            pageCount={paginationData.totalPages}
-            pageIndex={paginationData.currentPage - 1}
-            pageSize={paginationData.limit}
-            setPage={handlePageChange}
-          />
-        </div>
+        <DataTablePagination
+          canPreviousPage={paginationData.currentPage > 1}
+          canNextPage={paginationData.currentPage < paginationData.totalPages}
+          previousPage={() => setPage(p => Math.max(1, p - 1))}
+          nextPage={() => setPage(p => Math.min(paginationData.totalPages, p + 1))}
+          selectedRows={subHeadingData.length}
+          totalRows={paginationData.totalRecords}
+          pageCount={paginationData.totalPages}
+          pageIndex={paginationData.currentPage - 1}
+          pageSize={paginationData.limit}
+          setPage={handlePageChange}
+        />
       </div>
     </div>
   );
