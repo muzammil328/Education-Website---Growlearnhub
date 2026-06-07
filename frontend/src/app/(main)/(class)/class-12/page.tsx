@@ -1,10 +1,10 @@
 import { Metadata } from 'next';
 import { generatePageMetadata } from '@/lib/seo';
-import Class12Page from '@/features/Classes/Class12';
+import Class12 from '@/features/Classes/Class12';
 
 export const revalidate = 604800;
 
-const data = {
+export const metadata: Metadata = generatePageMetadata({
   title: 'Class 12 Study Resources | Notes, MCQs, Online Tests & Past Papers',
   description:
     'Access Class 12 notes, chapter-wise MCQs, online tests, past papers, date sheets, and result updates for smart exam preparation.',
@@ -22,17 +22,8 @@ const data = {
   url: 'https://growlearnhub.com/class-12/',
   index: true,
   follow: true,
-};
+});
 
-export const metadata: Metadata = generatePageMetadata(data);
-
-export default async function Page() {
-  return (
-    <Class12Page
-      title={data.title}
-      image={data.image}
-      canonical={data.canonical}
-      url={data.url}
-    />
-  );
+export default function Page() {
+  return <Class12 />;
 }
