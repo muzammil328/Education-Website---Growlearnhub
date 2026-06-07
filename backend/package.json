@@ -41,6 +41,18 @@
     "socket.io": "^4.8.3",
     "zod": "^3.23.0"
   },
+  "_moduleAliases": {
+    "@": "src",
+    "@config": "src/config",
+    "@database": "src/database",
+    "@middleware": "src/middleware",
+    "@models": "src/database/models",
+    "@modules": "src/database/modules",
+    "@foundation": "src/foundation",
+    "@constants": "src/shared/constants",
+    "@enums": "src/shared/enums",
+    "@types": "src/types"
+  },
   "overrides": {
     "cookie": "^1.0.2",
     "nodemailer": "^8.0.7"

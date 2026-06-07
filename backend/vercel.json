@@ -1,17 +1,31 @@
 {
   "version": 2,
-  "buildCommand": "npm ci && npm run vercel-build",
   "builds": [
     {
-      "src": "dist/server.js",
+      "src": "api/index.ts",
       "use": "@vercel/node",
-      "config": { "includeFiles": ["dist/**"] }
+      "config": {
+        "esbuild": {
+          "alias": {
+            "@": "./src",
+            "@config": "./src/config",
+            "@database": "./src/database",
+            "@middleware": "./src/middleware",
+            "@models": "./src/database/models",
+            "@modules": "./src/database/modules",
+            "@foundation": "./src/foundation",
+            "@constants": "./src/shared/constants",
+            "@enums": "./src/shared/enums",
+            "@types": "./src/types"
+          }
+        }
+      }
     }
   ],
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "dist/server.js"
+      "dest": "api/index.ts"
     }
   ]
 }
