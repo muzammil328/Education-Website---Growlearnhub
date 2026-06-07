@@ -34,7 +34,7 @@ export function DashboardPageHeader({
             <input
               type="text"
               placeholder={searchPlaceholder}
-              className="py-2 px-3 focus:outline-none h-10 w-64 border rounded-md"
+              className="py-2 px-3 focus:outline-none h-12"
               value={searchValue}
               onChange={e => onSearchChange?.(e.target.value)}
             />

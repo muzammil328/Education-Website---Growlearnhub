@@ -27,12 +27,46 @@ export const subHeadingGetAll = superAdminProcedure
             pick: ['name'],
             unwind: false,
           })
+          .lookupOne({
+            from: 'books',
+            localField: 'bookId',
+            foreignField: '_id',
+            as: 'book',
+            pick: ['name'],
+            unwind: false,
+          })
+          .lookupOne({
+            from: 'chapters',
+            localField: 'chapterId',
+            foreignField: '_id',
+            as: 'chapter',
+            pick: ['name'],
+            unwind: false,
+          })
+          .lookupOne({
+            from: 'headings',
+            localField: 'headingId',
+            foreignField: '_id',
+            as: 'heading',
+            pick: ['name'],
+            unwind: false,
+          })
           .project({
             _id: 0,
-            classId: '$_id',
+            subHeadingId: '$_id',
             name: 1,
             status: 1,
+            classId: 1,
+            bookId: 1,
+            chapterId: 1,
+            headingId: 1,
             className: '$class.name',
+            bookName: '$book.name',
+            chapterName: '$chapter.name',
+            headingName: '$heading.name',
+            order: 1,
+            createdAt: 1,
+            updatedAt: 1,
             serviceId: 1,
             services: 1,
           }),

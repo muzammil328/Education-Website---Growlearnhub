@@ -5,7 +5,7 @@ import { getServiceBySlugInputSchema } from '@muzammil328/education-packages';
 import { publicProcedure } from '@/trpc/trpc';
 import { buildMatch } from '@muzammil328/db';
 
-export const serviceGetBySlug = publicProcedure
+export const serviceByClassSlug = publicProcedure
   .input(getServiceBySlugInputSchema)
   .query(async ({ input }) => {
     try {

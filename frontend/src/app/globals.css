@@ -62,6 +62,8 @@
   --background-image-gradient-bg1: var(--gradient-bg-1);
   --background-image-gradient-bg2: var(--gradient-bg-2);
   --background-image-gradient-bg3: var(--gradient-bg-3);
+
+  --background-image-sidebar-gradient: var(--sidebar-gradient);
 }
 
 :root {
@@ -143,7 +145,8 @@
     radial-gradient(circle at 10% 80%, oklch(50% 0.10 176 / 12%), transparent 35%),
     #ffffff;
 
-
+  /* Sidebar panel gradient — light */
+  --sidebar-gradient: linear-gradient(180deg, #E8FFFB 0%, #D7FFF5 100%);
 }
 
 .dark {
@@ -199,6 +202,9 @@
   --sidebar-border:             oklch(1 0 0 / 10%);
   --sidebar-ring:               oklch(0.68 0.12 176.76);
 
+  /* Sidebar panel gradient — dark */
+  --sidebar-gradient: linear-gradient(180deg, oklch(18% 0.06 176) 0%, oklch(14% 0.04 176) 100%);
+
    /* Dark — same structure as original, dark surface */
   --gradient-bg-1:
     radial-gradient(circle at 16% 12%, oklch(58% 0.12 176 / 22%), transparent 32%),
@@ -250,11 +256,11 @@
 
 @layer base {
   * {
-    @apply outline-ring/50;
+    @apply outline-ring/50 border-border;
   }
 
   body {
-    @apply bg-background text-foreground border-border;
+    @apply bg-background text-foreground;
   }
 }
 

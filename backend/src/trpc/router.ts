@@ -13,6 +13,7 @@ import { feedbackRouter } from '../routers/feedback.router';
 import { studentRouter } from '../routers/student.router';
 import { institutionRouter } from '../routers/institution.router';
 import { mcqAttemptRouter } from '../routers/mcqAttempt.router';
+import { publicRouter } from '../routers/public/public.router';
 
 export const appRouter = createTRPCRouter({
   auth: authRouter,
@@ -29,6 +30,7 @@ export const appRouter = createTRPCRouter({
   institution: institutionRouter,
   feedback: feedbackRouter,
   student: studentRouter,
+  public: publicRouter,
 });
 
 export type AppRouter = typeof appRouter;
