@@ -21,7 +21,7 @@ export default function Class9BookPage() {
     >
       <article className="max-w-none">
         <section className="mb-8">
-          <p className="lead text-foreground/90">
+          <p>
             Get complete <strong>Class {CLASS_DISPLAY} books in PDF</strong> for all major subjects
             in one place. This page helps students quickly access textbook resources for daily
             study, assignments, and annual exam preparation.

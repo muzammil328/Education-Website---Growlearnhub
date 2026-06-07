@@ -115,7 +115,7 @@ export default function Footer() {
       <footer className="relative isolate overflow-hidden border-t border-border">
         <section className="bt">
           <Container>
-            <div className="grid gap-8 py-8 sm:grid-cols-2 md:grid-cols-4 md:pt-24 lg:grid-cols-6">
+            <div className="grid gap-8 py-8 sm:grid-cols-4 md:pt-24 md:grid-cols-6">
               <div className="col-span-2">
                 <div className="my-5">
                   <Logo />

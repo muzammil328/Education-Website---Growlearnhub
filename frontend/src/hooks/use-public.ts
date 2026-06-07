@@ -78,7 +78,7 @@ export const useMcqsBySlug = (
   page: number = 1,
   limit: number = 10
 ) => {
-  return trpc.public.mcqsBySlug.useQuery(
+  return trpc.public.getMcqsBySlug.useQuery(
     {
       classSlug: classSlug || '',
       bookSlug: bookSlug || '',
@@ -87,6 +87,30 @@ export const useMcqsBySlug = (
       subHeadingSlug: subHeadingSlug || '',
       page,
       limit,
+    },
+    {
+      enabled: Boolean(classSlug && bookSlug && chapterSlug),
+      retry: false,
+      refetchOnWindowFocus: false,
+    }
+  );
+};
+
+// get mcq sets metadata (count, sets info) by slugs
+export const useMcqsSetsBySlug = (
+  classSlug?: string,
+  bookSlug?: string,
+  chapterSlug?: string,
+  headingSlug?: string,
+  subHeadingSlug?: string
+) => {
+  return trpc.public.getMcqsSetsBySlug.useQuery(
+    {
+      classSlug: classSlug || '',
+      bookSlug: bookSlug || '',
+      chapterSlug: chapterSlug || '',
+      headingSlug: headingSlug || '',
+      subHeadingSlug: subHeadingSlug || '',
     },
     {
       enabled: Boolean(classSlug && bookSlug && chapterSlug),

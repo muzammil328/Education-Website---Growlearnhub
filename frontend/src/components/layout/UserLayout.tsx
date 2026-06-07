@@ -25,7 +25,7 @@ export default function UserLayout({ title, image, url, canonical, children }: U
       <Container>
         <div className="grid grid-cols-1 md:gap-6 lg:grid-cols-11">
           <div className="col-span-1 lg:col-span-8">
-            {resolvedImage && (
+            {/* {resolvedImage && (
               <ImageContainerLoading
                 image={resolvedImage}
                 title={resolvedTitle}
@@ -34,9 +34,9 @@ export default function UserLayout({ title, image, url, canonical, children }: U
                 width={1280}
                 priority
               />
-            )}
+            )} */}
             {children}
-            <CommentForm url={resolvedUrl || `https://growlearnhub.com${resolvedCanonical}`} />
+            {/* <CommentForm url={resolvedUrl || `https://growlearnhub.com${resolvedCanonical}`} /> */}
           </div>
           <aside className="col-span-1 lg:col-span-3">
             {/* <Sidebar title={data.title} url={data.url} /> */}

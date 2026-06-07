@@ -338,3 +338,44 @@ html {
   padding-bottom: 2rem;
 }
 
+h1.main{
+  @apply md:text-4xl sm:text-3xl text-2xl font-bold tracking-tight text-center text-foreground;
+}
+
+p {
+  @apply py-3 text-xl leading-8 text-muted-foreground tracking-normal;
+}
+
+h2.line {
+  @apply py-2 text-primary border-b text-3xl font-semibold border-border mb-4;
+}
+
+h2 {
+  @apply py-2 text-primary text-3xl font-semibold;
+}
+
+h3 {
+  @apply py-2 text-primary text-2xl font-semibold;
+}
+
+h4 {
+  @apply py-2 text-primary text-xl font-semibold;
+}
+
+h1:has(+ p),
+h2:has(+ p),
+h3:has(+ p),
+h4:has(+ p),
+h5:has(+ p),
+h6:has(+ p) {
+  @apply pb-2;
+}
+
+h1 + p,
+h2 + p,
+h3 + p,
+h4 + p,
+h5 + p,
+h6 + p {
+  @apply pt-0;
+}

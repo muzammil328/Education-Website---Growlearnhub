@@ -22,6 +22,32 @@ export const metadata: Metadata = {
   twitter: seoTwitterDefaults,
 };
 
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type':    'Organization',
+    '@id':      'https://growlearnhub.com',
+    name:       'GrowLearnHub',
+    url:        'https://growlearnhub.com',
+    logo:       'https://growlearnhub.com/logo.png',
+    sameAs: [
+      'https://www.facebook.com/growlearnhub',
+      'https://www.youtube.com/@growlearnhub',
+    ],
+  },
+  {
+    '@context':      'https://schema.org',
+    '@type':         'WebSite',
+    name:            'GrowLearnHub',
+    url:             'https://growlearnhub.com',
+    potentialAction: {
+      '@type':       'SearchAction',
+      target:        'https://growlearnhub.com/search?q={search_term_string}',
+      'query-input': 'required name=search_term_string',
+    },
+  },
+];
+
 const data = {
   applicationName: 'Next.js',
   authorName: 'Muhammad Muzammil Safdar',
@@ -36,6 +62,11 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${geist.variable} scroll-smooth`} suppressHydrationWarning>
       <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+
         {/* -- Metadata -- */}
         <meta name="application-name" content={data.applicationName} />
         <meta name="author" content={data.authorName} />

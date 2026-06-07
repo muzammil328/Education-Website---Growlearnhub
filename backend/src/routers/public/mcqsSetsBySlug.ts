@@ -4,23 +4,21 @@ import { toTrpcError } from '@muzammil328/trpc';
 import { publicProcedure } from '@/trpc/trpc';
 import Mcqs from '@/models/mcqs.model';
 
-const mcqsBySlugInputSchema = z.object({
+const inputSchema = z.object({
   classSlug: z.string().min(1),
   bookSlug: z.string().min(1),
   chapterSlug: z.string().min(1),
   headingSlug: z.string().optional(),
   subHeadingSlug: z.string().optional(),
-  page: z.number().int().min(1).default(1),
-  limit: z.number().int().min(1).max(100).default(10),
 });
 
-export const mcqsBySlug = publicProcedure
-  .input(mcqsBySlugInputSchema)
+const SET_SIZE = 10;
+
+export const mcqsSetsBySlug = publicProcedure
+  .input(inputSchema)
   .query(async ({ input }) => {
     try {
-      const { classSlug, bookSlug, chapterSlug, headingSlug, subHeadingSlug, page, limit } = input;
-
-      const match: Record<string, unknown> = { status: 'active' };
+      const { classSlug, bookSlug, chapterSlug, headingSlug, subHeadingSlug } = input;
 
       const pipeline: Record<string, unknown>[] = [
         {
@@ -87,59 +85,27 @@ export const mcqsBySlug = publicProcedure
         );
       }
 
-      pipeline.push(
-        { $match: match },
-        {
-          $facet: {
-            data: [
-              { $skip: (page - 1) * limit },
-              { $limit: limit },
-              {
-                $project: {
-                  _id: 0,
-                  mcqId: '$_id',
-                  slug: 1,
-                  question: 1,
-                  options: 1,
-                  correctOption: 1,
-                  explanation: 1,
-                  difficulty: 1,
-                  className: '$class.name',
-                  bookName: '$book.name',
-                  chapterName: '$chapter.name',
-                  headingName: '$heading.name',
-                  subHeadingName: '$subHeading.name',
-                },
-              },
-            ],
-            total: [{ $count: 'count' }],
-          },
-        },
-      );
+      pipeline.push({ $match: { status: 'active' } });
+      pipeline.push({ $count: 'total' });
 
       const result = await Mcqs.aggregate(pipeline);
-      const mcqs = result[0]?.data ?? [];
-      const totalRecords = result[0]?.total[0]?.count ?? 0;
-      const totalPages = Math.ceil(totalRecords / limit);
+      const totalMcqs = result[0]?.total ?? 0;
+      const totalSets = Math.ceil(totalMcqs / SET_SIZE);
+
+      const sets = Array.from({ length: totalSets }, (_, i) => ({
+        setNumber: i + 1,
+        count: i === totalSets - 1 ? totalMcqs - i * SET_SIZE : SET_SIZE,
+      }));
 
       return {
         success: true,
-        message: 'MCQs fetched successfully',
-        data: mcqs.map((item: Record<string, unknown>) => ({
-          mcqId: String(item.mcqId),
-          slug: item.slug,
-          question: item.question,
-          options: item.options,
-          correctOption: item.correctOption,
-          explanation: item.explanation,
-          difficulty: item.difficulty,
-          className: item.className,
-          bookName: item.bookName,
-          chapterName: item.chapterName,
-          headingName: item.headingName,
-          subHeadingName: item.subHeadingName,
-        })),
-        pagination: { totalRecords, totalPages, currentPage: page, pageSize: limit },
+        message: 'MCQ sets fetched successfully',
+        data: {
+          totalMcqs,
+          totalSets,
+          setSize: SET_SIZE,
+          sets,
+        },
       };
     } catch (e) {
       throw toTrpcError(e);

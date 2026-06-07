@@ -50,12 +50,10 @@ export default function CommentForm(props: { url: string }) {
   return (
     <section className="relative my-20">
       <div className="mx-auto max-w-2xl text-center">
-        <Heading3 tone="destructive" size="lg" align="center" weight="bold">
-          Comment Here
-        </Heading3>
-        <span className="mt-3 text-center text-sm leading-7 text-gray-600 dark:text-white sm:text-base md:text-lg md:leading-8">
+        <h2>Comment Here</h2>
+        <p>
           Plz comment below.
-        </span>
+        </p>
       </div>
 
       <form className="mt-16 sm:mt-20" onSubmit={SubmitHandle}>

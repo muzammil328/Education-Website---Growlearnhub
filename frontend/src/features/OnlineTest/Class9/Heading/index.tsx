@@ -38,14 +38,14 @@ export default function OnlineTestClass9HeadingPage({
     );
   }
 
-  const mcqsLink = (subHeading?: string) => {
-    const params = new URLSearchParams({ mode: 'mcqs' });
+  const testLink = (subHeading?: string) => {
+    const params = new URLSearchParams();
     params.set('class', className);
     params.set('book', bookSlug);
     params.set('chapter', chapterSlug);
     params.set('heading', headingSlug);
     if (subHeading) params.set('subHeading', subHeading);
-    return `/live/mcqs?${params.toString()}`;
+    return `/live/online-test?${params.toString()}`;
   };
 
   return (
@@ -61,7 +61,7 @@ export default function OnlineTestClass9HeadingPage({
 
       <div className="mb-4">
         <a
-          href={mcqsLink()}
+          href={testLink()}
           className="inline-block px-6 py-3 bg-blue-600 text-white rounded-xl font-medium hover:bg-blue-700 transition"
         >
           Start Full Test
@@ -73,7 +73,7 @@ export default function OnlineTestClass9HeadingPage({
           {subHeadings.map(sh => (
             <a
               key={sh.slug || sh.name}
-              href={mcqsLink(sh.slug)}
+              href={testLink(sh.slug)}
               className="border rounded-2xl p-4 shadow-sm hover:shadow-md transition block"
             >
               <h2 className="text-lg font-semibold mb-1">{sh.name}</h2>

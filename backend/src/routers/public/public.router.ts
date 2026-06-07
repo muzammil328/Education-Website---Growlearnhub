@@ -7,6 +7,8 @@ import { subHeadingGetByClassAndServiceAndSubjectAndChapterAndHeadingSlug } from
 import { boardGetBySlug } from './boardGetBySlug';
 import { classGetByServiceSlug } from './classGetByServiceSlug';
 import { mcqsBySlug } from './mcqsBySlug';
+import { mcqsSetsBySlug } from './mcqsSetsBySlug';
+import { getMcqBySlug } from './getMcqBySlug';
 
 export const publicRouter = createTRPCRouter({
   getServiceByClassSlug: serviceByClassSlug,
@@ -14,8 +16,10 @@ export const publicRouter = createTRPCRouter({
   getChapterByClassAndServiceAndSubjectSlug: chapterGetByClassAndServiceAndSubjectSlug,
   getByHeadingClassAndServiceAndSubjectAndChapterSlug: headingGetByClassAndServiceAndSubjectAndChapterSlug,
   getBySubHeadingClassAndServiceAndSubjectAndChapterAndHeadingSlug: subHeadingGetByClassAndServiceAndSubjectAndChapterAndHeadingSlug,
+  getMcqsBySlug: mcqsBySlug,
+  getMcqsSetsBySlug: mcqsSetsBySlug,
+  getMcqBySlug: getMcqBySlug,
 
   getByBoardSlug: boardGetBySlug,
   getByClassServiceSlug: classGetByServiceSlug,
-  mcqsBySlug,
 });
