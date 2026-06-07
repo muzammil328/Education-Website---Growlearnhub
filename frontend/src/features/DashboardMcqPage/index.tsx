@@ -11,7 +11,7 @@ import { DashboardPageHeader } from '@/components/DashboardPageHeader';
 import { useMcqs } from '@/hooks/use-mcqs';
 import type { Status } from '@muzammil328/education-packages/types';
 import { StatusEnum } from '@muzammil328/education-packages/enums';
-import { Plus, SlidersHorizontal } from 'lucide-react';
+import { SlidersHorizontal } from 'lucide-react';
 import { McqModal } from './McqModal';
 import { McqTable } from './McqTable';
 import type { SortOrder } from '@muzammil328/education-packages/types';
@@ -103,7 +103,7 @@ export default function DashboardMcqsPage({
   }
 
   return (
-    <div className="border rounded-md pb-3">
+    <div>
       <DashboardPageHeader
         title="MCQ Management"
         description="Manage multiple-choice questions for assessments"
@@ -112,46 +112,53 @@ export default function DashboardMcqsPage({
             mode="add"
             trigger={
               <Button>
-                <Plus className="h-4 w-4 mr-2" /> Add MCQ
+                Add MCQ
               </Button>
             }
           />
         }
-        searchValue={search}
-        onSearchChange={setSearch}
-        searchPlaceholder="Search MCQs..."
-      >
-        <div className="space-y-2 w-32">
-          <Select onValueChange={handleStatusChange} value={status}>
-            <SelectTrigger className="w-full">
-              <SelectValue placeholder="Select Status" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">All</SelectItem>
-              <SelectItem value={StatusEnum.Active}>Active</SelectItem>
-              <SelectItem value={StatusEnum.Inactive}>Inactive</SelectItem>
-            </SelectContent>
-          </Select>
+      />
+      <div className="border rounded-md pb-3">
+        <div className="flex items-center justify-between">
+          <input
+            type="text"
+            placeholder="Search MCQs..."
+            className="py-2 px-3 focus:outline-none h-12"
+            value={search}
+            onChange={e => setSearch(e.target.value)}
+          />
+
+          <div className="flex items-center gap-4">
+            <div className="space-y-2 w-32">
+              <Select onValueChange={handleStatusChange} value={status}>
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Select Status" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All</SelectItem>
+                  <SelectItem value={StatusEnum.Active}>Active</SelectItem>
+                  <SelectItem value={StatusEnum.Inactive}>Inactive</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="space-y-2">
+              <Select onValueChange={handleSortFieldChange} value={sortField || 'question'}>
+                <SelectTrigger className="w-full">
+                  <SlidersHorizontal className="h-4 w-4" />
+                  <SelectValue placeholder="Select Sort" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="question">Question</SelectItem>
+                  <SelectItem value="createdAt">Created At</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
         </div>
 
-        <div className="space-y-2">
-          <Select onValueChange={handleSortFieldChange} value={sortField || 'question'}>
-            <SelectTrigger className="w-full">
-              <SlidersHorizontal className="h-4 w-4" />
-              <SelectValue placeholder="Select Sort" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="question">Question</SelectItem>
-              <SelectItem value="createdAt">Created At</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
-      </DashboardPageHeader>
+        <McqTable data={mcqData} isLoading={isLoading} />
 
-      <McqTable data={mcqData} isLoading={isLoading} />
-
-      <McqTable data={mcqData} isLoading={isLoading} />
-      <div className="border-t pt-3 px-2">
         <DataTablePagination
           canPreviousPage={paginationData.currentPage > 1}
           canNextPage={paginationData.currentPage < paginationData.totalPages}

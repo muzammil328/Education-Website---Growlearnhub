@@ -110,36 +110,44 @@ export default function DashboardServicePage({
         title="Service Management"
         description="Define and configure academic service types and offerings"
         action={<ServiceModal mode="add" isOpen={isServiceAddOpen} onOpenChange={setIsServiceAddOpen} />}
-        searchValue={search}
-        onSearchChange={setSearch}
-        searchPlaceholder="Search services..."
-      >
-        <div className="space-y-2 w-32">
-          <Select onValueChange={handleStatusChange} value={status}>
-            <SelectTrigger className="w-full">
-              <SelectValue placeholder="Select Status" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value={StatusEnum.Active}>Active</SelectItem>
-              <SelectItem value={StatusEnum.Inactive}>Inactive</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
-
-        <div className="space-y-2">
-          <Select onValueChange={handleSortFieldChange} value={sortField || 'name'}>
-            <SelectTrigger className="w-full">
-              <SlidersHorizontal className="h-4 w-4" />
-              <SelectValue placeholder="Select Sort" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="name">Name</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
-      </DashboardPageHeader>
-
+      />
       <div className="border rounded-md pb-3">
+        <div className="flex items-center justify-between">
+          <input
+            type="text"
+            placeholder="Search services..."
+            className="py-2 px-3 focus:outline-none h-12"
+            value={search}
+            onChange={e => setSearch(e.target.value)}
+          />
+
+          <div className="flex items-center gap-4">
+            <div className="space-y-2 w-32">
+              <Select onValueChange={handleStatusChange} value={status}>
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Select Status" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value={StatusEnum.Active}>Active</SelectItem>
+                  <SelectItem value={StatusEnum.Inactive}>Inactive</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="space-y-2">
+              <Select onValueChange={handleSortFieldChange} value={sortField || 'name'}>
+                <SelectTrigger className="w-full">
+                  <SlidersHorizontal className="h-4 w-4" />
+                  <SelectValue placeholder="Select Sort" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="name">Name</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+        </div>
+
         <ServiceTable
           data={serviceData}
           isLoading={isLoading}

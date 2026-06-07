@@ -14,7 +14,7 @@ import {
   useCreateMcqs,
   useUpdateMcqs,
 } from '@/hooks';
-import { StatusEnum, Difficulty } from '@muzammil328/education-packages/enums';
+import { StatusEnum, DifficultyEnum } from '@muzammil328/education-packages/enums';
 import { Plus, Trash2 } from 'lucide-react';
 
 interface Question {
@@ -445,9 +445,9 @@ export function McqForm({ isOpen, mcqId, onClose, mode, initialData }: McqFormPr
                       <SelectValue placeholder="Select Difficulty" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value={Difficulty.EASY}>Easy</SelectItem>
-                      <SelectItem value={Difficulty.MEDIUM}>Medium</SelectItem>
-                      <SelectItem value={Difficulty.HARD}>Hard</SelectItem>
+                      <SelectItem value={DifficultyEnum.EASY}>Easy</SelectItem>
+                      <SelectItem value={DifficultyEnum.MEDIUM}>Medium</SelectItem>
+                      <SelectItem value={DifficultyEnum.HARD}>Hard</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
