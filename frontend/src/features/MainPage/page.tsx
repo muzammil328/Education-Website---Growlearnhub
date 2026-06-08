@@ -253,7 +253,7 @@ export default function HomePage() {
         <div className="container mx-auto px-4">
           <div className="mb-12 text-center">
             <h2 className="mb-4 text-3xl font-bold">Our Learning Resources</h2>
-            <p className="text-muted-foreground">
+            <p>
               Everything you need to succeed in your academic journey, all in one place.
             </p>
           </div>
@@ -297,7 +297,7 @@ export default function HomePage() {
               >
                 <div className="mb-4">{item.icon}</div>
                 <h3 className="mb-2 text-xl font-semibold">{item.title}</h3>
-                <p className="text-muted-foreground">{item.description}</p>
+                <p>{item.description}</p>
               </div>
             ))}
           </div>

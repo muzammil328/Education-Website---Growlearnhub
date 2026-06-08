@@ -1,7 +1,7 @@
 import React from 'react';
-import UserLayout from '@/components/layout/UserLayout';
 import { Metadata } from 'next';
-import SuccessStoriesContent from '@/features/ResourcesPage/SuccessStoriesContent';
+import UserLayout from '@/components/layout/UserLayout';
+import ShareStoryButton from './_components/ShareStoryButton';
 
 const data = {
   title: 'Success Stories | GrowLearnHub',
@@ -18,7 +18,19 @@ const data = {
 export default function page() {
   return (
     <UserLayout title={data.title} image={data.image} canonical={data.canonical} url={data.url}>
-      <SuccessStoriesContent />
+      <section>
+        <div className="mt-16 text-center">
+          <h3>
+            Share Your Story
+          </h3>
+          <p>
+            Have you achieved academic success using Growlearnhub? We&apos;d love to hear from you!
+          </p>
+          <div className="mt-6">
+            <ShareStoryButton />
+          </div>
+        </div>
+      </section>
     </UserLayout>
   );
 }

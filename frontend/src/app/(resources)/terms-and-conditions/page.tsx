@@ -1,7 +1,6 @@
 import React from 'react';
-import UserLayout from '@/components/layout/UserLayout';
 import { Metadata } from 'next';
-import TermsContent from '@/features/ResourcesPage/TermsContent';
+import UserLayout from '@/components/layout/UserLayout';
 
 const data = {
   title: 'Terms and Conditions | GrowLearnHub',
@@ -18,7 +17,61 @@ const data = {
 export default function page() {
   return (
     <UserLayout title={data.title} image={data.image} canonical={data.canonical} url={data.url}>
-      <TermsContent />
+      <section>
+          <h2 className="line">
+            Terms and Conditions
+          </h2>
+
+          <div className="space-y-6 ">
+            <p>
+              Welcome to Growlearnhub. By accessing and using our website, you agree to be bound by
+              these Terms and Conditions.
+            </p>
+
+            <h3>
+              Use of Website
+            </h3>
+            <p>
+              You may use our website for educational purposes only. You agree not to use the website
+              for any unlawful purpose or in any way that could damage, disable, or impair the
+              website.
+            </p>
+
+            <h3>
+              Intellectual Property
+            </h3>
+            <p>
+              All content on Growlearnhub, including study materials, past papers, and other
+              resources, are protected by copyright laws. You may download materials for personal
+              educational use only.
+            </p>
+
+            <h3>
+              User Accounts
+            </h3>
+            <p>
+              If you create an account on our website, you are responsible for maintaining the
+              confidentiality of your account and password.
+            </p>
+
+            <h3>
+              Disclaimer
+            </h3>
+            <p>
+              The information provided on Growlearnhub is for educational purposes only. We strive to
+              provide accurate information but make no warranties about the completeness or accuracy
+              of any content.
+            </p>
+
+            <h3>
+              Changes to Terms
+            </h3>
+            <p>
+              We reserve the right to modify these Terms and Conditions at any time. Your continued
+              use of the website constitutes acceptance of any changes.
+            </p>
+          </div>
+      </section>
     </UserLayout>
   );
 }

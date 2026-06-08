@@ -5,7 +5,6 @@ import {
   AccordionTrigger,
   AccordionContent,
 } from '@muzammil328/ui';
-import { Heading3, Para } from '@muzammil328/ui';
 
 const faqs = [
   {
@@ -60,26 +59,17 @@ const faqs = [
 
 export default function FAQContent() {
   return (
-    <section className="relative py-20">
-      <div className="mx-auto max-w-3xl px-4">
-        <Heading3 align="center" weight="bold" className="mb-4">
-          Frequently Asked Questions
-        </Heading3>
-        <Para align="center" className="mb-12">
-          Find answers to common questions about Growlearnhub.
-        </Para>
-
+    <section className="mt-4">
         <Accordion type="single" collapsible className="w-full">
           {faqs.map(faq => (
             <AccordionItem key={faq.id} value={faq.id}>
               <AccordionTrigger className="text-left">{faq.question}</AccordionTrigger>
               <AccordionContent>
-                <Para className="text-gray-600 dark:text-gray-300">{faq.answer}</Para>
+                <p className="">{faq.answer}</p>
               </AccordionContent>
             </AccordionItem>
           ))}
         </Accordion>
-      </div>
     </section>
   );
 }

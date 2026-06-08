@@ -1,7 +1,6 @@
 import React from 'react';
 import UserLayout from '@/components/layout/UserLayout';
 import { Metadata } from 'next';
-import CookiesPolicyContent from '@/features/ResourcesPage/CookiesPolicyContent';
 
 const data = {
   title: 'Cookies Policy | GrowLearnHub',
@@ -18,7 +17,47 @@ const data = {
 export default function page() {
   return (
     <UserLayout title={data.title} image={data.image} canonical={data.canonical} url={data.url}>
-      <CookiesPolicyContent />
+      <section>
+        <h2 className="line">Cookies Policy</h2>
+
+        <div className="space-y-6">
+          <p>
+            This Cookies Policy explains what Cookies are and how Growlearnhub uses them.
+          </p>
+
+          <h3>What Are Cookies</h3>
+          <p>
+            Cookies are small text files stored on your device when you visit websites. They help
+            websites remember your preferences and improve your browsing experience.
+          </p>
+
+          <h3>How We Use Cookies</h3>
+          <p>Growlearnhub uses cookies to:</p>
+          <ul className="list">
+            <li>Understand how you use our website</li>
+            <li>Improve our services and user experience</li>
+            <li>Remember your preferences</li>
+            <li>Analyze traffic and trends</li>
+          </ul>
+
+          <h3>Managing Cookies</h3>
+          <p>
+            You can control or disable cookies through your browser settings. However, disabling
+            cookies may affect the functionality of our website.
+          </p>
+
+          <h3>Third-Party Cookies</h3>
+          <p>
+            We may use third-party analytics services that set their own cookies. These third parties
+            have their own privacy policies.
+          </p>
+
+          <h3>Contact Us</h3>
+          <p>
+            If you have questions about our Cookies Policy, please contact us.
+          </p>
+        </div>
+      </section>
     </UserLayout>
   );
 }

@@ -44,7 +44,7 @@ export function TeacherDashboardView() {
     <div className="space-y-6">
       <div className="mb-6">
         <h1 className="text-3xl font-bold capitalize tracking-tight">Teacher Dashboard</h1>
-        <p className="text-muted-foreground">It&apos;s {currentDate}</p>
+        <p>It&apos;s {currentDate}</p>
       </div>
 
       <div>
@@ -87,7 +87,7 @@ export function TeacherDashboardView() {
         </Card>
         <Card className="p-6">
           <h3 className="text-lg font-semibold mb-4">Recent Activity</h3>
-          <p className="text-muted-foreground">Your recent teaching activities will appear here</p>
+          <p>Your recent teaching activities will appear here</p>
         </Card>
       </div>
     </div>

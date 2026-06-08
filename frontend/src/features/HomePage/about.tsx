@@ -106,7 +106,7 @@ export default function Component() {
               <Card className="flex flex-1 flex-col justify-between p-6">
                 <div>
                   <h3 className="text-2xl font-bold">2.4k</h3>
-                  <Para className="text-sm text-muted-foreground">Positive Reviews</Para>
+                  <p className="text-sm text-muted-foreground">Positive Reviews</Para>
                   <div className="mt-2 flex">
                     {[...Array(5)].map((_, i) => (
                       <svg
@@ -180,7 +180,7 @@ export default function Component() {
                   <h1 className="text-3xl font-bold tracking-tighter md:text-4xl">
                     Know StudyHub Empowering Learners Worldwide
                   </h1>
-                  <Para className="text-muted-foreground">
+                  <p>
                     We are passionate about education and dedicated to providing high-quality
                     learning resources for learners of all backgrounds.
                   </Para>
@@ -205,7 +205,7 @@ export default function Component() {
                         </div>
                         <div>
                           <h3 className="font-semibold">Learn with Expert</h3>
-                          <Para className="text-sm text-muted-foreground">
+                          <p className="text-sm text-muted-foreground">
                             We are passionate about education.
                           </Para>
                         </div>
@@ -231,7 +231,7 @@ export default function Component() {
                         </div>
                         <div>
                           <h3 className="font-semibold">Expert Instructors</h3>
-                          <Para className="text-sm text-muted-foreground">
+                          <p className="text-sm text-muted-foreground">
                             Learn from industry experts.
                           </Para>
                         </div>
@@ -254,7 +254,7 @@ export default function Component() {
                     />
                     <div>
                       <h4 className="font-semibold">William James</h4>
-                      <Para className="text-sm text-muted-foreground">
+                      <p className="text-sm text-muted-foreground">
                         CEO, StudyHub Online Education
                       </Para>
                     </div>
@@ -297,7 +297,7 @@ export default function Component() {
                       <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
                         {slide.title}
                       </h1>
-                      <Para className="text-muted-foreground md:text-lg">{slide.description}</Para>
+                      <p className="text-muted-foreground md:text-lg">{slide.description}</Para>
                       <div className="flex flex-col gap-2 min-[400px]:flex-row">
                         <Button size="lg">Get Started</Button>
                         <Button variant="outline" size="lg">
@@ -338,7 +338,7 @@ export default function Component() {
             <h2 className="text-3xl font-bold tracking-tighter text-slate-900 sm:text-4xl md:text-5xl">
               Why Choose Histudy
             </h2>
-            <Para className="text-slate-500">Language Academic?</Para>
+            <p className="text-slate-500">Language Academic?</Para>
           </div>
 
           <div className="relative mt-20">
@@ -382,7 +382,7 @@ export default function Component() {
                       <item.icon className="h-8 w-8 text-blue-500 transition-colors group-hover:text-blue-600" />
                     </div>
                     <h3 className="mb-2 text-2xl font-bold text-slate-900">{item.number}</h3>
-                    <Para className="text-sm text-slate-500">{item.text}</Para>
+                    <p className="text-sm text-slate-500">{item.text}</Para>
                   </Card>
                 </div>
               ))}

@@ -24,7 +24,7 @@ export default function FlexibleScheduling() {
               Learn at a Pace That Works for You
             </Heading1>
 
-            <Para className="mb-8 text-gray-700 max-w-xl">
+            <p className="mb-8 text-gray-700 max-w-xl">
               There&apos;s no rush! You can take breaks, go back to things you enjoy, and spend as
               much time as you need on each lesson.
             </Para>

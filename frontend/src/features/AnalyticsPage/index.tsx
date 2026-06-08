@@ -145,7 +145,7 @@ export const AnalyticsPage: React.FC<AnalyticsPageProps> = ({ userId }) => {
               <div key={subject.subject} className="space-y-2">
                 <div className="flex items-center justify-between text-sm">
                   <span className="font-medium">{subject.subject}</span>
-                  <span className="text-muted-foreground">
+                  <span>
                     {subject.averageScore}% ({subject.attempts} attempts)
                   </span>
                 </div>

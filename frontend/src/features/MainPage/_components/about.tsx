@@ -177,7 +177,7 @@ export default function Component() {
                   <h1 className="text-3xl font-bold tracking-tighter md:text-4xl">
                     Know StudyHub Empowering Learners Worldwide
                   </h1>
-                  <p className="text-muted-foreground">
+                  <p>
                     We are passionate about education and dedicated to providing high-quality
                     learning resources for learners of all backgrounds.
                   </p>

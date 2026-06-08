@@ -39,7 +39,7 @@ export default function Services() {
             <span className="text-3xl">✨</span>
           </div>
 
-          <Para className="text-gray-600 max-w-2xl">
+          <p className="text-gray-600 max-w-2xl">
             Learn how our homeschooling services provide personalized, flexible learning tailored to
             your child&apos;s needs, all from the comfort of home!
           </Para>

@@ -1,7 +1,7 @@
 import React from 'react';
-import UserLayout from '@/components/layout/UserLayout';
 import { Metadata } from 'next';
-import RequestFeatureContent from '@/features/ResourcesPage/RequestFeatureContent';
+import UserLayout from '@/components/layout/UserLayout';
+import RequestFeatureForm from '@/components/forms/RequestFeatureForm';
 
 const data = {
   title: 'Request a Feature | GrowLearnHub',
@@ -18,7 +18,7 @@ const data = {
 export default function page() {
   return (
     <UserLayout title={data.title} image={data.image} canonical={data.canonical} url={data.url}>
-      <RequestFeatureContent />
+      <RequestFeatureForm />
     </UserLayout>
   );
 }

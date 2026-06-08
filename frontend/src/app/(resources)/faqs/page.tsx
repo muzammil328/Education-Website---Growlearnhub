@@ -1,7 +1,7 @@
 import React from 'react';
-import UserLayout from '@/components/layout/UserLayout';
 import { Metadata } from 'next';
-import FAQContent from '@/features/ResourcesPage/FAQContent';
+import UserLayout from '@/components/layout/UserLayout';
+import FAQ from './_components/FAQ';
 
 const data = {
   title: 'FAQs | GrowLearnHub',
@@ -15,10 +15,18 @@ const data = {
   follow: true,
 };
 
-export default function page() {
+export default function Page() {
   return (
     <UserLayout title={data.title} image={data.image} canonical={data.canonical} url={data.url}>
-      <FAQContent />
+      <div className="mx-auto max-w-2xl text-center">
+        <h2>
+          Frequently Asked Questions
+        </h2>
+        <p>
+          Find answers to common questions about Growlearnhub.
+        </p>
+      </div>
+      <FAQ />
     </UserLayout>
   );
 }

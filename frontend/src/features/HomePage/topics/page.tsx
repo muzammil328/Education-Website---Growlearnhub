@@ -15,7 +15,7 @@ export default function Topics() {
           <div className="grid grid-cols-1 items-center justify-between py-10 md:grid-cols-2">
             <div>
               <h3 className="mb-5 text-4xl font-bold text-white">Latest Topics</h3>
-              <Para className="p3 text-white dark:text-white">
+              <p className="p3 text-white dark:text-white">
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa ab ipsum possimus
                 quos totam voluptates accusamus mollitia facilis dolor ducimus.
               </Para>

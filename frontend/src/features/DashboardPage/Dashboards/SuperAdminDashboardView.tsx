@@ -29,7 +29,7 @@ export function SuperAdminDashboardView() {
     <div className="space-y-6">
       <div>
         <h1 className="text-3xl font-bold mb-2">Super Admin Dashboard</h1>
-        <p className="text-muted-foreground">Welcome to the super admin dashboard.</p>
+        <p>Welcome to the super admin dashboard.</p>
       </div>
 
       {isLoading ? (
@@ -60,7 +60,7 @@ export function SuperAdminDashboardView() {
           <StatCard title="MCQs" count={stats.content.mcqs} icon={<ClipboardList className="h-5 w-5" />} />
         </div>
       ) : (
-        <div className="text-muted-foreground">Failed to load stats.</div>
+        <div>Failed to load stats.</div>
       )}
     </div>
   );

@@ -9,7 +9,7 @@ import UserLayout from '@/components/layout/UserLayout';
 import { Button } from '@muzammil328/ui';
 import { Heading2, Heading3, Para } from '@muzammil328/ui';
 import { bookData } from './SubjectSelect/bookData';
-import CommentForm from '@/components/CommentForm';
+import CommentForm from '@/components/forms/CommentForm';
 // import SubjectSelect from "./SubjectSelect/page";
 
 export default function Calculator({ url, data }: { url: string; data: unknown }) {

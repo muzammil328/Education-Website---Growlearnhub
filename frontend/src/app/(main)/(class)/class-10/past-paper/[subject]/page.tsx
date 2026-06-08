@@ -91,7 +91,7 @@ export default function Page({ params }: { params: { board: string; subject: str
 
         <section className="mb-8">
           <h3 className="mb-3 text-lg font-semibold">Past Papers Available</h3>
-          <p className="text-muted-foreground">
+          <p>
             Download past papers for {classItem.classShortName} {subject.name} from {board.name}.
             Papers are available in PDF format, organized by year.
           </p>

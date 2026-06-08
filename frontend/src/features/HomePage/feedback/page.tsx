@@ -18,7 +18,7 @@ export default function Feedback() {
             <h3 className="mb-4 text-3xl font-bold text-black dark:text-white lg:text-4xl">
               Student&apos;s Feedback
             </h3>
-            <Para className="p4 text-center">
+            <p className="p4 text-center">
               Learning communicate to global world and build a bright future and career development,
               increase your skill with our histudy.
             </Para>

@@ -1,8 +1,5 @@
 import React from 'react';
 import dynamic from 'next/dynamic';
-import Newsletter from './newsletter';
-import { Container } from '@muzammil328/ui';
-import { Heading4 } from '@muzammil328/ui';
 import { FaFacebook, FaTwitter, FaInstagram, FaYoutube } from 'react-icons/fa';
 import Link from 'next/link';
 import { config } from '@/config';
@@ -111,154 +108,122 @@ const QuickLink = [
 
 export default function Footer() {
   return (
-    <React.Fragment>
-      <footer className="relative isolate overflow-hidden border-t border-border">
-        <section className="bt">
-          <Container>
-            <div className="grid gap-8 py-8 sm:grid-cols-4 md:pt-24 md:grid-cols-6">
-              <div className="col-span-2">
-                <div className="my-5">
-                  <Logo />
-                </div>
-                <p className="mb-6 text-base text-muted-foreground">
-                  Stay in the loop with the latest news, and tips straight to your inbox! Don&apos;t
-                  miss out on valuable insights and exciting updates from us.
-                </p>
-                <div className="mb-6 flex items-center gap-4">
-                  <Link href="https://facebook.com" target="_blank" title="Facebook" className="hover:opacity-80 transition-colors bg-primary h-10 w-10 flex items-center justify-center rounded-full text-white">
-                    <FaFacebook size={20} />
-                  </Link>
-                  <Link href="https://twitter.com" target="_blank" title="Twitter" className="hover:opacity-80 transition-colors bg-primary h-10 w-10 flex items-center justify-center rounded-full text-white">
-                    <FaTwitter size={20} />
-                  </Link>
-                  <Link href="https://instagram.com" target="_blank" title="Instagram" className="hover:opacity-80 transition-colors bg-primary h-10 w-10 flex items-center justify-center rounded-full text-white">
-                    <FaInstagram size={20} />
-                  </Link>
-                  <Link href="https://youtube.com" target="_blank" title="YouTube" className="hover:opacity-80 transition-colors bg-primary h-10 w-10 flex items-center justify-center rounded-full text-white">
-                    <FaYoutube size={20} />
-                  </Link>
-                </div>
-              </div>
-              <div className="col-span-2">
-                <Heading4 className="mb-4 md:mb-6" weight="semibold" size="lg">
-                  Study Materials
-                </Heading4>
-                <ul className="grid grid-cols-2 gap-1">
-                  {StudyMaterials.map((item, index) => (
-                    <li className="mb-3" key={index}>
-                      <Link href={item.link} title={item.link} className="link1 text-sm">
-                        {item.name}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <div className="col-span-1">
-                <Heading4 className="mb-4 md:mb-6" weight="semibold" size="lg">
-                  User Support
-                </Heading4>
-                <ul>
-                  {UserSupport.map((item, index) => (
-                    <li className="mb-3" key={index}>
-                       <Link href={item.link} title={item.link} className="link1">
-                         {item.name}
-                       </Link>
-                     </li>
-                   ))}
-                 </ul>
-               </div>
-               <div className="col-span-1">
-                 <Heading4 className="mb-4 md:mb-6" weight="semibold" size="lg">
-                   Classes
-                </Heading4>
-                <ul>
-                  {Classes.map((item, index) => (
-                    <li className="mb-3" key={index}>
-                       <Link href={item.link} title={item.link} className="link1">
-                         {item.name}
-                       </Link>
-                     </li>
-                   ))}
-                 </ul>
-               </div>
-               <div className="col-span-1 lg:col-span-2">
-                 <Heading4 className="mb-4 md:mb-6" weight="semibold" size="lg">
-                   Privacy
-                </Heading4>
-                <ul>
-                  {Privacy.map((item, index) => (
-                    <li className="mb-3" key={index}>
-                      <Link href={item.link} title={item.link} className="link1">
-                        {item.name}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <div className="col-span-1">
-                <Heading4 className="mb-4 md:mb-6" weight="semibold" size="lg">
-                  Quick Link
-                </Heading4>
-                <ul>
-                  {QuickLink.map((item, index) => (
-                    <li className="mb-3" key={index}>
-                       <Link href={item.link} title={item.link} className="link1">
-                         {item.name}
-                       </Link>
-                     </li>
-                   ))}
-                 </ul>
-               </div>
-               <div className="col-span-1">
-                 <Heading4 className="mb-4 md:mb-6" weight="semibold" size="lg">
-                   Useful Link
-                </Heading4>
-                <ul>
-                  {UsefulLink.map((item, index) => (
-                    <li className="mb-3" key={index}>
-                       <Link href={item.link} title={item.link} className="link1">
-                         {item.name}
-                       </Link>
-                     </li>
-                   ))}
-                 </ul>
-               </div>
-               <div className="col-span-2">
-                 <Heading4 className="mb-4 md:mb-6" weight="semibold" size="lg">
-                   Get Contact
-                </Heading4>
-                <ul>
-                  <li className="mb-3 flex gap-1 text-sm">
-                    <strong>Phone:</strong>
-                    <span>+923144878266</span>
-                  </li>
-                  <li className="mb-3 flex gap-1 text-sm">
-                    <strong>Email:</strong>
-                    <span>mmuzammiloff327@gmail.com</span>
-                  </li>
-                  <li className="mb-3 flex gap-1 text-sm">
-                    <strong>Location:</strong>
-                    <span>Lahore, Punjab, Pakistan</span>
-                  </li>
-                </ul>
-                <Newsletter />
-              </div>
-            </div>
-          </Container>
-        </section>
-        <section className="border-t border-border text-center py-4">
-            <p className="text-sm text-muted-foreground">
-              © {new Date().getFullYear()} <span className='text-primary'>{config.app.NAME}</span>. All rights reserved. Built by{' '}
-              <Link
-                href="https://mmuzammil-portfolio.vercel.app/"
-                className="pl-1"
-                title="Muzammil Safdar"
-              >
-                Muzammil Safdar.
-              </Link>
-            </p>
-        </section>
-      </footer>
-    </React.Fragment>
+    <footer className="relative isolate overflow-hidden border-t border-border">
+      <div className="section grid gap-8 py-8 grid-cols-12">
+        <div className="lg:col-span-5 sm:col-span-6 col-span-12">
+          <Logo />
+          <p className="mb-6 mt-2 text-muted-foreground">
+            Stay in the loop with the latest news, and tips straight to your inbox! Don&apos;t
+            miss out on valuable insights and exciting updates from us.
+          </p>
+          <div className="mb-6 flex items-center gap-4">
+            <Link href="https://facebook.com" target="_blank" title="Facebook" className="hover:opacity-80 transition-colors bg-primary h-10 w-10 flex items-center justify-center rounded-full text-white">
+              <FaFacebook size={20} />
+            </Link>
+            <Link href="https://twitter.com" target="_blank" title="Twitter" className="hover:opacity-80 transition-colors bg-primary h-10 w-10 flex items-center justify-center rounded-full text-white">
+              <FaTwitter size={20} />
+            </Link>
+            <Link href="https://instagram.com" target="_blank" title="Instagram" className="hover:opacity-80 transition-colors bg-primary h-10 w-10 flex items-center justify-center rounded-full text-white">
+              <FaInstagram size={20} />
+            </Link>
+            <Link href="https://youtube.com" target="_blank" title="YouTube" className="hover:opacity-80 transition-colors bg-primary h-10 w-10 flex items-center justify-center rounded-full text-white">
+              <FaYoutube size={20} />
+            </Link>
+          </div>
+        </div>
+        <div className="lg:col-span-4 xs:col-span-6 col-span-12">
+          <h4>
+            Study Materials
+          </h4>
+          <ul className="grid grid-cols-2 gap-1">
+            {StudyMaterials.map((item, index) => (
+              <li className="mb-3" key={index}>
+                <Link href={item.link} title={item.link} className="link1 text-sm">
+                  {item.name}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div className="lg:col-span-3 sm:col-span-4 col-span-6">
+          <h4>
+            User Support
+          </h4>
+          <ul>
+            {UserSupport.map((item, index) => (
+              <li className="mb-3" key={index}>
+                <Link href={item.link} title={item.link} className="link1">
+                  {item.name}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div className="lg:col-span-3 xs:col-span-4 col-span-6">
+          <h4>
+            Classes
+          </h4>
+          <ul>
+            {Classes.map((item, index) => (
+              <li className="mb-3" key={index}>
+                <Link href={item.link} title={item.link} className="link1">
+                  {item.name}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div className="lg:col-span-3 xs:col-span-4 col-span-6">
+          <h4>
+            Privacy
+          </h4>
+          <ul>
+            {Privacy.map((item, index) => (
+              <li className="mb-3" key={index}>
+                <Link href={item.link} title={item.link} className="link1">
+                  {item.name}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div className="lg:col-span-3 sm:col-span-3 col-span-4">
+          <h4>Quick Link</h4>
+          <ul>
+            {QuickLink.map((item, index) => (
+              <li className="mb-3" key={index}>
+                <Link href={item.link} title={item.link} className="link1">
+                  {item.name}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div className="lg:col-span-3 sm:col-span-3 col-span-4">
+          <h4>Useful Link</h4>
+          <ul>
+            {UsefulLink.map((item, index) => (
+              <li className="mb-3" key={index}>
+                <Link href={item.link} title={item.link} className="link1">
+                  {item.name}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+      <section className="border-t border-border text-center md:p-2">
+        <p className="sm">
+          © {new Date().getFullYear()} <span className='text-primary'>{config.app.NAME}</span>. All rights reserved. Built by{' '}
+          <Link
+            href="https://mmuzammil-portfolio.vercel.app/"
+            className="pl-1"
+            title="Muzammil Safdar"
+          >
+            Muzammil Safdar.
+          </Link>
+        </p>
+      </section>
+    </footer>
   );
 }

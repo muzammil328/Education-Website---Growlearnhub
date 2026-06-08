@@ -46,7 +46,7 @@ export default function LearningOffer() {
               Personalized Sessions for Every Subject
             </Heading1>
 
-            <Para className="mb-8 text-gray-700 max-w-xl">
+            <p className="mb-8 text-gray-700 max-w-xl">
               Get personalized sessions with experienced tutors for every subject, from math to
               language arts, tailored to meet your child&apos;s individual learning needs, all
               managed through an interactive dashboard for real-time tracking and progress

@@ -1,7 +1,7 @@
 import React from 'react';
-import UserLayout from '@/components/layout/UserLayout';
 import { Metadata } from 'next';
-import ReportBugContent from '@/features/ResourcesPage/ReportBugContent';
+import UserLayout from '@/components/layout/UserLayout';
+import ReportBugForm from '@/components/forms/ReportBugForm';
 
 const data = {
   title: 'Report a Bug | GrowLearnHub',
@@ -18,7 +18,7 @@ const data = {
 export default function page() {
   return (
     <UserLayout title={data.title} image={data.image} canonical={data.canonical} url={data.url}>
-      <ReportBugContent />
+      <ReportBugForm />
     </UserLayout>
   );
 }

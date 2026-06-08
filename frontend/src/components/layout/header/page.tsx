@@ -32,7 +32,7 @@ export default function Header() {
               <span className="text-pink-500 text-2xl">✨</span>
             </div>
 
-            <Para lineHeight="7" className="mb-8 max-w-[550px] mx-auto text-gray-700">
+            <p lineHeight="7" className="mb-8 max-w-[550px] mx-auto text-gray-700">
               Discover flexible, engaging, and expert-led homeschooling services that put your
               child&apos;s learning first.
             </Para>

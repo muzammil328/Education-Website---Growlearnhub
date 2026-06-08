@@ -27,7 +27,7 @@ export default function InteractiveLessons() {
               Fun and Engaging Learning Tools
             </Heading1>
 
-            <Para className="mb-8 text-gray-700 max-w-xl">
+            <p className="mb-8 text-gray-700 max-w-xl">
               Our platform uses interactive lessons and cool resources like games and quizzes to
               keep your child engaged and excited while learning new things.
             </Para>

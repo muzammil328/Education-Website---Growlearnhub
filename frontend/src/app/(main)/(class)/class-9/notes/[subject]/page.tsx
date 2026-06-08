@@ -89,7 +89,7 @@ export default function Page({ params }: { params: { board: string; subject: str
 
         <section className="mb-8">
           <h3 className="mb-3 text-lg font-semibold">Chapter-wise Content</h3>
-          <p className="text-muted-foreground">
+          <p>
             Access comprehensive notes for {classItem.classShortName} {subject.name}. These notes
             include chapter summaries, key concepts, important definitions, and practice questions
             to help you prepare effectively for exams.

@@ -1,7 +1,7 @@
 import React from 'react';
-import UserLayout from '@/components/layout/UserLayout';
 import { Metadata } from 'next';
-import ContactFormComponent from '@/features/ResourcesPage/ContactForm';
+import UserLayout from '@/components/layout/UserLayout';
+import ContactForm from '@/components/forms/ContactForm';
 
 const data = {
   title: 'Contact Us | GrowLearnHub',
@@ -15,10 +15,20 @@ const data = {
   follow: true,
 };
 
-export default function page() {
+export default function Page() {
   return (
     <UserLayout title={data.title} image={data.image} canonical={data.canonical} url={data.url}>
-      <ContactFormComponent />
+      <section>
+        <div className="mx-auto max-w-2xl text-center">
+          <h2>
+            Get in Touch
+          </h2>
+          <p className="sm">
+            Have questions? We&apos;d love to hear from you.
+          </p>
+        </div>
+        <ContactForm />
+      </section>
     </UserLayout>
   );
 }

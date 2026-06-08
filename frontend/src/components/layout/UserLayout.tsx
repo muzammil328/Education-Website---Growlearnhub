@@ -3,7 +3,7 @@ import React from 'react';
 import SubHeader from '@/components/layout/header/subheader/page';
 import { Container } from '@muzammil328/ui';
 import { ImageContainerLoading } from '../elements/ImageContainer';
-import CommentForm from '@/components/CommentForm';
+import CommentForm from '@/components/forms/CommentForm';
 
 export interface UserLayoutProps {
   title?: string;
@@ -22,7 +22,7 @@ export default function UserLayout({ title, image, url, canonical, children }: U
   return (
     <main>
       <SubHeader title={resolvedTitle} />
-      <Container>
+      <section className="section">
         <div className="grid grid-cols-1 md:gap-6 lg:grid-cols-11">
           <div className="col-span-1 lg:col-span-8">
             {/* {resolvedImage && (
@@ -42,7 +42,7 @@ export default function UserLayout({ title, image, url, canonical, children }: U
             {/* <Sidebar title={data.title} url={data.url} /> */}
           </aside>
         </div>
-      </Container>
+      </section>
     </main>
   );
 }

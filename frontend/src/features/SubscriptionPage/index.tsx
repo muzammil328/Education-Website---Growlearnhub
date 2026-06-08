@@ -90,7 +90,7 @@ export const SubscriptionPage: React.FC<SubscriptionPage> = ({ onSelectPlan }) =
     <div className="space-y-8">
       <div className="text-center space-y-2">
         <h2 className="text-3xl font-bold">Choose Your Plan</h2>
-        <p className="text-muted-foreground">Select the perfect plan for your learning journey</p>
+        <p>Select the perfect plan for your learning journey</p>
       </div>
 
       <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
@@ -111,7 +111,7 @@ export const SubscriptionPage: React.FC<SubscriptionPage> = ({ onSelectPlan }) =
               <CardDescription>{plan.description}</CardDescription>
               <div className="mt-4">
                 <span className="text-4xl font-bold">${plan.price}</span>
-                <span className="text-muted-foreground">
+                <span>
                   /{plan.period === 'monthly' ? 'month' : 'year'}
                 </span>
               </div>
