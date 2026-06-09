@@ -4,80 +4,71 @@ import React from 'react';
 import Link from 'next/link';
 import CardSmall from '@/components/card/SmallCard';
 import UserLayout from '@/components/layout/UserLayout';
-import { useBooksByClassAndServiceSlug } from '@/hooks/use-public';
+import { useBoardsByClassAndService } from '@/hooks/use-public';
 
 const CLASS_SLUG = 'class-11';
 const SERVICE_SLUG = 'date-sheet';
 
 export default function Class11DateSheetPage() {
-  const { books, isLoading, error } = useBooksByClassAndServiceSlug(CLASS_SLUG, SERVICE_SLUG);
+  const { data, isLoading, error } = useBoardsByClassAndService(CLASS_SLUG, SERVICE_SLUG);
+  const boards = data?.data ?? [];
 
   return (
     <UserLayout
-      title="Class 11 Date Sheet 2025"
-      image="/11th/class_11_date_sheet_growlearnhub.png"
-      canonical="/class-11/date-sheet/"
-      url="https://growlearnhub.com/class-11/date-sheet/"
+      title="Class 11 Date Sheet 2025 – All Boards | GrowLearnHub"
+      canonical={`/${CLASS_SLUG}/date-sheet/`}
+      url={`https://growlearnhub.com/${CLASS_SLUG}/date-sheet/`}
     >
       <article className="max-w-none">
         <header>
-          <h2 className="text-2xl font-semibold text-primary">
-            Class 11 Date Sheet 2025
-          </h2>
+          <h2 className="text-2xl font-semibold text-primary">Class 11 Date Sheet 2025</h2>
           <p className="text-foreground/80">
-            View the official date sheet for Class 11 — organised board‑wise,
-            with key dates for every subject.
+            Select your board to view the official Class 11 (HSC-I / Inter Part 1) date sheet for 2025.
+            Plan your inter exam preparation around the confirmed schedule.
           </p>
         </header>
 
         <section className="mt-8">
-          <h3 className="text-xl font-semibold text-foreground">Subjects</h3>
-
+          <h3 className="text-xl font-semibold text-foreground">Select Your Board</h3>
           {isLoading ? (
             <div className="flex items-center gap-2 text-foreground/70 mt-4">
               <span className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
-              Loading...
+              Loading boards...
             </div>
           ) : error ? (
             <p className="text-red-500 mt-4">Failed to load. Please try again later.</p>
-          ) : books && books.length > 0 ? (
+          ) : boards.length > 0 ? (
             <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2">
-              {books.map(book => (
+              {boards.map((board: { name: string; slug: string }) => (
                 <CardSmall
-                  key={book.slug}
-                  title={book.name}
-                  link={`${CLASS_SLUG}/${SERVICE_SLUG}/${book.slug}`}
+                  key={board.slug}
+                  title={board.name}
+                  link={`/${CLASS_SLUG}/${SERVICE_SLUG}/${board.slug}`}
                 />
               ))}
             </div>
           ) : (
-            <p className="text-foreground/60 mt-4">No date sheets available at the moment.</p>
+            <p className="text-foreground/60 mt-4">No boards available at the moment.</p>
           )}
         </section>
 
         <section className="mt-8">
-          <h3 className="text-xl font-semibold text-foreground">
-            How to Use Date Sheet Effectively
-          </h3>
+          <h3 className="text-xl font-semibold text-foreground">How to Use the Date Sheet</h3>
           <ul className="list-disc space-y-2 pl-5 text-foreground/80">
-            <li>Prioritize difficult subjects scheduled earlier in the exam window.</li>
+            <li>Prioritize challenging Inter Part 1 subjects scheduled earlier.</li>
             <li>Build daily revision slots around the official exam sequence.</li>
             <li>Keep buffer days for past paper practice and quick revision.</li>
           </ul>
         </section>
 
         <section className="mt-8">
-          <h3 className="text-xl font-semibold text-foreground">Related Resources</h3>
+          <h3 className="text-xl font-semibold text-foreground">Related Pages</h3>
           <p className="text-foreground/80">
-            Continue with{' '}
-            <Link href={`/${CLASS_SLUG}/result`} className="text-primary hover:underline">
-              result updates
-            </Link>{' '}
-            and{' '}
-            <Link href={`/${CLASS_SLUG}/online-test`} className="text-primary hover:underline">
-              online tests
-            </Link>{' '}
-            to strengthen exam readiness.
+            Also explore{' '}
+            <Link href={`/${CLASS_SLUG}/pairing-scheme`} className="text-primary hover:underline">pairing scheme</Link>
+            {' '}and{' '}
+            <Link href={`/${CLASS_SLUG}/result`} className="text-primary hover:underline">result</Link>
+            {' '}pages for complete exam preparation.
           </p>
         </section>
       </article>

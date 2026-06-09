@@ -5,6 +5,7 @@ export { chapterRouter } from './chapter/chapter.router';
 export { classRouter } from './class/class.router';
 export { classGroupRouter } from './classGroup.router';
 export { feedbackRouter } from './feedback.router';
+export { commentRouter } from './comment.router';
 export { headingRouter } from './heading/heading.router';
 export { institutionRouter } from './institution.router';
 export { mcqAttemptRouter } from './mcqAttempt.router';

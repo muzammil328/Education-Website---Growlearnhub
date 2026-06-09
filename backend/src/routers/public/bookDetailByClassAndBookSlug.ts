@@ -36,7 +36,7 @@ export const bookDetailByClassAndBookSlug = publicProcedure
             unwind: false,
           })
           .match({ 'class.slug': classSlug, 'class.status': 'active' })
-          .project({ bookId: '$_id', name: 1, slug: 1, description: 1, image: 1, pages: 1 })
+          .project({ bookId: '$_id', name: 1, slug: 1, description: 1, image: 1, pages: 1, externalLinks: 1 })
           .build(),
       });
 
@@ -87,13 +87,13 @@ export const bookDetailByClassAndBookSlug = publicProcedure
         pdfs:  pdfMap.get(ch._id.toString()) ?? [],
       }));
 
-      const b = bookDoc as { name: string; slug: string; description?: string; image?: string; pages?: number };
+      const b = bookDoc as { name: string; slug: string; description?: string; image?: string; pages?: number; externalLinks?: { name: string; slug: string; url: string }[] };
 
       return {
         success: true,
         message: 'Book detail fetched successfully',
         data: {
-          book:         { name: b.name, slug: b.slug, description: b.description, image: b.image, pages: b.pages },
+          book:         { name: b.name, slug: b.slug, description: b.description, image: b.image, pages: b.pages, externalLinks: b.externalLinks ?? [] },
           fullBookPdfs: fullBookPdfs ?? [],
           chapters:     chaptersWithPdfs,
         },

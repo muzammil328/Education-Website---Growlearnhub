@@ -26,6 +26,12 @@ interface MediumComponent {
   fileId: string;
 }
 
+interface IExternalLink {
+  name: string;
+  slug: string;
+  url: string;
+}
+
 interface IBook extends Document {
   name: string;
   slug: string;
@@ -43,6 +49,7 @@ interface IBook extends Document {
   components: IVUAssessmentComponent[];
   pairingScheme?: IPairingScheme;
   medium?: MediumComponent[];
+  externalLinks?: IExternalLink[];
   keywords?: string[];
   boardId?: Types.ObjectId;
   createdAt?: Date;
@@ -93,6 +100,9 @@ const BookSchema: Schema = new Schema(
     totalWeight: { type: Number, default: 100 },
     components: [VUAssessmentComponentSchema],
     pairingScheme: { type: PairingSchemeSchema },
+    externalLinks: [
+      new Schema({ name: { type: String, required: true }, slug: { type: String, required: true }, url: { type: String, required: true } }, { _id: false })
+    ],
   },
   { timestamps: true }
 );

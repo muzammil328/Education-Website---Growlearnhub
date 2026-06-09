@@ -16,6 +16,8 @@ const SERVICE_TYPES = [
   { name: 'Date Sheet', description: 'Exam schedules and date sheets', keywords: ['date sheet', 'exam schedule', 'timetable'], image: img2 },
   { name: 'Pairing Scheme', description: 'Question paper pairing schemes', keywords: ['pairing scheme', 'paper pattern', 'question distribution'], image: img3 },
   { name: 'Result', description: 'Exam results and updates', keywords: ['result', 'exam result', 'marks'], image: img4 },
+  { name: 'Final Exam', description: 'Final exam handouts and MCQs for VU courses', keywords: ['final exam', 'final term', 'vu final', 'handouts'], image: img1 },
+  { name: 'Mid Exam', description: 'Mid exam handouts and MCQs for VU courses', keywords: ['mid exam', 'midterm', 'vu mid', 'handouts'], image: img2 },
 ];
 
 export async function seedServices() {

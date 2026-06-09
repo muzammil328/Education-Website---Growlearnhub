@@ -46,6 +46,14 @@ const McqsSchema: Schema = new Schema(
     examSourceTag: { type: String, enum: ['past_paper', 'predicted', 'original'] },
     examYear: { type: Number },
     historicalWrongRate: { type: Number, min: 0, max: 100 },
+    askedInExams: [
+      {
+        examName: { type: String, trim: true },
+        year: { type: Number },
+        board: { type: String, trim: true },
+        _id: false,
+      },
+    ],
   },
   { timestamps: true, toJSON: { virtuals: true }, toObject: { virtuals: true } }
 );

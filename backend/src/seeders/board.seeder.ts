@@ -61,6 +61,12 @@ export async function seedBoards() {
       console.log('⚠️  "date-sheet" service not found — run service seeder first.');
     }
 
+    const pastPaperService = await ServiceModel.findOne({ slug: 'past-paper', status: 'active' });
+    const pastPaperServiceId = pastPaperService?._id ?? null;
+    if (!pastPaperServiceId) {
+      console.log('⚠️  "past-paper" service not found — run service seeder first.');
+    }
+
     for (const raw of boards) {
       const classSlug = raw.className.toLowerCase().trim();
       const boardSlug = slugify(raw.name);
@@ -76,7 +82,7 @@ export async function seedBoards() {
         continue;
       }
 
-      const serviceIds = [resultServiceId, pairingServiceId, dateSheetServiceId].filter(Boolean);
+      const serviceIds = [resultServiceId, pairingServiceId, dateSheetServiceId, pastPaperServiceId].filter(Boolean);
 
       const existingBoard = await Board.findOne({
         $or: [{ slug: boardSlug, classId: classDoc._id }, { name: raw.name, classId: classDoc._id }],

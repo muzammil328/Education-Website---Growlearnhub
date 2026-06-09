@@ -49,6 +49,15 @@ export const classes: ClassData[] = [
     status: 'active',
     order: 4,
   },
+  {
+    name: 'VU',
+    slug: 'vu',
+    description: 'Virtual University of Pakistan courses and study material',
+    image: 'https://static.vecteezy.com/system/resources/thumbnails/057/068/323/small/single-fresh-red-strawberry-on-table-green-background-food-fruit-sweet-macro-juicy-plant-image-photo.jpg',
+    keywords: ['vu', 'virtual university', 'handouts', 'mcqs', 'final exam', 'mid exam'],
+    status: 'active',
+    order: 5,
+  },
 ];
 
 function escapeRegex(value: string): string {
