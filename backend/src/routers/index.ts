@@ -11,7 +11,6 @@ export { institutionRouter } from './institution.router';
 export { mcqAttemptRouter } from './mcqAttempt.router';
 export { mcqsRouter } from './mcqs.router';
 export { serviceRouter } from './service/service.router';
-export { sitemapRouter } from './sitemap.router';
 export { studentRouter } from './student.router';
 export { subHeadingRouter } from './subHeading/subHeading.router';
 export { authRouter as userAuthRouter } from './user.router';

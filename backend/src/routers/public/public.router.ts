@@ -1,4 +1,15 @@
 import { createTRPCRouter } from '@/trpc/trpc';
+import {
+  sitemapStatic,
+  sitemapClasses,
+  sitemapBooks,
+  sitemapChapters,
+  sitemapBoards,
+  sitemapHeadings,
+  sitemapSubHeadings,
+  sitemapOnlineTest,
+  sitemapVu,
+} from './sitemap';
 import { serviceByClassSlug } from './serviceByClassSlug';
 import { bookGetByClassAndServiceSlug } from './bookGetByClassAndServiceSlug';
 import { chapterGetByClassAndServiceAndSubjectSlug } from './chapterGetByClassAndServiceAndSubjectSlug';
@@ -41,4 +52,15 @@ export const publicRouter = createTRPCRouter({
   getBooksByClass: booksByClassSlug,
   getBookDetail: bookDetailByClassAndBookSlug,
   getChapterDetail: chapterDetailByClassBookChapterSlug,
+
+  // Sitemap
+  sitemapStatic,
+  sitemapClasses,
+  sitemapBooks,
+  sitemapChapters,
+  sitemapBoards,
+  sitemapHeadings,
+  sitemapSubHeadings,
+  sitemapOnlineTest,
+  sitemapVu,
 });

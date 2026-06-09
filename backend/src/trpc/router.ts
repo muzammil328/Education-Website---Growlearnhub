@@ -8,7 +8,6 @@ import { headingRouter } from '../routers/heading/heading.router';
 import { subHeadingRouter } from '../routers/subHeading/subHeading.router';
 import { serviceRouter } from '../routers/service/service.router';
 import { boardRouter } from '../routers/board/board.router';
-import { sitemapRouter } from '../routers/sitemap.router';
 import { mcqsRouter } from '../routers/mcqs.router';
 import { feedbackRouter } from '../routers/feedback.router';
 import { commentRouter } from '../routers/comment.router';
@@ -27,7 +26,6 @@ export const appRouter = createTRPCRouter({
   subHeading: subHeadingRouter,
   service: serviceRouter,
   board: boardRouter,
-  sitemap: sitemapRouter,
   mcqs: mcqsRouter,
   mcqAttempt: mcqAttemptRouter,
   institution: institutionRouter,
