@@ -1,5 +1,6 @@
 export * from './board.seeder';
 export * from './pairingScheme.seeder';
+export * from './dateSheet.seeder';
 export * from './result.seeder';
 export * from './book.seeder';
 export * from './bookPdf.seeder';

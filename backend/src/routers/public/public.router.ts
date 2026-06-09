@@ -15,6 +15,7 @@ import { chapterDetailByClassBookChapterSlug } from './chapterDetailByClassBookC
 import { boardsByClassAndService } from './boardsByClassAndService';
 import { resultByClassAndBoard } from './resultByClassAndBoard';
 import { pairingSchemeByClassAndBoard } from './pairingSchemeByClassAndBoard';
+import { dateSheetByClassAndBoard } from './dateSheetByClassAndBoard';
 
 export const publicRouter = createTRPCRouter({
   getServiceByClassSlug: serviceByClassSlug,
@@ -32,6 +33,7 @@ export const publicRouter = createTRPCRouter({
   getBoardsByClassAndService: boardsByClassAndService,
   getResultByClassAndBoard: resultByClassAndBoard,
   getPairingSchemeByClassAndBoard: pairingSchemeByClassAndBoard,
+  getDateSheetByClassAndBoard: dateSheetByClassAndBoard,
 
   // Books public API
   getBooksByClass: booksByClassSlug,

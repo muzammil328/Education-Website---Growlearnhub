@@ -172,6 +172,14 @@ export const useResultByClassAndBoard = (classSlug?: string, boardSlug?: string)
   );
 };
 
+// get latest date sheet image for a class + board
+export const useDateSheetByClassAndBoard = (classSlug?: string, boardSlug?: string) => {
+  return trpc.public.getDateSheetByClassAndBoard.useQuery(
+    { classSlug: classSlug || '', boardSlug: boardSlug || '' },
+    { enabled: Boolean(classSlug && boardSlug), retry: false, refetchOnWindowFocus: false }
+  );
+};
+
 // get latest pairing scheme image for a class + board
 export const usePairingSchemeByClassAndBoard = (classSlug?: string, boardSlug?: string) => {
   return trpc.public.getPairingSchemeByClassAndBoard.useQuery(

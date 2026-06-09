@@ -55,6 +55,12 @@ export async function seedBoards() {
       console.log('⚠️  "pairing-scheme" service not found — run service seeder first.');
     }
 
+    const dateSheetService = await ServiceModel.findOne({ slug: 'date-sheet', status: 'active' });
+    const dateSheetServiceId = dateSheetService?._id ?? null;
+    if (!dateSheetServiceId) {
+      console.log('⚠️  "date-sheet" service not found — run service seeder first.');
+    }
+
     for (const raw of boards) {
       const classSlug = raw.className.toLowerCase().trim();
       const boardSlug = slugify(raw.name);
@@ -70,7 +76,7 @@ export async function seedBoards() {
         continue;
       }
 
-      const serviceIds = [resultServiceId, pairingServiceId].filter(Boolean);
+      const serviceIds = [resultServiceId, pairingServiceId, dateSheetServiceId].filter(Boolean);
 
       const existingBoard = await Board.findOne({
         $or: [{ slug: boardSlug, classId: classDoc._id }, { name: raw.name, classId: classDoc._id }],
