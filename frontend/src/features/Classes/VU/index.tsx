@@ -3,7 +3,7 @@ import React from 'react';
 import UserLayout from '@/components/layout/UserLayout';
 import CardSmall from '@/components/card/SmallCard';
 import { useServiceByClassSlug } from '@/hooks/use-public';
-import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@muzammil328/ui';
+import { Accordion, AccordionItem, AccordionTrigger, AccordionContent, Heading2, Heading3, Para } from '@muzammil328/ui';
 import { SmallCardSkeletonGrid } from '@/components/skeleton/SmallCardSkeleton';
 
 export default function VU({ children }: { children?: React.ReactNode }) {
@@ -17,11 +17,11 @@ export default function VU({ children }: { children?: React.ReactNode }) {
       canonical="/vu/"
       url="https://growlearnhub.com/vu/"
     >
-      <p>
+      <Para>
         Welcome to the <strong className="font-semibold text-foreground">Virtual University</strong> study
         hub — your one-stop destination for free handouts, MCQs, past papers, and midterm &amp; final
         term exam guides for all VU semesters and courses.
-      </p>
+      </Para>
 
       {isLoading && <SmallCardSkeletonGrid />}
       {!isLoading && !error && services.length > 0 && (
@@ -39,49 +39,49 @@ export default function VU({ children }: { children?: React.ReactNode }) {
       {children}
 
       <div className="mt-10 space-y-2 border-t border-border pt-8">
-        <h2>Virtual University Study Resources — Complete Guide for VU Students</h2>
-        <p>
+        <Heading2>Virtual University Study Resources — Complete Guide for VU Students</Heading2>
+        <Para>
           Studying at Virtual University does not have to be a solo struggle. GrowLearnHub brings
           together <strong className="text-foreground">free VU handouts</strong>, chapter-wise MCQs,
           midterm and final term past papers, and exam guides for courses across all semesters.
           Whether you are preparing for CS, Business, or Education programmes, you will find
           everything you need right here — no signup required.
-        </p>
+        </Para>
 
-        <h2>VU Handouts &amp; Lecture Notes — All Courses</h2>
-        <p>
+        <Heading2>VU Handouts &amp; Lecture Notes — All Courses</Heading2>
+        <Para>
           Our VU study notes summarise key concepts from official handouts in simple, scannable
           language. Each course is organised by topic so you can jump straight to the chapter you
           need. Important definitions, formulas, and diagrams are highlighted to help you revise
           faster in the days before your midterm or final exam.
-        </p>
+        </Para>
 
-        <h2>Chapter-wise MCQs for VU Courses</h2>
-        <p>
+        <Heading2>Chapter-wise MCQs for VU Courses</Heading2>
+        <Para>
           VU quizzes and exams rely heavily on MCQs. Our
           chapter-wise <strong className="text-foreground">VU MCQs</strong> are sourced from
           past papers, Waqar Siddhu files, and model papers so you practice exactly what appears
           in real assessments. Each question includes the correct answer and a short explanation
           to make self-study effective.
-        </p>
+        </Para>
 
-        <h2>VU Midterm &amp; Final Term Past Papers</h2>
-        <p>
+        <Heading2>VU Midterm &amp; Final Term Past Papers</Heading2>
+        <Para>
           Past papers are the most reliable guide to what will appear in your next VU exam.
           Our <strong className="text-foreground">VU past papers</strong> are organised by course
           code and semester — midterm and final term — going back multiple years. Download and
           practise them to get comfortable with question patterns and timing before exam day.
-        </p>
+        </Para>
 
-        <h2>VU GPA Calculator &amp; Exam Guides</h2>
-        <p>
+        <Heading2>VU GPA Calculator &amp; Exam Guides</Heading2>
+        <Para>
           Not sure what marks you need to pass your final? Use our built-in VU GPA and percentage
           calculators to plan your target scores across quizzes, assignments, midterm, and final
           term. Our exam guides also break down the marking scheme so you know exactly where to
           focus your effort.
-        </p>
+        </Para>
 
-        <h3>Frequently Asked Questions</h3>
+        <Heading3>Frequently Asked Questions</Heading3>
         <Accordion type="single" collapsible className="w-full">
           {[
             {

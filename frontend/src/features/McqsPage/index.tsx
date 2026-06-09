@@ -3,6 +3,7 @@ import React from 'react';
 import UserLayout, { UserLayoutProps } from '@/components/layout/UserLayout';
 import CardSmall from '@/components/card/SmallCard';
 import { useClassesBySlug } from '@/hooks/use-public';
+import { Heading2, Heading3, Para } from '@muzammil328/ui';
 import { SmallCardSkeletonGrid } from '@/components/skeleton/SmallCardSkeleton';
 
 export default function McqsPage({ title, image, canonical, url }: UserLayoutProps) {
@@ -10,11 +11,11 @@ export default function McqsPage({ title, image, canonical, url }: UserLayoutPro
 
   return (
     <UserLayout title={title} image={image} canonical={canonical} url={url}>
-      <p>
+      <Para>
         Browse class-wise MCQs for Matric, Intermediate, and other academic levels. Practice
         chapter-wise multiple choice questions sourced from past papers and model papers to
         strengthen your board exam preparation.
-      </p>
+      </Para>
 
       {isLoading && <SmallCardSkeletonGrid />}
       {!isLoading && !error && classes.length > 0 && (
@@ -26,41 +27,41 @@ export default function McqsPage({ title, image, canonical, url }: UserLayoutPro
       )}
 
       <div className="mt-10 space-y-2 border-t border-border pt-8">
-        <h2>MCQs — All Classes</h2>
-        <p>
+        <Heading2>MCQs — All Classes</Heading2>
+        <Para>
           Multiple choice questions are a core part of Pakistani board exams. GrowLearnHub offers
           <strong className="text-foreground"> free chapter-wise MCQs</strong> for all major
           subjects across Matric and Intermediate classes. Each question is sourced from past
           papers, model papers, and textbook exercises so you practice exactly what appears in
           real exams.
-        </p>
+        </Para>
 
-        <h2>Why Practice MCQs</h2>
-        <p>
+        <Heading2>Why Practice MCQs</Heading2>
+        <Para>
           MCQs test both knowledge and speed. Regular practice helps you identify weak areas,
           build answer instinct, and improve your score on the objective portion of board papers.
           With instant answers and explanations, you learn from every mistake without needing a
           tutor.
-        </p>
+        </Para>
 
-        <h2>Chapter-wise MCQ Practice</h2>
-        <p>
+        <Heading2>Chapter-wise MCQ Practice</Heading2>
+        <Para>
           Our MCQs are organised chapter by chapter so you can focus on one topic at a time.
           Start from the chapters you find hardest, work through them systematically, and then
           do full-subject practice rounds as your exam approaches.
-        </p>
+        </Para>
 
-        <h3>Frequently Asked Questions</h3>
-        <p>
+        <Heading3>Frequently Asked Questions</Heading3>
+        <Para>
           <strong className="text-foreground">Are the MCQs on GrowLearnHub free?</strong>
           <br />
           Yes, all MCQs are completely free with no account or payment required.
-        </p>
-        <p>
+        </Para>
+        <Para>
           <strong className="text-foreground">Can I practice MCQs on mobile?</strong>
           <br />
           Yes. The MCQ interface is fully responsive and works on any smartphone or tablet.
-        </p>
+        </Para>
       </div>
     </UserLayout>
   );

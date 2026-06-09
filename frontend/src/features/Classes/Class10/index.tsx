@@ -3,7 +3,7 @@ import React from 'react';
 import UserLayout from '@/components/layout/UserLayout';
 import CardSmall from '@/components/card/SmallCard';
 import { useServiceByClassSlug } from '@/hooks/use-public';
-import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@muzammil328/ui';
+import { Accordion, AccordionItem, AccordionTrigger, AccordionContent, Heading2, Heading3, Para } from '@muzammil328/ui';
 import { SmallCardSkeletonGrid } from '@/components/skeleton/SmallCardSkeleton';
 
 export default function Class10({ children }: { children?: React.ReactNode }) {
@@ -17,11 +17,11 @@ export default function Class10({ children }: { children?: React.ReactNode }) {
       canonical="/class-10/"
       url="https://growlearnhub.com/class-10/"
     >
-      <p>
+      <Para>
         Welcome to the <strong className="font-semibold text-foreground">Class 10</strong> study
         hub — your one-stop destination for free notes, MCQs, online tests, and past papers
         for all subjects across Punjab, Federal, and BISE boards.
-      </p>
+      </Para>
 
       {isLoading && <SmallCardSkeletonGrid />}
       {!isLoading && !error && services.length > 0 && (
@@ -39,54 +39,54 @@ export default function Class10({ children }: { children?: React.ReactNode }) {
       {children}
 
       <div className="mt-10 space-y-2 border-t border-border pt-8">
-        <h2>Class 10 Study Resources — Complete Guide for Pakistani Students</h2>
-        <p>
+        <Heading2>Class 10 Study Resources — Complete Guide for Pakistani Students</Heading2>
+        <Para>
           Preparing for your 10th class exams can feel overwhelming — but it does not have to be.
           GrowLearnHub brings together <strong className="text-foreground">free Class 10 notes</strong>,
           chapter-wise MCQs, online practice tests, and past papers for all major subjects under
           Punjab Board, Federal Board (FBISE), and BISE examinations. Whether you are studying
           Biology, Physics, Chemistry, Mathematics, English, or Urdu, you will find everything
           you need right here — no signup required.
-        </p>
+        </Para>
 
-        <h2>10th Class Notes — All Subjects</h2>
-        <p>
+        <Heading2>10th Class Notes — All Subjects</Heading2>
+        <Para>
           Our 10th class notes are written in simple, easy-to-understand language and follow the
           latest Punjab Curriculum &amp; Textbook Board (PCTB) and Federal Board syllabi.
           Each subject is broken down chapter by chapter so you never lose your place. Key topics,
           definitions, and diagrams are highlighted to help you revise faster before exams.
           Subjects covered include Biology, Physics, Chemistry, Mathematics, English,
           Urdu, Islamiyat, Pakistan Studies, Computer Science, and General Knowledge.
-        </p>
+        </Para>
 
-        <h2>Chapter-wise MCQs for Class 10</h2>
-        <p>
+        <Heading2>Chapter-wise MCQs for Class 10</Heading2>
+        <Para>
           Multiple choice questions (MCQs) carry significant marks in board exams. Our
           chapter-wise <strong className="text-foreground">Class 10 MCQs</strong> are carefully
           sourced from past papers and model papers so you practice exactly what appears in real
           exams. Each question comes with the correct answer and a short explanation, making
           self-study straightforward even without a tutor.
-        </p>
+        </Para>
 
-        <h2>Online Tests for 10th Class</h2>
-        <p>
+        <Heading2>Online Tests for 10th Class</Heading2>
+        <Para>
           Sitting a timed online test is the closest thing to sitting a real board exam from home.
           Our <strong className="text-foreground">Class 10 online tests</strong> are organised by
           subject and chapter. You get instant results, a breakdown of correct and incorrect
           answers, and a score you can track over time. Regular practice tests help you manage
           exam anxiety and improve both speed and accuracy before results day.
-        </p>
+        </Para>
 
-        <h2>Class 10 Past Papers — Punjab, Federal &amp; BISE Boards</h2>
-        <p>
+        <Heading2>Class 10 Past Papers — Punjab, Federal &amp; BISE Boards</Heading2>
+        <Para>
           Past papers are the single most effective revision tool for Pakistani board exams.
           Examiners often repeat question patterns, so working through five years of
           <strong className="text-foreground"> 10th class past papers</strong> gives you a clear
           picture of what to expect. GrowLearnHub hosts past papers for Punjab Board, FBISE, and
           major BISE boards going back several years, all free to read and download.
-        </p>
+        </Para>
 
-        <h3>Frequently Asked Questions</h3>
+        <Heading3>Frequently Asked Questions</Heading3>
         <Accordion type="single" collapsible className="w-full">
           {[
             {
