@@ -22,7 +22,7 @@ export default function Class11PairingSchemePage() {
       <article className="max-w-none">
         <header>
           <h2 className="text-2xl font-semibold text-primary">11th Class Pairing Scheme 2025</h2>
-          <p className="text-foreground/80">
+          <p className="text-muted-foreground">
             Select your board to view the official pairing scheme for Class 11 (HSC-I / Inter Part 1) 2025.
             Understand subject-wise chapter groupings and marks distribution for your inter board exam.
           </p>
@@ -48,13 +48,13 @@ export default function Class11PairingSchemePage() {
               ))}
             </div>
           ) : (
-            <p className="text-foreground/60 mt-4">No boards available at the moment.</p>
+            <p className="text-muted-foreground mt-4">No boards available at the moment.</p>
           )}
         </section>
 
         <section className="mt-8">
           <h3 className="text-xl font-semibold text-foreground">Why Use a Pairing Scheme?</h3>
-          <ul className="list-disc space-y-2 pl-5 text-foreground/80">
+          <ul className="list-disc space-y-2 pl-5 text-muted-foreground">
             <li>Know exactly which Inter Part 1 chapters appear in each question.</li>
             <li>Prioritize high-weightage chapters in your last-week revision.</li>
             <li>Maximize marks by aligning your preparation with the board's paper pattern.</li>
@@ -63,7 +63,7 @@ export default function Class11PairingSchemePage() {
 
         <section className="mt-8">
           <h3 className="text-xl font-semibold text-foreground">Related Pages</h3>
-          <p className="text-foreground/80">
+          <p className="text-muted-foreground">
             Also explore{' '}
             <Link href={`/${CLASS_SLUG}/date-sheet`} className="text-primary hover:underline">date sheet</Link>
             {' '}and{' '}

@@ -23,7 +23,7 @@ export default function Class9PairingSchemePage() {
       <article className="max-w-none">
         <header>
           <h2 className="text-2xl font-semibold text-primary">9th Class Pairing Scheme 2025</h2>
-          <p className="text-foreground/80">
+          <p className="text-muted-foreground">
             Select your board to view the official pairing scheme for Class 9 (SSC-I) 2025.
             Know exactly which chapters are paired together and how marks are distributed.
           </p>
@@ -49,13 +49,13 @@ export default function Class9PairingSchemePage() {
               ))}
             </div>
           ) : (
-            <p className="text-foreground/60 mt-4">No boards available at the moment.</p>
+            <p className="text-muted-foreground mt-4">No boards available at the moment.</p>
           )}
         </section>
 
         <section className="mt-8">
           <h3 className="text-xl font-semibold text-foreground">Why Use a Pairing Scheme?</h3>
-          <ul className="list-disc space-y-2 pl-5 text-foreground/80">
+          <ul className="list-disc space-y-2 pl-5 text-muted-foreground">
             <li>Know which chapters appear together in each question.</li>
             <li>Focus revision on high-weightage sections first.</li>
             <li>Reduce exam anxiety by knowing the exact paper pattern in advance.</li>
@@ -64,7 +64,7 @@ export default function Class9PairingSchemePage() {
 
         <section className="mt-8">
           <h3 className="text-xl font-semibold text-foreground">Related Pages</h3>
-          <p className="text-foreground/80">
+          <p className="text-muted-foreground">
             Also explore{' '}
             <Link href={`/${CLASS_SLUG}/date-sheet`} className="text-primary hover:underline">date sheet</Link>
             {' '}and{' '}

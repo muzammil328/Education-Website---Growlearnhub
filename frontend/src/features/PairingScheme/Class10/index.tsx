@@ -23,7 +23,7 @@ export default function Class10PairingSchemePage() {
       <article className="max-w-none">
         <header>
           <h2 className="text-2xl font-semibold text-primary">10th Class Pairing Scheme 2025</h2>
-          <p className="text-foreground/80">
+          <p className="text-muted-foreground">
             Select your board to view the official pairing scheme for Class 10 (SSC-II / Matric) 2025.
             Know which chapters are paired and how marks are split across objective, short, and long questions.
           </p>
@@ -49,13 +49,13 @@ export default function Class10PairingSchemePage() {
               ))}
             </div>
           ) : (
-            <p className="text-foreground/60 mt-4">No boards available at the moment.</p>
+            <p className="text-muted-foreground mt-4">No boards available at the moment.</p>
           )}
         </section>
 
         <section className="mt-8">
           <h3 className="text-xl font-semibold text-foreground">Why Use a Pairing Scheme?</h3>
-          <ul className="list-disc space-y-2 pl-5 text-foreground/80">
+          <ul className="list-disc space-y-2 pl-5 text-muted-foreground">
             <li>Understand which chapters appear together in each board question.</li>
             <li>Plan your matric revision efficiently with chapter-wise weightage.</li>
             <li>Avoid surprises by knowing the exact paper pattern before exam day.</li>
@@ -64,7 +64,7 @@ export default function Class10PairingSchemePage() {
 
         <section className="mt-8">
           <h3 className="text-xl font-semibold text-foreground">Related Pages</h3>
-          <p className="text-foreground/80">
+          <p className="text-muted-foreground">
             Also explore{' '}
             <Link href={`/${CLASS_SLUG}/date-sheet`} className="text-primary hover:underline">date sheet</Link>
             {' '}and{' '}
