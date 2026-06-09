@@ -1,6 +1,5 @@
-import React from 'react';
 import type { Metadata } from 'next';
-import NotesPage from '@/features/Notes';
+import UserLayout from '@/components/layout/UserLayout';
 
 const data = {
   title: 'Notes – All Classes | GrowLearnHub',
@@ -27,7 +26,12 @@ const data = {
 
 export default function Page() {
   return (
-    <NotesPage title={data.title} image={data.image} canonical={data.canonical} url={data.url} />
+    <UserLayout title={data.title} image={data.image} canonical={data.canonical} url={data.url}>
+      <div className="flex min-h-[50vh] flex-col items-center justify-center text-center">
+        <h1 className="mb-4 text-3xl font-bold text-primary">Notes</h1>
+        <p className="text-lg text-muted-foreground">Coming Soon</p>
+      </div>
+    </UserLayout>
   );
 }
 
