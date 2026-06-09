@@ -14,8 +14,9 @@ export function generateStaticParams() {
   return VU_COURSES.map(course => ({ course: course.slug }));
 }
 
-export function generateMetadata({ params }: { params: Params }): Metadata {
-  const course = getVuCourse(params.course);
+export async function generateMetadata({ params }: { params: Promise<Params> }): Promise<Metadata> {
+  const { course: courseSlug } = await params;
+  const course = getVuCourse(courseSlug);
 
   if (!course) {
     return {
@@ -54,8 +55,9 @@ export function generateMetadata({ params }: { params: Params }): Metadata {
   };
 }
 
-export default function Page({ params }: { params: Params }) {
-  const course = getVuCourse(params.course);
+export default async function Page({ params }: { params: Promise<Params> }) {
+  const { course: courseSlug } = await params;
+  const course = getVuCourse(courseSlug);
 
   if (!course) {
     notFound();

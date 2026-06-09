@@ -32,9 +32,9 @@ export default function AuthPageWrapper({
         {children}
       </div>
       {/* Footer */}
-      {/* <div className="md:pl-8 md:pr-40 md:py-6 p-6">
+      <div className="md:pl-8 md:pr-40 md:py-6 p-6">
         <p className="text-xs text-muted-foreground text-center">© 2024 {config.app.NAME}. All rights reserved.</p>
-      </div> */}
+      </div>
     </div>
   );
 }
