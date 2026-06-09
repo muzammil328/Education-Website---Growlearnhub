@@ -17,9 +17,10 @@ export function generateStaticParams() {
   return [{ board: classItem.board.slug }];
 }
 
-export function generateMetadata({ params }: { params: Params }): Metadata {
+export async function generateMetadata({ params }: { params: Promise<Params> }): Promise<Metadata> {
+  const { board: boardSlug } = await params;
   const classItem = getPairingClass('class-9');
-  const board = classItem ? getPairingBoard(classItem, params.board) : undefined;
+  const board = classItem ? getPairingBoard(classItem, boardSlug) : undefined;
 
   if (!classItem || !board) {
     return {
@@ -59,9 +60,10 @@ export function generateMetadata({ params }: { params: Params }): Metadata {
   };
 }
 
-export default function Page({ params }: { params: Params }) {
+export default async function Page({ params }: { params: Promise<Params> }) {
+  const { board: boardSlug } = await params;
   const classItem = getPairingClass('class-9');
-  const board = classItem ? getPairingBoard(classItem, params.board) : undefined;
+  const board = classItem ? getPairingBoard(classItem, boardSlug) : undefined;
 
   if (!classItem || !board) {
     notFound();

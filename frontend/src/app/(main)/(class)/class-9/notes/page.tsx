@@ -1,32 +1,26 @@
 import { Metadata } from 'next';
-import { getNotesClass } from '@/utils/helpers/PastPaperAndNotesDynamic';
-import Class9NotesPage from '@/features/Notes/Class9';
+import UserLayout from '@/components/layout/UserLayout';
 
 const CLASS_SLUG = 'class-9';
 
-export function generateMetadata(): Metadata {
-  const classItem = getNotesClass(CLASS_SLUG);
-  if (!classItem) return { title: 'Class Notes' };
+export const metadata: Metadata = {
+  title: 'Class 9 Notes — Coming Soon | GrowLearnHub',
+  description: 'Class 9 notes are coming soon. Stay tuned for comprehensive study materials.',
+  robots: { index: false, follow: false },
+};
 
-  const title = `${classItem.className} Notes 2025 – All Subjects PDF | GrowLearnHub`;
-  const description = `Download comprehensive ${classItem.classShortName} notes for all subjects in PDF format. Access chapter-wise summaries, key concepts, and study materials.`;
-
-  return {
-    title,
-    description,
-    keywords: [...classItem.keywords],
-    openGraph: {
-      title,
-      description,
-      url: `https://growlearnhub.com/${CLASS_SLUG}/notes/`,
-      images: [{ url: classItem.image, alt: title }],
-    },
-    alternates: { canonical: `/${CLASS_SLUG}/notes/` },
-    robots: { index: true, follow: true, googleBot: { index: true, follow: true } },
-    twitter: { title, description, images: { url: classItem.image, alt: title } },
-  };
-}
-
-export default function Page() {
-  return <Class9NotesPage />;
+export default function NotesPage() {
+  return (
+    <UserLayout
+      title="Class 9 Notes"
+      image="/9th/class_9_book_growlearnhub.png"
+      canonical={`/${CLASS_SLUG}/notes/`}
+      url={`https://growlearnhub.com/${CLASS_SLUG}/notes/`}
+    >
+      <div className="flex min-h-[50vh] flex-col items-center justify-center text-center">
+        <h1 className="mb-4 text-3xl font-bold text-primary">Class 9 Notes</h1>
+        <p className="text-lg text-muted-foreground">Coming Soon</p>
+      </div>
+    </UserLayout>
+  );
 }
