@@ -2,6 +2,7 @@
 
 import { useChapterByClassAndBookSlug } from '@/hooks/use-public';
 import Link from 'next/link';
+import McqsInlineSection from '@/components/mcqs/McqsInlineSection';
 
 interface Props {
   bookSlug: string;
@@ -18,7 +19,7 @@ export default function Class11McqsBookPage({ bookSlug }: Props) {
   const chapters = data?.data ?? [];
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-6">
       {chapters.length === 0 ? (
         <p>No chapters found.</p>
       ) : (
@@ -35,6 +36,7 @@ export default function Class11McqsBookPage({ bookSlug }: Props) {
           ))}
         </ul>
       )}
+      <McqsInlineSection classSlug={CLASS_SLUG} bookSlug={bookSlug} />
     </div>
   );
 }

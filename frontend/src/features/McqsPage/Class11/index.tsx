@@ -5,6 +5,7 @@ import CardSmall from '@/components/card/SmallCard';
 import UserLayout from '@/components/layout/UserLayout';
 import { Heading2 } from '@muzammil328/ui';
 import { useBooksByClassAndServiceSlug } from '@/hooks/use-public';
+import McqsInlineSection from '@/components/mcqs/McqsInlineSection';
 
 const CLASS_SLUG = 'class-11';
 const SERVICE_SLUG = 'mcqs';
@@ -69,6 +70,8 @@ export default function Class11McqsPage() {
             <p className="text-foreground/60 mt-4">No subjects available at the moment.</p>
           )}
         </section>
+
+        <McqsInlineSection classSlug={CLASS_SLUG} />
 
         <section className="mb-12">
           <Heading2>Why Use This MCQ Section?</Heading2>
