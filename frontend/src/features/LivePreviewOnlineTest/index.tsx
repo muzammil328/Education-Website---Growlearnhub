@@ -40,7 +40,7 @@ export default function LivePreviewOnlineTest({ classSlug, bookSlug, chapterSlug
       limit: 10,
     },
     {
-      enabled: Boolean(classSlug && bookSlug && chapterSlug && selectedSet),
+      enabled: Boolean(classSlug && selectedSet),
       retry: false,
       refetchOnWindowFocus: false,
     }

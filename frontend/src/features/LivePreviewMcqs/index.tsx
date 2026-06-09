@@ -32,6 +32,18 @@ type RevealMap = Record<string, boolean>;
 
 const PAGE_TITLE = 'MCQs Practice | GrowLearnHub';
 
+function getPaginationPages(current: number, total: number): (number | '...')[] {
+  if (total <= 7) return Array.from({ length: total }, (_, i) => i + 1);
+  const pages: (number | '...')[] = [1];
+  if (current > 3) pages.push('...');
+  for (let p = Math.max(2, current - 2); p <= Math.min(total - 1, current + 2); p++) {
+    pages.push(p);
+  }
+  if (current < total - 2) pages.push('...');
+  pages.push(total);
+  return pages;
+}
+
 export default function LivePreviewMcqs({ mcqs, page, totalPages, onPageChange }: Props) {
   const [answers, setAnswers] = useState<AnswerMap>({});
   const [revealed, setRevealed] = useState<RevealMap>({});
@@ -232,32 +244,38 @@ export default function LivePreviewMcqs({ mcqs, page, totalPages, onPageChange }
 
         {/* Pagination */}
         {totalPages > 1 && (
-          <div className="flex items-center justify-center gap-2 pt-2">
+          <div className="flex items-center justify-center flex-wrap gap-1.5 pt-2">
             <button
               onClick={() => onPageChange(page - 1)}
               disabled={page <= 1}
-              className="px-4 py-2 rounded-xl text-sm font-medium border border-border text-foreground disabled:opacity-40 hover:bg-muted transition"
+              className="px-3 py-2 rounded-lg text-sm font-medium border border-border text-foreground disabled:opacity-40 hover:bg-muted transition"
             >
-              ← Previous
+              ← Prev
             </button>
-            {Array.from({ length: totalPages }, (_, i) => i + 1).map(p => (
-              <button
-                key={p}
-                onClick={() => onPageChange(p)}
-                className={cn(
-                  'w-9 h-9 rounded-xl text-sm font-medium transition',
-                  p === page
-                    ? 'bg-primary text-white'
-                    : 'border border-border text-foreground hover:bg-muted'
-                )}
-              >
-                {p}
-              </button>
-            ))}
+            {getPaginationPages(page, totalPages).map((p, i) =>
+              p === '...' ? (
+                <span key={`ellipsis-${i}`} className="w-9 h-9 flex items-center justify-center text-muted-foreground text-sm select-none">
+                  …
+                </span>
+              ) : (
+                <button
+                  key={p}
+                  onClick={() => onPageChange(p as number)}
+                  className={cn(
+                    'w-9 h-9 rounded-lg text-sm font-medium transition',
+                    p === page
+                      ? 'bg-primary text-white'
+                      : 'border border-border text-foreground hover:bg-muted'
+                  )}
+                >
+                  {p}
+                </button>
+              )
+            )}
             <button
               onClick={() => onPageChange(page + 1)}
               disabled={page >= totalPages}
-              className="px-4 py-2 rounded-xl text-sm font-medium border border-border text-foreground disabled:opacity-40 hover:bg-muted transition"
+              className="px-3 py-2 rounded-lg text-sm font-medium border border-border text-foreground disabled:opacity-40 hover:bg-muted transition"
             >
               Next →
             </button>
