@@ -7,6 +7,7 @@ const BoardSchema: Schema = new Schema(
     name: { type: String, required: true, trim: true },
     slug: { type: String, required: true, lowercase: true, trim: true },
     classId: [{ type: Schema.Types.ObjectId, ref: 'Class', required: true }],
+    serviceId: [{ type: Schema.Types.ObjectId, ref: 'Service' }],
     description: { type: String },
     status: { type: String, enum: Object.values(StatusEnum), default: StatusEnum.Active },
   },

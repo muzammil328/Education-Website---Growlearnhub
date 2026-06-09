@@ -4,8 +4,20 @@ import { Document, Types } from 'mongoose';
 
 interface IVUAssessmentComponent {
   title: string;
-  weight: number; // percentage
+  type: 'assignment' | 'quiz' | 'midterm' | 'final' | 'project' | 'lab' | 'other';
+  weight: number; // percentage of total grade
+  maxMarks?: number;
+  passingMarks?: number;
+  dueWeek?: number; // week number in semester
+  isOnline?: boolean;
   description?: string;
+  instructions?: string;
+}
+
+interface IPairingScheme {
+  image?: string; // image URL of the pairing scheme
+  year?: number;
+  board?: string;
 }
 
 interface MediumComponent {
@@ -29,6 +41,7 @@ interface IBook extends Document {
   image?: string;
   totalWeight?: number; // should equal 100
   components: IVUAssessmentComponent[];
+  pairingScheme?: IPairingScheme;
   medium?: MediumComponent[];
   keywords?: string[];
   boardId?: Types.ObjectId;
@@ -39,8 +52,27 @@ interface IBook extends Document {
 const VUAssessmentComponentSchema = new Schema(
   {
     title: { type: String, required: true },
+    type: {
+      type: String,
+      enum: ['assignment', 'quiz', 'midterm', 'final', 'project', 'lab', 'other'],
+      default: 'other',
+    },
     weight: { type: Number, required: true, min: 0, max: 100 },
+    maxMarks: { type: Number },
+    passingMarks: { type: Number },
+    dueWeek: { type: Number },
+    isOnline: { type: Boolean, default: false },
     description: { type: String },
+    instructions: { type: String },
+  },
+  { _id: false }
+);
+
+const PairingSchemeSchema = new Schema(
+  {
+    image: { type: String },
+    year: { type: Number },
+    board: { type: String },
   },
   { _id: false }
 );
@@ -60,6 +92,7 @@ const BookSchema: Schema = new Schema(
     image: { type: String },
     totalWeight: { type: Number, default: 100 },
     components: [VUAssessmentComponentSchema],
+    pairingScheme: { type: PairingSchemeSchema },
   },
   { timestamps: true }
 );
