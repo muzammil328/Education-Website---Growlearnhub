@@ -178,12 +178,15 @@ export const config = {
   },
 
   sitemap: {
-    classes: createApiUrl('sitemap/class'),
-    books: createApiUrl('sitemap/book'),
-    chapters: createApiUrl('sitemap/chapter'),
-    headings: createApiUrl('sitemap/heading'),
-    subHeadings: createApiUrl('sitemap/subHeading'),
-    mcqs: createApiUrl('sitemap/mcqs'),
+    static: createTrpcUrl('public.sitemapStatic'),
+    classes: createTrpcUrl('public.sitemapClasses'),
+    books: createTrpcUrl('public.sitemapBooks'),
+    chapters: createTrpcUrl('public.sitemapChapters'),
+    boards: createTrpcUrl('public.sitemapBoards'),
+    headings: createTrpcUrl('public.sitemapHeadings'),
+    subHeadings: createTrpcUrl('public.sitemapSubHeadings'),
+    onlineTest: createTrpcUrl('public.sitemapOnlineTest'),
+    vu: createTrpcUrl('public.sitemapVu'),
   },
 
   subHeading: {
