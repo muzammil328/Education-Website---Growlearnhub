@@ -1,10 +1,6 @@
 # Plan
 
 ## Next
-- /class-10
-- /class-11
-- /class-12
-- /vu
 - /books
 - /date-sheet
 - /mcqs
@@ -14,18 +10,26 @@
 - /past-paper
 - /result
 
+---
 
 ## Currently
 - /register
 - /login
 - /forgot-password
 - /otp-verification
-- /explore-topics
-- /jobs-opportunities
-- /blogs
+
+
+---
 
 ## Done
 - /class-9
+- /class-10
+- /class-11
+- /class-12
+- /vu
+- /explore-topics
+- /jobs-opportunities
+- /blogs
 - /about-us
 - /contact-us
 - /cookies-policy

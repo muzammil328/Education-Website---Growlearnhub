@@ -55,7 +55,7 @@ function MobileDrawer({ open, onClose }: { open: boolean; onClose: () => void })
       {/* backdrop */}
       <div
         className={cn(
-          'fixed inset-0 z-40 bg-black/40 transition-opacity duration-300 lg:hidden',
+          'fixed inset-x-0 bottom-0 top-14 z-40 bg-black/40 transition-opacity duration-300 md:hidden',
           open ? 'opacity-100' : 'pointer-events-none opacity-0'
         )}
         onClick={onClose}
@@ -64,7 +64,7 @@ function MobileDrawer({ open, onClose }: { open: boolean; onClose: () => void })
       {/* drawer */}
       <div
         className={cn(
-          'fixed inset-y-0 left-0 z-50 flex w-80 max-w-full flex-col bg-background shadow-2xl transition-transform duration-300 lg:hidden',
+          'fixed bottom-0 left-0 top-14 z-50 flex w-80 max-w-full flex-col bg-background shadow-2xl transition-transform duration-300 md:hidden',
           open ? 'translate-x-0' : '-translate-x-full'
         )}
       >
@@ -160,7 +160,6 @@ function MobileDrawer({ open, onClose }: { open: boolean; onClose: () => void })
           >
             Sign In
           </Link>
-          <DarkLightModeButton />
         </div>
       </div>
     </>
@@ -170,10 +169,22 @@ function MobileDrawer({ open, onClose }: { open: boolean; onClose: () => void })
 // ── main navbar ───────────────────────────────────────────────────────────────
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
   const [scrolled, setScrolled] = useState(false);
   const navRef = useRef<HTMLElement>(null);
   const pathname = usePathname();
+
+  useEffect(() => {
+    const check = () => {
+      const mobile = window.innerWidth < 768;
+      setIsMobile(mobile);
+      if (!mobile) setMobileOpen(false);
+    };
+    check();
+    window.addEventListener('resize', check);
+    return () => window.removeEventListener('resize', check);
+  }, []);
 
   // close on route change
   useEffect(() => {
@@ -210,28 +221,30 @@ export default function Navbar() {
       <nav
         ref={navRef}
         className={cn(
-          'sticky top-0 z-40 w-full border-b border-border bg-background/95 backdrop-blur-sm transition-shadow duration-200',
+          'sticky top-0 z-[60] w-full border-b border-border bg-background/95 backdrop-blur-sm transition-shadow duration-200',
           scrolled && 'shadow-sm'
         )}
       >
         <div className="mx-auto flex h-14 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
 
-          {/* left: hamburger (mobile) + logo */}
+          {/* left: hamburger (mobile only) + logo */}
           <div className="flex items-center gap-3">
-            <button
-              onClick={() => setMobileOpen(true)}
-              className="flex h-9 w-9 items-center justify-center rounded-lg text-foreground/70 hover:bg-muted lg:hidden"
-              aria-label="Open menu"
-            >
-              <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-              </svg>
-            </button>
+            {isMobile && (
+              <button
+                onClick={() => setMobileOpen(true)}
+                className="flex h-9 w-9 items-center justify-center rounded-lg text-foreground/70 hover:bg-muted"
+                aria-label="Open menu"
+              >
+                <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+              </button>
+            )}
             <Logo />
           </div>
 
           {/* center: desktop nav links */}
-          <div className="hidden items-center gap-1 lg:flex">
+          <div className="hidden items-center gap-1 md:flex">
             {navigation.pages.map(page => (
               <Link
                 key={page.name}
@@ -267,13 +280,13 @@ export default function Navbar() {
             <DarkLightModeButton />
             <Link
               href="/login"
-              className="hidden rounded-lg border border-border px-4 py-1.5 text-sm font-medium text-foreground hover:bg-muted lg:block"
+              className="hidden rounded-lg border border-border px-4 py-1.5 text-sm font-medium text-foreground hover:bg-muted md:block"
             >
               Sign In
             </Link>
             <Link
               href="/register"
-              className="hidden rounded-lg bg-primary px-4 py-1.5 text-sm font-semibold text-white hover:opacity-90 lg:block"
+              className="hidden rounded-lg bg-primary px-4 py-1.5 text-sm font-semibold text-white hover:opacity-90 md:block"
             >
               Register
             </Link>

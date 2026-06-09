@@ -1,5 +1,6 @@
 'use client';
 import Link from 'next/link';
+import { User, Mail, Lock } from 'lucide-react';
 import { Button } from '@muzammil328/ui';
 import { toast } from '@muzammil328/ui';
 import { useRouter } from 'next/navigation';
@@ -9,7 +10,7 @@ import { useRegister } from '@/hooks/use-auth';
 import type { AuthRegisterResponse } from '@muzammil328/education-packages/types';
 import { registerFormSchema, RegisterFormValues } from '@muzammil328/education-packages';
 import { getErrorMessage } from '@/lib/core-utils';
-import { Form, FormEmail, FormPassword, FormString } from '@muzammil328/ui';
+import { Form, FormString, FormEmail, FormPassword } from '@muzammil328/ui';
 
 export function RegisterForm() {
   const router = useRouter();
@@ -17,11 +18,7 @@ export function RegisterForm() {
 
   const form = useForm<RegisterFormValues>({
     resolver: zodResolver(registerFormSchema),
-    defaultValues: {
-      username: '',
-      email: '',
-      password: '',
-    },
+    defaultValues: { username: '', email: '', password: '' },
   });
 
   const onSubmit = (values: RegisterFormValues) => {
@@ -39,52 +36,58 @@ export function RegisterForm() {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-        <FormString name="username" label="Username" placeholder="Enter Username" />
-        <FormEmail name="email" label="Email address" placeholder="Enter your email" />
+
+        <FormString
+          name="username"
+          label="Username"
+          placeholder="Enter username"
+          leftIcon={<User className="h-4 w-4" />}
+        />
+
+        <FormEmail
+          name="email"
+          label="Email address"
+          placeholder="Enter your email"
+          leftIcon={<Mail className="h-4 w-4" />}
+        />
+
         <FormPassword
           name="password"
           label="Password"
           placeholder="Enter your password"
           description="Password must be at least 8 characters."
+          leftIcon={<Lock className="h-4 w-4" />}
         />
 
-        {/* Terms Checkbox */}
-        <div className="flex items-start gap-3 py-2">
+        {/* Terms */}
+        <div className="flex items-start gap-3 py-1">
           <input
             type="checkbox"
             id="terms"
             required
-            className="w-5 h-5 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500 mt-0.5 cursor-pointer"
+            className="mt-0.5 h-4 w-4 cursor-pointer rounded border-border text-primary focus:ring-primary"
           />
-          <label htmlFor="terms" className="text-sm text-gray-700 cursor-pointer flex-1">
+          <label htmlFor="terms" className="cursor-pointer text-sm text-muted-foreground">
             I agree to the{' '}
-            <Link href="/terms" className="text-indigo-600 hover:text-indigo-700 font-medium">
-              Terms
-            </Link>{' '}
-            &{' '}
-            <Link href="/privacy" className="text-indigo-600 hover:text-indigo-700 font-medium">
-              Privacy Policy
-            </Link>
+            <Link href="/terms" className="font-medium text-primary hover:underline">Terms</Link>
+            {' '}&{' '}
+            <Link href="/privacy" className="font-medium text-primary hover:underline">Privacy Policy</Link>
           </label>
         </div>
 
         <Button
           loading={isPending || form.formState.isSubmitting}
-          className="w-full btn-style-1"
+          className="w-full"
           size="lg"
-          title="Register User"
+          title="Register"
         >
-          {isPending ? 'Creating Account...' : 'Register'}
+          {isPending ? 'Creating Account...' : 'Create Account'}
         </Button>
 
-        <div className="flex items-center justify-center">
-          <div className="text-sm">
-            Already have an account?
-            <Link href="/login" className="ml-1 font-medium text-primary hover:underline">
-              Login
-            </Link>
-          </div>
-        </div>
+        <p className="text-center text-sm text-muted-foreground">
+          Already have an account?{' '}
+          <Link href="/login" className="font-medium text-primary hover:underline">Login</Link>
+        </p>
       </form>
     </Form>
   );

@@ -1,130 +1,66 @@
+'use client';
 import React from 'react';
-import Link from 'next/link';
 import UserLayout, { UserLayoutProps } from '@/components/layout/UserLayout';
-import { Heading2 } from '@muzammil328/ui';
-import { createTRPCProxyClient, httpBatchLink } from '@trpc/client';
-import type { AppRouter } from '@backend-trpc/router';
-import { config } from '@/config';
+import CardSmall from '@/components/card/SmallCard';
+import { useClassesBySlug } from '@/hooks/use-public';
+import { SmallCardSkeletonGrid } from '@/components/skeleton/SmallCardSkeleton';
 
-export const revalidate = 604800; // 7 days in seconds
-
-type ResultClassItem = {
-  name: string;
-  slug: string;
-};
-
-async function getClassesByServiceSlug(serviceSlug: string): Promise<ResultClassItem[]> {
-  try {
-    const trpcClient = createTRPCProxyClient<AppRouter>({
-      links: [
-        httpBatchLink({
-          url: `${config.API_URL ?? ''}/trpc`,
-        }),
-      ],
-    });
-
-    const result = await trpcClient.class.getByServiceSlug.query({ serviceSlug });
-    return result || [];
-  } catch {
-    return [];
-  }
-}
-
-export default async function ResultPage({ title, image, canonical, url }: UserLayoutProps) {
-  const classItems = await getClassesByServiceSlug('result');
-  console.log('Classes associated with "result" service:', classItems);
+export default function ResultPage({ title, image, canonical, url }: UserLayoutProps) {
+  const { classes, isLoading, error } = useClassesBySlug('result');
 
   return (
     <UserLayout title={title} image={image} canonical={canonical} url={url}>
-      <article className="">
-        <header className="mb-8">
-          <Heading2 className="" size="lg">
-            Results – All Classes
-          </Heading2>
-          <p className="text-base">
-            Browse class-wise exam results for Matric, Intermediate, and other academic levels.
-            Select your class to view the latest result updates, board links, and result-related
-            information in one place.
-          </p>
-        </header>
+      <p>
+        Browse class-wise exam results for Matric, Intermediate, and other academic levels.
+        Select your class to view the latest result updates, board links, and result-related
+        information in one place.
+      </p>
 
-        <section className="mb-8">
-          <h3 className="mb-3 text-lg font-semibold">What You Can Find Here</h3>
-          <ul className="list-inside space-y-2">
-            <li>
-              <strong>Class-wise result pages:</strong> Quickly open results for your selected class
-            </li>
-            <li>
-              <strong>Latest updates:</strong> Stay informed about announced and upcoming results
-            </li>
-            <li>
-              <strong>Board and exam information:</strong> Access relevant result details in one
-              place
-            </li>
-            <li>
-              <strong>Easy navigation:</strong> Move directly to the class you are looking for
-            </li>
-            <li>
-              <strong>Mobile-friendly access:</strong> Check results easily from phone, tablet, or
-              desktop
-            </li>
-          </ul>
-        </section>
+      {isLoading && <SmallCardSkeletonGrid />}
+      {!isLoading && !error && classes.length > 0 && (
+        <div className="grid grid-cols-2 gap-2 py-4 sm:grid-cols-3 lg:grid-cols-4">
+          {classes.map((item: { name: string; slug: string }) => (
+            <CardSmall key={item.slug} title={item.name} link={`${item.slug}/result`} />
+          ))}
+        </div>
+      )}
 
-        <section className="mb-8">
-          <h3 className="mb-3 text-lg font-semibold">Available Categories</h3>
-          <ul className="list-inside space-y-1">
-            {classItems.length > 0 ? (
-              classItems.map(item => (
-                <li key={item.slug}>
-                  <Link href={`/${item.slug}/result`} className="text-primary hover:underline">
-                    {item.name}
-                  </Link>
-                </li>
-              ))
-            ) : (
-              <>
-                <li>Matric / SSC</li>
-                <li>Intermediate / HSSC</li>
-                <li>Other academic classes and result sections</li>
-              </>
-            )}
-          </ul>
-        </section>
+      <div className="mt-10 space-y-2 border-t border-border pt-8">
+        <h2>Results — All Classes</h2>
+        <p>
+          GrowLearnHub provides a centralized hub for
+          <strong className="text-foreground"> Pakistani board exam results</strong> across Matric
+          and Intermediate classes. Browse your class to find the latest result announcements,
+          board links, and result checking methods — all organized in one easy-to-navigate page.
+        </p>
 
-        <section className="mb-8">
-          <h3 className="mb-3 text-lg font-semibold">Why Use This Page</h3>
-          <ul className="list-inside space-y-1">
-            <li>Find your result section faster</li>
-            <li>Reduce confusion between different classes and boards</li>
-            <li>Access organized result pages from one central location</li>
-            <li>Stay updated with current result announcements</li>
-          </ul>
-        </section>
+        <h2>How to Check Your Result</h2>
+        <p>
+          Select your class from the list above to go to the relevant result page. From there,
+          follow the provided board link or result-checking method. Have your roll number and
+          exam session details ready before you begin.
+        </p>
 
-        <section className="border-t pt-6">
-          <h3 className="mb-3 text-lg font-semibold">How to Check Your Result</h3>
-          <ol className="list-inside space-y-2">
-            <li>
-              <strong>Choose your class:</strong> Select the relevant class from the list above
-            </li>
-            <li>
-              <strong>Open the result page:</strong> Go to the page for your class or category
-            </li>
-            <li>
-              <strong>Follow the provided method:</strong> Check the result using the available
-              board or exam process
-            </li>
-            <li>
-              <strong>Verify your details:</strong> Make sure your roll number, name, or exam
-              session is correct
-            </li>
-            <li>
-              <strong>Save your result:</strong> Download or print it if that option is available
-            </li>
-          </ol>
-        </section>
-      </article>
+        <h2>Stay Updated on Result Announcements</h2>
+        <p>
+          Board exam results in Pakistan are announced at different times depending on the board
+          and exam session. Bookmark this page and check back regularly so you do not miss your
+          result announcement date.
+        </p>
+
+        <h3>Frequently Asked Questions</h3>
+        <p>
+          <strong className="text-foreground">Which boards are covered for results?</strong>
+          <br />
+          We cover Punjab Board, Federal Board (FBISE), and most regional BISE boards for Matric
+          and Intermediate results.
+        </p>
+        <p>
+          <strong className="text-foreground">Is this service free?</strong>
+          <br />
+          Yes, all result pages and information on GrowLearnHub are completely free.
+        </p>
+      </div>
     </UserLayout>
   );
 }

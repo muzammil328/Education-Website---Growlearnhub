@@ -1,140 +1,66 @@
+'use client';
 import React from 'react';
-import Link from 'next/link';
 import UserLayout, { UserLayoutProps } from '@/components/layout/UserLayout';
-import { Heading2 } from '@muzammil328/ui';
-import { createTRPCProxyClient, httpBatchLink } from '@trpc/client';
-import type { AppRouter } from '@backend-trpc/router';
-import { config } from '@/config';
+import CardSmall from '@/components/card/SmallCard';
+import { useClassesBySlug } from '@/hooks/use-public';
+import { SmallCardSkeletonGrid } from '@/components/skeleton/SmallCardSkeleton';
 
-export const revalidate = 604800; // 7 days in seconds
-
-type ResultClassItem = {
-  name: string;
-  slug: string;
-};
-
-async function getClassesByServiceSlug(serviceSlug: string): Promise<ResultClassItem[]> {
-  try {
-    const trpcClient = createTRPCProxyClient<AppRouter>({
-      links: [
-        httpBatchLink({
-          url: `${config.API_URL ?? ''}/trpc`,
-        }),
-      ],
-    });
-
-    const result = await trpcClient.class.getByServiceSlug.query({ serviceSlug });
-    return result || [];
-  } catch {
-    return [];
-  }
-}
-
-export default async function PastPaperPage({ title, image, canonical, url }: UserLayoutProps) {
-  const classItems = await getClassesByServiceSlug('past-paper');
+export default function PastPaperPage({ title, image, canonical, url }: UserLayoutProps) {
+  const { classes, isLoading, error } = useClassesBySlug('past-paper');
 
   return (
     <UserLayout title={title} image={image} canonical={canonical} url={url}>
-      <article className="">
-        <header className="mb-8">
-          <Heading2 className="mb-2" weight="bold" size="sm">
-            Past Papers – All Classes
-          </Heading2>
-          <p className="text-base">
-            Prepare more effectively with class-wise past papers for Matric, Intermediate, and other
-            academic levels. Browse your class to find subject-wise past papers and practice with
-            real exam-style questions.
-          </p>
-        </header>
+      <p>
+        Prepare more effectively with class-wise past papers for Matric, Intermediate, and other
+        academic levels. Browse your class to find subject-wise past papers and practice with
+        real exam-style questions.
+      </p>
 
-        <section className="mb-8">
-          <h3 className="mb-3 text-lg font-semibold">Available Categories</h3>
-          <ul className="list-inside space-y-1">
-            {classItems.length > 0 ? (
-              classItems.map(item => (
-                <li key={item.slug}>
-                  <Link href={`/${item.slug}/past-paper`} className="text-primary hover:underline">
-                    {item.name}
-                  </Link>
-                </li>
-              ))
-            ) : (
-              <>
-                <li>Matric / SSC</li>
-                <li>Intermediate / HSSC</li>
-                <li>Other academic classes and past paper sections</li>
-              </>
-            )}
-          </ul>
-        </section>
+      {isLoading && <SmallCardSkeletonGrid />}
+      {!isLoading && !error && classes.length > 0 && (
+        <div className="grid grid-cols-2 gap-2 py-4 sm:grid-cols-3 lg:grid-cols-4">
+          {classes.map((item: { name: string; slug: string }) => (
+            <CardSmall key={item.slug} title={item.name} link={`${item.slug}/past-paper`} />
+          ))}
+        </div>
+      )}
 
-        <section className="mb-8">
-          <h3 className="mb-3 text-lg font-semibold">Benefits of Past Papers</h3>
-          <ul className="list-inside space-y-2">
-            <li>
-              <strong>Exam pattern familiarity:</strong> Understand the structure and style of real
-              exam questions
-            </li>
-            <li>
-              <strong>Better preparation:</strong> Practice important topics that appear repeatedly
-            </li>
-            <li>
-              <strong>Time management:</strong> Improve speed and accuracy under exam conditions
-            </li>
-            <li>
-              <strong>Confidence building:</strong> Reduce exam stress through targeted practice
-            </li>
-            <li>
-              <strong>Focused revision:</strong> Identify weak areas and revise smarter
-            </li>
-          </ul>
-        </section>
+      <div className="mt-10 space-y-2 border-t border-border pt-8">
+        <h2>Past Papers — All Classes</h2>
+        <p>
+          Past papers are the single most effective revision tool for Pakistani board exams.
+          GrowLearnHub hosts <strong className="text-foreground">free subject-wise past papers</strong>{' '}
+          for Punjab Board, FBISE, and major BISE boards going back several years — all free to
+          read and download without any account.
+        </p>
 
-        <section className="mb-8">
-          <h3 className="mb-3 text-lg font-semibold">What You Can Find</h3>
-          <ul className="list-inside space-y-1">
-            <li>Class-wise past paper collections</li>
-            <li>Subject-wise paper access</li>
-            <li>Practice material for board exam preparation</li>
-            <li>Multiple years and exam formats where available</li>
-            <li>Mobile-friendly browsing experience</li>
-          </ul>
-        </section>
+        <h2>Why Past Papers Are Essential</h2>
+        <p>
+          Examiners often repeat question patterns across years. Working through past papers gives
+          you a clear picture of what to expect in the real exam, helps you manage time under
+          pressure, and highlights the topics that carry the most marks in each subject.
+        </p>
 
-        <section className="mb-8">
-          <h3 className="mb-3 text-lg font-semibold">Subjects Available</h3>
-          <ul className="list-inside space-y-1">
-            <li>Biology</li>
-            <li>Chemistry</li>
-            <li>Physics</li>
-            <li>And other subjects depending on class and board</li>
-          </ul>
-        </section>
+        <h2>How to Use Past Papers Effectively</h2>
+        <p>
+          Attempt each paper under timed conditions, then review your answers carefully. Focus on
+          the question types you get wrong and revise those topics before attempting the next paper.
+          Pair past papers with chapter-wise MCQs and notes for the most complete exam preparation.
+        </p>
 
-        <section className="border-t pt-6">
-          <h3 className="mb-3 text-lg font-semibold">How to Use Past Papers</h3>
-          <ol className="list-inside space-y-2">
-            <li>
-              <strong>1. Choose your class:</strong> Select the class you want to prepare for
-            </li>
-            <li>
-              <strong>2. Pick a subject:</strong> Open the subject you want to practice
-            </li>
-            <li>
-              <strong>3. Select a paper:</strong> Choose the available year or exam paper
-            </li>
-            <li>
-              <strong>4. Practice seriously:</strong> Attempt questions like a real exam
-            </li>
-            <li>
-              <strong>5. Review your work:</strong> Check where you need improvement
-            </li>
-            <li>
-              <strong>6. Repeat regularly:</strong> Use past papers for revision before exams
-            </li>
-          </ol>
-        </section>
-      </article>
+        <h3>Frequently Asked Questions</h3>
+        <p>
+          <strong className="text-foreground">Are the past papers on GrowLearnHub free?</strong>
+          <br />
+          Yes, all past papers are completely free with no account or payment required.
+        </p>
+        <p>
+          <strong className="text-foreground">How many years of past papers are available?</strong>
+          <br />
+          We aim to provide at least five years of past papers per subject. Some subjects have
+          more going back to 2015.
+        </p>
+      </div>
     </UserLayout>
   );
 }

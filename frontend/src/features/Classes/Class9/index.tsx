@@ -4,13 +4,11 @@ import UserLayout from '@/components/layout/UserLayout';
 import CardSmall from '@/components/card/SmallCard';
 import { useServiceByClassSlug } from '@/hooks/use-public';
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@muzammil328/ui';
+import { SmallCardSkeletonGrid } from '@/components/skeleton/SmallCardSkeleton';
 
 export default function Class9({ children }: { children?: React.ReactNode }) {
   const { data: servicesData, isLoading, error } = useServiceByClassSlug('class-9');
   const services = servicesData?.data ?? [];
-
-  if (isLoading) return null;
-  if (error) return null;
 
   return (
     <UserLayout
@@ -25,7 +23,8 @@ export default function Class9({ children }: { children?: React.ReactNode }) {
         for all subjects across Punjab, Federal, and BISE boards.
       </p>
 
-      {services.length > 0 && (
+      {isLoading && <SmallCardSkeletonGrid />}
+      {!isLoading && !error && services.length > 0 && (
         <div className="grid grid-cols-2 gap-2 py-4 sm:grid-cols-3 lg:grid-cols-4">
           {services.map((service: { name: string; slug: string }) => (
             <CardSmall

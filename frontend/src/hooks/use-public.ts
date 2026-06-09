@@ -121,7 +121,7 @@ export const useMcqsSetsBySlug = (
 };
 
 export const useClassesBySlug = (serviceSlug: string) => {
-  const { data, isLoading, error } = trpc.class.getByServiceSlug.useQuery({
+  const { data, isLoading, error } = trpc.public.getByClassServiceSlug.useQuery({
     serviceSlug,
   });
 
