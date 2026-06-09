@@ -32,12 +32,12 @@ export default function Class12McqsPage() {
         </header>
 
         <section className="mb-8">
-          <p className="text-foreground/80">
+          <p className="text-muted-foreground">
             Our collection is organized by class and subject so students can quickly find the
             material they need. Whether you are revising concepts, preparing for exams, or looking
             for study material, this page helps you reach the right section faster.
           </p>
-          <p className="mt-4 text-foreground/80">
+          <p className="mt-4 text-muted-foreground">
             Explore{' '}
             <a href={`/${CLASS_SLUG}/${SERVICE_SLUG}`} className="font-medium text-primary hover:underline">
               Class 12 MCQs
@@ -67,7 +67,7 @@ export default function Class12McqsPage() {
               ))}
             </div>
           ) : (
-            <p className="text-foreground/60 mt-4">No subjects available at the moment.</p>
+            <p className="text-muted-foreground mt-4">No subjects available at the moment.</p>
           )}
         </section>
 
@@ -79,28 +79,28 @@ export default function Class12McqsPage() {
           <div className="my-8 grid grid-cols-1 gap-6 md:grid-cols-2">
             <div className="space-y-3">
               <h3 className="text-xl font-semibold text-foreground">Class-wise Organization</h3>
-              <p className="text-foreground/80">
+              <p className="text-muted-foreground">
                 Browse MCQs by class level so you can quickly find relevant study material.
               </p>
             </div>
 
             <div className="space-y-3">
               <h3 className="text-xl font-semibold text-foreground">Subject-wise Access</h3>
-              <p className="text-foreground/80">
+              <p className="text-muted-foreground">
                 Open the subjects you need without searching through unrelated content.
               </p>
             </div>
 
             <div className="space-y-3">
               <h3 className="text-xl font-semibold text-foreground">Exam Support</h3>
-              <p className="text-foreground/80">
+              <p className="text-muted-foreground">
                 Use MCQs and study resources to support revision and board exam preparation.
               </p>
             </div>
 
             <div className="space-y-3">
               <h3 className="text-xl font-semibold text-foreground">Mobile-friendly Use</h3>
-              <p className="text-foreground/80">
+              <p className="text-muted-foreground">
                 Access MCQ sections easily on desktop, tablet, or mobile devices.
               </p>
             </div>

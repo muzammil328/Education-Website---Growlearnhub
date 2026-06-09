@@ -134,7 +134,7 @@ function QuestionPanel({
             'flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-sm font-medium border transition',
             status === 'marked'
               ? 'bg-orange-100 text-orange-600 border-orange-300'
-              : 'border-border text-foreground/60 hover:border-orange-300 hover:text-orange-500 hover:bg-orange-50'
+              : 'border-border text-muted-foreground hover:border-orange-300 hover:text-orange-500 hover:bg-orange-50'
           )}
         >
           <svg className="w-4 h-4" fill={status === 'marked' ? 'currentColor' : 'none'} stroke="currentColor" viewBox="0 0 24 24">
@@ -167,7 +167,7 @@ function QuestionPanel({
             >
               <span className={cn(
                 'shrink-0 w-7 h-7 rounded-full flex items-center justify-center text-xs font-semibold border',
-                isSel ? 'bg-primary text-white border-primary' : 'border-border text-foreground/60'
+                isSel ? 'bg-primary text-white border-primary' : 'border-border text-muted-foreground'
               )}>
                 {String.fromCharCode(65 + i)}
               </span>
@@ -231,7 +231,7 @@ function QuestionPalette({
       {/* legend */}
       <div className="px-5 py-3 border-b border-border space-y-1.5">
         {LEGEND.map(l => (
-          <div key={l.key} className="flex items-center gap-2 text-xs text-foreground/60">
+          <div key={l.key} className="flex items-center gap-2 text-xs text-muted-foreground">
             <span className={cn('w-3.5 h-3.5 rounded-sm shrink-0', l.color)} />
             {l.label}
           </div>
@@ -301,7 +301,7 @@ function TestFooter({
       <div className="flex items-center gap-2">
         <button
           onClick={onSkip}
-          className="px-4 py-2.5 rounded-lg text-sm font-medium text-foreground/60 hover:bg-muted border border-border transition"
+          className="px-4 py-2.5 rounded-lg text-sm font-medium text-muted-foreground hover:bg-muted border border-border transition"
         >
           Skip
         </button>
@@ -482,7 +482,7 @@ export default function OnlineTestDrawer({ mcqs, testTitle, onClose }: Props) {
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}
           className="fixed inset-0 z-50 bg-background flex flex-col overflow-hidden">
           <div className="shrink-0 bg-background border-b border-border px-6 py-3 flex items-center justify-between">
-            <button onClick={() => setIsReviewMode(false)} className="flex items-center gap-2 text-sm text-foreground/60 hover:text-foreground transition">
+            <button onClick={() => setIsReviewMode(false)} className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition">
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7"/></svg>
               Back to Results
             </button>
@@ -504,7 +504,7 @@ export default function OnlineTestDrawer({ mcqs, testTitle, onClose }: Props) {
                     : isSelected && !isCorrect ? 'border-red-400 bg-red-50 dark:bg-red-950/20'
                     : 'border-border')}>
                     <span className={cn('w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold shrink-0',
-                      isCorrect ? 'bg-green-600 text-white' : isSelected ? 'bg-red-500 text-white' : 'bg-muted text-foreground/60')}>
+                      isCorrect ? 'bg-green-600 text-white' : isSelected ? 'bg-red-500 text-white' : 'bg-muted text-muted-foreground')}>
                       {String.fromCharCode(65 + i)}
                     </span>
                     <span className={cn('text-sm font-medium', isCorrect ? 'text-green-700 dark:text-green-400' : 'text-foreground')}>
@@ -519,7 +519,7 @@ export default function OnlineTestDrawer({ mcqs, testTitle, onClose }: Props) {
             {reviewMcq?.explanation && (
               <div className="p-4 rounded-xl bg-primary/5 border border-primary/20">
                 <p className="text-xs font-semibold text-primary uppercase tracking-wide mb-1">Explanation</p>
-                <p className="text-sm text-foreground/80 leading-relaxed">{reviewMcq.explanation}</p>
+                <p className="text-sm text-muted-foreground leading-relaxed">{reviewMcq.explanation}</p>
               </div>
             )}
           </div>
@@ -545,7 +545,7 @@ export default function OnlineTestDrawer({ mcqs, testTitle, onClose }: Props) {
               <span className="text-sm opacity-80">{score}/{n}</span>
             </div>
             <h1 className="text-2xl font-bold">Test Completed!</h1>
-            <p className="text-foreground/60 text-sm">Time taken: {mins}m {secs}s</p>
+            <p className="text-muted-foreground text-sm">Time taken: {mins}m {secs}s</p>
           </motion.div>
 
           <motion.div initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.2 }}
@@ -718,7 +718,7 @@ export default function OnlineTestDrawer({ mcqs, testTitle, onClose }: Props) {
               </div>
               <div className="flex flex-wrap gap-x-4 gap-y-2 mb-4">
                 {LEGEND.map(l => (
-                  <div key={l.key} className="flex items-center gap-2 text-xs text-foreground/60">
+                  <div key={l.key} className="flex items-center gap-2 text-xs text-muted-foreground">
                     <span className={cn('w-3.5 h-3.5 rounded-sm', l.color)} />{l.label}
                   </div>
                 ))}
@@ -759,7 +759,7 @@ export default function OnlineTestDrawer({ mcqs, testTitle, onClose }: Props) {
                     </svg>
                   </div>
                   <h2 className="text-lg font-bold">Submit Test?</h2>
-                  <p className="text-sm text-foreground/60 mt-1">Make sure you&apos;ve reviewed all questions.</p>
+                  <p className="text-sm text-muted-foreground mt-1">Make sure you&apos;ve reviewed all questions.</p>
                 </div>
                 <div className="space-y-0 divide-y divide-border border border-border rounded-xl overflow-hidden">
                   {[
@@ -770,7 +770,7 @@ export default function OnlineTestDrawer({ mcqs, testTitle, onClose }: Props) {
                     { label: 'Unvisited',         value: counts.unvisited },
                   ].map(r => (
                     <div key={r.label} className="flex justify-between px-4 py-2.5 text-sm">
-                      <span className="text-foreground/60">{r.label}</span>
+                      <span className="text-muted-foreground">{r.label}</span>
                       <span className="font-semibold">{r.value}</span>
                     </div>
                   ))}
@@ -808,7 +808,7 @@ export default function OnlineTestDrawer({ mcqs, testTitle, onClose }: Props) {
                     </svg>
                   </div>
                   <h2 className="text-lg font-bold">Leave Test?</h2>
-                  <p className="text-sm text-foreground/60 mt-1">Your progress is saved. You can resume later.</p>
+                  <p className="text-sm text-muted-foreground mt-1">Your progress is saved. You can resume later.</p>
                 </div>
                 <div className="flex gap-3">
                   <button onClick={() => setShowConfirmLeave(false)}

@@ -62,11 +62,11 @@ export default function LivePreviewMcqs({ mcqs, page, totalPages, onPageChange }
         {/* Mode toggle + stats strip */}
         <div className="flex items-center justify-between flex-wrap gap-3 p-4 rounded-xl border border-border bg-muted/30">
           <div className="flex items-center gap-4 text-sm">
-            <span className="text-foreground/60">
+            <span className="text-muted-foreground">
               Page <span className="font-semibold text-foreground">{page}</span> — {mcqs.length} questions
             </span>
             {answeredCount > 0 && (
-              <span className="text-foreground/60">
+              <span className="text-muted-foreground">
                 Answered <span className="font-semibold text-foreground">{answeredCount}</span>
                 {' · '}
                 <span className="text-green-600 font-semibold">{correctCount} correct</span>
@@ -125,10 +125,10 @@ export default function LivePreviewMcqs({ mcqs, page, totalPages, onPageChange }
                           <span className="px-2 py-0.5 bg-primary/10 text-primary rounded-full text-xs font-medium">{mcq.bookName}</span>
                         )}
                         {mcq.chapterName && (
-                          <span className="px-2 py-0.5 bg-muted text-foreground/60 rounded-full text-xs">{mcq.chapterName}</span>
+                          <span className="px-2 py-0.5 bg-muted text-muted-foreground rounded-full text-xs">{mcq.chapterName}</span>
                         )}
                         {mcq.headingName && (
-                          <span className="px-2 py-0.5 bg-muted text-foreground/60 rounded-full text-xs">{mcq.headingName}</span>
+                          <span className="px-2 py-0.5 bg-muted text-muted-foreground rounded-full text-xs">{mcq.headingName}</span>
                         )}
                       </div>
                     </div>
@@ -166,7 +166,7 @@ export default function LivePreviewMcqs({ mcqs, page, totalPages, onPageChange }
                               ? 'bg-red-500 text-white'
                               : isSelected
                                 ? 'bg-primary text-white'
-                                : 'bg-muted text-foreground/60'
+                                : 'bg-muted text-muted-foreground'
                         )}>
                           {String.fromCharCode(65 + i)}
                         </span>
@@ -222,7 +222,7 @@ export default function LivePreviewMcqs({ mcqs, page, totalPages, onPageChange }
                 {mcq.explanation && (isAnswered || isRevealed) && (
                   <div className="mx-5 mb-4 p-3 rounded-lg bg-primary/5 border border-primary/20">
                     <p className="text-xs font-semibold text-primary uppercase tracking-wide mb-1">Explanation</p>
-                    <p className="text-sm text-foreground/80 leading-relaxed">{mcq.explanation}</p>
+                    <p className="text-sm text-muted-foreground leading-relaxed">{mcq.explanation}</p>
                   </div>
                 )}
               </div>

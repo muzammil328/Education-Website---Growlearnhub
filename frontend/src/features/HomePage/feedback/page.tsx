@@ -21,7 +21,7 @@ export default function Feedback() {
             <p className="p4 text-center">
               Learning communicate to global world and build a bright future and career development,
               increase your skill with our histudy.
-            </Para>
+            </p>
           </div>
           <div className="relative my-10">
             <Swiper

@@ -69,7 +69,7 @@ export default function LivePreviewOnlineTest({ classSlug, bookSlug, chapterSlug
       <UserLayout title={PAGE_TITLE}>
         <div className="flex flex-col items-center justify-center py-24 gap-4">
           <div className="w-10 h-10 border-4 border-primary border-t-transparent rounded-full animate-spin" />
-          <p className="text-foreground/60 font-medium">Loading sets...</p>
+          <p className="text-muted-foreground font-medium">Loading sets...</p>
         </div>
       </UserLayout>
     );
@@ -85,7 +85,7 @@ export default function LivePreviewOnlineTest({ classSlug, bookSlug, chapterSlug
             </svg>
           </div>
           <h2 className="text-xl font-semibold text-foreground">No Questions Found</h2>
-          <p className="text-foreground/60 text-sm">No MCQs available for the selected criteria.</p>
+          <p className="text-muted-foreground text-sm">No MCQs available for the selected criteria.</p>
           <button onClick={() => router.back()} className="mt-2 px-6 py-2 bg-primary text-white rounded-lg hover:opacity-90 transition font-medium text-sm">Go Back</button>
         </div>
       </UserLayout>

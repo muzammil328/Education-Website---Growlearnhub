@@ -22,7 +22,7 @@ export default function PairingSchemeClass10Board({ boardSlug }: { boardSlug: st
     >
       <article className="max-w-none">
         <header>
-          <p className="text-sm text-foreground/60 mb-2">
+          <p className="text-sm text-muted-foreground mb-2">
             <Link href="/pairing-scheme" className="hover:underline text-primary">Pairing Scheme</Link>
             {' / '}
             <Link href={`/${CLASS_SLUG}/pairing-scheme`} className="hover:underline text-primary">Class 10</Link>
@@ -32,7 +32,7 @@ export default function PairingSchemeClass10Board({ boardSlug }: { boardSlug: st
           <h2 className="text-2xl font-semibold text-primary">
             Class 10 Pairing Scheme 2025 – {boardName}
           </h2>
-          <p className="text-foreground/80 mt-1">
+          <p className="text-muted-foreground mt-1">
             View the official paper pattern and chapter pairing for Class 10 (SSC-II / Matric) {scheme?.year ?? 2025}.
           </p>
         </header>
@@ -73,13 +73,13 @@ export default function PairingSchemeClass10Board({ boardSlug }: { boardSlug: st
               </div>
             </div>
           ) : (
-            <p className="text-foreground/60">No pairing scheme available for this board yet.</p>
+            <p className="text-muted-foreground">No pairing scheme available for this board yet.</p>
           )}
         </section>
 
         <section className="mt-8">
           <h3 className="text-xl font-semibold text-foreground">How to Read the Pairing Scheme</h3>
-          <ul className="list-disc space-y-2 pl-5 text-foreground/80">
+          <ul className="list-disc space-y-2 pl-5 text-muted-foreground">
             <li>Each row shows which chapters are paired in a single question.</li>
             <li>Use this to decide which chapters to revise together for matric exams.</li>
             <li>Focus on chapters paired with high-mark long questions first.</li>
