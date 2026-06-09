@@ -5,6 +5,7 @@ import CardSmall from '@/components/card/SmallCard';
 import UserLayout from '@/components/layout/UserLayout';
 import { Heading2 } from '@muzammil328/ui';
 import { useBooksByClassAndServiceSlug } from '@/hooks/use-public';
+import SetsInlineSection from '@/components/mcqs/SetsInlineSection';
 
 const CLASS_SLUG = 'class-9';
 const CLASS_NUMBER = '9';
@@ -87,6 +88,8 @@ export default function Class9OnlineTestPage() {
             <p className="text-gray-500 mt-6">No subjects available for this class right now.</p>
           )}
         </section>
+
+        <SetsInlineSection classSlug={CLASS_SLUG} />
 
         <section className="border-t pt-6">
           <h3 className="mb-3 text-lg font-semibold">Getting Started</h3>

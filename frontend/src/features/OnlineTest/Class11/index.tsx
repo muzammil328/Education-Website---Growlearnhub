@@ -5,6 +5,7 @@ import CardSmall from '@/components/card/SmallCard';
 import UserLayout from '@/components/layout/UserLayout';
 import { Heading2 } from '@muzammil328/ui';
 import { useBooksByClassAndServiceSlug } from '@/hooks/use-public';
+import SetsInlineSection from '@/components/mcqs/SetsInlineSection';
 
 const CLASS_SLUG = 'class-11';
 const CLASS_NUMBER = '11';
@@ -62,6 +63,8 @@ export default function Class11OnlineTestPage() {
             <li>Physics</li>
           </ul>
         </section>
+
+        <SetsInlineSection classSlug={CLASS_SLUG} />
 
         <section className="mb-8">
           <Heading2>Subjects Wise Online Test</Heading2>
