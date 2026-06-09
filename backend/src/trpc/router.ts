@@ -11,6 +11,7 @@ import { boardRouter } from '../routers/board/board.router';
 import { sitemapRouter } from '../routers/sitemap.router';
 import { mcqsRouter } from '../routers/mcqs.router';
 import { feedbackRouter } from '../routers/feedback.router';
+import { commentRouter } from '../routers/comment.router';
 import { studentRouter } from '../routers/student.router';
 import { institutionRouter } from '../routers/institution.router';
 import { mcqAttemptRouter } from '../routers/mcqAttempt.router';
@@ -31,6 +32,7 @@ export const appRouter = createTRPCRouter({
   mcqAttempt: mcqAttemptRouter,
   institution: institutionRouter,
   feedback: feedbackRouter,
+  comment: commentRouter,
   student: studentRouter,
   public: publicRouter,
 });
