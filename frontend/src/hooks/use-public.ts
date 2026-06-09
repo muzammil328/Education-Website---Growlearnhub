@@ -81,15 +81,15 @@ export const useMcqsBySlug = (
   return trpc.public.getMcqsBySlug.useQuery(
     {
       classSlug: classSlug || '',
-      bookSlug: bookSlug || '',
-      chapterSlug: chapterSlug || '',
-      headingSlug: headingSlug || '',
-      subHeadingSlug: subHeadingSlug || '',
+      bookSlug: bookSlug || undefined,
+      chapterSlug: chapterSlug || undefined,
+      headingSlug: headingSlug || undefined,
+      subHeadingSlug: subHeadingSlug || undefined,
       page,
       limit,
     },
     {
-      enabled: Boolean(classSlug && bookSlug && chapterSlug),
+      enabled: Boolean(classSlug),
       retry: false,
       refetchOnWindowFocus: false,
     }
@@ -107,13 +107,13 @@ export const useMcqsSetsBySlug = (
   return trpc.public.getMcqsSetsBySlug.useQuery(
     {
       classSlug: classSlug || '',
-      bookSlug: bookSlug || '',
-      chapterSlug: chapterSlug || '',
-      headingSlug: headingSlug || '',
-      subHeadingSlug: subHeadingSlug || '',
+      bookSlug: bookSlug || undefined,
+      chapterSlug: chapterSlug || undefined,
+      headingSlug: headingSlug || undefined,
+      subHeadingSlug: subHeadingSlug || undefined,
     },
     {
-      enabled: Boolean(classSlug && bookSlug && chapterSlug),
+      enabled: Boolean(classSlug),
       retry: false,
       refetchOnWindowFocus: false,
     }
@@ -130,4 +130,52 @@ export const useClassesBySlug = (serviceSlug: string) => {
     isLoading,
     error,
   };
+};
+
+// get all books for a class (no service filter)
+export const useBooksByClass = (classSlug?: string) => {
+  return trpc.public.getBooksByClass.useQuery(
+    { classSlug: classSlug || '' },
+    { enabled: Boolean(classSlug), retry: false, refetchOnWindowFocus: false }
+  );
+};
+
+// get book detail with full-book PDFs and chapters (each with their PDFs)
+export const useBookDetail = (classSlug?: string, bookSlug?: string) => {
+  return trpc.public.getBookDetail.useQuery(
+    { classSlug: classSlug || '', bookSlug: bookSlug || '' },
+    { enabled: Boolean(classSlug && bookSlug), retry: false, refetchOnWindowFocus: false }
+  );
+};
+
+// get chapter detail with PDFs, full-book PDFs, and sibling chapters
+export const useChapterDetail = (classSlug?: string, bookSlug?: string, chapterSlug?: string) => {
+  return trpc.public.getChapterDetail.useQuery(
+    { classSlug: classSlug || '', bookSlug: bookSlug || '', chapterSlug: chapterSlug || '' },
+    { enabled: Boolean(classSlug && bookSlug && chapterSlug), retry: false, refetchOnWindowFocus: false }
+  );
+};
+
+// get boards for a class filtered by service slug
+export const useBoardsByClassAndService = (classSlug?: string, serviceSlug?: string) => {
+  return trpc.public.getBoardsByClassAndService.useQuery(
+    { classSlug: classSlug || '', serviceSlug: serviceSlug || '' },
+    { enabled: Boolean(classSlug && serviceSlug), retry: false, refetchOnWindowFocus: false }
+  );
+};
+
+// get latest result PDF for a class + board
+export const useResultByClassAndBoard = (classSlug?: string, boardSlug?: string) => {
+  return trpc.public.getResultByClassAndBoard.useQuery(
+    { classSlug: classSlug || '', boardSlug: boardSlug || '' },
+    { enabled: Boolean(classSlug && boardSlug), retry: false, refetchOnWindowFocus: false }
+  );
+};
+
+// get latest pairing scheme image for a class + board
+export const usePairingSchemeByClassAndBoard = (classSlug?: string, boardSlug?: string) => {
+  return trpc.public.getPairingSchemeByClassAndBoard.useQuery(
+    { classSlug: classSlug || '', boardSlug: boardSlug || '' },
+    { enabled: Boolean(classSlug && boardSlug), retry: false, refetchOnWindowFocus: false }
+  );
 };

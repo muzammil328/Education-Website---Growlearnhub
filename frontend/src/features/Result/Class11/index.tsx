@@ -4,18 +4,18 @@ import React from 'react';
 import Link from 'next/link';
 import CardSmall from '@/components/card/SmallCard';
 import UserLayout from '@/components/layout/UserLayout';
-import { useBooksByClassAndServiceSlug } from '@/hooks/use-public';
+import { useBoardsByClassAndService } from '@/hooks/use-public';
 
 const CLASS_SLUG = 'class-11';
 const SERVICE_SLUG = 'result';
 
 export default function Class11ResultPage() {
-  const { books, isLoading, error } = useBooksByClassAndServiceSlug(CLASS_SLUG, SERVICE_SLUG);
+  const { data, isLoading, error } = useBoardsByClassAndService(CLASS_SLUG, SERVICE_SLUG);
+  const boards = data?.data ?? [];
 
   return (
     <UserLayout
-      title="Class 11 Result 2025 - Check by Roll Number and Name | GrowLearnHub"
-      image="/11th/class_11_result_growlearnhub.png"
+      title="Class 11 Result 2025 - Check by Board | GrowLearnHub"
       canonical={`/${CLASS_SLUG}/result/`}
       url={`https://growlearnhub.com/${CLASS_SLUG}/result/`}
     >
@@ -23,42 +23,42 @@ export default function Class11ResultPage() {
         <header>
           <h2 className="text-2xl font-semibold text-primary">Class 11 Result 2025</h2>
           <p className="text-foreground/80">
-            Check your Class 11 result for all Punjab boards. Select your board below
-            and access official result guidance by roll number and name.
+            Check your Class 11 (HSC-I / Inter Part 1) result for all Punjab boards. Select your
+            board below and access the official result PDF for 2025.
           </p>
         </header>
 
         <section className="mt-8">
-          <h3 className="text-xl font-semibold text-foreground">Subjects</h3>
+          <h3 className="text-xl font-semibold text-foreground">Select Your Board</h3>
 
           {isLoading ? (
             <div className="flex items-center gap-2 text-foreground/70 mt-4">
               <span className="inline-block h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
-              Loading...
+              Loading boards...
             </div>
           ) : error ? (
             <p className="text-red-500 mt-4">Failed to load. Please try again later.</p>
-          ) : books && books.length > 0 ? (
+          ) : boards.length > 0 ? (
             <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2">
-              {books.map(book => (
+              {boards.map((board: { name: string; slug: string }) => (
                 <CardSmall
-                  key={book.slug}
-                  title={book.name}
-                  link={`${CLASS_SLUG}/${SERVICE_SLUG}/${book.slug}`}
+                  key={board.slug}
+                  title={board.name}
+                  link={`/${CLASS_SLUG}/${SERVICE_SLUG}/${board.slug}`}
                 />
               ))}
             </div>
           ) : (
-            <p className="text-foreground/60 mt-4">No results available at the moment.</p>
+            <p className="text-foreground/60 mt-4">No boards available at the moment.</p>
           )}
         </section>
 
         <section className="mt-8">
           <h3 className="text-xl font-semibold text-foreground">Result Checking Methods</h3>
           <ul className="list-disc space-y-2 pl-5 text-foreground/80">
+            <li>Download the official result PDF for your board.</li>
             <li>Check by roll number for fastest lookup on result day.</li>
-            <li>Check by name when roll number is unavailable.</li>
-            <li>Save and print your provisional marksheet for admissions.</li>
+            <li>Save and print your provisional marksheet for Part 2 admissions.</li>
           </ul>
         </section>
 
