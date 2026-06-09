@@ -14,6 +14,7 @@ import { StatusEnum } from '@muzammil328/education-packages/enums';
 import { SlidersHorizontal } from 'lucide-react';
 import { McqModal } from './McqModal';
 import { McqTable } from './McqTable';
+import { McqBulkImport } from './McqBulkImport';
 import type { SortOrder } from '@muzammil328/education-packages/types';
 
 type DashboardMcqsPageProps = {
@@ -108,14 +109,17 @@ export default function DashboardMcqsPage({
         title="MCQ Management"
         description="Manage multiple-choice questions for assessments"
         action={
-          <McqModal
-            mode="add"
-            trigger={
-              <Button>
-                Add MCQ
-              </Button>
-            }
-          />
+          <div className="flex items-center gap-2">
+            <McqBulkImport />
+            <McqModal
+              mode="add"
+              trigger={
+                <Button>
+                  Add MCQ
+                </Button>
+              }
+            />
+          </div>
         }
       />
       <div className="border rounded-md pb-3">

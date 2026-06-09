@@ -23,7 +23,7 @@ export default function Class9DateSheetPage() {
       <article className="max-w-none">
         <header>
           <h2 className="text-2xl font-semibold text-primary">Class 9 Date Sheet 2025</h2>
-          <p className="text-foreground/80">
+          <p className="text-muted-foreground">
             Select your board to view the official Class 9 date sheet for 2025.
             Plan your exam preparation around the confirmed exam schedule.
           </p>
@@ -49,13 +49,13 @@ export default function Class9DateSheetPage() {
               ))}
             </div>
           ) : (
-            <p className="text-foreground/60 mt-4">No boards available at the moment.</p>
+            <p className="text-muted-foreground mt-4">No boards available at the moment.</p>
           )}
         </section>
 
         <section className="mt-8">
           <h3 className="text-xl font-semibold text-foreground">How to Use the Date Sheet</h3>
-          <ul className="list-disc space-y-2 pl-5 text-foreground/80">
+          <ul className="list-disc space-y-2 pl-5 text-muted-foreground">
             <li>Prioritize difficult subjects scheduled earlier in the exam window.</li>
             <li>Build daily revision slots around the official exam sequence.</li>
             <li>Keep buffer days for past paper practice and quick revision.</li>
@@ -64,7 +64,7 @@ export default function Class9DateSheetPage() {
 
         <section className="mt-8">
           <h3 className="text-xl font-semibold text-foreground">Related Pages</h3>
-          <p className="text-foreground/80">
+          <p className="text-muted-foreground">
             Also explore{' '}
             <Link href={`/${CLASS_SLUG}/pairing-scheme`} className="text-primary hover:underline">pairing scheme</Link>
             {' '}and{' '}

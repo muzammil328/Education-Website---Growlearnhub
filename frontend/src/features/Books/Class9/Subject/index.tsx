@@ -46,9 +46,6 @@ export default function SubjectClass9Book({ bookSlug }: { bookSlug: string }) {
     return (
       <UserLayout title="Book Not Found" image="/9th/class_9_book_growlearnhub.png" canonical={canonical} url={url}>
         <p className="text-red-500">Book not found or failed to load. Please try again later.</p>
-        <Link href="/class-9/books" className="mt-4 inline-block font-medium text-primary hover:underline">
-          ← Back to Class 9 Books
-        </Link>
       </UserLayout>
     );
   }
@@ -72,7 +69,7 @@ export default function SubjectClass9Book({ bookSlug }: { bookSlug: string }) {
 
         {/* Intro */}
         <section>
-          <p className="text-foreground/80">
+          <p className="text-muted-foreground">
             Download the complete <strong>{displayName} Class 9 textbook</strong> in English or Urdu
             medium, or browse individual chapters below. All PDFs are free and cover the Punjab Board
             (PCTB) and Federal Board syllabus.

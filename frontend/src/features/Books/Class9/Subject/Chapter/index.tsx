@@ -92,7 +92,7 @@ export default function ChapterClass9Book({
 
         {/* Intro */}
         <section>
-          <p className="text-foreground/80">
+          <p className="text-muted-foreground">
             Download <strong>{chapterLabel}: {displayChapter}</strong> from the Class 9{' '}
             <strong>{bookName}</strong> textbook. Available free in both English and Urdu medium PDF.
           </p>

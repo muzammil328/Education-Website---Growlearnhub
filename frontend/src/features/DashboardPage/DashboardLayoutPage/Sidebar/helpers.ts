@@ -16,6 +16,8 @@ import {
   Mail,
   Bug,
   Lightbulb,
+  Star,
+  MessageSquare,
 } from 'lucide-react';
 import type { UserRole as ContractUserRole } from '@muzammil328/education-packages/enums';
 
@@ -98,11 +100,23 @@ export const SUPPORT_SECTION: SectionDef = {
   label: 'Support',
   items: [
     { label: 'Contact Us', path: '/dashboard/contact-us', icon: Mail, roles: ['super-admin'] },
-    { label: 'Bug Report', path: '/dashboard/bug-report', icon: Bug, roles: ['super-admin'] },
+    { label: 'Bug Reports', path: '/dashboard/bug-report', icon: Bug, roles: ['super-admin'] },
     {
-      label: 'Feature Request',
+      label: 'Feature Requests',
       path: '/dashboard/feature-request',
       icon: Lightbulb,
+      roles: ['super-admin'],
+    },
+    {
+      label: 'Share Story',
+      path: '/dashboard/share-story',
+      icon: Star,
+      roles: ['super-admin'],
+    },
+    {
+      label: 'Comments',
+      path: '/dashboard/comments',
+      icon: MessageSquare,
       roles: ['super-admin'],
     },
   ],
