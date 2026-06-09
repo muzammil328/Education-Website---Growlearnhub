@@ -1,5 +1,7 @@
 import { seedClasses, linkClassServices, classes } from '@/seeders/class.seeder';
 import { seedBoards, boards } from '@/seeders/board.seeder';
+import { seedResults } from '@/seeders/result.seeder';
+import { seedPairingSchemes } from '@/seeders/pairingScheme.seeder';
 import { seedBooks, books } from '@/seeders/book.seeder';
 import { seedChapters, chapters } from '@/seeders/chapter.seeder';
 import { seedHeadings } from '@/seeders/heading.seeder';
@@ -10,16 +12,18 @@ import { seedUsers } from '@/seeders/user.seeder';
 import { config, connectMongo, disconnectMongo } from '@/config';
 
 const SEED_ORDER = [
-  { name: 'class', fn: seedClasses, data: classes },
-  { name: 'board', fn: seedBoards, data: boards },
-  { name: 'book', fn: seedBooks, data: books },
+  { name: 'class',            fn: seedClasses,      data: classes },
+  { name: 'board',            fn: seedBoards,       data: boards },
+  { name: 'book',    fn: seedBooks,    data: books },
   { name: 'chapter', fn: seedChapters, data: chapters },
-  { name: 'heading', fn: seedHeadings, data: [] },
-  { name: 'subHeading', fn: seedSubHeadings, data: [] },
-  { name: 'service', fn: seedServices, data: [] },
-  { name: 'linkClassServices', fn: linkClassServices, data: [] },
-  { name: 'mcqs', fn: seedMcqs, data: [] },
-  { name: 'user', fn: seedUsers, data: [] },
+  { name: 'heading',          fn: seedHeadings,     data: [] },
+  { name: 'subHeading',       fn: seedSubHeadings,  data: [] },
+  { name: 'service',          fn: seedServices,     data: [] },
+  { name: 'linkClassServices',fn: linkClassServices,data: [] },
+  { name: 'mcqs',             fn: seedMcqs,         data: [] },
+  { name: 'result',          fn: seedResults,         data: [] },
+  { name: 'pairing-scheme', fn: seedPairingSchemes,  data: [] },
+  { name: 'user',             fn: seedUsers,        data: [] },
 ];
 
 async function run() {

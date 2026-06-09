@@ -6,8 +6,8 @@ import Mcqs from '@/models/mcqs.model';
 
 const mcqsBySlugInputSchema = z.object({
   classSlug: z.string().min(1),
-  bookSlug: z.string().min(1),
-  chapterSlug: z.string().min(1),
+  bookSlug: z.string().optional(),
+  chapterSlug: z.string().optional(),
   headingSlug: z.string().optional(),
   subHeadingSlug: z.string().optional(),
   page: z.number().int().min(1).default(1),
@@ -33,29 +33,45 @@ export const mcqsBySlug = publicProcedure
         },
         { $unwind: { path: '$class', preserveNullAndEmptyArrays: false } },
         { $match: { 'class.slug': classSlug } },
-
-        {
-          $lookup: {
-            from: 'books',
-            localField: 'bookId',
-            foreignField: '_id',
-            as: 'book',
-          },
-        },
-        { $unwind: { path: '$book', preserveNullAndEmptyArrays: false } },
-        { $match: { 'book.slug': bookSlug } },
-
-        {
-          $lookup: {
-            from: 'chapters',
-            localField: 'chapterId',
-            foreignField: '_id',
-            as: 'chapter',
-          },
-        },
-        { $unwind: { path: '$chapter', preserveNullAndEmptyArrays: false } },
-        { $match: { 'chapter.slug': chapterSlug } },
       ];
+
+      if (bookSlug) {
+        pipeline.push(
+          {
+            $lookup: {
+              from: 'books',
+              localField: 'bookId',
+              foreignField: '_id',
+              as: 'book',
+            },
+          },
+          { $unwind: { path: '$book', preserveNullAndEmptyArrays: false } },
+          { $match: { 'book.slug': bookSlug } },
+        );
+      } else {
+        pipeline.push({
+          $lookup: { from: 'books', localField: 'bookId', foreignField: '_id', as: 'book' },
+        }, { $unwind: { path: '$book', preserveNullAndEmptyArrays: true } });
+      }
+
+      if (chapterSlug) {
+        pipeline.push(
+          {
+            $lookup: {
+              from: 'chapters',
+              localField: 'chapterId',
+              foreignField: '_id',
+              as: 'chapter',
+            },
+          },
+          { $unwind: { path: '$chapter', preserveNullAndEmptyArrays: false } },
+          { $match: { 'chapter.slug': chapterSlug } },
+        );
+      } else {
+        pipeline.push({
+          $lookup: { from: 'chapters', localField: 'chapterId', foreignField: '_id', as: 'chapter' },
+        }, { $unwind: { path: '$chapter', preserveNullAndEmptyArrays: true } });
+      }
 
       if (headingSlug) {
         pipeline.push(

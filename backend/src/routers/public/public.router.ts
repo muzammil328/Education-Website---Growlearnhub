@@ -9,6 +9,12 @@ import { classGetByServiceSlug } from './classGetByServiceSlug';
 import { mcqsBySlug } from './mcqsBySlug';
 import { mcqsSetsBySlug } from './mcqsSetsBySlug';
 import { getMcqBySlug } from './getMcqBySlug';
+import { booksByClassSlug } from './booksByClassSlug';
+import { bookDetailByClassAndBookSlug } from './bookDetailByClassAndBookSlug';
+import { chapterDetailByClassBookChapterSlug } from './chapterDetailByClassBookChapterSlug';
+import { boardsByClassAndService } from './boardsByClassAndService';
+import { resultByClassAndBoard } from './resultByClassAndBoard';
+import { pairingSchemeByClassAndBoard } from './pairingSchemeByClassAndBoard';
 
 export const publicRouter = createTRPCRouter({
   getServiceByClassSlug: serviceByClassSlug,
@@ -19,7 +25,16 @@ export const publicRouter = createTRPCRouter({
   getMcqsBySlug: mcqsBySlug,
   getMcqsSetsBySlug: mcqsSetsBySlug,
   getMcqBySlug: getMcqBySlug,
-
   getByBoardSlug: boardGetBySlug,
   getByClassServiceSlug: classGetByServiceSlug,
+
+  // Boards & Results
+  getBoardsByClassAndService: boardsByClassAndService,
+  getResultByClassAndBoard: resultByClassAndBoard,
+  getPairingSchemeByClassAndBoard: pairingSchemeByClassAndBoard,
+
+  // Books public API
+  getBooksByClass: booksByClassSlug,
+  getBookDetail: bookDetailByClassAndBookSlug,
+  getChapterDetail: chapterDetailByClassBookChapterSlug,
 });

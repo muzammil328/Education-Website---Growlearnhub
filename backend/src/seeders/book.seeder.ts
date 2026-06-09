@@ -1,7 +1,11 @@
 import ClassModel from '../models/class.model';
 import BookModel from '../models/book.model';
+import BookPdfModel from '../models/bookPdf.model';
 import ServiceModel from '../models/service.model';
 import { slugify } from '@muzammil328/utils';
+
+const DUMMY_PDF_URL = 'https://ontheline.trincoll.edu/images/bookdown/sample-local-pdf.pdf';
+const DUMMY_FILE_ID = 'sample-local-pdf';
 
 export interface RawBookSeed {
   className: string;
@@ -82,10 +86,14 @@ export async function seedBooks() {
         await existingBook.save();
         updatedCount += 1;
         console.log(`Updated Book: ${raw.name} (${raw.className})`);
+
+        if (raw.className === 'class-9') {
+          await seedBookPdfsForBook(classDoc._id, existingBook._id, raw.name);
+        }
         continue;
       }
 
-      await BookModel.create({
+      const bookDoc = await BookModel.create({
         name: raw.name,
         slug: bookSlug,
         code: raw.code,
@@ -98,6 +106,11 @@ export async function seedBooks() {
 
       createdCount += 1;
       console.log(`Created Book: ${raw.name} (${raw.className})`);
+
+      // Seed BookPdfs for class-9 only
+      if (raw.className === 'class-9') {
+        await seedBookPdfsForBook(classDoc._id, bookDoc._id, raw.name);
+      }
     }
 
     console.log('Book seeding completed.');
@@ -105,5 +118,23 @@ export async function seedBooks() {
   } catch (error) {
     console.error('Error seeding Books:', error);
     throw error;
+  }
+}
+
+async function seedBookPdfsForBook(classId: unknown, bookId: unknown, bookName: string) {
+  for (const medium of ['english', 'urdu'] as const) {
+    const existing = await BookPdfModel.findOne({ bookId, medium });
+    if (existing) {
+      existing.fileUrl  = DUMMY_PDF_URL;
+      existing.fileId   = DUMMY_FILE_ID;
+      existing.pages    = 220;
+      existing.fileSize = 5_242_880;
+      existing.status   = 'active';
+      await existing.save();
+      console.log(`  Updated BookPdf: ${bookName} (${medium})`);
+    } else {
+      await BookPdfModel.create({ classId, bookId, medium, fileId: DUMMY_FILE_ID, fileUrl: DUMMY_PDF_URL, pages: 220, fileSize: 5_242_880, status: 'active' });
+      console.log(`  Created BookPdf: ${bookName} (${medium})`);
+    }
   }
 }
