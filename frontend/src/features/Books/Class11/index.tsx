@@ -28,7 +28,7 @@ export default function Class11BookPage() {
             in one place. These 11th class textbooks cover the full PCTB and FBISE syllabus for
             inter-part 1 annual board exam preparation.
           </p>
-          <p className="text-foreground/80 mt-4">
+          <p className="text-muted-foreground mt-4">
             Looking for other grades too? Visit{' '}
             <Link href="/class-9/books" className="font-medium text-primary hover:underline">
               Class 9 books
@@ -45,7 +45,7 @@ export default function Class11BookPage() {
           <h2 className="border-b border-border py-2 text-2xl font-semibold text-primary">
             Available Subjects for Class {CLASS_DISPLAY} Books
           </h2>
-          <p className="text-foreground/80 mt-4">
+          <p className="text-muted-foreground mt-4">
             Browse the subjects below and open the book page you need. Each subject offers English
             and Urdu medium options with chapter-wise navigation.
           </p>
@@ -65,7 +65,7 @@ export default function Class11BookPage() {
               ))}
             </div>
           ) : (
-            <p className="text-foreground/60 mt-4">No books available at the moment.</p>
+            <p className="text-muted-foreground mt-4">No books available at the moment.</p>
           )}
         </section>
 
@@ -73,7 +73,7 @@ export default function Class11BookPage() {
           <h2 className="text-2xl font-semibold text-primary mb-4">
             How to Download Class {CLASS_DISPLAY} Books
           </h2>
-          <ol className="list-decimal list-inside space-y-3 text-foreground/80">
+          <ol className="list-decimal list-inside space-y-3 text-muted-foreground">
             <li>Click any subject card above to open its book page.</li>
             <li>Download the full book in English or Urdu medium.</li>
             <li>Or browse chapter-wise and click a chapter to download that chapter PDF.</li>
@@ -84,7 +84,7 @@ export default function Class11BookPage() {
           <h2 className="text-2xl font-semibold text-primary mb-4">
             Class 11 Subjects — Textbooks Available
           </h2>
-          <p className="text-foreground/80">
+          <p className="text-muted-foreground">
             GrowLearnHub provides free PDF downloads for all major Class 11 subjects including{' '}
             <strong>Biology</strong>, <strong>Chemistry</strong>, <strong>Physics</strong>,{' '}
             <strong>Mathematics</strong>, <strong>English</strong>, <strong>Urdu</strong>,{' '}
@@ -98,7 +98,7 @@ export default function Class11BookPage() {
           <h2 className="text-2xl font-semibold text-primary mb-4">
             Why Use These Class 11 Textbooks?
           </h2>
-          <ul className="list-disc list-inside space-y-2 text-foreground/80">
+          <ul className="list-disc list-inside space-y-2 text-muted-foreground">
             <li>100% free — no account or payment required</li>
             <li>Covers the full PCTB and FBISE syllabus for 11th class (inter-part 1)</li>
             <li>Chapter-wise PDFs for focused revision before exams</li>
@@ -111,7 +111,7 @@ export default function Class11BookPage() {
           <h2 className="text-2xl font-semibold text-primary mb-4">
             Tips for Exam Preparation Using Class 11 Textbooks
           </h2>
-          <p className="text-foreground/80">
+          <p className="text-muted-foreground">
             Inter-part 1 board examiners set questions directly from the official PCTB and FBISE
             textbooks. Reading each chapter carefully, solving the end-of-chapter exercises, and
             practising past paper questions chapter by chapter is the most reliable exam strategy.

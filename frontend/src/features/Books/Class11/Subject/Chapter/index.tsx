@@ -90,7 +90,7 @@ export default function ChapterClass11Book({
         </nav>
 
         <section>
-          <p className="text-foreground/80">
+          <p className="text-muted-foreground">
             Download <strong>{chapterLabel}: {displayChapter}</strong> from the Class 11{' '}
             <strong>{bookName}</strong> textbook. Available free in both English and Urdu medium PDF
             for inter-part 1 students.

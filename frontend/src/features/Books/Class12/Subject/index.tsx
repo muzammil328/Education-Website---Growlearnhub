@@ -68,7 +68,7 @@ export default function SubjectClass12Book({ bookSlug }: { bookSlug: string }) {
       <article className="max-w-none space-y-10">
 
         <section>
-          <p className="text-foreground/80">
+          <p className="text-muted-foreground">
             Download the complete <strong>{displayName} Class 12 textbook</strong> in English or Urdu
             medium, or browse individual chapters below. All PDFs are free and cover the Punjab Board
             (PCTB) and Federal Board (FBISE) syllabus for inter-part 2 students.

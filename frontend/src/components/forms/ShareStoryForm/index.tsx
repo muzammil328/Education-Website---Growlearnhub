@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { User, Mail, Trophy, Link } from 'lucide-react';
+import { useCreateFeedback } from '@/hooks/use-feedback';
 
 const schema = z.object({
   name: z.string().min(1, 'Name is required'),
@@ -17,8 +18,9 @@ const schema = z.object({
 type FormValues = z.infer<typeof schema>;
 
 export default function ShareStoryForm({ variant }: { variant?: 'page' | 'drawer' }) {
-  const [message, setMessage] = useState('');
+  const [statusMsg, setStatusMsg] = useState('');
   const [isError, setIsError] = useState(false);
+  const { mutate, isPending } = useCreateFeedback();
 
   const form = useForm<FormValues>({
     resolver: zodResolver(schema),
@@ -31,10 +33,29 @@ export default function ShareStoryForm({ variant }: { variant?: 'page' | 'drawer
     },
   });
 
-  const onSubmit = async () => {
-    setMessage('');
+  const onSubmit = (values: FormValues) => {
+    setStatusMsg('');
     setIsError(false);
-    setMessage('Thank you for sharing your story! We will review it shortly.');
+    const message = [
+      `Achievement: ${values.achievement}`,
+      values.url ? `URL: ${values.url}` : '',
+      '',
+      values.story,
+    ].filter(Boolean).join('\n');
+
+    mutate(
+      { name: values.name, email: values.email, message, type: 'share-story' },
+      {
+        onSuccess: () => {
+          setStatusMsg('Thank you for sharing your story! We will review it shortly.');
+          form.reset({ name: '', email: '', achievement: '', url: typeof window !== 'undefined' ? window.location.href : '', story: '' });
+        },
+        onError: (err) => {
+          setIsError(true);
+          setStatusMsg(err.message || 'An error occurred. Please try again.');
+        },
+      }
+    );
   };
 
   return (
@@ -47,56 +68,23 @@ export default function ShareStoryForm({ variant }: { variant?: 'page' | 'drawer
           </span>
         </div>
       )}
-
       <Form {...form}>
         <form className={variant === 'drawer' ? 'mt-4' : 'mt-16 sm:mt-20'} onSubmit={form.handleSubmit(onSubmit)}>
           <div className="mb-6 gap-y-4">
-            <FormString
-            name="name"
-            label="Name"
-            placeholder="Enter your name"
-            leftIcon={<User className="h-4 w-4" />}
-            required
-          />
-          <FormString
-            name="email"
-            label="Email"
-            placeholder="Enter your email"
-            leftIcon={<Mail className="h-4 w-4" />}
-            required
-          />
-          <FormString
-            name="achievement"
-            label="Achievement"
-            placeholder="e.g., Scored 95% in Matric exams"
-            leftIcon={<Trophy className="h-4 w-4" />}
-            required
-          />
-          <FormString
-            name="url"
-            label="Page URL"
-            placeholder="https://example.com/page"
-            leftIcon={<Link className="h-4 w-4" />}
-          />
-          <FormTextarea
-            name="story"
-            label="Your Story"
-            placeholder="Tell us your success story in detail..."
-            required
-            rows={6}
-          />
+            <FormString name="name" label="Name" placeholder="Enter your name" leftIcon={<User className="h-4 w-4" />} required />
+            <FormString name="email" label="Email" placeholder="Enter your email" leftIcon={<Mail className="h-4 w-4" />} required />
+            <FormString name="achievement" label="Achievement" placeholder="e.g., Scored 95% in Matric exams" leftIcon={<Trophy className="h-4 w-4" />} required />
+            <FormString name="url" label="Page URL" placeholder="https://example.com/page" leftIcon={<Link className="h-4 w-4" />} />
+            <FormTextarea name="story" label="Your Story" placeholder="Tell us your success story in detail..." required rows={6} />
           </div>
-        {message && (
-          <span className={`mb-4 block ${isError ? 'text-red-500' : 'text-emerald-500'}`}>
-            {message}
-          </span>
-        )}
-
-        <Button type="submit" loading={form.formState.isSubmitting} className="w-full">
-          Share Your Story
-        </Button>
-      </form>
-    </Form>
-    </section >
+          {statusMsg && (
+            <span className={`mb-4 block ${isError ? 'text-red-500' : 'text-emerald-500'}`}>{statusMsg}</span>
+          )}
+          <Button type="submit" loading={isPending} className="w-full">
+            Share Your Story
+          </Button>
+        </form>
+      </Form>
+    </section>
   );
 }

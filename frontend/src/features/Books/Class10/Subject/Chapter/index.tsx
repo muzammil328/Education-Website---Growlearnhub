@@ -91,7 +91,7 @@ export default function ChapterClass10Book({
         </nav>
 
         <section>
-          <p className="text-foreground/80">
+          <p className="text-muted-foreground">
             Download <strong>{chapterLabel}: {displayChapter}</strong> from the Class 10{' '}
             <strong>{bookName}</strong> textbook. Available free in both English and Urdu medium PDF
             for 10th class students.

@@ -69,7 +69,7 @@ export default function SubjectClass10Book({ bookSlug }: { bookSlug: string }) {
 
         {/* Intro */}
         <section>
-          <p className="text-foreground/80">
+          <p className="text-muted-foreground">
             Download the complete <strong>{displayName} Class 10 textbook</strong> in English or Urdu
             medium, or browse individual chapters below. All PDFs are free and cover the Punjab Board
             (PCTB) and Federal Board syllabus for 10th class students.
