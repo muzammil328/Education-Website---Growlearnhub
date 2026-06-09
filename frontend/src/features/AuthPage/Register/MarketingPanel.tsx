@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Users, BookOpen, BadgeCheck, TrendingUp } from 'lucide-react';
 import { config } from '@/config';
 
@@ -28,8 +28,18 @@ const features = [
 ];
 
 export function MarketingPanel() {
+  const [isLg, setIsLg] = useState(false);
+
+  useEffect(() => {
+    const mq = window.matchMedia('(min-width: 1024px)');
+    setIsLg(mq.matches);
+    const handler = (e: MediaQueryListEvent) => setIsLg(e.matches);
+    mq.addEventListener('change', handler);
+    return () => mq.removeEventListener('change', handler);
+  }, []);
+
   return (
-    <div className="bg-gradient-bg1 hidden lg:flex flex-1 flex-col relative overflow-hidden m-4 rounded-2xl">
+    <div className="bg-gradient-bg1 flex-1 flex-col relative overflow-hidden m-4 rounded-2xl" style={{ display: isLg ? 'flex' : 'none' }}>
 
       <div className="relative z-10 flex h-full flex-col justify-between px-8 py-16 xl:px-10">
         <div>
