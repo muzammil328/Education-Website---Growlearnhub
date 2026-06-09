@@ -2,6 +2,7 @@
 
 import { useSubHeadingByClassAndSubjectAndChapterAndHeadingSlug } from '@/hooks/use-public';
 import Link from 'next/link';
+import McqsInlineSection from '@/components/mcqs/McqsInlineSection';
 
 interface Props {
   bookSlug: string;
@@ -25,7 +26,7 @@ export default function Class9McqsHeadingPage({ bookSlug, chapterSlug, headingSl
   const subHeadings = data?.data ?? [];
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-6">
       {subHeadings.length === 0 ? (
         <p>No subheadings found.</p>
       ) : (
@@ -42,6 +43,12 @@ export default function Class9McqsHeadingPage({ bookSlug, chapterSlug, headingSl
           ))}
         </ul>
       )}
+      <McqsInlineSection
+        classSlug={CLASS_SLUG}
+        bookSlug={bookSlug}
+        chapterSlug={chapterSlug}
+        headingSlug={headingSlug}
+      />
     </div>
   );
 }
