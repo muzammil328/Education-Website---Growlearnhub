@@ -6,7 +6,7 @@ export interface IFeedback extends mongoose.Document {
   email: string;
   phone?: string;
   message: string;
-  type: 'contact' | 'bug-report' | 'feature-request';
+  type: 'contact' | 'bug-report' | 'feature-request' | 'share-story';
   status: 'pending' | 'resolved' | 'rejected';
   createdAt: Date;
   updatedAt: Date;

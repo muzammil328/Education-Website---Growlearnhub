@@ -1,7 +1,7 @@
 import { trpc } from '@/trpc/trpc';
 
 export const useFeedback = (params?: {
-  type?: 'contact' | 'bug-report' | 'feature-request';
+  type?: 'contact' | 'bug-report' | 'feature-request' | 'share-story';
   status?: 'pending' | 'resolved' | 'rejected';
   page?: number;
   limit?: number;

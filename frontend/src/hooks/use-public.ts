@@ -172,6 +172,14 @@ export const useResultByClassAndBoard = (classSlug?: string, boardSlug?: string)
   );
 };
 
+// get all books with their chapters for a class (for past paper navigation)
+export const useBooksByClassWithChapters = (classSlug?: string) => {
+  return trpc.public.getBooksByClassWithChapters.useQuery(
+    { classSlug: classSlug || '' },
+    { enabled: Boolean(classSlug), retry: false, refetchOnWindowFocus: false }
+  );
+};
+
 // get latest date sheet image for a class + board
 export const useDateSheetByClassAndBoard = (classSlug?: string, boardSlug?: string) => {
   return trpc.public.getDateSheetByClassAndBoard.useQuery(

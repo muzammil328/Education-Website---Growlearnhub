@@ -1,4 +1,5 @@
 export * from './auth.schema';
+export * from './comment.schema';
 export * from './board.schema';
 export * from './classGroup.schema';
 export * from './book.schema';

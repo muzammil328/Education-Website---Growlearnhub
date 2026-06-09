@@ -115,6 +115,7 @@ export const FeedbackTypeEnum = {
   Contact: 'contact',
   BugReport: 'bug-report',
   FeatureRequest: 'feature-request',
+  ShareStory: 'share-story',
 } as const;
 
 export const FeedbackStatusEnum = {
