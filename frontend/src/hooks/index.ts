@@ -1,4 +1,5 @@
 export * from './use-auth';
+export * from './use-comment';
 export * from './use-board';
 export * from './use-book';
 export * from './use-chapter';

@@ -23,7 +23,7 @@ export default function Class9ResultPage() {
       <article className="max-w-none">
         <header>
           <h2 className="text-2xl font-semibold text-primary">Class 9 Result 2025</h2>
-          <p className="text-foreground/80">
+          <p className="text-muted-foreground">
             Check your Class 9 result for all Punjab boards. Select your board below
             and access the official result PDF for 2025.
           </p>
@@ -50,13 +50,13 @@ export default function Class9ResultPage() {
               ))}
             </div>
           ) : (
-            <p className="text-foreground/60 mt-4">No boards available at the moment.</p>
+            <p className="text-muted-foreground mt-4">No boards available at the moment.</p>
           )}
         </section>
 
         <section className="mt-8">
           <h3 className="text-xl font-semibold text-foreground">Result Checking Methods</h3>
-          <ul className="list-disc space-y-2 pl-5 text-foreground/80">
+          <ul className="list-disc space-y-2 pl-5 text-muted-foreground">
             <li>Download the official result PDF for your board.</li>
             <li>Check by roll number for fastest lookup on result day.</li>
             <li>Save and print your provisional marksheet for admissions.</li>
@@ -65,7 +65,7 @@ export default function Class9ResultPage() {
 
         <section className="mt-8">
           <h3 className="text-xl font-semibold text-foreground">Related Pages</h3>
-          <p className="text-foreground/80">
+          <p className="text-muted-foreground">
             Explore{' '}
             <Link href={`/${CLASS_SLUG}/date-sheet`} className="text-primary hover:underline">
               date sheet

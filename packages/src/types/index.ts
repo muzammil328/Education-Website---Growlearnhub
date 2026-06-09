@@ -10,6 +10,7 @@ export interface ModalProps {
 }
 
 export * from './auth.type';
+export * from './comment.type';
 export * from './chapter.type';
 export * from './classGroup.type';
 export * from './feedback.type';
