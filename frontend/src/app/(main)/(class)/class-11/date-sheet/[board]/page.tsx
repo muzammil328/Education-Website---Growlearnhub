@@ -17,9 +17,10 @@ export function generateStaticParams() {
   return PUNJAB_BOARDS.map(board => ({ board: board.slug }));
 }
 
-export function generateMetadata({ params }: { params: Params }): Metadata {
+export async function generateMetadata({ params }: { params: Promise<Params> }): Promise<Metadata> {
+  const { board: boardSlug } = await params;
   const classItem = getDateSheetClass(CLASS_SLUG);
-  const board = getBoard(params.board);
+  const board = getBoard(boardSlug);
 
   if (!classItem || !board) {
     return {
@@ -59,9 +60,10 @@ export function generateMetadata({ params }: { params: Params }): Metadata {
   };
 }
 
-export default function Page({ params }: { params: Params }) {
+export default async function Page({ params }: { params: Promise<Params> }) {
+  const { board: boardSlug } = await params;
   const classItem = getDateSheetClass(CLASS_SLUG);
-  const board = getBoard(params.board);
+  const board = getBoard(boardSlug);
 
   if (!classItem || !board) {
     notFound();
