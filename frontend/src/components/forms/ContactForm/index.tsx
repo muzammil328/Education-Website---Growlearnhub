@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { User, Mail, Phone, Tag } from 'lucide-react';
+import { useCreateFeedback } from '@/hooks/use-feedback';
 
 const schema = z.object({
   name: z.string().min(1, 'Name is required'),
@@ -17,46 +18,34 @@ const schema = z.object({
 type FormValues = z.infer<typeof schema>;
 
 export default function ContactForm() {
-  const [message, setMessage] = useState('');
-  const [isError, setIsError] = useState(false);
+  const [successMsg, setSuccessMsg] = useState('');
+  const { mutate, isPending } = useCreateFeedback();
 
   const form = useForm<FormValues>({
     resolver: zodResolver(schema),
-    defaultValues: {
-      name: '',
-      email: '',
-      phone: '',
-      subject: '',
-      message: '',
-    },
+    defaultValues: { name: '', email: '', phone: '', subject: '', message: '' },
   });
 
-  const onSubmit = async () => {
-    setMessage('');
-    setIsError(false);
-
-    try {
-      // const response = await post<{ status: string; message: string }, FormValues>(
-      //   '/api/contact',
-      //   values
-      // );
-      // setMessage(response.message);
-      // if (response.status === '200' || response.status === '201') {
-      //   setIsError(false);
-      //   form.reset({
-      //     name: '',
-      //     email: '',
-      //     phone: '',
-      //     subject: '',
-      //     message: '',
-      //   });
-      // } else {
-      //   setIsError(true);
-      // }
-    } catch {
-      setMessage('An error occurred. Please try again.');
-      setIsError(true);
-    }
+  const onSubmit = (values: FormValues) => {
+    setSuccessMsg('');
+    mutate(
+      {
+        name: values.name,
+        email: values.email,
+        phone: values.phone,
+        message: `Subject: ${values.subject}\n\n${values.message}`,
+        type: 'contact',
+      },
+      {
+        onSuccess: () => {
+          setSuccessMsg('Your message has been sent successfully!');
+          form.reset();
+        },
+        onError: (err) => {
+          setSuccessMsg(err.message || 'An error occurred. Please try again.');
+        },
+      }
+    );
   };
 
   return (
@@ -100,13 +89,12 @@ export default function ContactForm() {
             />
           </div>
         </div>
-        {message && (
-          <span className={`mb-4 block ${isError ? 'text-red-500' : 'text-emerald-500'}`}>
-            {message}
+        {successMsg && (
+          <span className={`mb-4 block ${successMsg.includes('error') || successMsg.includes('error') ? 'text-red-500' : 'text-emerald-500'}`}>
+            {successMsg}
           </span>
         )}
-
-        <Button type="submit" loading={form.formState.isSubmitting} className="w-full">
+        <Button type="submit" loading={isPending} className="w-full">
           Send Message
         </Button>
       </form>

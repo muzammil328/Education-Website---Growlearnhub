@@ -1,6 +1,6 @@
 import React from 'react';
 import type { Metadata } from 'next';
-import McqsPage from '@/features/DashboardMcqPage/AddMcqs';
+import McqsPage from '@/features/McqsPage';
 
 const data = {
   title: 'MCQs – All Classes | GrowLearnHub',

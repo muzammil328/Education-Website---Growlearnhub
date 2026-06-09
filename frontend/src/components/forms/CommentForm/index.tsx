@@ -4,114 +4,81 @@ import { Button, Form, FormString, FormTextarea } from '@muzammil328/ui';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { User, Mail, Link, MessageSquare } from 'lucide-react';
-import { request } from '@/lib/axios';
+import { User, Mail, Link } from 'lucide-react';
+import { useCreateComment } from '@/hooks/use-comment';
 
 const schema = z.object({
-  fname: z.string().min(1, 'First name is required'),
-  lname: z.string().min(1, 'Last name is required'),
+  firstName: z.string().min(1, 'First name is required'),
+  lastName: z.string().min(1, 'Last name is required'),
   email: z.string().email('Invalid email address'),
-  url: z.string().optional(),
+  pageUrl: z.string().optional(),
   message: z.string().min(1, 'Message is required'),
 });
 
 type FormValues = z.infer<typeof schema>;
 
-export default function CommentForm(props: { url: string }) {
-  const [error, setError] = useState('');
+export default function CommentForm(props: { url?: string }) {
+  const [statusMsg, setStatusMsg] = useState('');
+  const [isError, setIsError] = useState(false);
+  const { mutate, isPending } = useCreateComment();
 
   const form = useForm<FormValues>({
-    resolver: zodResolver(schema) as any,
+    resolver: zodResolver(schema),
     defaultValues: {
-      fname: '',
-      lname: '',
+      firstName: '',
+      lastName: '',
       email: '',
-      url: props.url,
+      pageUrl: props.url ?? (typeof window !== 'undefined' ? window.location.href : ''),
       message: '',
     },
   });
 
-  const onSubmit = async (values: FormValues) => {
-    setError('');
-    try {
-      const data = await request<{ status: string; message: string }>({
-        url: '/api/comment',
-        method: 'POST',
-        data: values,
-      });
-
-      if (data.status === '400' || data.status === '500') {
-        setError(data.message);
-      } else {
-        setError(data.message);
+  const onSubmit = (values: FormValues) => {
+    setStatusMsg('');
+    setIsError(false);
+    mutate(values, {
+      onSuccess: () => {
+        setStatusMsg('Comment submitted successfully!');
         form.reset({
-          fname: '',
-          lname: '',
+          firstName: '',
+          lastName: '',
           email: '',
-          url: props.url,
+          pageUrl: props.url ?? (typeof window !== 'undefined' ? window.location.href : ''),
           message: '',
         });
-      }
-    } catch (err) {
-      console.error(err);
-      setError('An error occurred');
-    }
+      },
+      onError: (err) => {
+        setIsError(true);
+        setStatusMsg(err.message || 'An error occurred. Please try again.');
+      },
+    });
   };
 
   return (
     <section className="relative my-20">
       <div className="mx-auto max-w-2xl text-center">
         <h2>Comment Here</h2>
-        <p>Plz comment below.</p>
+        <p>Please leave a comment below.</p>
       </div>
-
       <Form {...form}>
         <form className="mt-16 sm:mt-20" onSubmit={form.handleSubmit(onSubmit)}>
           <div className="mb-2 grid grid-cols-1 gap-x-8 gap-y-3 sm:grid-cols-2">
-            <FormString
-              name="fname"
-              label="First Name"
-              placeholder="Enter First Name"
-              leftIcon={<User className="h-4 w-4" />}
-              required
-            />
-            <FormString
-              name="lname"
-              label="Last Name"
-              placeholder="Enter Last Name"
-              leftIcon={<User className="h-4 w-4" />}
-              required
-            />
+            <FormString name="firstName" label="First Name" placeholder="Enter First Name" leftIcon={<User className="h-4 w-4" />} required />
+            <FormString name="lastName" label="Last Name" placeholder="Enter Last Name" leftIcon={<User className="h-4 w-4" />} required />
             <div className="sm:col-span-2">
-              <FormString
-                name="email"
-                label="Email"
-                placeholder="Enter Email"
-                leftIcon={<Mail className="h-4 w-4" />}
-                required
-              />
+              <FormString name="email" label="Email" placeholder="Enter Email" leftIcon={<Mail className="h-4 w-4" />} required />
             </div>
             <div className="sm:col-span-2">
-              <FormString
-                name="url"
-                label="Url"
-                placeholder="Enter Url"
-                leftIcon={<Link className="h-4 w-4" />}
-              />
+              <FormString name="pageUrl" label="URL" placeholder="https://example.com/page" leftIcon={<Link className="h-4 w-4" />} />
             </div>
             <div className="sm:col-span-2">
-              <FormTextarea
-                name="message"
-                label="Message"
-                placeholder="Enter your Message"
-                required
-                rows={4}
-              />
+              <FormTextarea name="message" label="Message" placeholder="Enter your message" required rows={4} />
             </div>
           </div>
-          {error && <span className="text-emerald-500">{error}</span>}
-
-          <Button type="submit" loading={form.formState.isSubmitting} variant="outline" className="w-full">
+          {statusMsg && (
+            <span className={`mb-4 block ${isError ? 'text-red-500' : 'text-emerald-500'}`}>{statusMsg}</span>
+          )}
+          <Button type="submit" loading={isPending} variant="outline" className="w-full">
             Submit Here
           </Button>
         </form>
