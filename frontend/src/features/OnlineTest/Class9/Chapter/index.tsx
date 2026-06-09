@@ -3,6 +3,7 @@ import React from 'react';
 import { OnlineTestPageSkeleton } from '@/components/QuizSkeleton';
 import { useHeadingByClassAndSubjectAndChapterSlug } from '@/hooks/use-public';
 import { toDisplayName } from '@/lib/class-filter';
+import SetsInlineSection from '@/components/mcqs/SetsInlineSection';
 
 export default function OnlineTestClass9ChapterPage({
   className,
@@ -58,6 +59,7 @@ export default function OnlineTestClass9ChapterPage({
           </a>
         ))}
       </div>
+      <SetsInlineSection classSlug={className} bookSlug={bookSlug} chapterSlug={chapterSlug} />
     </div>
   );
 }

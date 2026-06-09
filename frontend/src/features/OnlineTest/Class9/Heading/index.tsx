@@ -2,6 +2,7 @@
 import React from 'react';
 import { useSubHeadingByClassAndSubjectAndChapterAndHeadingSlug } from '@/hooks/use-public';
 import { toDisplayName } from '@/lib/class-filter';
+import SetsInlineSection from '@/components/mcqs/SetsInlineSection';
 
 export default function OnlineTestClass9HeadingPage({
   className,
@@ -84,6 +85,7 @@ export default function OnlineTestClass9HeadingPage({
           ))}
         </div>
       )}
+      <SetsInlineSection classSlug={className} bookSlug={bookSlug} chapterSlug={chapterSlug} headingSlug={headingSlug} />
     </div>
   );
 }

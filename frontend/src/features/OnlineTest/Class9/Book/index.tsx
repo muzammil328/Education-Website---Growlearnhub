@@ -3,6 +3,7 @@ import React from 'react';
 import CardSmall from '@/components/card/SmallCard';
 import { Heading2 } from '@muzammil328/ui';
 import { useChapterByClassAndBookSlug } from '@/hooks/use-public';
+import SetsInlineSection from '@/components/mcqs/SetsInlineSection';
 import { toDisplayName } from '@/lib/class-filter';
 
 export default function OnlineTestClass9BookPage({
@@ -59,6 +60,7 @@ export default function OnlineTestClass9BookPage({
           />
         ))}
       </div>
+      <SetsInlineSection classSlug={className} bookSlug={bookSlug} />
     </div>
   );
 }
