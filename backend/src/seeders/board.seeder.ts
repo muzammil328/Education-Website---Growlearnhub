@@ -1,5 +1,6 @@
 import Class from '../models/class.model';
 import Board from '../models/board.model';
+import ServiceModel from '../models/service.model';
 import { Status } from '@muzammil328/education-packages/types';
 import { slugify } from '@muzammil328/utils';
 
@@ -41,6 +42,19 @@ export async function seedBoards() {
   try {
     console.log('Starting Board seed...');
 
+    // Resolve board-level services
+    const resultService = await ServiceModel.findOne({ slug: 'result', status: 'active' });
+    const resultServiceId = resultService?._id ?? null;
+    if (!resultServiceId) {
+      console.log('⚠️  "result" service not found — run service seeder first.');
+    }
+
+    const pairingService = await ServiceModel.findOne({ slug: 'pairing-scheme', status: 'active' });
+    const pairingServiceId = pairingService?._id ?? null;
+    if (!pairingServiceId) {
+      console.log('⚠️  "pairing-scheme" service not found — run service seeder first.');
+    }
+
     for (const raw of boards) {
       const classSlug = raw.className.toLowerCase().trim();
       const boardSlug = slugify(raw.name);
@@ -56,6 +70,8 @@ export async function seedBoards() {
         continue;
       }
 
+      const serviceIds = [resultServiceId, pairingServiceId].filter(Boolean);
+
       const existingBoard = await Board.findOne({
         $or: [{ slug: boardSlug, classId: classDoc._id }, { name: raw.name, classId: classDoc._id }],
       });
@@ -64,6 +80,7 @@ export async function seedBoards() {
         existingBoard.name = raw.name;
         existingBoard.description = raw.description;
         existingBoard.status = raw.status ?? 'active';
+        (existingBoard as any).serviceId = serviceIds;
         await existingBoard.save();
         updatedCount += 1;
         console.log(`Updated Board: ${raw.name} (${raw.className})`);
@@ -75,6 +92,7 @@ export async function seedBoards() {
           name: raw.name,
           slug: boardSlug,
           classId: classDoc._id,
+          serviceId: serviceIds,
           description: raw.description,
           status: raw.status ?? 'active',
         });

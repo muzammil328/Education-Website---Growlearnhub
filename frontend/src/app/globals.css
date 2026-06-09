@@ -216,9 +216,9 @@
 
    /* Dark — same structure as original, dark surface */
   --gradient-bg-1:
-    radial-gradient(circle at 16% 12%, oklch(58% 0.12 176 / 22%), transparent 32%),
-    radial-gradient(circle at 84% 88%, oklch(40% 0.10 176 / 12%), transparent 28%),
-    linear-gradient(135deg, oklch(13% 0.05 176) 0%, oklch(16% 0.04 176) 52%, oklch(12% 0.02 176) 100%);
+    radial-gradient(circle at 16% 12%, oklch(58% 0.14 176 / 30%), transparent 36%),
+    radial-gradient(circle at 84% 88%, oklch(45% 0.12 176 / 18%), transparent 32%),
+    linear-gradient(135deg, oklch(22% 0.06 176) 0%, oklch(26% 0.05 176) 52%, oklch(20% 0.04 176) 100%);
 
   /* Dark soft ellipse */
   --gradient-bg-2:

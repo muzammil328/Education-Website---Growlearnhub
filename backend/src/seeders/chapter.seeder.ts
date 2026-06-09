@@ -2,6 +2,10 @@ import { slugify } from '@muzammil328/utils';
 import ClassModel from '../models/class.model';
 import BookModel from '../models/book.model';
 import ChapterModel from '../models/chapter.model';
+import ChapterPdfModel from '../models/chapterPdf.model';
+
+const DUMMY_PDF_URL = 'https://ontheline.trincoll.edu/images/bookdown/sample-local-pdf.pdf';
+const DUMMY_FILE_ID = 'sample-local-pdf';
 
 interface ChapterData {
   className: string;
@@ -123,11 +127,15 @@ export async function seedChapters() {
         await existing.save();
         updatedCount += 1;
         console.log(`Updated Chapter: ${raw.chapterName} (${raw.bookName})`);
+
+        if (raw.className === 'class-9') {
+          await seedChapterPdfsForChapter(classDoc._id, bookDoc._id, existing._id, raw.chapterName);
+        }
         continue;
       }
 
       try {
-        await ChapterModel.create({
+        const chapterDoc = await ChapterModel.create({
           name: raw.chapterName,
           slug: chapterSlug,
           bookId: bookDoc._id,
@@ -137,6 +145,10 @@ export async function seedChapters() {
         });
         createdCount += 1;
         console.log(`Created Chapter: ${raw.chapterName} (${raw.bookName})`);
+
+        if (raw.className === 'class-9') {
+          await seedChapterPdfsForChapter(classDoc._id, bookDoc._id, chapterDoc._id, raw.chapterName);
+        }
       } catch (err: any) {
         if (err.code === 11000) {
           console.log(`Skipping duplicate Chapter: ${raw.chapterName} (${raw.bookName})`);
@@ -152,5 +164,23 @@ export async function seedChapters() {
   } catch (error) {
     console.error('Error seeding Chapters:', error);
     throw error;
+  }
+}
+
+async function seedChapterPdfsForChapter(classId: unknown, bookId: unknown, chapterId: unknown, chapterName: string) {
+  for (const medium of ['english', 'urdu'] as const) {
+    const existing = await ChapterPdfModel.findOne({ chapterId, medium });
+    if (existing) {
+      existing.fileUrl  = DUMMY_PDF_URL;
+      existing.fileId   = DUMMY_FILE_ID;
+      existing.pages    = 30;
+      existing.fileSize = 1_048_576;
+      existing.status   = 'active';
+      await existing.save();
+      console.log(`  Updated ChapterPdf: ${chapterName} (${medium})`);
+    } else {
+      await ChapterPdfModel.create({ classId, bookId, chapterId, medium, fileId: DUMMY_FILE_ID, fileUrl: DUMMY_PDF_URL, pages: 30, fileSize: 1_048_576, status: 'active' });
+      console.log(`  Created ChapterPdf: ${chapterName} (${medium})`);
+    }
   }
 }
