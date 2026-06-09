@@ -2,33 +2,35 @@
 
 import React from 'react';
 import Link from 'next/link';
+import { ExternalLink } from 'lucide-react';
 import UserLayout from '@/components/layout/UserLayout';
 import { useBookDetail } from '@/hooks/use-public';
 
 const DUMMY_PDF = 'https://ontheline.trincoll.edu/images/bookdown/sample-local-pdf.pdf';
 
-export default function Page({ params }: { params: Promise<{ course: string }> }) {
-  const [courseSlug, setCourseSlug] = React.useState('');
+export default function Page({ params }: { params: Promise<{ handout: string }> }) {
+  const [handoutSlug, setHandoutSlug] = React.useState('');
 
   React.useEffect(() => {
-    params.then(p => setCourseSlug(p.course));
+    params.then(p => setHandoutSlug(p.handout));
   }, [params]);
 
-  const { data, isLoading, error } = useBookDetail('vu', courseSlug);
+  const { data, isLoading, error } = useBookDetail('vu', handoutSlug);
   const book = data?.data?.book;
   const pdfs = data?.data?.fullBookPdfs ?? [];
   const pdfUrl = (pdfs[0] as any)?.fileUrl || DUMMY_PDF;
-  const courseName = book?.name ?? courseSlug.toUpperCase().replace(/-/g, ' ');
+  const externalLinks: { name: string; slug: string; url: string }[] = (book as any)?.externalLinks ?? [];
+  const handoutName = book?.name ?? handoutSlug.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
 
   return (
     <UserLayout
-      title={`${courseName} | VU Handouts – GrowLearnHub`}
-      canonical={`/vu/handouts/${courseSlug}/`}
-      url={`https://growlearnhub.com/vu/handouts/${courseSlug}/`}
+      title={`${handoutName} | VU Final Exam Handouts – GrowLearnHub`}
+      canonical={`/vu/final-mcqs/${handoutSlug}/`}
+      url={`https://growlearnhub.com/vu/final-mcqs/${handoutSlug}/`}
     >
       <article className="max-w-none">
         <header>
-          <h2 className="text-2xl font-semibold text-primary">{courseName}</h2>
+          <h2 className="text-2xl font-semibold text-primary">{handoutName}</h2>
           {book?.description && (
             <p className="text-muted-foreground mt-1">{book.description}</p>
           )}
@@ -40,33 +42,31 @@ export default function Page({ params }: { params: Promise<{ course: string }> }
           ) : error ? (
             <div>
               <p className="text-red-500 mb-4">Failed to load handout. Showing sample PDF.</p>
-              <HandoutPdfViewer pdfUrl={DUMMY_PDF} name={courseName} />
+              <HandoutPdfViewer pdfUrl={DUMMY_PDF} name={handoutName} />
             </div>
           ) : (
-            <HandoutPdfViewer pdfUrl={pdfUrl} name={courseName} />
+            <HandoutPdfViewer pdfUrl={pdfUrl} name={handoutName} />
           )}
         </section>
 
-        {!isLoading && pdfs.length > 1 && (
-          <section className="mt-6">
-            <h3 className="text-base font-semibold text-foreground mb-3">Available Downloads</h3>
-            <div className="flex flex-wrap gap-3">
-              {(pdfs as any[]).map((pdf, i) => (
-                <a
-                  key={i}
-                  href={pdf.fileUrl}
-                  download
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="rounded-md border border-border px-4 py-2 text-sm hover:bg-muted transition-colors"
+        {/* Official website links */}
+        {externalLinks.length > 0 && (
+          <section className="mt-10">
+            <h3 className="text-lg font-semibold text-foreground mb-4">Official Website Sources</h3>
+            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3">
+              {externalLinks.map(link => (
+                <Link
+                  key={link.slug}
+                  href={`/vu/final-mcqs/${handoutSlug}/${link.slug}`}
+                  className="flex items-center gap-3 rounded-lg border border-border px-4 py-3 hover:bg-muted/60 hover:border-primary/40 transition-colors group"
                 >
-                  Download ({pdf.medium || `PDF ${i + 1}`})
-                </a>
+                  <ExternalLink className="h-4 w-4 text-primary shrink-0" />
+                  <span className="text-sm font-medium text-foreground group-hover:text-primary">{link.name}</span>
+                </Link>
               ))}
             </div>
           </section>
         )}
-
       </article>
     </UserLayout>
   );
