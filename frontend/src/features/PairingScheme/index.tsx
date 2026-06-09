@@ -1,70 +1,106 @@
 'use client';
-import React from 'react';
+import React, { useState } from 'react';
 import UserLayout, { UserLayoutProps } from '@/components/layout/UserLayout';
 import CardSmall from '@/components/card/SmallCard';
-import { useClassesBySlug } from '@/hooks/use-public';
-import { Heading2, Heading3, Para } from '@muzammil328/ui';
+import { useBooksByClass } from '@/hooks/use-public';
 import { SmallCardSkeletonGrid } from '@/components/skeleton/SmallCardSkeleton';
 
+const CLASSES = [
+  { slug: 'class-9', label: 'Class 9' },
+  { slug: 'class-10', label: 'Class 10' },
+  { slug: 'class-11', label: 'Class 11' },
+  { slug: 'class-12', label: 'Class 12' },
+];
+
+function BooksList({ classSlug }: { classSlug: string }) {
+  const { data, isLoading, error } = useBooksByClass(classSlug);
+  const books = data?.data ?? [];
+
+  if (isLoading) return <SmallCardSkeletonGrid />;
+  if (error) return <p className="text-red-500 mt-2">Failed to load books.</p>;
+  if (!books.length) return <p className="text-foreground/60 mt-2">No books available.</p>;
+
+  return (
+    <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+      {books.map((book: { name: string; slug: string }) => (
+        <CardSmall
+          key={book.slug}
+          title={book.name}
+          link={`/${classSlug}/pairing-scheme`}
+        />
+      ))}
+    </div>
+  );
+}
+
 export default function PairingSchemePage({ title, image, canonical, url }: UserLayoutProps) {
-  const { classes, isLoading, error } = useClassesBySlug('pairing-scheme');
+  const [activeClass, setActiveClass] = useState('class-9');
 
   return (
     <UserLayout title={title} image={image} canonical={canonical} url={url}>
-      <Para>
-        Browse class-wise pairing schemes to understand paper patterns, important units, and
-        question distribution for board exam preparation. Select your class to explore the
-        relevant subject-wise pairing scheme sections.
-      </Para>
+      <article className="max-w-none space-y-8">
+        <p className="text-foreground/80">
+          Browse class-wise pairing schemes to understand paper patterns, important units, and
+          question distribution for board exam preparation. Select your class to explore books
+          with subject-wise pairing scheme sections.
+        </p>
 
-      {isLoading && <SmallCardSkeletonGrid />}
-      {!isLoading && !error && classes.length > 0 && (
-        <div className="grid grid-cols-2 gap-2 py-4 sm:grid-cols-3 lg:grid-cols-4">
-          {classes.map((item: { name: string; slug: string }) => (
-            <CardSmall key={item.slug} title={item.name} link={`${item.slug}/pairing-scheme`} />
-          ))}
-        </div>
-      )}
+        <section>
+          <h2 className="text-xl font-semibold text-foreground mb-4">Select Class</h2>
+          <div className="flex flex-wrap gap-2">
+            {CLASSES.map(cls => (
+              <button
+                key={cls.slug}
+                onClick={() => setActiveClass(cls.slug)}
+                className={`rounded-md px-4 py-2 text-sm font-medium border transition-colors ${
+                  activeClass === cls.slug
+                    ? 'bg-primary text-white border-primary'
+                    : 'border-border text-foreground hover:bg-muted'
+                }`}
+              >
+                {cls.label}
+              </button>
+            ))}
+          </div>
 
-      <div className="mt-10 space-y-2 border-t border-border pt-8">
-        <Heading2>Pairing Schemes — All Classes</Heading2>
-        <Para>
-          A pairing scheme tells you exactly which chapters are paired together in the board exam
-          paper and how marks are distributed across objective, short, and long questions.
-          GrowLearnHub provides <strong className="text-foreground">free class-wise pairing
-          schemes</strong> for all major subjects so you can focus your preparation on what
-          actually appears in the paper.
-        </Para>
+          <div className="mt-6">
+            <h3 className="text-lg font-medium text-foreground mb-1">
+              {CLASSES.find(c => c.slug === activeClass)?.label} Books
+            </h3>
+            <p className="text-sm text-foreground/60 mb-3">
+              Click a book to go to the board-wise pairing scheme for that class.
+            </p>
+            <BooksList classSlug={activeClass} />
+          </div>
+        </section>
 
-        <Heading2>Why Pairing Schemes Matter</Heading2>
-        <Para>
-          Without a pairing scheme, students waste time on chapters that carry minimal marks while
-          underweighting the ones that appear every year. A pairing scheme lets you allocate your
-          revision time intelligently — more effort on high-weightage chapters, quicker review of
-          the rest.
-        </Para>
+        <section className="border-t border-border pt-8 space-y-4">
+          <h2 className="text-xl font-semibold text-foreground">What is a Pairing Scheme?</h2>
+          <p className="text-foreground/80">
+            A pairing scheme tells you exactly which chapters are paired together in the board exam
+            paper and how marks are distributed across objective, short, and long questions.
+            GrowLearnHub provides <strong className="text-foreground">free class-wise pairing
+            schemes</strong> for all major subjects so you can focus your preparation on what
+            actually appears in the paper.
+          </p>
 
-        <Heading2>How to Use a Pairing Scheme</Heading2>
-        <Para>
-          Open the pairing scheme for your subject and note which chapters are grouped together
-          for each question. Then pair it with your chapter-wise notes and MCQs to create a
-          targeted study plan. In the final days before your exam, the pairing scheme is your
-          fastest guide to what needs one last review.
-        </Para>
+          <h2 className="text-xl font-semibold text-foreground">Why Pairing Schemes Matter</h2>
+          <p className="text-foreground/80">
+            Without a pairing scheme, students waste time on chapters that carry minimal marks while
+            underweighting the ones that appear every year. A pairing scheme lets you allocate your
+            revision time intelligently — more effort on high-weightage chapters, quicker review of
+            the rest.
+          </p>
 
-        <Heading3>Frequently Asked Questions</Heading3>
-        <Para>
-          <strong className="text-foreground">Are the pairing schemes on GrowLearnHub free?</strong>
-          <br />
-          Yes, all pairing schemes are completely free with no account or payment required.
-        </Para>
-        <Para>
-          <strong className="text-foreground">Which classes have pairing schemes available?</strong>
-          <br />
-          Pairing schemes are available for Class 9, 10, 11, and 12 across Punjab and Federal
-          Board subjects.
-        </Para>
-      </div>
+          <h2 className="text-xl font-semibold text-foreground">How to Use a Pairing Scheme</h2>
+          <p className="text-foreground/80">
+            Select your board on the class page, then open the pairing scheme image. Note which
+            chapters are grouped for each question type, pair it with your chapter notes and MCQs,
+            and build a targeted study plan. In the final days before your exam, the pairing scheme
+            is your fastest guide to what needs one last review.
+          </p>
+        </section>
+      </article>
     </UserLayout>
   );
 }

@@ -10,6 +10,10 @@ const nextConfig: NextConfig = {
         port: '',
         pathname: '/themes/**',
       },
+      {
+        protocol: 'https',
+        hostname: '**',
+      },
     ],
   },
   experimental: {

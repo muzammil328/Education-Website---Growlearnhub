@@ -1,118 +1,22 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
-import { notFound } from 'next/navigation';
-import CardSmall from '@/components/card/SmallCard';
-import UserLayout from '@/components/layout/UserLayout';
-import { getPairingBoard, getPairingClass } from '@/utils/helpers/PairingSchemeDynamic';
+import PairingSchemeClass9Board from '@/features/PairingScheme/Class9/Subject';
 
-type Params = { board: string };
-
-export function generateStaticParams() {
-  const classItem = getPairingClass('class-9');
-
-  if (!classItem) {
-    return [];
-  }
-
-  return [{ board: classItem.board.slug }];
-}
+type Params = { subject: string };
 
 export async function generateMetadata({ params }: { params: Promise<Params> }): Promise<Metadata> {
-  const { board: boardSlug } = await params;
-  const classItem = getPairingClass('class-9');
-  const board = classItem ? getPairingBoard(classItem, boardSlug) : undefined;
-
-  if (!classItem || !board) {
-    return {
-      title: 'Class 9 Pairing Scheme Board Not Found | GrowLearnHub',
-      description: 'Requested Class 9 pairing scheme board page could not be found.',
-    };
-  }
-
-  const canonical = `/class-9/pairing-scheme/${board.slug}/`;
-  const url = `https://growlearnhub.com${canonical}`;
-  const title = `${classItem.classShortName} ${board.name} Pairing Scheme 2025 | GrowLearnHub`;
-  const description = `Explore ${classItem.classShortName} ${board.name} subject-wise pairing schemes for Biology, Chemistry, Physics, and Math.`;
-
+  const { subject } = await params;
+  const boardName = subject.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+  const title = `Class 9 Pairing Scheme 2025 – ${boardName} | GrowLearnHub`;
+  const canonical = `/class-9/pairing-scheme/${subject}/`;
   return {
     title,
-    description,
-    keywords: [
-      ...classItem.keywords,
-      `${classItem.classShortName.toLowerCase()} ${board.slug} pairing scheme`,
-      `${classItem.className.toLowerCase()} subject wise paper pattern`,
-    ],
+    description: `View and download the Class 9 pairing scheme 2025 for ${boardName}. Chapter-wise paper pattern image.`,
     alternates: { canonical },
-    openGraph: {
-      title,
-      description,
-      url,
-      type: 'website',
-      siteName: 'GrowLearnHub',
-      images: [{ url: classItem.image, alt: title }],
-    },
-    twitter: {
-      card: 'summary_large_image',
-      title,
-      description,
-      images: [{ url: classItem.image, alt: title }],
-    },
+    openGraph: { title, url: `https://growlearnhub.com${canonical}`, type: 'website', siteName: 'GrowLearnHub' },
   };
 }
 
 export default async function Page({ params }: { params: Promise<Params> }) {
-  const { board: boardSlug } = await params;
-  const classItem = getPairingClass('class-9');
-  const board = classItem ? getPairingBoard(classItem, boardSlug) : undefined;
-
-  if (!classItem || !board) {
-    notFound();
-  }
-
-  const canonical = `/class-9/pairing-scheme/${board.slug}/`;
-  const url = `https://growlearnhub.com${canonical}`;
-
-  return (
-    <UserLayout
-      title={`${classItem.className} ${board.name} Pairing Scheme`}
-      image={classItem.image}
-      canonical={canonical}
-      url={url}
-    >
-      <article className="max-w-none">
-        <section>
-          <h2 className="text-2xl font-semibold text-primary">Subject-wise Pairing Scheme</h2>
-          <p className="text-foreground/80">
-            Choose a subject to open the {classItem.className} {board.name} pairing scheme page with
-            chapter-focused preparation guidance.
-          </p>
-        </section>
-
-        <section className="mt-8">
-          <h3 className="text-xl font-semibold text-foreground">Available Subjects</h3>
-          <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2">
-            {board.subjects.map(subject => (
-              <CardSmall
-                key={subject.slug}
-                title={subject.name}
-                link={`class-9/pairing-scheme/${board.slug}/${subject.slug}`}
-              />
-            ))}
-          </div>
-        </section>
-
-        <section className="mt-8">
-          <h3 className="text-xl font-semibold text-foreground">Navigation</h3>
-          <div className="mt-4 flex flex-wrap gap-3">
-            <Link
-              href="/class-9/pairing-scheme"
-              className="rounded-md border border-border px-4 py-2 text-sm font-medium text-foreground hover:bg-muted"
-            >
-              Back to Class 9 Pairing Scheme
-            </Link>
-          </div>
-        </section>
-      </article>
-    </UserLayout>
-  );
+  const { subject } = await params;
+  return <PairingSchemeClass9Board boardSlug={subject} />;
 }
