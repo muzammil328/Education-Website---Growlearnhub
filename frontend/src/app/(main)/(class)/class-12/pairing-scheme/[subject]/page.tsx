@@ -24,10 +24,11 @@ export function generateStaticParams() {
   }));
 }
 
-export function generateMetadata({ params }: { params: Params }): Metadata {
+export async function generateMetadata({ params }: { params: Promise<Params> }): Promise<Metadata> {
+  const { board: boardSlug, subject: subjectSlug } = await params;
   const classItem = getPairingClass('class-12');
-  const board = classItem ? getPairingBoard(classItem, params.board) : undefined;
-  const subject = board ? getPairingSubject(board, params.subject) : undefined;
+  const board = classItem ? getPairingBoard(classItem, boardSlug) : undefined;
+  const subject = board ? getPairingSubject(board, subjectSlug) : undefined;
 
   if (!classItem || !board || !subject) {
     return {
@@ -67,10 +68,11 @@ export function generateMetadata({ params }: { params: Params }): Metadata {
   };
 }
 
-export default function Page({ params }: { params: Params }) {
+export default async function Page({ params }: { params: Promise<Params> }) {
+  const { board: boardSlug, subject: subjectSlug } = await params;
   const classItem = getPairingClass('class-12');
-  const board = classItem ? getPairingBoard(classItem, params.board) : undefined;
-  const subject = board ? getPairingSubject(board, params.subject) : undefined;
+  const board = classItem ? getPairingBoard(classItem, boardSlug) : undefined;
+  const subject = board ? getPairingSubject(board, subjectSlug) : undefined;
 
   if (!classItem || !board || !subject) {
     notFound();

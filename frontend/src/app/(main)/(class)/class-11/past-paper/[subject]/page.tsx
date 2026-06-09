@@ -23,14 +23,15 @@ export function generateStaticParams() {
   );
 }
 
-export function generateMetadata({
+export async function generateMetadata({
   params,
 }: {
-  params: { board: string; subject: string };
-}): Metadata {
+  params: Promise<{ board: string; subject: string }>;
+}): Promise<Metadata> {
+  const { board: boardSlug, subject: subjectSlug } = await params;
   const classItem = getPastPaperClass(CLASS_SLUG);
-  const board = getPastPaperBoard(params.board);
-  const subject = getPastPaperSubject(params.subject);
+  const board = getPastPaperBoard(boardSlug);
+  const subject = getPastPaperSubject(subjectSlug);
 
   if (!classItem || !board || !subject) {
     return { title: 'Past Papers' };
@@ -61,16 +62,17 @@ export function generateMetadata({
   };
 }
 
-export default function Page({ params }: { params: { board: string; subject: string } }) {
+export default async function Page({ params }: { params: Promise<{ board: string; subject: string }> }) {
+  const { board: boardSlug, subject: subjectSlug } = await params;
   const classItem = getPastPaperClass(CLASS_SLUG);
-  const board = getPastPaperBoard(params.board);
-  const subject = getPastPaperSubject(params.subject);
+  const board = getPastPaperBoard(boardSlug);
+  const subject = getPastPaperSubject(subjectSlug);
 
   if (!classItem || !board || !subject) {
     notFound();
   }
 
-  const adjacentSubjects = getPastPaperAdjacentSubjects(params.subject);
+  const adjacentSubjects = getPastPaperAdjacentSubjects(subjectSlug);
 
   return (
     <UserLayout
