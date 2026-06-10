@@ -1,31 +1,9 @@
 {
   "version": 2,
-  "builds": [
+  "rewrites": [
     {
-      "src": "api/index.ts",
-      "use": "@vercel/node",
-      "config": {
-        "esbuild": {
-          "alias": {
-            "@": "./src",
-            "@config": "./src/config",
-            "@database": "./src/database",
-            "@middleware": "./src/middleware",
-            "@models": "./src/database/models",
-            "@modules": "./src/database/modules",
-            "@foundation": "./src/foundation",
-            "@constants": "./src/shared/constants",
-            "@enums": "./src/shared/enums",
-            "@types": "./src/types"
-          }
-        }
-      }
-    }
-  ],
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "api/index.ts"
+      "source": "/(.*)",
+      "destination": "/api/index"
     }
   ]
 }

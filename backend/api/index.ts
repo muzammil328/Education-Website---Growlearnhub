@@ -1,4 +1,3 @@
-import 'module-alias/register';
 import { createExpressApp } from '@/core/servers/express';
 import { initializeServices } from '@/core/lifecycle/on-startup';
 import { registerGlobalErrorHandlers, logger } from '@muzammil328/services';
