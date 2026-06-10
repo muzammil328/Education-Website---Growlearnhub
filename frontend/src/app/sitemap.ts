@@ -11,7 +11,7 @@ async function fetchTrpcQuery(url: string): Promise<string[]> {
   try {
     const res = await fetch(
       `${url}?batch=1&input=${encodeURIComponent(JSON.stringify({ '0': {} }))}`,
-      { next: { revalidate: 3600 } }
+      { next: { revalidate: 3600 }, signal: AbortSignal.timeout(15000) }
     );
     if (!res.ok) return [];
     const json = await res.json();
