@@ -60,7 +60,66 @@ import { StatusCode as StatusCode3 } from "@muzammil328/types";
 // src/trpc/trpc.ts
 import { initTRPC } from "@trpc/server";
 import { TRPCError, loggerMiddleware, toTrpcError, mergeRouters } from "@muzammil328/trpc";
-import { RoleEnum } from "@muzammil328/education-packages/enums";
+
+// ../packages/src/enums/index.ts
+var RoleEnum = {
+  Student: "student",
+  Teacher: "teacher",
+  SuperAdmin: "super_admin",
+  Guest: "guest"
+};
+var InstitutionTypeEnum = {
+  SCHOOL: "school",
+  COLLEGE: "college",
+  COACHING_CENTER: "coaching_center"
+};
+var OtpPurposeEnum = {
+  EMAIL_VERIFICATION: "email_verification",
+  PASSWORD_RESET: "password_reset"
+};
+var McqScopeEnum = {
+  GLOBAL: "global",
+  INSTITUTION: "institution"
+};
+var DifficultyEnum = {
+  Easy: "easy",
+  Medium: "medium",
+  Hard: "hard"
+};
+var StatusEnum = {
+  Active: "active",
+  Inactive: "inactive"
+};
+var SubscriptionPlanEnum = {
+  FREE: "free",
+  BASIC: "basic",
+  PREMIUM: "premium",
+  ENTERPRISE: "enterprise"
+};
+var PaymentTypeEnum = {
+  Subscription: "subscription",
+  OneTime: "one-time",
+  Institution: "institution"
+};
+var PaymentStatusEnum = {
+  Pending: "pending",
+  Completed: "completed",
+  Failed: "failed",
+  Refunded: "refunded"
+};
+var FeedbackTypeEnum = {
+  Contact: "contact",
+  BugReport: "bug-report",
+  FeatureRequest: "feature-request",
+  ShareStory: "share-story"
+};
+var FeedbackStatusEnum = {
+  Pending: "pending",
+  Resolved: "resolved",
+  Rejected: "rejected"
+};
+
+// src/trpc/trpc.ts
 var t = initTRPC.context().create();
 var createTRPCRouter = t.router;
 var publicProcedure = t.procedure.use(loggerMiddleware);
@@ -107,15 +166,1039 @@ import { AppError as AppError3 } from "@muzammil328/server";
 import { toTrpcError as toTrpcError2 } from "@muzammil328/trpc";
 import { StatusCode } from "@muzammil328/types";
 import { Types as Types5 } from "mongoose";
+import { z as z18 } from "zod";
+
+// ../packages/src/schemas/auth.schema.ts
+import { z } from "zod";
+var registerSchema = z.object({
+  username: z.string().min(1, "Username is required"),
+  email: z.string().email("Invalid email address"),
+  password: z.string().min(8, "Password must be at least 8 characters")
+});
+var loginSchema = z.object({
+  email: z.string().email("Invalid email address"),
+  password: z.string().min(1, "Password is required")
+});
+var otpVerificationSchema = z.object({
+  email: z.string().email("Invalid email address"),
+  otp: z.string().min(4).max(8)
+});
+var forgotPasswordSchema = z.object({
+  email: z.string().email("Invalid email address")
+});
+var forgotPasswordOtpVerificationSchema = z.object({
+  email: z.string().email("Invalid email address"),
+  otp: z.string().min(4).max(8)
+});
+var resetPasswordSchema = z.object({
+  email: z.string().email("Invalid email address"),
+  newPassword: z.string().min(8, "Password must be at least 8 characters")
+});
+var updateProfileSchema = z.object({
+  username: z.string().min(3, "Username must be at least 3 characters").optional(),
+  email: z.string().email("Invalid email address").optional()
+});
+
+// ../packages/src/schemas/comment.schema.ts
 import { z as z2 } from "zod";
-import {
-  registerSchema,
-  otpVerificationSchema,
-  loginSchema,
-  forgotPasswordSchema,
-  forgotPasswordOtpVerificationSchema,
-  resetPasswordSchema
-} from "@muzammil328/education-packages";
+var createCommentSchema = z2.object({
+  firstName: z2.string().min(1, "First name is required"),
+  lastName: z2.string().min(1, "Last name is required"),
+  email: z2.string().email("Invalid email address"),
+  pageUrl: z2.string().optional(),
+  message: z2.string().min(1, "Message is required")
+});
+var getCommentsSchema = z2.object({
+  page: z2.number().int().positive().optional().default(1),
+  limit: z2.number().int().positive().max(100).optional().default(10),
+  sort: z2.enum(["createdAt"]).optional().default("createdAt"),
+  sortDirection: z2.enum(["asc", "desc"]).optional().default("desc")
+});
+var getCommentByIdSchema = z2.object({
+  id: z2.string().min(1)
+});
+var deleteCommentSchema = z2.object({
+  id: z2.string().min(1)
+});
+
+// ../packages/src/schemas/board.schema.ts
+import { z as z3 } from "zod";
+var boardCreateSchema = z3.object({
+  name: z3.string().trim().min(1),
+  slug: z3.string().trim().optional(),
+  classId: z3.array(z3.string().trim().min(1)).default([]),
+  description: z3.string().trim().optional().default(""),
+  status: z3.nativeEnum(StatusEnum).default(StatusEnum.Active)
+});
+var getBoardsInputSchema = z3.object({
+  status: z3.nativeEnum(StatusEnum).optional().default(StatusEnum.Active),
+  page: z3.number().int().positive().optional().default(1),
+  limit: z3.number().int().positive().max(100).optional().default(10),
+  sort: z3.enum(["name", "status", "createdAt", "updatedAt"]).optional().default("createdAt"),
+  sortDirection: z3.enum(["asc", "desc"]).optional().default("desc"),
+  search: z3.string().trim().optional()
+});
+var getBoardDropdownInputSchema = z3.object({
+  classId: z3.string().trim().optional()
+});
+var getBoardByIdInputSchema = z3.object({
+  id: z3.string().min(1)
+});
+var getBoardBySlugInputSchema = z3.object({
+  classSlug: z3.string().min(1)
+});
+var deleteBoardInputSchema = z3.object({
+  id: z3.string().min(1)
+});
+var updateBoardInputSchema = z3.object({
+  id: z3.string().min(1),
+  updates: boardCreateSchema.partial()
+});
+
+// ../packages/src/schemas/classGroup.schema.ts
+import { z as z4 } from "zod";
+var ClassGroupSchema = z4.object({
+  name: z4.string().min(1),
+  classIds: z4.array(z4.string()).optional()
+});
+var AddStudentsToClassGroupSchema = z4.object({
+  groupId: z4.string(),
+  studentIds: z4.array(z4.string())
+});
+var GetClassGroupDetailsSchema = z4.object({
+  groupId: z4.string()
+});
+
+// ../packages/src/schemas/book.schema.ts
+import { z as z5 } from "zod";
+import { objectIdSchema } from "@muzammil328/types";
+var componentSchema = z5.object({
+  title: z5.string().trim().min(1),
+  weight: z5.number(),
+  description: z5.string().trim().optional()
+});
+var bookCreateSchema = z5.object({
+  name: z5.string().trim().min(1),
+  slug: z5.string().trim().optional(),
+  code: z5.string().trim().min(1),
+  classId: z5.string().trim().min(1),
+  serviceId: z5.array(objectIdSchema).optional(),
+  description: z5.string().trim().optional().default(""),
+  status: z5.nativeEnum(StatusEnum).default(StatusEnum.Active),
+  creditHours: z5.number().optional(),
+  fileId: z5.string().trim().optional(),
+  pages: z5.number().optional(),
+  image: z5.string().trim().optional(),
+  order: z5.number().optional(),
+  totalWeight: z5.number().optional(),
+  components: z5.array(componentSchema).default([])
+});
+var getBooksInputSchema = z5.object({
+  status: z5.nativeEnum(StatusEnum).optional().default(StatusEnum.Active),
+  page: z5.number().int().positive().optional().default(1),
+  limit: z5.number().int().positive().max(100).optional().default(10),
+  sort: z5.enum(["name", "status", "createdAt", "className"]).optional().default("createdAt"),
+  sortDirection: z5.enum(["asc", "desc"]).optional().default("desc"),
+  search: z5.string().trim().optional()
+});
+var deleteBookInputSchema = z5.object({
+  id: objectIdSchema
+});
+var getBookByIdInputSchema = z5.object({
+  id: objectIdSchema
+});
+var updateBookInputSchema = z5.object({
+  id: objectIdSchema,
+  updates: bookCreateSchema
+});
+var getBookDropdownInputSchema = z5.object({
+  classId: objectIdSchema.optional()
+}).default({});
+var getBookBySlugInputSchema = z5.object({
+  classSlug: z5.string().min(1),
+  serviceSlug: z5.string().trim().optional()
+});
+
+// ../packages/src/schemas/chapter.schema.ts
+import { z as z6 } from "zod";
+var chapterCreateSchema = z6.object({
+  name: z6.string().trim().min(1),
+  slug: z6.string().trim().optional(),
+  classId: z6.string().trim().min(1),
+  bookId: z6.string().trim().min(1),
+  description: z6.string().trim().optional().default(""),
+  content: z6.string().trim().optional().default(""),
+  status: z6.nativeEnum(StatusEnum).default(StatusEnum.Active),
+  order: z6.number().optional()
+});
+var getChaptersInputSchema = z6.object({
+  status: z6.nativeEnum(StatusEnum).optional().default(StatusEnum.Active),
+  page: z6.number().int().positive().optional().default(1),
+  limit: z6.number().int().positive().max(100).optional().default(10),
+  sort: z6.enum(["name", "status", "createdAt", "order", "className", "bookName"]).optional().default("createdAt"),
+  sortDirection: z6.enum(["asc", "desc"]).optional().default("desc"),
+  search: z6.string().trim().optional()
+});
+var getChapterDropdownInputSchema = z6.object({
+  classId: z6.string().optional(),
+  bookId: z6.string().optional()
+});
+var getChapterByIdInputSchema = z6.object({
+  id: z6.string().min(1)
+});
+var getChapterBySlugInputSchema = z6.object({
+  classSlug: z6.string().min(1),
+  bookSlug: z6.string().min(1).optional()
+});
+var deleteChapterInputSchema = z6.object({
+  id: z6.string().min(1)
+});
+var updateChapterInputSchema = z6.object({
+  id: z6.string().min(1),
+  updates: chapterCreateSchema
+});
+
+// ../packages/src/schemas/class.schema.ts
+import { z as z7 } from "zod";
+var classCreateSchema = z7.object({
+  name: z7.string().trim().min(1),
+  description: z7.string().trim().default(""),
+  serviceIds: z7.array(z7.string().trim().min(1)).default([]),
+  status: z7.nativeEnum(StatusEnum).default(StatusEnum.Active),
+  image: z7.string().trim().default(""),
+  keywords: z7.array(z7.string().trim().min(1)).default([])
+});
+var getClassesInputSchema = z7.object({
+  status: z7.nativeEnum(StatusEnum).optional().default(StatusEnum.Active),
+  page: z7.number().int().positive().optional().default(1),
+  limit: z7.number().int().positive().max(100).optional().default(10),
+  sort: z7.enum(["name", "status", "createdAt"]).optional().default("createdAt"),
+  sortDirection: z7.enum(["asc", "desc"]).optional().default("desc"),
+  search: z7.string().trim().optional()
+});
+var dropdownClassInputSchema = z7.object({
+  serviceId: z7.string().min(1).optional()
+}).default({});
+var getClassByIdInputSchema = z7.object({
+  id: z7.string().min(1)
+});
+var getClassByServiceSlugInputSchema = z7.object({
+  serviceSlug: z7.string().min(1)
+});
+var deleteClassInputSchema = z7.object({
+  id: z7.string().min(1)
+});
+var updateClassInputSchema = z7.object({
+  id: z7.string().min(1),
+  updates: classCreateSchema
+});
+
+// ../packages/src/schemas/feedback.schema.ts
+import { z as z8 } from "zod";
+var feedbackTypeSchema = z8.enum(["contact", "bug-report", "feature-request", "share-story"]);
+var feedbackStatusSchema = z8.enum(["pending", "resolved", "rejected"]);
+var createFeedbackSchema = z8.object({
+  name: z8.string().min(1),
+  email: z8.string().email(),
+  phone: z8.string().optional(),
+  message: z8.string().min(1),
+  type: feedbackTypeSchema
+});
+var feedbackResponseSchema = z8.object({
+  id: z8.string(),
+  name: z8.string(),
+  email: z8.string().email(),
+  phone: z8.string().optional(),
+  message: z8.string(),
+  type: feedbackTypeSchema,
+  status: feedbackStatusSchema,
+  createdAt: z8.date(),
+  updatedAt: z8.date().optional()
+});
+var getFeedbackInputSchema = z8.object({
+  type: feedbackTypeSchema.optional(),
+  status: feedbackStatusSchema.optional(),
+  page: z8.number().int().positive().optional().default(1),
+  limit: z8.number().int().positive().max(100).optional().default(10),
+  sort: z8.enum(["createdAt", "status"]).optional().default("createdAt"),
+  sortDirection: z8.enum(["asc", "desc"]).optional().default("desc")
+});
+var updateFeedbackStatusSchema = z8.object({
+  id: z8.string().min(1),
+  status: feedbackStatusSchema
+});
+var getFeedbackByIdInputSchema = z8.object({
+  id: z8.string()
+});
+
+// ../packages/src/schemas/heading.schema.ts
+import { z as z9 } from "zod";
+var headingCreateSchema = z9.object({
+  name: z9.string().trim().min(1),
+  slug: z9.string().trim().optional(),
+  classId: z9.string().trim().min(1),
+  bookId: z9.string().trim().min(1),
+  chapterId: z9.string().trim().min(1),
+  status: z9.nativeEnum(StatusEnum).default(StatusEnum.Active),
+  order: z9.number().optional()
+});
+var getHeadingsInputSchema = z9.object({
+  status: z9.nativeEnum(StatusEnum).optional().default(StatusEnum.Active),
+  page: z9.number().int().positive().optional().default(1),
+  limit: z9.number().int().positive().max(100).optional().default(10),
+  sort: z9.enum(["name", "status", "createdAt", "updatedAt", "order", "className", "bookName", "chapterName"]).optional().default("createdAt"),
+  sortDirection: z9.enum(["asc", "desc"]).optional().default("desc"),
+  search: z9.string().trim().optional()
+});
+var getHeadingDropdownInputSchema = z9.object({
+  classId: z9.string().optional(),
+  bookId: z9.string().optional(),
+  chapterId: z9.string().optional()
+});
+var getHeadingByIdInputSchema = z9.object({
+  id: z9.string().min(1)
+});
+var getHeadingBySlugInputSchema = z9.object({
+  classSlug: z9.string().min(1),
+  bookSlug: z9.string().min(1),
+  chapterSlug: z9.string().min(1)
+});
+var deleteHeadingInputSchema = z9.object({
+  id: z9.string().min(1)
+});
+var updateHeadingInputSchema = z9.object({
+  id: z9.string().min(1),
+  updates: headingCreateSchema
+});
+
+// ../packages/src/schemas/institution.schema.ts
+import { z as z10 } from "zod";
+var InstitutionSchema = z10.object({
+  name: z10.string().min(2),
+  code: z10.string().min(2).max(32),
+  slug: z10.string().min(2).regex(/^[a-z0-9-]+$/).optional(),
+  contactEmail: z10.string().email().optional(),
+  address: z10.string().optional(),
+  status: z10.nativeEnum(StatusEnum).optional().default(StatusEnum.Active),
+  ownerUserId: z10.string().optional()
+});
+var getInstitutionsInputSchema = z10.object({
+  status: z10.union([z10.nativeEnum(StatusEnum), z10.literal("all")]).optional().default("active"),
+  page: z10.number().int().positive().optional().default(1),
+  limit: z10.number().int().positive().max(100).optional().default(10),
+  sort: z10.enum(["name", "code", "status", "createdAt", "updatedAt"]).optional().default("name"),
+  sortDirection: z10.enum(["asc", "desc"]).optional().default("asc"),
+  search: z10.string().trim().optional()
+});
+var getInstitutionByIdInputSchema = z10.object({
+  id: z10.string().min(1)
+});
+var updateInstitutionInputSchema = z10.object({
+  id: z10.string().min(1),
+  updates: InstitutionSchema.partial()
+});
+var updateInstitutionSubscriptionSchema = z10.object({
+  id: z10.string().min(1),
+  updates: InstitutionSchema.partial()
+});
+var deleteInstitutionInputSchema = z10.object({
+  id: z10.string().min(1)
+});
+
+// ../packages/src/schemas/mcqs.schema.ts
+import { z as z11 } from "zod";
+var statusSchema = z11.nativeEnum(StatusEnum).default(StatusEnum.Active);
+var mcqOptionSchema = z11.string().trim().min(1);
+var mcqQuestionSchema = z11.object({
+  question: z11.string().trim().min(1),
+  options: z11.array(mcqOptionSchema).min(2),
+  correctOption: z11.number().int().nonnegative(),
+  explanation: z11.string().trim().optional().default(""),
+  difficulty: z11.nativeEnum(DifficultyEnum).default(DifficultyEnum.Medium),
+  status: statusSchema,
+  classId: z11.string().trim().optional(),
+  bookId: z11.string().trim().optional(),
+  chapterId: z11.string().trim().optional(),
+  headingId: z11.string().trim().optional(),
+  subHeadingId: z11.string().trim().optional(),
+  isPremium: z11.boolean().default(false)
+});
+var mcqsSchema = z11.object({
+  questions: z11.array(mcqQuestionSchema).min(1)
+});
+var McqPayloadSchema = mcqQuestionSchema;
+var getMcqsInputSchema = z11.object({
+  status: z11.union([z11.nativeEnum(StatusEnum), z11.literal("all")]).optional().default("active"),
+  page: z11.number().int().positive().optional().default(1),
+  limit: z11.number().int().positive().max(100).optional().default(10),
+  sort: z11.enum(["question", "status", "createdAt", "updatedAt", "difficulty"]).optional().default("question"),
+  sortDirection: z11.enum(["asc", "desc"]).optional().default("asc"),
+  search: z11.string().trim().optional(),
+  classId: z11.string().optional(),
+  bookId: z11.string().optional(),
+  chapterId: z11.string().optional(),
+  headingId: z11.string().optional(),
+  subHeadingId: z11.string().optional(),
+  difficulty: z11.nativeEnum(DifficultyEnum).optional()
+});
+var getMcqDropdownInputSchema = z11.object({
+  search: z11.string().trim().optional()
+});
+var getMcqByIdInputSchema = z11.object({
+  id: z11.string().min(1)
+});
+var updateMcqInputSchema = z11.object({
+  id: z11.string().min(1),
+  updates: McqPayloadSchema.partial()
+});
+var deleteMcqInputSchema = z11.object({
+  id: z11.string().min(1)
+});
+var mcqScopeSchema = z11.enum(["global", "institution"]);
+var createMcqsSchema = z11.object({
+  questions: z11.array(mcqQuestionSchema).min(1),
+  classId: z11.string().min(1),
+  bookId: z11.string().min(1),
+  chapterId: z11.string().min(1),
+  headingId: z11.string().optional(),
+  subHeadingId: z11.string().optional(),
+  scope: mcqScopeSchema.optional()
+});
+
+// ../packages/src/schemas/payment.schema.ts
+import { z as z12 } from "zod";
+var paymentPayloadSchema = z12.object({
+  amount: z12.number().positive(),
+  currency: z12.string().length(3),
+  type: z12.enum(["subscription", "one-time", "institution"]),
+  status: z12.enum(["pending", "completed", "failed", "refunded"]),
+  user: z12.string().optional(),
+  // ObjectId as string
+  classGroup: z12.string().optional(),
+  // ObjectId as string
+  startDate: z12.date().optional(),
+  endDate: z12.date().optional(),
+  transactionId: z12.string().optional(),
+  provider: z12.string().optional()
+});
+
+// ../packages/src/schemas/service.schema.ts
+import { z as z13 } from "zod";
+var serviceCreateSchema = z13.object({
+  name: z13.string().trim().min(1),
+  slug: z13.string().trim().optional(),
+  code: z13.string().trim().optional(),
+  description: z13.string().trim().optional().default(""),
+  icon: z13.string().trim().optional(),
+  keywords: z13.array(z13.string().trim().min(1)).default([]),
+  status: z13.nativeEnum(StatusEnum).default(StatusEnum.Active),
+  order: z13.number().optional(),
+  classId: z13.array(z13.string()).optional(),
+  serviceId: z13.array(z13.string()).optional(),
+  image: z13.string().trim().optional(),
+  creditHours: z13.number().optional(),
+  fileId: z13.string().trim().optional(),
+  pages: z13.number().optional(),
+  totalWeight: z13.number().optional(),
+  components: z13.array(z13.any()).optional()
+});
+var getServicesInputSchema = z13.object({
+  status: z13.nativeEnum(StatusEnum).default(StatusEnum.Active),
+  page: z13.number().int().positive().optional().default(1),
+  limit: z13.number().int().positive().max(100).optional().default(10),
+  sort: z13.enum(["name", "status", "createdAt", "updatedAt"]).optional().default("createdAt"),
+  sortDirection: z13.enum(["asc", "desc"]).optional().default("desc"),
+  search: z13.string().trim().optional(),
+  className: z13.string().trim().optional()
+});
+var getServiceDropdownInputSchema = z13.object({
+  search: z13.string().trim().optional(),
+  classId: z13.string().optional()
+}).optional().default({});
+var getServiceBySlugInputSchema = z13.object({
+  classSlug: z13.string().min(1)
+});
+var getServiceByIdInputSchema = z13.object({
+  id: z13.string().min(1)
+});
+var updateServiceInputSchema = z13.object({
+  id: z13.string().min(1),
+  updates: serviceCreateSchema
+});
+var deleteServiceInputSchema = z13.object({
+  id: z13.string().min(1)
+});
+
+// ../packages/src/schemas/student.schema.ts
+import { z as z14 } from "zod";
+var studentSchema = z14.object({
+  username: z14.string().min(3),
+  email: z14.string().email(),
+  password: z14.string().min(8)
+});
+var addStudentsSchema = z14.object({
+  students: z14.array(studentSchema).min(1).max(100)
+});
+var getStudentsInputSchema = z14.object({
+  page: z14.number().optional().default(1),
+  limit: z14.number().optional().default(10),
+  search: z14.string().optional()
+});
+var deleteStudentInputSchema = z14.object({
+  id: z14.string().min(1)
+});
+var addStudentsToClassGroupSchema = z14.object({
+  groupId: z14.string(),
+  studentIds: z14.array(z14.string())
+});
+var getClassGroupDetailsSchema = z14.object({
+  groupId: z14.string()
+});
+
+// ../packages/src/schemas/subHeading.schema.ts
+import { z as z15 } from "zod";
+var statusSchema2 = z15.nativeEnum(StatusEnum).default(StatusEnum.Active);
+var subHeadingCreateSchema = z15.object({
+  name: z15.string().trim().min(1),
+  slug: z15.string().trim().optional(),
+  code: z15.string().optional(),
+  classId: z15.string().trim().min(1),
+  bookId: z15.string().trim().min(1),
+  chapterId: z15.string().trim().min(1),
+  headingId: z15.string().trim().min(1),
+  serviceId: z15.array(z15.string()).optional(),
+  description: z15.string().trim().optional().default(""),
+  creditHours: z15.number().optional(),
+  fileId: z15.string().trim().optional(),
+  pages: z15.number().optional(),
+  image: z15.string().trim().optional(),
+  content: z15.string().trim().optional().default(""),
+  totalWeight: z15.number().optional(),
+  components: z15.array(z15.any()).optional(),
+  status: statusSchema2,
+  order: z15.number().optional()
+});
+var getSubHeadingsInputSchema = z15.object({
+  status: z15.nativeEnum(StatusEnum).optional().default(StatusEnum.Active),
+  page: z15.number().int().positive().optional().default(1),
+  limit: z15.number().int().positive().max(100).optional().default(10),
+  sort: z15.enum(["name", "status", "createdAt", "updatedAt", "order"]).optional().default("createdAt"),
+  sortDirection: z15.enum(["asc", "desc"]).optional().default("desc"),
+  search: z15.string().trim().optional(),
+  classId: z15.string().optional(),
+  bookId: z15.string().optional(),
+  chapterId: z15.string().optional(),
+  headingId: z15.string().optional()
+});
+var getSubHeadingDropdownInputSchema = z15.object({
+  classId: z15.string().optional(),
+  bookId: z15.string().optional(),
+  chapterId: z15.string().optional(),
+  headingId: z15.string().optional()
+});
+var getSubHeadingBySlugInputSchema = z15.object({
+  classSlug: z15.string().min(1),
+  bookSlug: z15.string().min(1),
+  chapterSlug: z15.string().min(1),
+  headingSlug: z15.string().min(1)
+});
+var getSubHeadingByIdInputSchema = z15.object({
+  id: z15.string().min(1)
+});
+var deleteSubHeadingInputSchema = z15.object({
+  id: z15.string().min(1)
+});
+var updateSubHeadingInputSchema = z15.object({
+  id: z15.string().min(1),
+  updates: subHeadingCreateSchema
+});
+
+// ../packages/src/schemas/user.schema.ts
+import { z as z16 } from "zod";
+var loginFormSchema = z16.object({
+  email: z16.string().trim().email(),
+  password: z16.string().min(8)
+});
+var registerFormSchema = z16.object({
+  username: z16.string().trim().min(1),
+  email: z16.string().trim().email(),
+  password: z16.string().min(8)
+});
+var otpVerificationFormSchema = z16.object({
+  email: z16.string().trim().email(),
+  otp: z16.string().trim().min(4).max(8)
+});
+var forgotPasswordFormSchema = z16.object({
+  email: z16.string().trim().email()
+});
+var otpForgotPasswordFormSchema = z16.object({
+  email: z16.string().trim().email(),
+  otp: z16.string().trim().min(4).max(8)
+});
+var resetPasswordFormSchema = z16.object({
+  password: z16.string().min(8),
+  confirmPassword: z16.string().min(8)
+}).refine((values) => values.password === values.confirmPassword, {
+  message: "Passwords do not match",
+  path: ["confirmPassword"]
+});
+
+// ../packages/src/constants/languages.ts
+var LANGUAGES = [
+  { label: "English", value: "en", flag: "\u{1F1FA}\u{1F1F8}", direction: "ltr" },
+  { label: "Spanish", value: "es", flag: "\u{1F1EA}\u{1F1F8}", direction: "ltr" },
+  { label: "French", value: "fr", flag: "\u{1F1EB}\u{1F1F7}", direction: "ltr" },
+  { label: "German", value: "de", flag: "\u{1F1E9}\u{1F1EA}", direction: "ltr" },
+  { label: "Italian", value: "it", flag: "\u{1F1EE}\u{1F1F9}", direction: "ltr" },
+  { label: "Portuguese", value: "pt", flag: "\u{1F1F5}\u{1F1F9}", direction: "ltr" },
+  { label: "Japanese", value: "ja", flag: "\u{1F1EF}\u{1F1F5}", direction: "ltr" },
+  { label: "Korean", value: "ko", flag: "\u{1F1F0}\u{1F1F7}", direction: "ltr" },
+  { label: "Chinese (Simplified)", value: "zh", flag: "\u{1F1E8}\u{1F1F3}", direction: "ltr" },
+  { label: "Arabic", value: "ar", flag: "\u{1F1F8}\u{1F1E6}", direction: "rtl" }
+];
+var languageOptions = LANGUAGES.map(({ label, value }) => ({
+  label,
+  value
+}));
+
+// ../packages/src/constants/time.ts
+var THIRTY_DAYS_MS = 30 * 24 * 60 * 60 * 1e3;
+var THIRTY_DAYS_S = 60 * 60 * 24 * 30;
+var NINETY_DAYS_S = 60 * 60 * 24 * 90;
+var ONE_HOUR_MS = 60 * 60 * 1e3;
+
+// ../packages/src/helpers/pricing.helper.ts
+var FREE_PLAN = {
+  id: "free",
+  variantId: "1701464",
+  billingModel: "flat",
+  tier: "free",
+  name: "Freemium",
+  price: 0,
+  yearlyPrice: 0,
+  responses: 100,
+  users: 1,
+  popular: false,
+  features: [
+    "Free forever",
+    "100 responses/month",
+    "1 form",
+    "Basic features",
+    "Upgrade anytime"
+  ]
+};
+var FLAT_PLANS = [
+  {
+    id: "flat-basic",
+    variantId: "",
+    billingModel: "flat",
+    tier: "basic",
+    name: "Basic",
+    price: 15,
+    yearlyPrice: 12,
+    responses: 250,
+    users: 5,
+    popular: false,
+    features: [
+      "Up to 5 forms",
+      "250 responses/month",
+      "Basic analytics",
+      "Email support",
+      "5 team members"
+    ]
+  },
+  {
+    id: "flat-pro",
+    variantId: "",
+    billingModel: "flat",
+    tier: "pro",
+    name: "Pro",
+    price: 29,
+    yearlyPrice: 23,
+    responses: 1e3,
+    users: 10,
+    popular: true,
+    features: [
+      "Up to 30 forms",
+      "1,000 responses/month",
+      "Advanced analytics",
+      "Email support",
+      "10 team members"
+    ]
+  },
+  {
+    id: "flat-business",
+    variantId: "",
+    billingModel: "flat",
+    tier: "business",
+    name: "Business",
+    price: 99,
+    yearlyPrice: 79,
+    responses: 1e4,
+    users: Infinity,
+    popular: false,
+    features: [
+      "Unlimited forms",
+      "10,000 responses/month",
+      "Integrations",
+      "Priority support",
+      "Unlimited team members"
+    ]
+  },
+  {
+    id: "flat-enterprise",
+    variantId: "",
+    billingModel: "flat",
+    tier: "enterprise",
+    name: "Enterprise",
+    price: 0,
+    yearlyPrice: 0,
+    responses: Infinity,
+    users: Infinity,
+    popular: false,
+    features: [
+      "Unlimited everything",
+      "Custom SLAs",
+      "Priority support",
+      "Dedicated account manager",
+      "Custom integrations"
+    ]
+  }
+];
+var USAGE_PLANS = [
+  {
+    id: "usage-basic",
+    variantId: "1701464",
+    billingModel: "usage",
+    tier: "basic",
+    name: "Basic",
+    price: 0,
+    yearlyPrice: 0,
+    responses: Infinity,
+    users: 5,
+    popular: false,
+    features: [
+      "Pay only for what you use",
+      "$0.10 per response",
+      "Up to 5 forms",
+      "Email support",
+      "5 team members"
+    ]
+  },
+  {
+    id: "usage-pro",
+    variantId: "",
+    billingModel: "usage",
+    tier: "pro",
+    name: "Pro",
+    price: 0,
+    yearlyPrice: 0,
+    responses: Infinity,
+    users: 10,
+    popular: true,
+    features: [
+      "Pay only for what you use",
+      "$0.08 per response",
+      "Up to 30 forms",
+      "Advanced analytics",
+      "10 team members"
+    ]
+  },
+  {
+    id: "usage-business",
+    variantId: "",
+    billingModel: "usage",
+    tier: "business",
+    name: "Business",
+    price: 0,
+    yearlyPrice: 0,
+    responses: Infinity,
+    users: Infinity,
+    popular: false,
+    features: [
+      "Pay only for what you use",
+      "$0.05 per response",
+      "Unlimited forms",
+      "Priority support",
+      "Unlimited team members"
+    ]
+  },
+  {
+    id: "usage-enterprise",
+    variantId: "",
+    billingModel: "usage",
+    tier: "enterprise",
+    name: "Enterprise",
+    price: 0,
+    yearlyPrice: 0,
+    responses: Infinity,
+    users: Infinity,
+    popular: false,
+    features: [
+      "Custom per-response rate",
+      "Unlimited forms",
+      "Dedicated account manager",
+      "Custom SLAs",
+      "Custom integrations"
+    ]
+  }
+];
+var DYNAMIC_PLANS = [
+  {
+    id: "dynamic-basic",
+    variantId: "",
+    billingModel: "dynamic",
+    tier: "basic",
+    name: "Basic",
+    price: 0,
+    yearlyPrice: 0,
+    responses: Infinity,
+    users: 5,
+    popular: false,
+    features: [
+      "Dynamic pricing based on demand",
+      "Lower rates during off-peak",
+      "Up to 5 forms",
+      "Email support",
+      "5 team members"
+    ]
+  },
+  {
+    id: "dynamic-pro",
+    variantId: "",
+    billingModel: "dynamic",
+    tier: "pro",
+    name: "Pro",
+    price: 0,
+    yearlyPrice: 0,
+    responses: Infinity,
+    users: 10,
+    popular: true,
+    features: [
+      "Dynamic pricing based on demand",
+      "Lower rates during off-peak",
+      "Up to 30 forms",
+      "Advanced analytics",
+      "10 team members"
+    ]
+  },
+  {
+    id: "dynamic-business",
+    variantId: "",
+    billingModel: "dynamic",
+    tier: "business",
+    name: "Business",
+    price: 0,
+    yearlyPrice: 0,
+    responses: Infinity,
+    users: Infinity,
+    popular: false,
+    features: [
+      "Dynamic pricing based on demand",
+      "Best off-peak rates",
+      "Unlimited forms",
+      "Priority support",
+      "Unlimited team members"
+    ]
+  },
+  {
+    id: "dynamic-enterprise",
+    variantId: "",
+    billingModel: "dynamic",
+    tier: "enterprise",
+    name: "Enterprise",
+    price: 0,
+    yearlyPrice: 0,
+    responses: Infinity,
+    users: Infinity,
+    popular: false,
+    features: [
+      "Custom dynamic rate",
+      "Guaranteed off-peak pricing",
+      "Unlimited forms",
+      "Dedicated account manager",
+      "Custom integrations"
+    ]
+  }
+];
+var ALL_PLANS = [
+  FREE_PLAN,
+  ...FLAT_PLANS,
+  ...USAGE_PLANS,
+  ...DYNAMIC_PLANS
+];
+var PLAN_MAP = ALL_PLANS.reduce((acc, plan) => {
+  acc[plan.id] = plan;
+  return acc;
+}, {});
+
+// ../packages/src/config/env.config.ts
+var APP_NAME = "GrowLearnHub";
+var APP_DOMAIN = "growlearnhub.com";
+var APP_URL = `https://${APP_DOMAIN}`;
+var APP_HANDLE = "growlearnhub";
+var SUPPORT_EMAIL = `support@${APP_DOMAIN}`;
+var CONTACT_EMAIL = `contact@${APP_DOMAIN}`;
+var PRIVACY_EMAIL = `privacy@${APP_DOMAIN}`;
+var ABUSE_EMAIL = `abuse@${APP_DOMAIN}`;
+var COMPANY_NAME = `${APP_NAME}`;
+var THEME_COLOR = "#3b82f6";
+var THEME_DARK = "#1e3a5f";
+var VERSION = "1.0.0";
+var FOUNDED_YEAR = 2024;
+var DEFAULT_LOCALE = "en_US";
+var DEFAULT_LANG = "en";
+var APP_CONFIG = {
+  // ── Identity ─────────────────────────────────────────────────────────────
+  name: APP_NAME,
+  shortName: "GrowLearn",
+  version: VERSION,
+  foundedYear: FOUNDED_YEAR,
+  company: COMPANY_NAME,
+  tagline: "Your Ultimate Resource for Classes 9\u201312 & Virtual University",
+  title: `${APP_NAME} - Your Ultimate Resource for Classes 9\u201312 & Virtual University`,
+  description: `${APP_NAME} is a comprehensive educational platform providing books, notes, MCQs, past papers, online tests, and pairing schemes for Pakistani students in classes 9\u201312 and Virtual University.`,
+  shortDescription: `Books, notes, MCQs, past papers & more for Pakistani students.`,
+  // ── Theme ─────────────────────────────────────────────────────────────────
+  theme: {
+    primary: THEME_COLOR,
+    dark: THEME_DARK,
+    background: "#ffffff"
+  },
+  themeColor: THEME_COLOR,
+  // ── URLs ──────────────────────────────────────────────────────────────────
+  url: APP_URL,
+  canonical: APP_URL,
+  website: APP_URL,
+  domain: APP_DOMAIN,
+  assets: {
+    logo: `${APP_URL}/logo.png`,
+    favicon: `${APP_URL}/favicon.ico`,
+    ogImage: `${APP_URL}/og-image.png`,
+    appleTouchIcon: `${APP_URL}/apple-touch-icon.png`
+  },
+  // ── Localization ──────────────────────────────────────────────────────────
+  locale: DEFAULT_LOCALE,
+  language: DEFAULT_LANG,
+  timezone: "UTC",
+  currency: "USD",
+  // ── Emails ────────────────────────────────────────────────────────────────
+  supportEmail: SUPPORT_EMAIL,
+  contactEmail: CONTACT_EMAIL,
+  privacyEmail: PRIVACY_EMAIL,
+  abuseEmail: ABUSE_EMAIL,
+  // ── Mail Templates ────────────────────────────────────────────────────────
+  mail: {
+    from: `"${APP_NAME}" <${SUPPORT_EMAIL}>`,
+    replyTo: CONTACT_EMAIL,
+    signature: `The ${APP_NAME} Team`,
+    footer: `\xA9 ${FOUNDED_YEAR}\u2013${(/* @__PURE__ */ new Date()).getFullYear()} ${COMPANY_NAME}. All rights reserved.`,
+    unsubscribe: `${APP_URL}/unsubscribe`,
+    address: `${COMPANY_NAME}, Lahore, Pakistan`
+  },
+  // ── SEO ───────────────────────────────────────────────────────────────────
+  keywords: [
+    "education",
+    "pakistani education",
+    "class 9",
+    "class 10",
+    "class 11",
+    "class 12",
+    "virtual university",
+    "past papers",
+    "MCQs",
+    "online tests",
+    "pairing schemes"
+  ],
+  robots: "index, follow",
+  category: "technology",
+  classification: "Business/Productivity",
+  // ── Social ────────────────────────────────────────────────────────────────
+  social: {
+    twitter: `https://twitter.com/${APP_HANDLE}`,
+    linkedin: `https://linkedin.com/company/${APP_HANDLE}`,
+    github: `https://github.com/${APP_HANDLE}`,
+    facebook: `https://facebook.com/${APP_HANDLE}`,
+    instagram: `https://instagram.com/${APP_HANDLE}`,
+    youtube: `https://youtube.com/@${APP_HANDLE}`
+  },
+  // ── OpenGraph ─────────────────────────────────────────────────────────────
+  openGraph: {
+    type: "website",
+    locale: DEFAULT_LOCALE,
+    url: APP_URL,
+    siteName: APP_NAME,
+    title: `${APP_NAME} - Your Ultimate Resource for Classes 9\u201312 & Virtual University`,
+    description: `${APP_NAME} is a comprehensive educational platform for Pakistani students.`,
+    images: [
+      {
+        url: `${APP_URL}/og-image.png`,
+        width: 1200,
+        height: 630,
+        alt: `${APP_NAME} - Educational Platform`,
+        type: "image/png"
+      },
+      {
+        url: `${APP_URL}/og-image-square.png`,
+        width: 600,
+        height: 600,
+        alt: `${APP_NAME} Logo`,
+        type: "image/png"
+      }
+    ]
+  },
+  // ── Twitter Card ──────────────────────────────────────────────────────────
+  twitter: {
+    handle: `@${APP_HANDLE}`,
+    site: `@${APP_HANDLE}`,
+    creator: `@${APP_HANDLE}`,
+    cardType: "summary_large_image"
+  },
+  // ── Viewport ──────────────────────────────────────────────────────────────
+  viewPort: {
+    width: "device-width",
+    initialScale: 1,
+    maximumScale: 5,
+    userScalable: true,
+    viewportFit: "cover"
+  },
+  // ── Apple / PWA ───────────────────────────────────────────────────────────
+  appleMobileWebApp: {
+    capable: "yes",
+    statusBarStyle: "default",
+    title: APP_NAME
+  },
+  pwa: {
+    name: APP_NAME,
+    shortName: "GrowLearn",
+    startUrl: "/",
+    display: "standalone",
+    backgroundColor: "#ffffff",
+    themeColor: THEME_COLOR,
+    orientation: "portrait"
+  },
+  // ── Legal ─────────────────────────────────────────────────────────────────
+  legal: {
+    privacyUrl: `${APP_URL}/privacy`,
+    termsUrl: `${APP_URL}/terms`,
+    cookieUrl: `${APP_URL}/cookies`,
+    copyrightYear: FOUNDED_YEAR,
+    get copyright() {
+      const year = (/* @__PURE__ */ new Date()).getFullYear();
+      return `\xA9 ${FOUNDED_YEAR}${year > FOUNDED_YEAR ? `\u2013${year}` : ""} ${COMPANY_NAME}. All rights reserved.`;
+    }
+  },
+  // ── Support ───────────────────────────────────────────────────────────────
+  support: {
+    email: SUPPORT_EMAIL,
+    url: `${APP_URL}/support`,
+    docsUrl: `${APP_URL}/docs`,
+    status: `https://status.${APP_DOMAIN}`,
+    hours: "Monday\u2013Friday, 9am\u20136pm PKT"
+  }
+};
+
+// src/routers/auth.router.ts
 import { logTreeStep as logTreeStep2 } from "@muzammil328/services";
 
 // src/infrastructure/cookie.service.ts
@@ -152,12 +1235,10 @@ var cookieService = {
 // src/services/auth.service.ts
 import { AppError } from "@muzammil328/server";
 import { Types as Types3 } from "mongoose";
-import { RoleEnum as RoleEnum3, OtpPurposeEnum as OtpPurposeEnum3 } from "@muzammil328/education-packages/enums";
 import { logTreeStep } from "@muzammil328/services";
 
 // src/infrastructure/email.service.ts
 import { NodemailerProvider, EmailService, createRenderer } from "@muzammil328/services";
-import { APP_CONFIG } from "@muzammil328/education-packages";
 
 // src/email/templateLoader.ts
 import fs from "fs/promises";
@@ -175,49 +1256,49 @@ async function templateLoader(name) {
 }
 
 // src/config/env.config.ts
-import { z } from "zod";
+import { z as z17 } from "zod";
 import dotenv from "dotenv";
 import path2 from "path";
 var envPath = path2.resolve(process.cwd(), ".env");
 dotenv.config({ path: envPath, override: true });
-var envSchema = z.object({
-  NODE_ENV: z.enum(["development", "production", "test"]).default("development"),
-  PORT: z.string().default("7000"),
-  CLIENT_URL: z.string().default("http://localhost:3000"),
-  CORS_ORIGIN: z.string().default("http://localhost:3000"),
+var envSchema = z17.object({
+  NODE_ENV: z17.enum(["development", "production", "test"]).default("development"),
+  PORT: z17.string().default("7000"),
+  CLIENT_URL: z17.string().default("http://localhost:3000"),
+  CORS_ORIGIN: z17.string().default("http://localhost:3000"),
   // Database
-  MONGODB_URI: z.string().default("mongodb://localhost:27017/education"),
-  REDIS_URL: z.string().default("redis://localhost:6379"),
+  MONGODB_URI: z17.string().default("mongodb://localhost:27017/education"),
+  REDIS_URL: z17.string().default("redis://localhost:6379"),
   // JWT
-  JWT_ACCESS_TOKEN_SECRET_KEY: z.string().min(32).optional(),
-  JWT_ACCESS_TOKEN_EXPIRES_IN: z.string().default("1d").optional(),
-  JWT_REFRESH_TOKEN_SECRET_KEY: z.string().min(32),
-  JWT_REFRESH_TOKEN_EXPIRES_IN: z.string().default("7d"),
-  BCRYPT_SALT_ROUNDS: z.coerce.number().default(12),
+  JWT_ACCESS_TOKEN_SECRET_KEY: z17.string().min(32).optional(),
+  JWT_ACCESS_TOKEN_EXPIRES_IN: z17.string().default("1d").optional(),
+  JWT_REFRESH_TOKEN_SECRET_KEY: z17.string().min(32),
+  JWT_REFRESH_TOKEN_EXPIRES_IN: z17.string().default("7d"),
+  BCRYPT_SALT_ROUNDS: z17.coerce.number().default(12),
   // Email
-  SMTP_HOST: z.string().default("smtp.gmail.com"),
-  SMTP_PORT: z.coerce.number().default(465),
-  SMTP_SECURE: z.coerce.boolean().default(true),
-  SMTP_USER: z.string().optional(),
-  SMTP_PASS: z.string().optional(),
-  SMTP_FROM: z.string().optional(),
-  ADMIN_EMAIL: z.string().optional(),
+  SMTP_HOST: z17.string().default("smtp.gmail.com"),
+  SMTP_PORT: z17.coerce.number().default(465),
+  SMTP_SECURE: z17.coerce.boolean().default(true),
+  SMTP_USER: z17.string().optional(),
+  SMTP_PASS: z17.string().optional(),
+  SMTP_FROM: z17.string().optional(),
+  ADMIN_EMAIL: z17.string().optional(),
   // Cloudinary
-  CLOUDINARY_CLOUD_NAME: z.string().optional(),
-  CLOUDINARY_API_KEY: z.string().optional(),
-  CLOUDINARY_API_SECRET: z.string().optional(),
+  CLOUDINARY_CLOUD_NAME: z17.string().optional(),
+  CLOUDINARY_API_KEY: z17.string().optional(),
+  CLOUDINARY_API_SECRET: z17.string().optional(),
   // Stripe
-  STRIPE_SECRET_KEY: z.string().optional(),
-  STRIPE_WEBHOOK_SECRET: z.string().optional(),
-  STRIPE_SUCCESS_URL: z.string().optional(),
-  STRIPE_CANCEL_URL: z.string().optional(),
+  STRIPE_SECRET_KEY: z17.string().optional(),
+  STRIPE_WEBHOOK_SECRET: z17.string().optional(),
+  STRIPE_SUCCESS_URL: z17.string().optional(),
+  STRIPE_CANCEL_URL: z17.string().optional(),
   // Google OAuth
-  GOOGLE_CLIENT_ID: z.string().optional(),
-  GOOGLE_CLIENT_SECRET: z.string().optional(),
-  GOOGLE_REDIRECT_URI: z.string().optional(),
-  COOKIE_SECRET: z.string().optional(),
+  GOOGLE_CLIENT_ID: z17.string().optional(),
+  GOOGLE_CLIENT_SECRET: z17.string().optional(),
+  GOOGLE_REDIRECT_URI: z17.string().optional(),
+  COOKIE_SECRET: z17.string().optional(),
   // Logging
-  LOG_LEVEL: z.enum(["error", "warn", "info", "debug"]).default("info")
+  LOG_LEVEL: z17.enum(["error", "warn", "info", "debug"]).default("info")
 });
 var parsedEnv = envSchema.safeParse(process.env);
 if (!parsedEnv.success) {
@@ -349,11 +1430,9 @@ var jwtService = {
 // src/infrastructure/otp.service.ts
 import crypto from "crypto";
 import { Types } from "mongoose";
-import { OtpPurposeEnum as OtpPurposeEnum2 } from "@muzammil328/education-packages/enums";
 
 // src/models/otp.model.ts
 import mongoose, { Schema } from "mongoose";
-import { OtpPurposeEnum } from "@muzammil328/education-packages/enums";
 var OtpSchema = new Schema(
   {
     userId: { type: Schema.Types.ObjectId, ref: "User", required: true, index: true },
@@ -463,7 +1542,7 @@ function getExpiryDate(ttlMinutes = OTP_TTL_MINUTES) {
   return new Date(Date.now() + ttlMinutes * 60 * 1e3);
 }
 var otpService = {
-  async createOtp(userId, purpose = OtpPurposeEnum2.EMAIL_VERIFICATION) {
+  async createOtp(userId, purpose = OtpPurposeEnum.EMAIL_VERIFICATION) {
     const otp = generateNumericOtp();
     const hashedOtp = await bcryptService.hash(otp);
     const expiresAt = getExpiryDate();
@@ -494,7 +1573,6 @@ import { Types as Types2 } from "mongoose";
 
 // src/models/user.model.ts
 import mongoose3, { Schema as Schema2 } from "mongoose";
-import { RoleEnum as RoleEnum2, SubscriptionPlanEnum } from "@muzammil328/education-packages/enums";
 var UserSchema = new Schema2(
   {
     username: { type: String, required: true },
@@ -502,8 +1580,8 @@ var UserSchema = new Schema2(
     password: { type: String, required: true, select: false },
     role: {
       type: String,
-      enum: Object.values(RoleEnum2),
-      default: RoleEnum2.Student
+      enum: Object.values(RoleEnum),
+      default: RoleEnum.Student
     },
     isEmailVerified: { type: Boolean, default: false },
     hashedToken: { type: String, select: false },
@@ -612,14 +1690,14 @@ var authService = {
       username,
       email: email.toLowerCase(),
       password: hashedPassword,
-      role: RoleEnum3.Student,
+      role: RoleEnum.Student,
       isEmailVerified: false,
       enrolledClasses: [],
       badges: [],
       dailyStreak: 0
     });
     const userId = String(user._id);
-    const { otp } = await otpService.createOtp(new Types3.ObjectId(userId), OtpPurposeEnum3.EMAIL_VERIFICATION);
+    const { otp } = await otpService.createOtp(new Types3.ObjectId(userId), OtpPurposeEnum.EMAIL_VERIFICATION);
     await sendVerificationOtp({ email, username, otp });
     logTreeStep("AUTH_REGISTER_SUCCESS", {
       meta: {
@@ -631,7 +1709,7 @@ var authService = {
       userId,
       username: user.username,
       email: user.email,
-      role: user.role ?? RoleEnum3.Student
+      role: user.role ?? RoleEnum.Student
     };
   },
   async otpVerification(input) {
@@ -640,7 +1718,7 @@ var authService = {
     const user = await userRepository.findByEmail(email);
     if (!user) throw AppError.notFound("User not found");
     const userId = String(user._id);
-    const isValid = await otpService.verifyOtp(new Types3.ObjectId(userId), otp, OtpPurposeEnum3.EMAIL_VERIFICATION);
+    const isValid = await otpService.verifyOtp(new Types3.ObjectId(userId), otp, OtpPurposeEnum.EMAIL_VERIFICATION);
     if (!isValid) throw AppError.unauthorized("Invalid or expired OTP");
     logTreeStep("OTP verified successfully");
     return { success: true, message: "Email verified successfully" };
@@ -653,7 +1731,7 @@ var authService = {
     const isPasswordValid = await bcryptService.compare(password, user.password);
     if (!isPasswordValid) throw AppError.unauthorized("Invalid credentials");
     const userId = String(user._id);
-    const role = user.role ?? RoleEnum3.Student;
+    const role = user.role ?? RoleEnum.Student;
     const accessToken = jwtService.signAccess({ userId, role });
     const refreshToken = jwtService.signRefresh({ userId, role });
     const hashedRefreshToken = await bcryptService.hash(refreshToken);
@@ -690,7 +1768,7 @@ var authService = {
     const user = await userRepository.findByEmail(email);
     if (!user) throw AppError.notFound("User not found");
     const userId = String(user._id);
-    const { otp } = await otpService.createOtp(new Types3.ObjectId(userId), OtpPurposeEnum3.PASSWORD_RESET);
+    const { otp } = await otpService.createOtp(new Types3.ObjectId(userId), OtpPurposeEnum.PASSWORD_RESET);
     await sendPasswordResetOtp({ email, username: user.username, otp });
     logTreeStep("Password reset OTP sent successfully");
     return { message: "Password reset OTP sent to email" };
@@ -701,7 +1779,7 @@ var authService = {
     const user = await userRepository.findByEmail(email);
     if (!user) throw AppError.notFound("User not found");
     const userId = String(user._id);
-    const isValid = await otpService.verifyOtp(new Types3.ObjectId(userId), otp, OtpPurposeEnum3.PASSWORD_RESET);
+    const isValid = await otpService.verifyOtp(new Types3.ObjectId(userId), otp, OtpPurposeEnum.PASSWORD_RESET);
     if (!isValid) throw AppError.unauthorized("Invalid or expired OTP");
     logTreeStep("Forgot password OTP verified successfully");
     return { message: "OTP verified successfully" };
@@ -731,7 +1809,7 @@ var authService = {
     const isTokenValid = await bcryptService.compare(incomingToken, user.hashedToken);
     if (!isTokenValid) throw AppError.unauthorized("Invalid refresh token");
     const userId = String(user._id);
-    const role = user.role ?? RoleEnum3.Student;
+    const role = user.role ?? RoleEnum.Student;
     const accessToken = jwtService.signAccess({ userId, role });
     const newRefreshToken = jwtService.signRefresh({ userId, role });
     const hashedRefreshToken = await bcryptService.hash(newRefreshToken);
@@ -903,7 +1981,7 @@ var authRouter = createTRPCRouter({
       throw toTrpcError2(error);
     }
   }),
-  logout: protectedProcedure.input(z2.void()).mutation(async ({ ctx }) => {
+  logout: protectedProcedure.input(z18.void()).mutation(async ({ ctx }) => {
     try {
       const userId = ctx.user?.userId;
       if (!userId || !Types5.ObjectId.isValid(userId)) {
@@ -921,7 +1999,7 @@ var authRouter = createTRPCRouter({
       throw toTrpcError2(error);
     }
   }),
-  refreshToken: publicProcedure.input(z2.void()).mutation(async ({ ctx }) => {
+  refreshToken: publicProcedure.input(z18.void()).mutation(async ({ ctx }) => {
     try {
       const token = cookieService.getRefreshToken(ctx.req);
       if (!token) throw AppError3.unauthorized("No refresh token provided");
@@ -991,7 +2069,6 @@ import { toTrpcError as toTrpcError3 } from "@muzammil328/trpc";
 
 // src/models/board.model.ts
 import mongoose4, { Schema as Schema3 } from "mongoose";
-import { StatusEnum } from "@muzammil328/education-packages/enums";
 var BoardSchema = new Schema3(
   {
     name: { type: String, required: true, trim: true },
@@ -1027,7 +2104,6 @@ var BoardRepository = class extends BaseRepository {
 var boardRepository = new BoardRepository();
 
 // src/routers/board/boardGetAll.ts
-import { getBoardsInputSchema } from "@muzammil328/education-packages";
 import { buildMatch } from "@muzammil328/db";
 var boardGetAll = superAdminProcedure.input(getBoardsInputSchema).query(async ({ input }) => {
   try {
@@ -1075,10 +2151,6 @@ var boardGetAll = superAdminProcedure.input(getBoardsInputSchema).query(async ({
 
 // src/routers/board/boardGetDropdown.ts
 import { toTrpcError as toTrpcError4 } from "@muzammil328/trpc";
-import {
-  getBoardDropdownInputSchema,
-  StatusEnum as StatusEnum2
-} from "@muzammil328/education-packages";
 import { buildMatch as buildMatch2, toObjectId as toObjectId2 } from "@muzammil328/db";
 var boardGetDropdown = superAdminProcedure.input(getBoardDropdownInputSchema).query(async ({ input }) => {
   try {
@@ -1089,7 +2161,7 @@ var boardGetDropdown = superAdminProcedure.input(getBoardDropdownInputSchema).qu
     const result = await boardRepository.aggregate({
       pipeline: boardRepository.pipeline().match(
         buildMatch2({
-          status: StatusEnum2.Active,
+          status: StatusEnum.Active,
           classId: toObjectId2(classId)
         })
       ).sort({ name: 1 }).project({
@@ -1109,7 +2181,6 @@ var boardGetDropdown = superAdminProcedure.input(getBoardDropdownInputSchema).qu
 
 // src/routers/board/boardGetById.ts
 import { toTrpcError as toTrpcError5 } from "@muzammil328/trpc";
-import { getBoardByIdInputSchema } from "@muzammil328/education-packages";
 import { AppError as AppError4 } from "@muzammil328/server";
 import { buildMatch as buildMatch3, toObjectId as toObjectId3 } from "@muzammil328/db";
 var boardGetById = superAdminProcedure.input(getBoardByIdInputSchema).query(async ({ input }) => {
@@ -1166,7 +2237,6 @@ var boardGetById = superAdminProcedure.input(getBoardByIdInputSchema).query(asyn
 // src/routers/board/boardDelete.ts
 import { AppError as AppError5 } from "@muzammil328/server";
 import { toTrpcError as toTrpcError6 } from "@muzammil328/trpc";
-import { deleteBoardInputSchema } from "@muzammil328/education-packages";
 var boardDelete = superAdminProcedure.input(deleteBoardInputSchema).mutation(async ({ input }) => {
   try {
     const deleted = await boardRepository.findByIdAndDelete(toObjectId(input.id));
@@ -1185,7 +2255,6 @@ var boardDelete = superAdminProcedure.input(deleteBoardInputSchema).mutation(asy
 // src/routers/board/boardCreate.ts
 import { AppError as AppError6 } from "@muzammil328/server";
 import { toTrpcError as toTrpcError7 } from "@muzammil328/trpc";
-import { boardCreateSchema } from "@muzammil328/education-packages";
 import { parseObjectIdList } from "@muzammil328/db";
 var boardCreate = superAdminProcedure.input(boardCreateSchema).mutation(async ({ input }) => {
   try {
@@ -1221,7 +2290,6 @@ var boardCreate = superAdminProcedure.input(boardCreateSchema).mutation(async ({
 // src/routers/board/boardUpdate.ts
 import { AppError as AppError7 } from "@muzammil328/server";
 import { toTrpcError as toTrpcError8 } from "@muzammil328/trpc";
-import { updateBoardInputSchema } from "@muzammil328/education-packages";
 import { resolveObjectId, toObjectId as toObjectId4 } from "@muzammil328/db";
 var boardUpdate = superAdminProcedure.input(updateBoardInputSchema).mutation(async ({ input }) => {
   try {
@@ -1279,7 +2347,6 @@ import { toTrpcError as toTrpcError9 } from "@muzammil328/trpc";
 
 // src/models/book.model.ts
 import mongoose5, { Schema as Schema4 } from "mongoose";
-import { StatusEnum as StatusEnum3 } from "@muzammil328/education-packages/enums";
 var VUAssessmentComponentSchema = new Schema4(
   {
     title: { type: String, required: true },
@@ -1317,7 +2384,7 @@ var BookSchema = new Schema4(
     creditHours: { type: Number },
     fileId: { type: String },
     pages: { type: Number },
-    status: { type: String, enum: Object.values(StatusEnum3), default: StatusEnum3.Active },
+    status: { type: String, enum: Object.values(StatusEnum), default: StatusEnum.Active },
     image: { type: String },
     totalWeight: { type: Number, default: 100 },
     components: [VUAssessmentComponentSchema],
@@ -1528,7 +2595,6 @@ var BookRepository = class extends BaseRepository {
 var bookRepository = new BookRepository();
 
 // src/routers/book/bookGetAll.ts
-import { getBooksInputSchema } from "@muzammil328/education-packages";
 import { buildMatch as buildMatch4 } from "@muzammil328/db";
 var bookGetAll = superAdminProcedure.input(getBooksInputSchema).query(async ({ input }) => {
   try {
@@ -1577,10 +2643,6 @@ var bookGetAll = superAdminProcedure.input(getBooksInputSchema).query(async ({ i
 
 // src/routers/book/bookGetDropdown.ts
 import { toTrpcError as toTrpcError10 } from "@muzammil328/trpc";
-import {
-  getBookDropdownInputSchema,
-  StatusEnum as StatusEnum4
-} from "@muzammil328/education-packages";
 import { buildMatch as buildMatch5 } from "@muzammil328/db";
 var bookGetDropdown = superAdminProcedure.input(getBookDropdownInputSchema).query(async ({ input }) => {
   try {
@@ -1588,7 +2650,7 @@ var bookGetDropdown = superAdminProcedure.input(getBookDropdownInputSchema).quer
     const result = await bookRepository.aggregate({
       pipeline: bookRepository.pipeline().match(
         buildMatch5({
-          status: StatusEnum4.Active,
+          status: StatusEnum.Active,
           classId
         })
       ).sort({ name: 1 }).project({
@@ -1608,7 +2670,6 @@ var bookGetDropdown = superAdminProcedure.input(getBookDropdownInputSchema).quer
 
 // src/routers/book/bookGetById.ts
 import { toTrpcError as toTrpcError11 } from "@muzammil328/trpc";
-import { getBookByIdInputSchema } from "@muzammil328/education-packages";
 import { AppError as AppError8 } from "@muzammil328/server";
 import { buildMatch as buildMatch6, toObjectId as toObjectId5 } from "@muzammil328/db";
 var bookGetById = superAdminProcedure.input(getBookByIdInputSchema).query(async ({ input }) => {
@@ -1672,7 +2733,6 @@ var bookGetById = superAdminProcedure.input(getBookByIdInputSchema).query(async 
 // src/routers/book/bookDelete.ts
 import { AppError as AppError9 } from "@muzammil328/server";
 import { toTrpcError as toTrpcError12 } from "@muzammil328/trpc";
-import { deleteBookInputSchema } from "@muzammil328/education-packages";
 var bookDelete = superAdminProcedure.input(deleteBookInputSchema).mutation(async ({ input }) => {
   try {
     const deleted = await bookRepository.findByIdAndDelete(input.id);
@@ -1692,7 +2752,6 @@ var bookDelete = superAdminProcedure.input(deleteBookInputSchema).mutation(async
 import { Types as Types6 } from "mongoose";
 import { AppError as AppError10 } from "@muzammil328/server";
 import { toTrpcError as toTrpcError13 } from "@muzammil328/trpc";
-import { bookCreateSchema } from "@muzammil328/education-packages";
 var bookCreate = superAdminProcedure.input(bookCreateSchema).mutation(async ({ input }) => {
   try {
     const existing = await bookRepository.findOne({
@@ -1734,7 +2793,6 @@ var bookCreate = superAdminProcedure.input(bookCreateSchema).mutation(async ({ i
 // src/routers/book/bookUpdate.ts
 import { AppError as AppError11 } from "@muzammil328/server";
 import { toTrpcError as toTrpcError14 } from "@muzammil328/trpc";
-import { updateBookInputSchema } from "@muzammil328/education-packages";
 import { resolveObjectId as resolveObjectId2 } from "@muzammil328/db";
 var bookUpdate = superAdminProcedure.input(updateBookInputSchema).mutation(async ({ input }) => {
   try {
@@ -1806,7 +2864,6 @@ import { toTrpcError as toTrpcError15 } from "@muzammil328/trpc";
 
 // src/models/chapter.model.ts
 import mongoose6, { Schema as Schema5 } from "mongoose";
-import { StatusEnum as StatusEnum5 } from "@muzammil328/education-packages/enums";
 var ChapterSchema = new Schema5(
   {
     name: { type: String, required: true },
@@ -1815,7 +2872,7 @@ var ChapterSchema = new Schema5(
     classId: { type: Schema5.Types.ObjectId, ref: "Class", required: true },
     description: { type: String },
     content: { type: String },
-    status: { type: String, enum: Object.values(StatusEnum5), default: StatusEnum5.Active },
+    status: { type: String, enum: Object.values(StatusEnum), default: StatusEnum.Active },
     order: { type: Number }
   },
   { timestamps: true }
@@ -1966,7 +3023,6 @@ var ChapterRepository = class extends BaseRepository {
 var chapterRepository = new ChapterRepository();
 
 // src/routers/chapter/chapterGetAll.ts
-import { getChaptersInputSchema } from "@muzammil328/education-packages";
 import { buildMatch as buildMatch7 } from "@muzammil328/db";
 var chapterGetAll = superAdminProcedure.input(getChaptersInputSchema).query(async ({ input }) => {
   try {
@@ -2027,10 +3083,6 @@ var chapterGetAll = superAdminProcedure.input(getChaptersInputSchema).query(asyn
 
 // src/routers/chapter/chapterGetDropdown.ts
 import { toTrpcError as toTrpcError16 } from "@muzammil328/trpc";
-import {
-  getChapterDropdownInputSchema,
-  StatusEnum as StatusEnum6
-} from "@muzammil328/education-packages";
 import { buildMatch as buildMatch8, toObjectId as toObjectId6 } from "@muzammil328/db";
 var chapterGetDropdown = superAdminProcedure.input(getChapterDropdownInputSchema).query(async ({ input }) => {
   try {
@@ -2041,7 +3093,7 @@ var chapterGetDropdown = superAdminProcedure.input(getChapterDropdownInputSchema
     const result = await chapterRepository.aggregate({
       pipeline: chapterRepository.pipeline().match(
         buildMatch8({
-          status: StatusEnum6.Active,
+          status: StatusEnum.Active,
           classId: toObjectId6(classId)
         })
       ).sort({ name: 1 }).project({
@@ -2061,7 +3113,6 @@ var chapterGetDropdown = superAdminProcedure.input(getChapterDropdownInputSchema
 
 // src/routers/chapter/chapterGetById.ts
 import { toTrpcError as toTrpcError17 } from "@muzammil328/trpc";
-import { getChapterByIdInputSchema } from "@muzammil328/education-packages";
 import { AppError as AppError12 } from "@muzammil328/server";
 import { buildMatch as buildMatch9, toObjectId as toObjectId7 } from "@muzammil328/db";
 var chapterGetById = superAdminProcedure.input(getChapterByIdInputSchema).query(async ({ input }) => {
@@ -2136,7 +3187,6 @@ var chapterGetById = superAdminProcedure.input(getChapterByIdInputSchema).query(
 // src/routers/chapter/chapterDelete.ts
 import { AppError as AppError13 } from "@muzammil328/server";
 import { toTrpcError as toTrpcError18 } from "@muzammil328/trpc";
-import { deleteChapterInputSchema } from "@muzammil328/education-packages";
 var chapterDelete = superAdminProcedure.input(deleteChapterInputSchema).mutation(async ({ input }) => {
   try {
     const deleted = await chapterRepository.findByIdAndDelete(toObjectId(input.id));
@@ -2155,7 +3205,6 @@ var chapterDelete = superAdminProcedure.input(deleteChapterInputSchema).mutation
 // src/routers/chapter/chapterCreate.ts
 import { AppError as AppError14 } from "@muzammil328/server";
 import { toTrpcError as toTrpcError19 } from "@muzammil328/trpc";
-import { chapterCreateSchema } from "@muzammil328/education-packages";
 var chapterCreate = superAdminProcedure.input(chapterCreateSchema).mutation(async ({ input }) => {
   try {
     const existing = await chapterRepository.findOne({
@@ -2191,7 +3240,6 @@ var chapterCreate = superAdminProcedure.input(chapterCreateSchema).mutation(asyn
 // src/routers/chapter/chapterUpdate.ts
 import { AppError as AppError15 } from "@muzammil328/server";
 import { toTrpcError as toTrpcError20 } from "@muzammil328/trpc";
-import { updateChapterInputSchema } from "@muzammil328/education-packages";
 import { resolveObjectId as resolveObjectId3, toObjectId as toObjectId8 } from "@muzammil328/db";
 var chapterUpdate = superAdminProcedure.input(updateChapterInputSchema).mutation(async ({ input }) => {
   try {
@@ -2253,14 +3301,13 @@ import { toTrpcError as toTrpcError21 } from "@muzammil328/trpc";
 
 // src/models/class.model.ts
 import mongoose7, { Schema as Schema6 } from "mongoose";
-import { StatusEnum as StatusEnum7 } from "@muzammil328/education-packages/enums";
 var ClassSchema = new Schema6(
   {
     name: { type: String, required: true },
     slug: { type: String, required: true, unique: true, lowercase: true, index: true },
     description: { type: String },
     serviceId: [{ type: Schema6.Types.ObjectId, ref: "Service", index: true }],
-    status: { type: String, enum: StatusEnum7, default: StatusEnum7.Active },
+    status: { type: String, enum: StatusEnum, default: StatusEnum.Active },
     image: { type: String },
     keywords: [{ type: String }]
   },
@@ -2284,7 +3331,6 @@ var ClassRepository = class extends BaseRepository {
 var classRepository = new ClassRepository();
 
 // src/routers/class/classCreate.ts
-import { classCreateSchema } from "@muzammil328/education-packages";
 import { parseObjectIdList as parseObjectIdList2 } from "@muzammil328/db";
 var classCreate = superAdminProcedure.input(classCreateSchema).mutation(async ({ input }) => {
   try {
@@ -2319,7 +3365,6 @@ var classCreate = superAdminProcedure.input(classCreateSchema).mutation(async ({
 
 // src/routers/class/classGetAll.ts
 import { toTrpcError as toTrpcError22 } from "@muzammil328/trpc";
-import { getClassesInputSchema } from "@muzammil328/education-packages";
 import { buildMatch as buildMatch10 } from "@muzammil328/db";
 var classGetAll = superAdminProcedure.input(getClassesInputSchema).query(async ({ input }) => {
   try {
@@ -2361,7 +3406,6 @@ var classGetAll = superAdminProcedure.input(getClassesInputSchema).query(async (
 
 // src/routers/class/classGetById.ts
 import { toTrpcError as toTrpcError23 } from "@muzammil328/trpc";
-import { getClassByIdInputSchema } from "@muzammil328/education-packages";
 import { AppError as AppError17 } from "@muzammil328/server";
 import { buildMatch as buildMatch11, toObjectId as toObjectId9 } from "@muzammil328/db";
 var classGetById = superAdminProcedure.input(getClassByIdInputSchema).query(async ({ input }) => {
@@ -2413,7 +3457,6 @@ var classGetById = superAdminProcedure.input(getClassByIdInputSchema).query(asyn
 // src/routers/class/classUpdate.ts
 import { AppError as AppError18 } from "@muzammil328/server";
 import { toTrpcError as toTrpcError24 } from "@muzammil328/trpc";
-import { updateClassInputSchema } from "@muzammil328/education-packages";
 import { parseObjectIdList as parseObjectIdList3, resolveObjectId as resolveObjectId4 } from "@muzammil328/db";
 import { Types as Types8 } from "mongoose";
 var classUpdate = superAdminProcedure.input(updateClassInputSchema).mutation(async ({ input }) => {
@@ -2464,7 +3507,6 @@ var classUpdate = superAdminProcedure.input(updateClassInputSchema).mutation(asy
 import { Types as Types9 } from "mongoose";
 import { AppError as AppError19 } from "@muzammil328/server";
 import { toTrpcError as toTrpcError25 } from "@muzammil328/trpc";
-import { deleteClassInputSchema } from "@muzammil328/education-packages";
 var classDelete = superAdminProcedure.input(deleteClassInputSchema).mutation(async ({ input }) => {
   try {
     const deleted = await classRepository.findByIdAndDelete(new Types9.ObjectId(input.id));
@@ -2482,10 +3524,6 @@ var classDelete = superAdminProcedure.input(deleteClassInputSchema).mutation(asy
 
 // src/routers/class/classGetDropdown.ts
 import { toTrpcError as toTrpcError26 } from "@muzammil328/trpc";
-import {
-  dropdownClassInputSchema,
-  StatusEnum as StatusEnum8
-} from "@muzammil328/education-packages";
 import { buildMatch as buildMatch12 } from "@muzammil328/db";
 var classGetDropdown = superAdminProcedure.input(dropdownClassInputSchema).query(async ({ input }) => {
   try {
@@ -2493,7 +3531,7 @@ var classGetDropdown = superAdminProcedure.input(dropdownClassInputSchema).query
     const result = await classRepository.aggregate({
       pipeline: classRepository.pipeline().match(
         buildMatch12({
-          status: StatusEnum8.Active,
+          status: StatusEnum.Active,
           serviceIds: serviceId
         })
       ).sort({ name: 1 }).project({
@@ -2524,11 +3562,6 @@ var classRouter = createTRPCRouter({
 
 // src/routers/classGroup.router.ts
 import { toTrpcError as toTrpcError27 } from "@muzammil328/trpc";
-import {
-  ClassGroupSchema as ClassGroupSchema2,
-  AddStudentsToClassGroupSchema,
-  GetClassGroupDetailsSchema
-} from "@muzammil328/education-packages";
 import { TRPCError as TRPCError3 } from "@trpc/server";
 
 // src/services/classGroup.service.ts
@@ -2537,7 +3570,7 @@ import { Types as Types10 } from "mongoose";
 
 // src/models/classGroup.model.ts
 import mongoose8, { Schema as Schema7 } from "mongoose";
-var ClassGroupSchema = new Schema7(
+var ClassGroupSchema2 = new Schema7(
   {
     name: { type: String, required: true },
     admin: { type: Schema7.Types.ObjectId, ref: "User", required: true },
@@ -2547,8 +3580,8 @@ var ClassGroupSchema = new Schema7(
   },
   { timestamps: true }
 );
-ClassGroupSchema.index({ admin: 1 });
-var classGroup_model_default = mongoose8.model("ClassGroup", ClassGroupSchema);
+ClassGroupSchema2.index({ admin: 1 });
+var classGroup_model_default = mongoose8.model("ClassGroup", ClassGroupSchema2);
 
 // src/repository/classGroup.repository.ts
 var ClassGroupRepository = class extends BaseRepository {
@@ -2642,7 +3675,7 @@ var classGroupService = {
 
 // src/routers/classGroup.router.ts
 var classGroupRouter = createTRPCRouter({
-  create: protectedProcedure.input(ClassGroupSchema2).mutation(async ({ ctx, input }) => {
+  create: protectedProcedure.input(ClassGroupSchema).mutation(async ({ ctx, input }) => {
     try {
       const user = ctx.user;
       if (!user) {
@@ -2700,16 +3733,9 @@ var classGroupRouter = createTRPCRouter({
 import { Types as Types11 } from "mongoose";
 import { AppError as AppError20 } from "@muzammil328/server";
 import { toTrpcError as toTrpcError28 } from "@muzammil328/trpc";
-import {
-  createFeedbackSchema,
-  getFeedbackInputSchema,
-  getFeedbackByIdInputSchema,
-  updateFeedbackStatusSchema
-} from "@muzammil328/education-packages";
 
 // src/models/feedback.model.ts
 import mongoose9, { Schema as Schema8 } from "mongoose";
-import { FeedbackTypeEnum, FeedbackStatusEnum } from "@muzammil328/education-packages/enums";
 var FeedbackSchema = new Schema8(
   {
     name: { type: String, required: true },
@@ -2847,12 +3873,6 @@ var feedbackRouter = createTRPCRouter({
 import { Types as Types12 } from "mongoose";
 import { AppError as AppError21 } from "@muzammil328/server";
 import { toTrpcError as toTrpcError29 } from "@muzammil328/trpc";
-import {
-  createCommentSchema,
-  getCommentsSchema,
-  getCommentByIdSchema,
-  deleteCommentSchema
-} from "@muzammil328/education-packages";
 
 // src/models/comment.model.ts
 import mongoose10, { Schema as Schema9 } from "mongoose";
@@ -2953,7 +3973,6 @@ import { toTrpcError as toTrpcError30 } from "@muzammil328/trpc";
 
 // src/models/heading.model.ts
 import mongoose11, { Schema as Schema10 } from "mongoose";
-import { StatusEnum as StatusEnum9 } from "@muzammil328/education-packages/enums";
 var HeadingSchema = new Schema10(
   {
     name: { type: String, required: true },
@@ -2961,7 +3980,7 @@ var HeadingSchema = new Schema10(
     chapterId: { type: Schema10.Types.ObjectId, ref: "Chapter", required: true },
     bookId: { type: Schema10.Types.ObjectId, ref: "Book", required: true },
     classId: { type: Schema10.Types.ObjectId, ref: "Class", required: true },
-    status: { type: String, enum: Object.values(StatusEnum9), default: StatusEnum9.Active },
+    status: { type: String, enum: Object.values(StatusEnum), default: StatusEnum.Active },
     order: { type: Number }
   },
   { timestamps: true }
@@ -3100,7 +4119,6 @@ var HeadingRepository = class extends BaseRepository {
 var headingRepository = new HeadingRepository();
 
 // src/routers/heading/headingGetAll.ts
-import { getHeadingsInputSchema } from "@muzammil328/education-packages";
 import { buildMatch as buildMatch13 } from "@muzammil328/db";
 var headingGetAll = superAdminProcedure.input(getHeadingsInputSchema).query(async ({ input }) => {
   try {
@@ -3170,10 +4188,6 @@ var headingGetAll = superAdminProcedure.input(getHeadingsInputSchema).query(asyn
 
 // src/routers/heading/headingGetDropdown.ts
 import { toTrpcError as toTrpcError31 } from "@muzammil328/trpc";
-import {
-  getHeadingDropdownInputSchema,
-  StatusEnum as StatusEnum10
-} from "@muzammil328/education-packages";
 import { buildMatch as buildMatch14 } from "@muzammil328/db";
 var headingGetDropdown = superAdminProcedure.input(getHeadingDropdownInputSchema).query(async ({ input }) => {
   try {
@@ -3181,7 +4195,7 @@ var headingGetDropdown = superAdminProcedure.input(getHeadingDropdownInputSchema
     const result = await headingRepository.aggregate({
       pipeline: headingRepository.pipeline().match(
         buildMatch14({
-          status: StatusEnum10.Active,
+          status: StatusEnum.Active,
           classId
         })
       ).sort({ name: 1 }).project({
@@ -3201,7 +4215,6 @@ var headingGetDropdown = superAdminProcedure.input(getHeadingDropdownInputSchema
 
 // src/routers/heading/headingGetById.ts
 import { toTrpcError as toTrpcError32 } from "@muzammil328/trpc";
-import { getHeadingByIdInputSchema } from "@muzammil328/education-packages";
 import { AppError as AppError22 } from "@muzammil328/server";
 import { buildMatch as buildMatch15, toObjectId as toObjectId10 } from "@muzammil328/db";
 var headingGetById = superAdminProcedure.input(getHeadingByIdInputSchema).query(async ({ input }) => {
@@ -3289,7 +4302,6 @@ var headingGetById = superAdminProcedure.input(getHeadingByIdInputSchema).query(
 // src/routers/heading/headingDelete.ts
 import { AppError as AppError23 } from "@muzammil328/server";
 import { toTrpcError as toTrpcError33 } from "@muzammil328/trpc";
-import { deleteHeadingInputSchema } from "@muzammil328/education-packages";
 var headingDelete = superAdminProcedure.input(deleteHeadingInputSchema).mutation(async ({ input }) => {
   try {
     const deleted = await headingRepository.findByIdAndDelete(toObjectId(input.id));
@@ -3308,7 +4320,6 @@ var headingDelete = superAdminProcedure.input(deleteHeadingInputSchema).mutation
 // src/routers/heading/headingCreate.ts
 import { AppError as AppError24 } from "@muzammil328/server";
 import { toTrpcError as toTrpcError34 } from "@muzammil328/trpc";
-import { headingCreateSchema } from "@muzammil328/education-packages";
 import { toObjectId as toObjectId11 } from "@muzammil328/db";
 var headingCreate = superAdminProcedure.input(headingCreateSchema).mutation(async ({ input }) => {
   try {
@@ -3343,7 +4354,6 @@ var headingCreate = superAdminProcedure.input(headingCreateSchema).mutation(asyn
 // src/routers/heading/headingUpdate.ts
 import { AppError as AppError25 } from "@muzammil328/server";
 import { toTrpcError as toTrpcError35 } from "@muzammil328/trpc";
-import { updateHeadingInputSchema } from "@muzammil328/education-packages";
 import { resolveObjectId as resolveObjectId5, toObjectId as toObjectId12 } from "@muzammil328/db";
 var headingUpdate = superAdminProcedure.input(updateHeadingInputSchema).mutation(async ({ input }) => {
   try {
@@ -3401,19 +4411,10 @@ var headingRouter = createTRPCRouter({
 import { Types as Types13 } from "mongoose";
 import { AppError as AppError26 } from "@muzammil328/server";
 import { toTrpcError as toTrpcError36 } from "@muzammil328/trpc";
-import {
-  InstitutionSchema as InstitutionSchema2,
-  getInstitutionsInputSchema,
-  getInstitutionByIdInputSchema,
-  updateInstitutionInputSchema,
-  updateInstitutionSubscriptionSchema,
-  deleteInstitutionInputSchema
-} from "@muzammil328/education-packages";
 
 // src/models/institution.model.ts
 import mongoose12, { Schema as Schema11 } from "mongoose";
-import { InstitutionTypeEnum, SubscriptionPlanEnum as SubscriptionPlanEnum2 } from "@muzammil328/education-packages/enums";
-var InstitutionSchema = new Schema11(
+var InstitutionSchema2 = new Schema11(
   {
     name: { type: String, required: true, trim: true },
     type: { type: String, enum: Object.values(InstitutionTypeEnum), required: true },
@@ -3425,8 +4426,8 @@ var InstitutionSchema = new Schema11(
     classes: [{ type: Schema11.Types.ObjectId, ref: "Class" }],
     subscriptionPlan: {
       type: String,
-      enum: Object.values(SubscriptionPlanEnum2),
-      default: SubscriptionPlanEnum2.FREE
+      enum: Object.values(SubscriptionPlanEnum),
+      default: SubscriptionPlanEnum.FREE
     },
     subscriptionExpiresAt: { type: Date },
     maxStudents: { type: Number, default: 50 },
@@ -3435,9 +4436,9 @@ var InstitutionSchema = new Schema11(
   },
   { timestamps: true }
 );
-InstitutionSchema.index({ email: 1 }, { unique: true });
-InstitutionSchema.index({ type: 1, isActive: 1 });
-var institution_model_default = mongoose12.model("Institution", InstitutionSchema);
+InstitutionSchema2.index({ email: 1 }, { unique: true });
+InstitutionSchema2.index({ type: 1, isActive: 1 });
+var institution_model_default = mongoose12.model("Institution", InstitutionSchema2);
 
 // src/routers/institution.router.ts
 function escapeRegex2(value) {
@@ -3506,7 +4507,7 @@ var institutionRouter = createTRPCRouter({
       ownerUserId: institution.ownerUserId ? String(institution.ownerUserId) : void 0
     };
   }),
-  create: superAdminProcedure.input(InstitutionSchema2).mutation(async ({ input }) => {
+  create: superAdminProcedure.input(InstitutionSchema).mutation(async ({ input }) => {
     const exists = await institution_model_default.findOne({ contactEmail: input.contactEmail });
     if (exists) {
       throw toTrpcError36(AppError26.conflict("Institution with this email already exists"));
@@ -3562,12 +4563,11 @@ var institutionRouter = createTRPCRouter({
 
 // src/routers/mcqAttempt.router.ts
 import { TRPCError as TRPCError4 } from "@trpc/server";
-import { z as z3 } from "zod";
+import { z as z19 } from "zod";
 import { Types as Types17 } from "mongoose";
 
 // src/models/mcqs.model.ts
 import mongoose13, { Schema as Schema12 } from "mongoose";
-import { StatusEnum as StatusEnum11, DifficultyEnum, McqScopeEnum } from "@muzammil328/education-packages/enums";
 var McqsSchema = new Schema12(
   {
     name: { type: String, required: true, trim: true, minlength: 3 },
@@ -3601,7 +4601,7 @@ var McqsSchema = new Schema12(
     difficulty: { type: String, enum: Object.values(DifficultyEnum), default: DifficultyEnum.Medium },
     aiHint: { type: String, trim: true, maxlength: 500 },
     isPremium: { type: Boolean, default: false },
-    status: { type: String, enum: Object.values(StatusEnum11), default: StatusEnum11.Active },
+    status: { type: String, enum: Object.values(StatusEnum), default: StatusEnum.Active },
     cognitiveLevel: { type: String, enum: ["recall", "understand", "apply", "analyze"] },
     distractorType: {
       type: String,
@@ -3689,9 +4689,6 @@ mcqAttemptSchema.pre("save", function(next) {
 });
 var McqAttempt = mongoose14.models.McqAttempt || mongoose14.model("McqAttempt", mcqAttemptSchema);
 var mcqAttempt_model_default = McqAttempt;
-
-// src/routers/mcqAttempt.router.ts
-import { McqScopeEnum as McqScopeEnum2 } from "@muzammil328/education-packages/enums";
 
 // src/trpc/lib/resolveInstitution.ts
 import { Types as Types14 } from "mongoose";
@@ -3857,20 +4854,20 @@ async function completeBurst(userId) {
 }
 
 // src/routers/mcqAttempt.router.ts
-var submitInputSchema = z3.object({
-  mcqId: z3.string().min(1),
-  selectedOption: z3.number().int().min(0),
-  timeTakenMs: z3.number().int().min(0).optional(),
-  confidenceTag: z3.enum(["sure", "guessed", "no_idea"]).optional(),
-  sessionId: z3.string().optional(),
-  quizMode: z3.enum(["practice", "exam_sim", "weak_topic", "focused_drill", "speed_round", "challenge", "revision", "micro_burst"]).optional()
+var submitInputSchema = z19.object({
+  mcqId: z19.string().min(1),
+  selectedOption: z19.number().int().min(0),
+  timeTakenMs: z19.number().int().min(0).optional(),
+  confidenceTag: z19.enum(["sure", "guessed", "no_idea"]).optional(),
+  sessionId: z19.string().optional(),
+  quizMode: z19.enum(["practice", "exam_sim", "weak_topic", "focused_drill", "speed_round", "challenge", "revision", "micro_burst"]).optional()
 });
-var historyInputSchema = z3.object({
-  page: z3.number().int().positive().optional().default(1),
-  limit: z3.number().int().positive().max(100).optional().default(20)
+var historyInputSchema = z19.object({
+  page: z19.number().int().positive().optional().default(1),
+  limit: z19.number().int().positive().max(100).optional().default(20)
 });
-var leaderboardInputSchema = z3.object({
-  limit: z3.number().int().positive().max(100).optional().default(20)
+var leaderboardInputSchema = z19.object({
+  limit: z19.number().int().positive().max(100).optional().default(20)
 });
 var mcqAttemptRouter = createTRPCRouter({
   /**
@@ -3889,7 +4886,7 @@ var mcqAttemptRouter = createTRPCRouter({
     const mcq = await mcqs_model_default.findById(input.mcqId).lean();
     if (!mcq) throw new TRPCError4({ code: "NOT_FOUND", message: "MCQ not found" });
     const userInstitutionId = await resolveUserInstitutionId(user.userId);
-    if (mcq.scope === McqScopeEnum2.INSTITUTION) {
+    if (mcq.scope === McqScopeEnum.INSTITUTION) {
       const mcqInstId = mcq.institutionId ? String(mcq.institutionId) : void 0;
       if (!mcqInstId || mcqInstId !== userInstitutionId) {
         throw new TRPCError4({
@@ -3995,7 +4992,7 @@ var mcqAttemptRouter = createTRPCRouter({
       luckyGuesses: agg?.luckyGuesses ?? 0
     };
   }),
-  sessionSummary: protectedProcedure.input(z3.object({ sessionId: z3.string().min(1) })).query(async ({ ctx, input }) => {
+  sessionSummary: protectedProcedure.input(z19.object({ sessionId: z19.string().min(1) })).query(async ({ ctx, input }) => {
     const user = ctx.user;
     if (!user) {
       throw new TRPCError4({ code: "UNAUTHORIZED", message: "Not authenticated" });
@@ -4099,23 +5096,13 @@ var mcqAttemptRouter = createTRPCRouter({
 });
 
 // src/routers/mcqs.router.ts
-import { z as z4 } from "zod";
+import { z as z20 } from "zod";
 import { Types as Types18 } from "mongoose";
 import { AppError as AppError27 } from "@muzammil328/server";
 import { toTrpcError as toTrpcError37 } from "@muzammil328/trpc";
-import {
-  McqPayloadSchema,
-  getMcqsInputSchema,
-  getMcqDropdownInputSchema,
-  getMcqByIdInputSchema,
-  updateMcqInputSchema,
-  deleteMcqInputSchema,
-  mcqScopeSchema
-} from "@muzammil328/education-packages";
-import { RoleEnum as RoleEnum4, McqScopeEnum as McqScopeEnum3 } from "@muzammil328/education-packages/enums";
-var SUPER_ADMIN_ROLES2 = /* @__PURE__ */ new Set([RoleEnum4.SuperAdmin]);
+var SUPER_ADMIN_ROLES2 = /* @__PURE__ */ new Set([RoleEnum.SuperAdmin]);
 var GLOBAL_SCOPE_MATCH = {
-  $or: [{ scope: McqScopeEnum3.GLOBAL }, { scope: { $exists: false } }]
+  $or: [{ scope: McqScopeEnum.GLOBAL }, { scope: { $exists: false } }]
 };
 async function institutionVisibilityFilter(ctx) {
   if (!ctx.user) {
@@ -4126,9 +5113,9 @@ async function institutionVisibilityFilter(ctx) {
   if (!institutionId) return GLOBAL_SCOPE_MATCH;
   return {
     $or: [
-      { scope: McqScopeEnum3.GLOBAL },
+      { scope: McqScopeEnum.GLOBAL },
       { scope: { $exists: false } },
-      { scope: McqScopeEnum3.INSTITUTION, institutionId: new Types18.ObjectId(institutionId) }
+      { scope: McqScopeEnum.INSTITUTION, institutionId: new Types18.ObjectId(institutionId) }
     ]
   };
 }
@@ -4322,13 +5309,13 @@ var mcqsRouter = createTRPCRouter({
     };
   }),
   create: protectedProcedure.input(
-    z4.object({
-      questions: z4.array(McqPayloadSchema).min(1),
-      classId: z4.string().min(1),
-      bookId: z4.string().min(1),
-      chapterId: z4.string().min(1),
-      headingId: z4.string().optional(),
-      subHeadingId: z4.string().optional(),
+    z20.object({
+      questions: z20.array(McqPayloadSchema).min(1),
+      classId: z20.string().min(1),
+      bookId: z20.string().min(1),
+      chapterId: z20.string().min(1),
+      headingId: z20.string().optional(),
+      subHeadingId: z20.string().optional(),
       scope: mcqScopeSchema.optional()
     })
   ).mutation(async ({ ctx, input }) => {
@@ -4349,16 +5336,16 @@ var mcqsRouter = createTRPCRouter({
     let scope;
     let institutionId;
     if (isSuperAdmin) {
-      scope = input.scope ?? McqScopeEnum3.GLOBAL;
-      institutionId = scope === McqScopeEnum3.INSTITUTION && userInstitutionId ? new Types18.ObjectId(userInstitutionId) : void 0;
-      if (scope === McqScopeEnum3.INSTITUTION && !institutionId) {
+      scope = input.scope ?? McqScopeEnum.GLOBAL;
+      institutionId = scope === McqScopeEnum.INSTITUTION && userInstitutionId ? new Types18.ObjectId(userInstitutionId) : void 0;
+      if (scope === McqScopeEnum.INSTITUTION && !institutionId) {
         throw toTrpcError37(AppError27.badRequest("Institution-scoped MCQ requires an institution"));
       }
     } else {
       if (!userInstitutionId) {
         throw toTrpcError37(AppError27.forbidden("Account is not linked to an institution"));
       }
-      scope = McqScopeEnum3.INSTITUTION;
+      scope = McqScopeEnum.INSTITUTION;
       institutionId = new Types18.ObjectId(userInstitutionId);
     }
     const mcqData = input.questions.map((q) => ({
@@ -4402,7 +5389,7 @@ var mcqsRouter = createTRPCRouter({
     if (!SUPER_ADMIN_ROLES2.has(user.role)) {
       const userInstitutionId = await resolveUserInstitutionId(user.userId);
       const mcqInstId = existing.institutionId ? String(existing.institutionId) : void 0;
-      if (existing.scope !== McqScopeEnum3.INSTITUTION || !mcqInstId || mcqInstId !== userInstitutionId) {
+      if (existing.scope !== McqScopeEnum.INSTITUTION || !mcqInstId || mcqInstId !== userInstitutionId) {
         throw toTrpcError37(AppError27.forbidden("Cannot modify MCQs outside your institution"));
       }
     }
@@ -4462,14 +5449,13 @@ import { toTrpcError as toTrpcError38 } from "@muzammil328/trpc";
 
 // src/models/service.model.ts
 import mongoose16, { Schema as Schema15 } from "mongoose";
-import { StatusEnum as StatusEnum12 } from "@muzammil328/education-packages/enums";
 var ServiceSchema = new Schema15(
   {
     name: { type: String, required: true },
     slug: { type: String, required: true, lowercase: true, index: true },
     description: { type: String },
     classId: [{ type: Schema15.Types.ObjectId, ref: "Class", required: true, index: true }],
-    status: { type: String, enum: Object.values(StatusEnum12), default: StatusEnum12.Active },
+    status: { type: String, enum: Object.values(StatusEnum), default: StatusEnum.Active },
     image: { type: String },
     keywords: [{ type: String }]
   },
@@ -4502,7 +5488,6 @@ var ServiceRepository = class extends BaseRepository {
 var serviceRepository = new ServiceRepository();
 
 // src/routers/service/serviceGetAll.ts
-import { getServicesInputSchema } from "@muzammil328/education-packages";
 import { buildMatch as buildMatch16 } from "@muzammil328/db";
 var serviceGetAll = superAdminProcedure.input(getServicesInputSchema).query(async ({ input }) => {
   try {
@@ -4543,10 +5528,6 @@ var serviceGetAll = superAdminProcedure.input(getServicesInputSchema).query(asyn
 
 // src/routers/service/serviceGetDropdown.ts
 import { toTrpcError as toTrpcError39 } from "@muzammil328/trpc";
-import {
-  getServiceDropdownInputSchema,
-  StatusEnum as StatusEnum13
-} from "@muzammil328/education-packages";
 import { buildMatch as buildMatch17 } from "@muzammil328/db";
 var serviceGetDropdown = superAdminProcedure.input(getServiceDropdownInputSchema).query(async ({ input }) => {
   try {
@@ -4554,7 +5535,7 @@ var serviceGetDropdown = superAdminProcedure.input(getServiceDropdownInputSchema
     const result = await serviceRepository.aggregate({
       pipeline: serviceRepository.pipeline().match(
         buildMatch17({
-          status: StatusEnum13.Active,
+          status: StatusEnum.Active,
           classId
         })
       ).sort({ name: 1 }).project({
@@ -4573,7 +5554,6 @@ var serviceGetDropdown = superAdminProcedure.input(getServiceDropdownInputSchema
 });
 
 // src/routers/service/serviceGetById.ts
-import { getServiceByIdInputSchema } from "@muzammil328/education-packages";
 import { AppError as AppError28 } from "@muzammil328/server";
 import { buildMatch as buildMatch18, toObjectId as toObjectId13 } from "@muzammil328/db";
 import { toTrpcError as toTrpcError40 } from "@muzammil328/trpc";
@@ -4608,7 +5588,6 @@ var serviceGetById = superAdminProcedure.input(getServiceByIdInputSchema).query(
 // src/routers/service/serviceDelete.ts
 import { AppError as AppError29 } from "@muzammil328/server";
 import { toTrpcError as toTrpcError41 } from "@muzammil328/trpc";
-import { deleteServiceInputSchema } from "@muzammil328/education-packages";
 import { toObjectId as toObjectId14 } from "@muzammil328/db";
 var serviceDelete = superAdminProcedure.input(deleteServiceInputSchema).mutation(async ({ input }) => {
   try {
@@ -4628,7 +5607,6 @@ var serviceDelete = superAdminProcedure.input(deleteServiceInputSchema).mutation
 // src/routers/service/serviceCreate.ts
 import { AppError as AppError30 } from "@muzammil328/server";
 import { toTrpcError as toTrpcError42 } from "@muzammil328/trpc";
-import { serviceCreateSchema } from "@muzammil328/education-packages";
 import { parseObjectIdList as parseObjectIdList4 } from "@muzammil328/db";
 var serviceCreate = superAdminProcedure.input(serviceCreateSchema).mutation(async ({ input }) => {
   try {
@@ -4664,7 +5642,6 @@ var serviceCreate = superAdminProcedure.input(serviceCreateSchema).mutation(asyn
 // src/routers/service/serviceUpdate.ts
 import { AppError as AppError31 } from "@muzammil328/server";
 import { toTrpcError as toTrpcError43 } from "@muzammil328/trpc";
-import { updateServiceInputSchema } from "@muzammil328/education-packages";
 import { resolveObjectId as resolveObjectId6 } from "@muzammil328/db";
 import { Types as Types19 } from "mongoose";
 var serviceUpdate = superAdminProcedure.input(updateServiceInputSchema).mutation(async ({ input }) => {
@@ -4734,25 +5711,24 @@ var serviceRouter = createTRPCRouter({
 
 // src/routers/student.router.ts
 import { TRPCError as TRPCError5 } from "@trpc/server";
-import { z as z5 } from "zod";
+import { z as z21 } from "zod";
 import { Types as Types20 } from "mongoose";
 import { createBcrypt as createBcrypt2 } from "@muzammil328/services";
-import { RoleEnum as RoleEnum5 } from "@muzammil328/education-packages/enums";
-var emailSchema = z5.string().email();
-var studentSchema = z5.object({
-  username: z5.string().min(3),
+var emailSchema = z21.string().email();
+var studentSchema2 = z21.object({
+  username: z21.string().min(3),
   email: emailSchema,
-  password: z5.string().min(6)
+  password: z21.string().min(6)
 });
-var addStudentsSchema = z5.object({
-  students: z5.array(studentSchema).min(1).max(100)
+var addStudentsSchema2 = z21.object({
+  students: z21.array(studentSchema2).min(1).max(100)
 });
-var classGroupSchema = z5.object({
-  name: z5.string().min(1),
-  classIds: z5.array(z5.string()).optional()
+var classGroupSchema = z21.object({
+  name: z21.string().min(1),
+  classIds: z21.array(z21.string()).optional()
 });
 var studentRouter = createTRPCRouter({
-  addStudent: protectedProcedure.input(studentSchema).mutation(async ({ input }) => {
+  addStudent: protectedProcedure.input(studentSchema2).mutation(async ({ input }) => {
     const existingUser = await userRepository.findByEmail(input.email);
     if (existingUser) {
       throw new TRPCError5({ code: "CONFLICT", message: "Email already exists" });
@@ -4761,7 +5737,7 @@ var studentRouter = createTRPCRouter({
     const student = await userRepository.create({
       ...input,
       password: hashedPassword,
-      role: RoleEnum5.Student
+      role: RoleEnum.Student
     });
     return {
       success: true,
@@ -4773,7 +5749,7 @@ var studentRouter = createTRPCRouter({
       }
     };
   }),
-  addStudents: protectedProcedure.input(addStudentsSchema).mutation(async ({ input }) => {
+  addStudents: protectedProcedure.input(addStudentsSchema2).mutation(async ({ input }) => {
     const results = {
       success: [],
       failed: []
@@ -4789,7 +5765,7 @@ var studentRouter = createTRPCRouter({
         await userRepository.create({
           ...student,
           password: hashedPassword,
-          role: RoleEnum5.Student
+          role: RoleEnum.Student
         });
         results.success.push(student.email);
       } catch (error) {
@@ -4803,13 +5779,13 @@ var studentRouter = createTRPCRouter({
     };
   }),
   getStudents: protectedProcedure.input(
-    z5.object({
-      page: z5.number().optional().default(1),
-      limit: z5.number().optional().default(10),
-      search: z5.string().optional()
+    z21.object({
+      page: z21.number().optional().default(1),
+      limit: z21.number().optional().default(10),
+      search: z21.string().optional()
     })
   ).query(async ({ input }) => {
-    const match = { role: RoleEnum5.Student };
+    const match = { role: RoleEnum.Student };
     if (input.search) {
       match.$or = [
         { username: { $regex: input.search, $options: "i" } },
@@ -4849,7 +5825,7 @@ var studentRouter = createTRPCRouter({
       pagination: result.pagination
     };
   }),
-  deleteStudent: protectedProcedure.input(z5.object({ id: z5.string() })).mutation(async ({ input }) => {
+  deleteStudent: protectedProcedure.input(z21.object({ id: z21.string() })).mutation(async ({ input }) => {
     const deleted = await userRepository.findByIdAndDelete(new Types20.ObjectId(input.id));
     if (!deleted) {
       throw new TRPCError5({ code: "NOT_FOUND", message: "Student not found" });
@@ -4876,9 +5852,9 @@ var studentRouter = createTRPCRouter({
     };
   }),
   addStudentsToClassGroup: protectedProcedure.input(
-    z5.object({
-      groupId: z5.string(),
-      studentIds: z5.array(z5.string())
+    z21.object({
+      groupId: z21.string(),
+      studentIds: z21.array(z21.string())
     })
   ).mutation(async ({ input }) => {
     const group = await classGroupRepository.findById(new Types20.ObjectId(input.groupId));
@@ -4917,7 +5893,7 @@ var studentRouter = createTRPCRouter({
       }))
     };
   }),
-  getClassGroupDetails: protectedProcedure.input(z5.object({ groupId: z5.string() })).query(async ({ input }) => {
+  getClassGroupDetails: protectedProcedure.input(z21.object({ groupId: z21.string() })).query(async ({ input }) => {
     const result = await classGroupRepository.aggregate({
       pipeline: [
         { $match: { _id: new Types20.ObjectId(input.groupId) } },
@@ -4967,7 +5943,6 @@ import { toTrpcError as toTrpcError44 } from "@muzammil328/trpc";
 
 // src/models/subHeading.model.ts
 import mongoose17, { Schema as Schema16 } from "mongoose";
-import { StatusEnum as StatusEnum14 } from "@muzammil328/education-packages/enums";
 var SubHeadingSchema = new Schema16(
   {
     name: { type: String, required: true },
@@ -4976,7 +5951,7 @@ var SubHeadingSchema = new Schema16(
     chapterId: { type: Schema16.Types.ObjectId, ref: "Chapter", required: true },
     bookId: { type: Schema16.Types.ObjectId, ref: "Book", required: true },
     classId: { type: Schema16.Types.ObjectId, ref: "Class", required: true },
-    status: { type: String, enum: Object.values(StatusEnum14), default: StatusEnum14.Active },
+    status: { type: String, enum: Object.values(StatusEnum), default: StatusEnum.Active },
     order: { type: Number }
   },
   { timestamps: true }
@@ -5140,7 +6115,6 @@ var SubHeadingRepository = class extends BaseRepository {
 var subHeadingRepository = new SubHeadingRepository();
 
 // src/routers/subHeading/subHeadingGetAll.ts
-import { getSubHeadingsInputSchema } from "@muzammil328/education-packages";
 import { buildMatch as buildMatch19 } from "@muzammil328/db";
 var subHeadingGetAll = superAdminProcedure.input(getSubHeadingsInputSchema).query(async ({ input }) => {
   try {
@@ -5219,10 +6193,6 @@ var subHeadingGetAll = superAdminProcedure.input(getSubHeadingsInputSchema).quer
 
 // src/routers/subHeading/subHeadingGetDropdown.ts
 import { toTrpcError as toTrpcError45 } from "@muzammil328/trpc";
-import {
-  getSubHeadingDropdownInputSchema,
-  StatusEnum as StatusEnum15
-} from "@muzammil328/education-packages";
 import { buildMatch as buildMatch20 } from "@muzammil328/db";
 var subHeadingGetDropdown = superAdminProcedure.input(getSubHeadingDropdownInputSchema).query(async ({ input }) => {
   try {
@@ -5230,7 +6200,7 @@ var subHeadingGetDropdown = superAdminProcedure.input(getSubHeadingDropdownInput
     const result = await subHeadingRepository.aggregate({
       pipeline: subHeadingRepository.pipeline().match(
         buildMatch20({
-          status: StatusEnum15.Active,
+          status: StatusEnum.Active,
           classId
         })
       ).sort({ name: 1 }).project({
@@ -5250,7 +6220,6 @@ var subHeadingGetDropdown = superAdminProcedure.input(getSubHeadingDropdownInput
 
 // src/routers/subHeading/subHeadingGetById.ts
 import { toTrpcError as toTrpcError46 } from "@muzammil328/trpc";
-import { getSubHeadingByIdInputSchema } from "@muzammil328/education-packages";
 import { AppError as AppError32 } from "@muzammil328/server";
 import { buildMatch as buildMatch21, toObjectId as toObjectId15 } from "@muzammil328/db";
 var subHeadingGetById = superAdminProcedure.input(getSubHeadingByIdInputSchema).query(async ({ input }) => {
@@ -5352,7 +6321,6 @@ var subHeadingGetById = superAdminProcedure.input(getSubHeadingByIdInputSchema).
 // src/routers/subHeading/subHeadingDelete.ts
 import { AppError as AppError33 } from "@muzammil328/server";
 import { toTrpcError as toTrpcError47 } from "@muzammil328/trpc";
-import { deleteSubHeadingInputSchema } from "@muzammil328/education-packages";
 var subHeadingDelete = superAdminProcedure.input(deleteSubHeadingInputSchema).mutation(async ({ input }) => {
   try {
     const deleted = await subHeadingRepository.findByIdAndDelete(toObjectId(input.id));
@@ -5372,7 +6340,6 @@ var subHeadingDelete = superAdminProcedure.input(deleteSubHeadingInputSchema).mu
 import { Types as Types21 } from "mongoose";
 import { AppError as AppError34 } from "@muzammil328/server";
 import { toTrpcError as toTrpcError48 } from "@muzammil328/trpc";
-import { subHeadingCreateSchema } from "@muzammil328/education-packages";
 var subHeadingCreate = superAdminProcedure.input(subHeadingCreateSchema).mutation(async ({ input }) => {
   try {
     const existing = await subHeadingRepository.findOne({
@@ -5414,7 +6381,6 @@ var subHeadingCreate = superAdminProcedure.input(subHeadingCreateSchema).mutatio
 // src/routers/subHeading/subHeadingUpdate.ts
 import { AppError as AppError35 } from "@muzammil328/server";
 import { toTrpcError as toTrpcError49 } from "@muzammil328/trpc";
-import { updateSubHeadingInputSchema } from "@muzammil328/education-packages";
 import { resolveObjectId as resolveObjectId7 } from "@muzammil328/db";
 import { Types as Types22 } from "mongoose";
 var subHeadingUpdate = superAdminProcedure.input(updateSubHeadingInputSchema).mutation(async ({ input }) => {
@@ -5484,13 +6450,10 @@ var subHeadingRouter = createTRPCRouter({
 
 // src/routers/user.router.ts
 import { Types as Types23 } from "mongoose";
-import { z as z6 } from "zod";
+import { z as z22 } from "zod";
 import { AppError as AppError36 } from "@muzammil328/server";
 import { toTrpcError as toTrpcError50 } from "@muzammil328/trpc";
 import { StatusCode as StatusCode2 } from "@muzammil328/types";
-import {
-  updateProfileSchema
-} from "@muzammil328/education-packages";
 var authRouter2 = createTRPCRouter({
   getMe: protectedProcedure.query(async ({ ctx }) => {
     const userId = ctx.user?.userId;
@@ -5563,9 +6526,9 @@ var authRouter2 = createTRPCRouter({
       }
     };
   }),
-  setExamTarget: protectedProcedure.input(z6.object({
-    examTarget: z6.string().trim().max(100),
-    examDate: z6.string().datetime()
+  setExamTarget: protectedProcedure.input(z22.object({
+    examTarget: z22.string().trim().max(100),
+    examDate: z22.string().datetime()
   })).mutation(async ({ ctx, input }) => {
     const userId = ctx.user?.userId;
     if (!userId || !Types23.ObjectId.isValid(userId)) {
@@ -5625,7 +6588,7 @@ var authRouter2 = createTRPCRouter({
 
 // src/routers/userProgress.router.ts
 import { TRPCError as TRPCError6 } from "@trpc/server";
-import { z as z7 } from "zod";
+import { z as z23 } from "zod";
 import { Types as Types24 } from "mongoose";
 init_userProgress_model();
 var userProgressRouter = createTRPCRouter({
@@ -5663,7 +6626,7 @@ var userProgressRouter = createTRPCRouter({
     const totalOpenLoops = records.reduce((s, r) => s + (r.openLoopCount ?? 0), 0);
     return { success: true, totalOpenLoops, data: records };
   }),
-  dismissLoop: protectedProcedure.input(z7.object({ progressId: z7.string().min(1) })).mutation(async ({ ctx, input }) => {
+  dismissLoop: protectedProcedure.input(z23.object({ progressId: z23.string().min(1) })).mutation(async ({ ctx, input }) => {
     const user = ctx.user;
     if (!user) throw new TRPCError6({ code: "UNAUTHORIZED" });
     if (!Types24.ObjectId.isValid(input.progressId)) {
@@ -5678,7 +6641,7 @@ var userProgressRouter = createTRPCRouter({
     }
     return { success: true };
   }),
-  subHeadingProgress: protectedProcedure.input(z7.object({ subHeadingId: z7.string().min(1) })).query(async ({ ctx, input }) => {
+  subHeadingProgress: protectedProcedure.input(z23.object({ subHeadingId: z23.string().min(1) })).query(async ({ ctx, input }) => {
     const user = ctx.user;
     if (!user) throw new TRPCError6({ code: "UNAUTHORIZED" });
     const record = await userProgress_model_default.findOne({
@@ -5691,10 +6654,9 @@ var userProgressRouter = createTRPCRouter({
 
 // src/routers/adaptiveMcq.router.ts
 import { TRPCError as TRPCError7 } from "@trpc/server";
-import { z as z8 } from "zod";
+import { z as z24 } from "zod";
 import { Types as Types25 } from "mongoose";
 init_userProgress_model();
-import { StatusEnum as StatusEnum16 } from "@muzammil328/education-packages/enums";
 var DIFFICULTY_MAP = {
   weak: "easy",
   developing: "medium",
@@ -5706,10 +6668,10 @@ var adaptiveMcqRouter = createTRPCRouter({
    * Priority: spaced-repetition due items → recovery queue (recent wrong answers) → new questions.
    */
   getNextBatch: protectedProcedure.input(
-    z8.object({
-      subHeadingId: z8.string().min(1),
-      sessionId: z8.string().optional(),
-      mode: z8.enum([
+    z24.object({
+      subHeadingId: z24.string().min(1),
+      sessionId: z24.string().optional(),
+      mode: z24.enum([
         "practice",
         "exam_sim",
         "weak_topic",
@@ -5719,7 +6681,7 @@ var adaptiveMcqRouter = createTRPCRouter({
         "revision",
         "micro_burst"
       ]).optional().default("practice"),
-      limit: z8.number().int().min(1).max(50).optional().default(10)
+      limit: z24.number().int().min(1).max(50).optional().default(10)
     })
   ).query(async ({ ctx, input }) => {
     const user = ctx.user;
@@ -5747,7 +6709,7 @@ var adaptiveMcqRouter = createTRPCRouter({
     const recoveryIds = recentWrongAttempts.map((a) => a.mcqId).filter((id) => !recentCorrectIds.some((cid) => String(cid) === String(id)));
     const baseFilter = {
       subHeadingId,
-      status: StatusEnum16.Active,
+      status: StatusEnum.Active,
       difficulty: difficultyBand
     };
     const recoveryMcqs = recoveryIds.length > 0 ? await mcqs_model_default.find({ ...baseFilter, _id: { $in: recoveryIds } }).select("question options correctOption difficulty explanation examinersNote").limit(Math.ceil(input.limit / 2)).lean() : [];
@@ -5793,7 +6755,7 @@ var adaptiveMcqRouter = createTRPCRouter({
     const difficultyBand = DIFFICULTY_MAP[weakest.masteryBand ?? "weak"];
     const weakMcqs = await mcqs_model_default.find({
       subHeadingId,
-      status: StatusEnum16.Active,
+      status: StatusEnum.Active,
       difficulty: difficultyBand
     }).select("question options correctOption difficulty").limit(4).lean();
     const dueProgress = await userProgress_model_default.findOne({
@@ -5805,7 +6767,7 @@ var adaptiveMcqRouter = createTRPCRouter({
     if (dueProgress?.subHeadingId) {
       dueMcq = await mcqs_model_default.findOne({
         subHeadingId: dueProgress.subHeadingId,
-        status: StatusEnum16.Active
+        status: StatusEnum.Active
       }).select("question options correctOption difficulty").lean();
     }
     const burst = [...weakMcqs, ...dueMcq ? [dueMcq] : []].slice(0, 5);
@@ -5823,14 +6785,14 @@ var adaptiveMcqRouter = createTRPCRouter({
 
 // src/routers/analytics.router.ts
 import { TRPCError as TRPCError8 } from "@trpc/server";
-import { z as z9 } from "zod";
+import { z as z25 } from "zod";
 import { Types as Types26 } from "mongoose";
 var analyticsRouter = createTRPCRouter({
   /**
    * Top MCQs with the highest wrong-answer rates and which distractor option was chosen most.
    * Institution-scoped for teachers, global for super admins.
    */
-  distractorIntelligence: teacherProcedure.input(z9.object({ limit: z9.number().int().min(1).max(50).optional().default(10) })).query(async ({ ctx, input }) => {
+  distractorIntelligence: teacherProcedure.input(z25.object({ limit: z25.number().int().min(1).max(50).optional().default(10) })).query(async ({ ctx, input }) => {
     const user = ctx.user;
     if (!user) throw new TRPCError8({ code: "UNAUTHORIZED" });
     const institutionId = await resolveUserInstitutionId(user.userId);
@@ -6048,12 +7010,11 @@ var analyticsRouter = createTRPCRouter({
 
 // src/routers/payment.router.ts
 import { Types as Types27 } from "mongoose";
-import { z as z10 } from "zod";
+import { z as z26 } from "zod";
 import { TRPCError as TRPCError9 } from "@trpc/server";
 
 // src/models/payment.model.ts
 import mongoose18, { Schema as Schema17 } from "mongoose";
-import { PaymentStatusEnum, PaymentTypeEnum } from "@muzammil328/education-packages/enums";
 var PaymentSchema = new Schema17(
   {
     user: { type: Schema17.Types.ObjectId, ref: "User" },
@@ -6074,7 +7035,6 @@ PaymentSchema.index({ classGroup: 1 });
 var payment_model_default = mongoose18.model("Payment", PaymentSchema);
 
 // src/routers/payment.router.ts
-import { PaymentStatusEnum as PaymentStatusEnum2, PaymentTypeEnum as PaymentTypeEnum2 } from "@muzammil328/education-packages/enums";
 var PLAN_PRICES = {
   basic: { amount: 2999, durationDays: 30, maxStudents: 200, maxTeachers: 10 },
   premium: { amount: 7999, durationDays: 30, maxStudents: 1e3, maxTeachers: 50 },
@@ -6082,10 +7042,10 @@ var PLAN_PRICES = {
 };
 var paymentRouter = createTRPCRouter({
   /** Initiate a subscription purchase (mock — no real gateway; records as pending) */
-  initSubscription: protectedProcedure.input(z10.object({
-    plan: z10.enum(["basic", "premium", "enterprise"]),
-    institutionId: z10.string().optional(),
-    transactionId: z10.string().optional()
+  initSubscription: protectedProcedure.input(z26.object({
+    plan: z26.enum(["basic", "premium", "enterprise"]),
+    institutionId: z26.string().optional(),
+    transactionId: z26.string().optional()
     // provided by client after gateway handoff
   })).mutation(async ({ ctx, input }) => {
     const userId = ctx.user?.userId;
@@ -6098,8 +7058,8 @@ var paymentRouter = createTRPCRouter({
       user: new Types27.ObjectId(userId),
       amount: meta.amount,
       currency: "PKR",
-      type: input.institutionId ? PaymentTypeEnum2.Institution : PaymentTypeEnum2.Subscription,
-      status: input.transactionId ? PaymentStatusEnum2.Completed : PaymentStatusEnum2.Pending,
+      type: input.institutionId ? PaymentTypeEnum.Institution : PaymentTypeEnum.Subscription,
+      status: input.transactionId ? PaymentStatusEnum.Completed : PaymentStatusEnum.Pending,
       transactionId: input.transactionId,
       provider: "manual",
       startDate: /* @__PURE__ */ new Date(),
@@ -6123,17 +7083,17 @@ var paymentRouter = createTRPCRouter({
     };
   }),
   /** Confirm a pending payment (called by webhook or admin) */
-  confirmPayment: superAdminProcedure.input(z10.object({
-    paymentId: z10.string(),
-    transactionId: z10.string(),
-    institutionId: z10.string().optional(),
-    plan: z10.enum(["basic", "premium", "enterprise"]).optional()
+  confirmPayment: superAdminProcedure.input(z26.object({
+    paymentId: z26.string(),
+    transactionId: z26.string(),
+    institutionId: z26.string().optional(),
+    plan: z26.enum(["basic", "premium", "enterprise"]).optional()
   })).mutation(async ({ input }) => {
     if (!Types27.ObjectId.isValid(input.paymentId)) {
       throw new TRPCError9({ code: "BAD_REQUEST" });
     }
     const payment = await payment_model_default.findByIdAndUpdate(input.paymentId, {
-      status: PaymentStatusEnum2.Completed,
+      status: PaymentStatusEnum.Completed,
       transactionId: input.transactionId
     }, { new: true });
     if (!payment) throw new TRPCError9({ code: "NOT_FOUND", message: "Payment not found" });
@@ -6172,10 +7132,10 @@ var paymentRouter = createTRPCRouter({
     };
   }),
   /** Admin — all payments with pagination */
-  adminList: superAdminProcedure.input(z10.object({
-    page: z10.number().int().positive().default(1),
-    limit: z10.number().int().positive().max(100).default(20),
-    status: z10.enum(["all", "pending", "completed", "failed", "refunded"]).default("all")
+  adminList: superAdminProcedure.input(z26.object({
+    page: z26.number().int().positive().default(1),
+    limit: z26.number().int().positive().max(100).default(20),
+    status: z26.enum(["all", "pending", "completed", "failed", "refunded"]).default("all")
   })).query(async ({ input }) => {
     const filter = {};
     if (input.status !== "all") filter.status = input.status;
@@ -6204,20 +7164,20 @@ var paymentRouter = createTRPCRouter({
   revenueSummary: superAdminProcedure.query(async () => {
     const [totalRevenue, monthRevenue, pendingCount, completedCount] = await Promise.all([
       payment_model_default.aggregate([
-        { $match: { status: PaymentStatusEnum2.Completed } },
+        { $match: { status: PaymentStatusEnum.Completed } },
         { $group: { _id: null, total: { $sum: "$amount" } } }
       ]),
       payment_model_default.aggregate([
         {
           $match: {
-            status: PaymentStatusEnum2.Completed,
+            status: PaymentStatusEnum.Completed,
             createdAt: { $gte: new Date(Date.now() - 30 * 864e5) }
           }
         },
         { $group: { _id: null, total: { $sum: "$amount" } } }
       ]),
-      payment_model_default.countDocuments({ status: PaymentStatusEnum2.Pending }),
-      payment_model_default.countDocuments({ status: PaymentStatusEnum2.Completed })
+      payment_model_default.countDocuments({ status: PaymentStatusEnum.Pending }),
+      payment_model_default.countDocuments({ status: PaymentStatusEnum.Completed })
     ]);
     return {
       totalRevenuePKR: totalRevenue[0]?.total ?? 0,
@@ -6277,22 +7237,21 @@ var paymentRouter = createTRPCRouter({
 
 // src/routers/bulkImport.router.ts
 import { Types as Types28 } from "mongoose";
-import { z as z11 } from "zod";
+import { z as z27 } from "zod";
 import { TRPCError as TRPCError10 } from "@trpc/server";
-import { DifficultyEnum as DifficultyEnum2, McqScopeEnum as McqScopeEnum4, StatusEnum as StatusEnum17 } from "@muzammil328/education-packages/enums";
-var mcqRowSchema = z11.object({
-  question: z11.string().min(5).max(2e3),
-  options: z11.array(z11.string().min(1)).min(2).max(6),
-  correctOption: z11.number().int().min(0),
-  explanation: z11.string().max(2e3).optional(),
-  examinersNote: z11.string().max(1e3).optional(),
-  difficulty: z11.enum(["easy", "medium", "hard"]).optional().default("medium")
+var mcqRowSchema = z27.object({
+  question: z27.string().min(5).max(2e3),
+  options: z27.array(z27.string().min(1)).min(2).max(6),
+  correctOption: z27.number().int().min(0),
+  explanation: z27.string().max(2e3).optional(),
+  examinersNote: z27.string().max(1e3).optional(),
+  difficulty: z27.enum(["easy", "medium", "hard"]).optional().default("medium")
 });
-var bulkImportSchema = z11.object({
-  subHeadingId: z11.string(),
-  rows: z11.array(mcqRowSchema).min(1).max(500),
+var bulkImportSchema = z27.object({
+  subHeadingId: z27.string(),
+  rows: z27.array(mcqRowSchema).min(1).max(500),
   /** If true, validate only — don't insert */
-  dryRun: z11.boolean().optional().default(false)
+  dryRun: z27.boolean().optional().default(false)
 });
 var bulkImportRouter = createTRPCRouter({
   /**
@@ -6328,9 +7287,9 @@ var bulkImportRouter = createTRPCRouter({
         correctOption: row.correctOption,
         explanation: row.explanation,
         examinersNote: row.examinersNote,
-        difficulty: row.difficulty ?? DifficultyEnum2.Medium,
-        scope: McqScopeEnum4.GLOBAL,
-        status: StatusEnum17.Active
+        difficulty: row.difficulty ?? DifficultyEnum.Medium,
+        scope: McqScopeEnum.GLOBAL,
+        status: StatusEnum.Active
       });
     }
     if (input.dryRun) {
@@ -6356,7 +7315,7 @@ var bulkImportRouter = createTRPCRouter({
     };
   }),
   /** Teacher-scoped import — same logic but limited to 100 rows */
-  importMcqsTeacher: teacherProcedure.input(bulkImportSchema.extend({ rows: z11.array(mcqRowSchema).min(1).max(100) })).mutation(async ({ input }) => {
+  importMcqsTeacher: teacherProcedure.input(bulkImportSchema.extend({ rows: z27.array(mcqRowSchema).min(1).max(100) })).mutation(async ({ input }) => {
     if (!Types28.ObjectId.isValid(input.subHeadingId)) {
       throw new TRPCError10({ code: "BAD_REQUEST", message: "Invalid subHeadingId" });
     }
@@ -6383,9 +7342,9 @@ var bulkImportRouter = createTRPCRouter({
         correctOption: row.correctOption,
         explanation: row.explanation,
         examinersNote: row.examinersNote,
-        difficulty: row.difficulty ?? DifficultyEnum2.Medium,
-        scope: McqScopeEnum4.GLOBAL,
-        status: StatusEnum17.Active
+        difficulty: row.difficulty ?? DifficultyEnum.Medium,
+        scope: McqScopeEnum.GLOBAL,
+        status: StatusEnum.Active
       });
     }
     if (input.dryRun) {
@@ -6402,7 +7361,6 @@ var bulkImportRouter = createTRPCRouter({
 
 // src/models/vuHandout.model.ts
 import mongoose19, { Schema as Schema18 } from "mongoose";
-import { StatusEnum as StatusEnum18 } from "@muzammil328/education-packages/enums";
 var VuHandoutSchema = new Schema18(
   {
     name: { type: String, required: true, trim: true },
@@ -6412,7 +7370,7 @@ var VuHandoutSchema = new Schema18(
     fileUrl: { type: String, required: true },
     classId: { type: Schema18.Types.ObjectId, ref: "Class", required: true, index: true },
     serviceId: { type: Schema18.Types.ObjectId, ref: "Service", required: true, index: true },
-    status: { type: String, enum: Object.values(StatusEnum18), default: StatusEnum18.Active },
+    status: { type: String, enum: Object.values(StatusEnum), default: StatusEnum.Active },
     order: { type: Number, default: 0 }
   },
   { timestamps: true }
@@ -6576,7 +7534,6 @@ var sitemapVu = publicProcedure.query(async () => {
 // src/routers/public/serviceByClassSlug.ts
 import { AppError as AppError37 } from "@muzammil328/server";
 import { toTrpcError as toTrpcError51 } from "@muzammil328/trpc";
-import { getServiceBySlugInputSchema } from "@muzammil328/education-packages";
 import { buildMatch as buildMatch22 } from "@muzammil328/db";
 var serviceByClassSlug = publicProcedure.input(getServiceBySlugInputSchema).query(async ({ input }) => {
   try {
@@ -6611,7 +7568,6 @@ var serviceByClassSlug = publicProcedure.input(getServiceBySlugInputSchema).quer
 // src/routers/public/bookGetByClassAndServiceSlug.ts
 import { AppError as AppError38 } from "@muzammil328/server";
 import { toTrpcError as toTrpcError52 } from "@muzammil328/trpc";
-import { getBookBySlugInputSchema } from "@muzammil328/education-packages";
 import { buildMatch as buildMatch23 } from "@muzammil328/db";
 var bookGetByClassAndServiceSlug = publicProcedure.input(getBookBySlugInputSchema).query(async ({ input }) => {
   try {
@@ -6656,7 +7612,6 @@ var bookGetByClassAndServiceSlug = publicProcedure.input(getBookBySlugInputSchem
 
 // src/routers/public/chapterGetByClassAndServiceAndSubjectSlug.ts
 import { toTrpcError as toTrpcError53 } from "@muzammil328/trpc";
-import { getChapterBySlugInputSchema } from "@muzammil328/education-packages";
 import { AppError as AppError39 } from "@muzammil328/server";
 import { buildMatch as buildMatch24 } from "@muzammil328/db";
 var chapterGetByClassAndServiceAndSubjectSlug = publicProcedure.input(getChapterBySlugInputSchema).query(async ({ input }) => {
@@ -6699,7 +7654,6 @@ var chapterGetByClassAndServiceAndSubjectSlug = publicProcedure.input(getChapter
 // src/routers/public/headingGetByClassAndServiceAndSubjectAndChapterSlug.ts
 import { AppError as AppError40 } from "@muzammil328/server";
 import { toTrpcError as toTrpcError54 } from "@muzammil328/trpc";
-import { getHeadingBySlugInputSchema } from "@muzammil328/education-packages";
 import { buildMatch as buildMatch25 } from "@muzammil328/db";
 var headingGetByClassAndServiceAndSubjectAndChapterSlug = publicProcedure.input(getHeadingBySlugInputSchema).query(async ({ input }) => {
   try {
@@ -6754,7 +7708,6 @@ var headingGetByClassAndServiceAndSubjectAndChapterSlug = publicProcedure.input(
 // src/routers/public/subHeadingGetByClassAndServiceAndSubjectAndChapterAndHeadingSlug.ts
 import { AppError as AppError41 } from "@muzammil328/server";
 import { toTrpcError as toTrpcError55 } from "@muzammil328/trpc";
-import { getSubHeadingBySlugInputSchema } from "@muzammil328/education-packages";
 import { buildMatch as buildMatch26 } from "@muzammil328/db";
 var subHeadingGetByClassAndServiceAndSubjectAndChapterAndHeadingSlug = publicProcedure.input(getSubHeadingBySlugInputSchema).query(async ({ input }) => {
   try {
@@ -6818,7 +7771,6 @@ var subHeadingGetByClassAndServiceAndSubjectAndChapterAndHeadingSlug = publicPro
 // src/routers/public/boardGetBySlug.ts
 import { AppError as AppError42 } from "@muzammil328/server";
 import { toTrpcError as toTrpcError56 } from "@muzammil328/trpc";
-import { getBoardBySlugInputSchema } from "@muzammil328/education-packages";
 import { buildMatch as buildMatch27 } from "@muzammil328/db";
 var boardGetBySlug = publicProcedure.input(getBoardBySlugInputSchema).query(async ({ input }) => {
   try {
@@ -6855,7 +7807,6 @@ var boardGetBySlug = publicProcedure.input(getBoardBySlugInputSchema).query(asyn
 // src/routers/public/classGetByServiceSlug.ts
 import { AppError as AppError43 } from "@muzammil328/server";
 import { toTrpcError as toTrpcError57 } from "@muzammil328/trpc";
-import { getClassByServiceSlugInputSchema } from "@muzammil328/education-packages";
 import { buildMatch as buildMatch28 } from "@muzammil328/db";
 var classGetByServiceSlug = publicProcedure.input(getClassByServiceSlugInputSchema).query(async ({ input }) => {
   try {
@@ -6890,16 +7841,16 @@ var classGetByServiceSlug = publicProcedure.input(getClassByServiceSlugInputSche
 });
 
 // src/routers/public/mcqsBySlug.ts
-import { z as z12 } from "zod";
+import { z as z28 } from "zod";
 import { toTrpcError as toTrpcError58 } from "@muzammil328/trpc";
-var mcqsBySlugInputSchema = z12.object({
-  classSlug: z12.string().min(1),
-  bookSlug: z12.string().optional(),
-  chapterSlug: z12.string().optional(),
-  headingSlug: z12.string().optional(),
-  subHeadingSlug: z12.string().optional(),
-  page: z12.number().int().min(1).default(1),
-  limit: z12.number().int().min(1).max(100).default(10)
+var mcqsBySlugInputSchema = z28.object({
+  classSlug: z28.string().min(1),
+  bookSlug: z28.string().optional(),
+  chapterSlug: z28.string().optional(),
+  headingSlug: z28.string().optional(),
+  subHeadingSlug: z28.string().optional(),
+  page: z28.number().int().min(1).default(1),
+  limit: z28.number().int().min(1).max(100).default(10)
 });
 var mcqsBySlug = publicProcedure.input(mcqsBySlugInputSchema).query(async ({ input }) => {
   try {
@@ -7039,14 +7990,14 @@ var mcqsBySlug = publicProcedure.input(mcqsBySlugInputSchema).query(async ({ inp
 });
 
 // src/routers/public/mcqsSetsBySlug.ts
-import { z as z13 } from "zod";
+import { z as z29 } from "zod";
 import { toTrpcError as toTrpcError59 } from "@muzammil328/trpc";
-var inputSchema = z13.object({
-  classSlug: z13.string().min(1),
-  bookSlug: z13.string().optional(),
-  chapterSlug: z13.string().optional(),
-  headingSlug: z13.string().optional(),
-  subHeadingSlug: z13.string().optional()
+var inputSchema = z29.object({
+  classSlug: z29.string().min(1),
+  bookSlug: z29.string().optional(),
+  chapterSlug: z29.string().optional(),
+  headingSlug: z29.string().optional(),
+  subHeadingSlug: z29.string().optional()
 });
 var SET_SIZE = 10;
 var mcqsSetsBySlug = publicProcedure.input(inputSchema).query(async ({ input }) => {
@@ -7131,9 +8082,9 @@ var mcqsSetsBySlug = publicProcedure.input(inputSchema).query(async ({ input }) 
 });
 
 // src/routers/public/getMcqBySlug.ts
-import { z as z14 } from "zod";
+import { z as z30 } from "zod";
 import { toTrpcError as toTrpcError60 } from "@muzammil328/trpc";
-var getMcqBySlug = publicProcedure.input(z14.object({ slug: z14.string().min(1) })).query(async ({ input }) => {
+var getMcqBySlug = publicProcedure.input(z30.object({ slug: z30.string().min(1) })).query(async ({ input }) => {
   try {
     const mcq = await mcqs_model_default.findOne({ slug: input.slug, status: "active" }).populate("classId", "name slug").populate("bookId", "name slug").populate("chapterId", "name slug").populate("headingId", "name slug").populate("subHeadingId", "name slug").lean();
     if (!mcq) {
@@ -7169,9 +8120,9 @@ var getMcqBySlug = publicProcedure.input(z14.object({ slug: z14.string().min(1) 
 // src/routers/public/booksByClassSlug.ts
 import { AppError as AppError44 } from "@muzammil328/server";
 import { toTrpcError as toTrpcError61 } from "@muzammil328/trpc";
-import { z as z15 } from "zod";
+import { z as z31 } from "zod";
 import { buildMatch as buildMatch29 } from "@muzammil328/db";
-var booksByClassSlug = publicProcedure.input(z15.object({ classSlug: z15.string().min(1) })).query(async ({ input }) => {
+var booksByClassSlug = publicProcedure.input(z31.object({ classSlug: z31.string().min(1) })).query(async ({ input }) => {
   try {
     const classSlug = input.classSlug.trim().toLowerCase();
     if (!classSlug) throw AppError44.badRequest("Class slug is required");
@@ -7198,11 +8149,10 @@ var booksByClassSlug = publicProcedure.input(z15.object({ classSlug: z15.string(
 // src/routers/public/bookDetailByClassAndBookSlug.ts
 import { AppError as AppError45 } from "@muzammil328/server";
 import { toTrpcError as toTrpcError62 } from "@muzammil328/trpc";
-import { z as z16 } from "zod";
+import { z as z32 } from "zod";
 
 // src/models/bookPdf.model.ts
 import mongoose20, { Schema as Schema19 } from "mongoose";
-import { StatusEnum as StatusEnum19 } from "@muzammil328/education-packages/enums";
 var BookPdfSchema = new Schema19(
   {
     classId: { type: Schema19.Types.ObjectId, ref: "Class", required: true },
@@ -7212,7 +8162,7 @@ var BookPdfSchema = new Schema19(
     fileUrl: { type: String, required: true },
     pages: { type: Number },
     fileSize: { type: Number },
-    status: { type: String, enum: Object.values(StatusEnum19), default: StatusEnum19.Active }
+    status: { type: String, enum: Object.values(StatusEnum), default: StatusEnum.Active }
   },
   { timestamps: true }
 );
@@ -7234,7 +8184,6 @@ var bookPdfRepository = new BookPdfRepository();
 
 // src/models/chapterPdf.model.ts
 import mongoose21, { Schema as Schema20 } from "mongoose";
-import { StatusEnum as StatusEnum20 } from "@muzammil328/education-packages/enums";
 var ChapterPdfSchema = new Schema20(
   {
     classId: { type: Schema20.Types.ObjectId, ref: "Class", required: true },
@@ -7245,7 +8194,7 @@ var ChapterPdfSchema = new Schema20(
     fileUrl: { type: String, required: true },
     pages: { type: Number },
     fileSize: { type: Number },
-    status: { type: String, enum: Object.values(StatusEnum20), default: StatusEnum20.Active }
+    status: { type: String, enum: Object.values(StatusEnum), default: StatusEnum.Active }
   },
   { timestamps: true }
 );
@@ -7273,9 +8222,9 @@ var chapterPdfRepository = new ChapterPdfRepository();
 import { buildMatch as buildMatch30 } from "@muzammil328/db";
 var pdfProject = { _id: 0, medium: 1, fileUrl: 1, fileId: 1, pages: 1, fileSize: 1 };
 var bookDetailByClassAndBookSlug = publicProcedure.input(
-  z16.object({
-    classSlug: z16.string().min(1),
-    bookSlug: z16.string().min(1)
+  z32.object({
+    classSlug: z32.string().min(1),
+    bookSlug: z32.string().min(1)
   })
 ).query(async ({ input }) => {
   try {
@@ -7335,14 +8284,14 @@ var bookDetailByClassAndBookSlug = publicProcedure.input(
 // src/routers/public/chapterDetailByClassBookChapterSlug.ts
 import { AppError as AppError46 } from "@muzammil328/server";
 import { toTrpcError as toTrpcError63 } from "@muzammil328/trpc";
-import { z as z17 } from "zod";
+import { z as z33 } from "zod";
 import { buildMatch as buildMatch31 } from "@muzammil328/db";
 var pdfProject2 = { _id: 0, medium: 1, fileUrl: 1, fileId: 1, pages: 1, fileSize: 1 };
 var chapterDetailByClassBookChapterSlug = publicProcedure.input(
-  z17.object({
-    classSlug: z17.string().min(1),
-    bookSlug: z17.string().min(1),
-    chapterSlug: z17.string().min(1)
+  z33.object({
+    classSlug: z33.string().min(1),
+    bookSlug: z33.string().min(1),
+    chapterSlug: z33.string().min(1)
   })
 ).query(async ({ input }) => {
   try {
@@ -7396,10 +8345,10 @@ var chapterDetailByClassBookChapterSlug = publicProcedure.input(
 });
 
 // src/routers/public/boardsByClassAndService.ts
-import { z as z18 } from "zod";
+import { z as z34 } from "zod";
 import { toTrpcError as toTrpcError64 } from "@muzammil328/trpc";
 import { buildMatch as buildMatch32 } from "@muzammil328/db";
-var boardsByClassAndService = publicProcedure.input(z18.object({ classSlug: z18.string().min(1), serviceSlug: z18.string().min(1) })).query(async ({ input }) => {
+var boardsByClassAndService = publicProcedure.input(z34.object({ classSlug: z34.string().min(1), serviceSlug: z34.string().min(1) })).query(async ({ input }) => {
   try {
     const { classSlug, serviceSlug } = input;
     const result = await boardRepository.aggregate({
@@ -7430,12 +8379,11 @@ var boardsByClassAndService = publicProcedure.input(z18.object({ classSlug: z18.
 });
 
 // src/routers/public/resultByClassAndBoard.ts
-import { z as z19 } from "zod";
+import { z as z35 } from "zod";
 import { toTrpcError as toTrpcError65 } from "@muzammil328/trpc";
 
 // src/models/result.model.ts
 import mongoose22, { Schema as Schema21 } from "mongoose";
-import { StatusEnum as StatusEnum21 } from "@muzammil328/education-packages/enums";
 var ResultSchema = new Schema21(
   {
     name: { type: String },
@@ -7446,7 +8394,7 @@ var ResultSchema = new Schema21(
     year: { type: Number, required: true, default: (/* @__PURE__ */ new Date()).getFullYear() },
     fileId: { type: String, required: true },
     fileUrl: { type: String, required: true },
-    status: { type: String, enum: Object.values(StatusEnum21), default: StatusEnum21.Active }
+    status: { type: String, enum: Object.values(StatusEnum), default: StatusEnum.Active }
   },
   { timestamps: true }
 );
@@ -7455,7 +8403,7 @@ var result_model_default = mongoose22.model("Result", ResultSchema);
 
 // src/routers/public/resultByClassAndBoard.ts
 import { AppError as AppError47 } from "@muzammil328/server";
-var resultByClassAndBoard = publicProcedure.input(z19.object({ classSlug: z19.string().min(1), boardSlug: z19.string().min(1) })).query(async ({ input }) => {
+var resultByClassAndBoard = publicProcedure.input(z35.object({ classSlug: z35.string().min(1), boardSlug: z35.string().min(1) })).query(async ({ input }) => {
   try {
     const { classSlug, boardSlug } = input;
     const classDoc = await class_model_default.findOne({ slug: classSlug, status: "active" });
@@ -7483,19 +8431,18 @@ var resultByClassAndBoard = publicProcedure.input(z19.object({ classSlug: z19.st
 });
 
 // src/routers/public/pairingSchemeByClassAndBoard.ts
-import { z as z20 } from "zod";
+import { z as z36 } from "zod";
 import { toTrpcError as toTrpcError66 } from "@muzammil328/trpc";
 
 // src/models/pairingScheme.model.ts
 import mongoose23, { Schema as Schema22 } from "mongoose";
-import { StatusEnum as StatusEnum22 } from "@muzammil328/education-packages/enums";
 var PairingSchemeSchema2 = new Schema22(
   {
     classId: { type: Schema22.Types.ObjectId, ref: "Class", required: true, index: true },
     boardId: { type: Schema22.Types.ObjectId, ref: "Board", required: true, index: true },
     year: { type: Number, required: true, default: (/* @__PURE__ */ new Date()).getFullYear() },
     image: { type: String, required: true },
-    status: { type: String, enum: Object.values(StatusEnum22), default: StatusEnum22.Active }
+    status: { type: String, enum: Object.values(StatusEnum), default: StatusEnum.Active }
   },
   { timestamps: true }
 );
@@ -7504,7 +8451,7 @@ var pairingScheme_model_default = mongoose23.model("PairingScheme", PairingSchem
 
 // src/routers/public/pairingSchemeByClassAndBoard.ts
 import { AppError as AppError48 } from "@muzammil328/server";
-var pairingSchemeByClassAndBoard = publicProcedure.input(z20.object({ classSlug: z20.string().min(1), boardSlug: z20.string().min(1) })).query(async ({ input }) => {
+var pairingSchemeByClassAndBoard = publicProcedure.input(z36.object({ classSlug: z36.string().min(1), boardSlug: z36.string().min(1) })).query(async ({ input }) => {
   try {
     const { classSlug, boardSlug } = input;
     const classDoc = await class_model_default.findOne({ slug: classSlug, status: "active" });
@@ -7531,19 +8478,18 @@ var pairingSchemeByClassAndBoard = publicProcedure.input(z20.object({ classSlug:
 });
 
 // src/routers/public/dateSheetByClassAndBoard.ts
-import { z as z21 } from "zod";
+import { z as z37 } from "zod";
 import { toTrpcError as toTrpcError67 } from "@muzammil328/trpc";
 
 // src/models/dateSheet.model.ts
 import mongoose24, { Schema as Schema23 } from "mongoose";
-import { StatusEnum as StatusEnum23 } from "@muzammil328/education-packages/enums";
 var DateSheetSchema = new Schema23(
   {
     classId: { type: Schema23.Types.ObjectId, ref: "Class", required: true, index: true },
     boardId: { type: Schema23.Types.ObjectId, ref: "Board", required: true, index: true },
     year: { type: Number, required: true, default: (/* @__PURE__ */ new Date()).getFullYear() },
     image: { type: String, required: true },
-    status: { type: String, enum: Object.values(StatusEnum23), default: StatusEnum23.Active }
+    status: { type: String, enum: Object.values(StatusEnum), default: StatusEnum.Active }
   },
   { timestamps: true }
 );
@@ -7552,7 +8498,7 @@ var dateSheet_model_default = mongoose24.model("DateSheet", DateSheetSchema);
 
 // src/routers/public/dateSheetByClassAndBoard.ts
 import { AppError as AppError49 } from "@muzammil328/server";
-var dateSheetByClassAndBoard = publicProcedure.input(z21.object({ classSlug: z21.string().min(1), boardSlug: z21.string().min(1) })).query(async ({ input }) => {
+var dateSheetByClassAndBoard = publicProcedure.input(z37.object({ classSlug: z37.string().min(1), boardSlug: z37.string().min(1) })).query(async ({ input }) => {
   try {
     const { classSlug, boardSlug } = input;
     const classDoc = await class_model_default.findOne({ slug: classSlug, status: "active" });
@@ -7575,10 +8521,10 @@ var dateSheetByClassAndBoard = publicProcedure.input(z21.object({ classSlug: z21
 });
 
 // src/routers/public/booksByClassWithChapters.ts
-import { z as z22 } from "zod";
+import { z as z38 } from "zod";
 import { toTrpcError as toTrpcError68 } from "@muzammil328/trpc";
 import { buildMatch as buildMatch33 } from "@muzammil328/db";
-var booksByClassWithChapters = publicProcedure.input(z22.object({ classSlug: z22.string().min(1) })).query(async ({ input }) => {
+var booksByClassWithChapters = publicProcedure.input(z38.object({ classSlug: z38.string().min(1) })).query(async ({ input }) => {
   try {
     const classSlug = input.classSlug.trim().toLowerCase();
     const books = await bookRepository.aggregate({
