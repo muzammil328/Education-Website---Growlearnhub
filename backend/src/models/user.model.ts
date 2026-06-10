@@ -50,6 +50,14 @@ const UserSchema: Schema = new Schema(
     dailyStreak: { type: Number, default: 0 },
     lastLogin: { type: Date },
 
+    // Exam countdown
+    examTarget: { type: String, trim: true },
+    examDate: { type: Date },
+
+    // Micro Burst streak
+    lastBurstDate: { type: Date },
+    burstStreakCount: { type: Number, default: 0 },
+
     subscriptionPlan: {
       type: String,
       enum: Object.values(SubscriptionPlanEnum),

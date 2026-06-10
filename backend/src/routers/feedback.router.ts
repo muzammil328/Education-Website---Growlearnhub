@@ -33,7 +33,7 @@ export const feedbackRouter = createTRPCRouter({
     if (input.type) match.type = input.type;
     if (input.status) match.status = input.status;
 
-    const result = await feedbackRepository.aggregatePaginate<{
+    const result = await feedbackRepository.aggregate<{
       feedbackId: Types.ObjectId;
       name: string;
       email: string;
@@ -86,7 +86,7 @@ export const feedbackRouter = createTRPCRouter({
       throw toTrpcError(AppError.badRequest('Invalid feedback ID format'));
     }
 
-    const result = (await feedbackRepository.findById(input.id)) as any;
+    const result = (await feedbackRepository.findById(new Types.ObjectId(input.id))) as any;
 
     if (!result) {
       throw toTrpcError(AppError.notFound('Feedback not found'));
@@ -106,8 +106,7 @@ export const feedbackRouter = createTRPCRouter({
   }),
 
   updateStatus: publicProcedure.input(updateFeedbackStatusSchema).mutation(async ({ input }) => {
-    const updated = (await feedbackRepository.findByIdAndUpdate(
-      input.id,
+    const updated = (await feedbackRepository.findByIdAndUpdate(new Types.ObjectId(input.id),
       { status: input.status },
       { new: true }
     )) as any;

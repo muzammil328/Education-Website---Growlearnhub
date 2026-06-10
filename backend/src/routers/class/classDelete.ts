@@ -1,3 +1,4 @@
+import { Types } from 'mongoose';
 import { AppError } from '@muzammil328/server';
 import { toTrpcError } from '@muzammil328/trpc';
 import { classRepository } from '@/repository/class.repository';
@@ -8,7 +9,7 @@ export const classDelete = superAdminProcedure
     .input(deleteClassInputSchema)
     .mutation(async ({ input }) => {
       try {
-        const deleted = await classRepository.findByIdAndDelete(input.id);
+        const deleted = await classRepository.findByIdAndDelete(new Types.ObjectId(input.id));
 
         if (!deleted) {
           throw AppError.notFound('Class not found');

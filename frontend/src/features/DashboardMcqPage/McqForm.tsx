@@ -22,6 +22,7 @@ interface Question {
   options: string[];
   correctOption: number;
   explanation: string;
+  examinersNote: string;
   difficulty: 'easy' | 'medium' | 'hard';
   status: 'active' | 'inactive';
 }
@@ -74,6 +75,7 @@ export function McqForm({ isOpen, mcqId, onClose, mode, initialData }: McqFormPr
           options: ['', '', '', ''],
           correctOption: 0,
           explanation: '',
+          examinersNote: '',
           difficulty: 'medium',
           status: 'active',
         },
@@ -424,6 +426,18 @@ export function McqForm({ isOpen, mcqId, onClose, mode, initialData }: McqFormPr
                     form.setValue(`questions.${questionIndex}.explanation`, e.target.value)
                   }
                   placeholder="Explain the correct answer"
+                  disabled={isView}
+                />
+              </div>
+
+              <div className="space-y-2">
+                <span className="text-sm font-medium">Examiner&apos;s Note <span className="text-muted-foreground font-normal">(optional)</span></span>
+                <Textarea
+                  value={question.examinersNote}
+                  onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+                    form.setValue(`questions.${questionIndex}.examinersNote`, e.target.value)
+                  }
+                  placeholder="Why is this distractor tempting? What trap is the examiner setting?"
                   disabled={isView}
                 />
               </div>

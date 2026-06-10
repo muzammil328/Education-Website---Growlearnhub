@@ -11,7 +11,7 @@ type Role = (typeof RoleEnum)[keyof typeof RoleEnum];
 type ProcedureBuilder = typeof t.procedure;
 
 export const createTRPCRouter = t.router;
-export const publicProcedure: ProcedureBuilder = t.procedure.use(loggerMiddleware);
+export const publicProcedure = t.procedure.use(loggerMiddleware as any);
 
 const isAuthed = t.middleware(({ ctx, next }) => {
   if (!ctx.user) {
@@ -25,7 +25,7 @@ const isAuthed = t.middleware(({ ctx, next }) => {
   });
 });
 
-export const protectedProcedure: ProcedureBuilder = t.procedure.use(isAuthed).use(loggerMiddleware);
+export const protectedProcedure = t.procedure.use(isAuthed).use(loggerMiddleware as any);
 
 const hasRole = (allowedRoles: Role[]) =>
   t.middleware(({ ctx, next }) => {

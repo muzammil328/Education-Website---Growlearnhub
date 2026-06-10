@@ -73,7 +73,7 @@ export class AnalyticsRepository extends BaseRepository<IAnalytics> {
       },
     ];
 
-    const result = await this.aggregate(pipeline);
+    const result = await this.aggregate({pipeline});
     return result[0] || { totalAttempts: 0, totalCorrect: 0, totalIncorrect: 0, avgScore: 0 };
   }
 
@@ -91,7 +91,7 @@ export class AnalyticsRepository extends BaseRepository<IAnalytics> {
       },
     ];
 
-    const result = await this.aggregate(pipeline);
+    const result = await this.aggregate({pipeline});
     return result[0] || { totalAttempts: 0, totalCorrect: 0, totalIncorrect: 0, avgScore: 0 };
   }
 
@@ -109,7 +109,7 @@ export class AnalyticsRepository extends BaseRepository<IAnalytics> {
       { $sort: { avgScore: 1 } },
     ];
 
-    return this.aggregate(pipeline);
+    return this.aggregate({pipeline});
   }
 
   async getStrongTopics(userId: DocumentId, threshold = 80) {
@@ -126,7 +126,7 @@ export class AnalyticsRepository extends BaseRepository<IAnalytics> {
       { $sort: { avgScore: -1 } },
     ];
 
-    return this.aggregate(pipeline);
+    return this.aggregate({pipeline});
   }
 
   async getProgressOverTime(userId: DocumentId, days = 30) {
@@ -151,6 +151,6 @@ export class AnalyticsRepository extends BaseRepository<IAnalytics> {
       { $sort: { _id: 1 } },
     ];
 
-    return this.aggregate(pipeline);
+    return this.aggregate({pipeline});
   }
 }

@@ -75,7 +75,7 @@ export const subHeadingService = {
     if (chapterId) match.chapterId = chapterId;
     if (headingId) match.headingId = headingId;
 
-    return subHeadingRepository.aggregatePaginate({
+    return subHeadingRepository.aggregate({
       pipeline: [
         { $match: match },
         { $sort: { [sort]: sortOrder } },
@@ -146,7 +146,7 @@ export const subHeadingService = {
       throw AppError.badRequest('Invalid subheading ID format');
     }
 
-    const result = await subHeadingRepository.aggregate([
+    const result = await subHeadingRepository.aggregate({pipeline: [
       { $match: { _id: new Types.ObjectId(id) } },
       {
         $lookup: {
@@ -202,7 +202,7 @@ export const subHeadingService = {
           headingName: { $arrayElemAt: ['$headingData.name', 0] },
         },
       },
-    ]);
+    ]});
 
     if (!result || result.length === 0) {
       throw AppError.notFound('SubHeading not found');
@@ -219,7 +219,7 @@ export const subHeadingService = {
     const headingId = parseObjectId(input.headingId);
     const formatSearch = escapeRegex(search);
 
-    return subHeadingRepository.aggregate([
+    return subHeadingRepository.aggregate({pipeline: [
       {
         $match: {
           name: { $regex: formatSearch, $options: 'i' },
@@ -232,7 +232,7 @@ export const subHeadingService = {
       },
       { $sort: { name: 1 } },
       { $project: { _id: 1, name: 1 } },
-    ]);
+    ]});
   },
 
   async getBySlug(slug: string) {
@@ -335,7 +335,7 @@ export const subHeadingService = {
     if (chapterId) headingData.chapterId = new Types.ObjectId(chapterId);
     if (headingId) headingData.headingId = new Types.ObjectId(headingId);
 
-    const updated = await subHeadingRepository.findByIdAndUpdate(id, headingData, { new: true });
+    const updated = await subHeadingRepository.findByIdAndUpdate(new Types.ObjectId(id), headingData, { new: true });
 
     if (!updated) {
       throw AppError.notFound('SubHeading not found');
@@ -349,7 +349,7 @@ export const subHeadingService = {
       throw AppError.badRequest('Invalid subheading ID');
     }
 
-    const deleted = await subHeadingRepository.findByIdAndDelete(id);
+    const deleted = await subHeadingRepository.findByIdAndDelete(new Types.ObjectId(id));
 
     if (!deleted) {
       throw AppError.notFound('SubHeading not found');

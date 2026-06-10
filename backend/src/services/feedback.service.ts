@@ -38,7 +38,7 @@ export const feedbackService = {
     if (input.status) match.status = input.status;
     if (input.type) match.type = input.type;
 
-    return feedbackRepository.aggregatePaginate({
+    return feedbackRepository.aggregate({
       pipeline: [
         { $match: match },
         { $sort: { [sort]: sortOrder } },
@@ -66,7 +66,7 @@ export const feedbackService = {
       throw AppError.badRequest('Invalid feedback ID format');
     }
 
-    const result = await feedbackRepository.findById(id);
+    const result = await feedbackRepository.findById(new Types.ObjectId(id));
 
     if (!result) {
       throw AppError.notFound('Feedback not found');
@@ -116,7 +116,7 @@ export const feedbackService = {
     if (type) updateData.type = type;
     if (status) updateData.status = status;
 
-    const updated = await feedbackRepository.findByIdAndUpdate(id, updateData, { new: true });
+    const updated = await feedbackRepository.findByIdAndUpdate(new Types.ObjectId(id), updateData, { new: true });
 
     if (!updated) {
       throw AppError.notFound('Feedback not found');
@@ -130,7 +130,7 @@ export const feedbackService = {
       throw AppError.badRequest('Invalid feedback ID');
     }
 
-    const updated = await feedbackRepository.findByIdAndUpdate(id, { status }, { new: true });
+    const updated = await feedbackRepository.findByIdAndUpdate(new Types.ObjectId(id), { status }, { new: true });
 
     if (!updated) {
       throw AppError.notFound('Feedback not found');
@@ -144,7 +144,7 @@ export const feedbackService = {
       throw AppError.badRequest('Invalid feedback ID');
     }
 
-    const deleted = await feedbackRepository.findByIdAndDelete(id);
+    const deleted = await feedbackRepository.findByIdAndDelete(new Types.ObjectId(id));
 
     if (!deleted) {
       throw AppError.notFound('Feedback not found');

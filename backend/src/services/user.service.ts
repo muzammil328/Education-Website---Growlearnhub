@@ -36,7 +36,7 @@ export const userService = {
       throw AppError.badRequest('Invalid user ID');
     }
 
-    const user = await userRepository.findById(userId);
+    const user = await userRepository.findById(new Types.ObjectId(userId));
     if (!user) {
       throw AppError.notFound('User not found');
     }
@@ -86,7 +86,7 @@ export const userService = {
       ];
     }
 
-    return userRepository.aggregatePaginate({
+    return userRepository.aggregate({
       pipeline: [
         { $match: match },
         { $sort: { [sort]: sortOrder } },
@@ -130,7 +130,7 @@ export const userService = {
       throw AppError.badRequest('Invalid user ID');
     }
 
-    const deleted = await userRepository.findByIdAndDelete(id);
+    const deleted = await userRepository.findByIdAndDelete(new Types.ObjectId(id));
 
     if (!deleted) {
       throw AppError.notFound('User not found');

@@ -1,8 +1,10 @@
+import { Types } from 'mongoose';
 import { AppError } from '@muzammil328/server';
 import { toTrpcError } from '@muzammil328/trpc';
 import { bookRepository } from '@/repository/book.repository';
 import { bookCreateSchema } from '@muzammil328/education-packages';
 import { superAdminProcedure } from '@/trpc/trpc';
+import type { IVUAssessmentComponent } from '@/models/book.model';
 
 export const bookCreate = superAdminProcedure
     .input(bookCreateSchema)
@@ -20,7 +22,7 @@ export const bookCreate = superAdminProcedure
                 name: input.name,
                 code: input.code,
                 status: input.status,
-                classId: input.classId,
+                classId: new Types.ObjectId(input.classId),
                 serviceId: input.serviceId,
                 description: input.description,
                 creditHours: input.creditHours,
@@ -29,7 +31,7 @@ export const bookCreate = superAdminProcedure
                 image: input.image,
                 order: input.order,
                 totalWeight: input.totalWeight,
-                components: input.components,
+                components: input.components as IVUAssessmentComponent[],
             })
 
             return {

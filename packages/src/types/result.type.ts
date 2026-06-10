@@ -1,5 +1,5 @@
 import { Document, Types } from 'mongoose';
-import type { Status } from '../types';
+import type { Status } from '../enums';
 
 export interface IResult extends Document {
   name: string;

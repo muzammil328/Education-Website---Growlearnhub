@@ -1,4 +1,4 @@
-import type { Status } from '../types';
+import type { Status } from '../enums';
 import { Document, Types } from 'mongoose';
 
 export interface IBoard extends Document {

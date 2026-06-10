@@ -1,5 +1,5 @@
-import type { DifficultyValue, McqScopeValue } from '../enums';
-import type { Status } from '../types';
+import type { DifficultyLevel, McqScopeValue } from '../enums';
+import type { Status } from '../enums';
 import { Document, Types } from 'mongoose';
 
 export interface IMcqs extends Document {
@@ -17,7 +17,7 @@ export interface IMcqs extends Document {
   options: string[];
   correctOption: number;
   explanation?: string;
-  difficulty: DifficultyValue;
+  difficulty: DifficultyLevel;
   aiHint?: string;
   status: Status;
   totalOptions?: number; // virtual field

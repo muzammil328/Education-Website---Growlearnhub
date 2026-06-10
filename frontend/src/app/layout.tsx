@@ -6,6 +6,7 @@ import { GoogleAnalytics } from '@next/third-parties/google';
 import { Geist } from 'next/font/google';
 import { config } from '@/config';
 import { getSeoMetadataBase, seoOpenGraphDefaults, seoTwitterDefaults } from '@/lib/seo';
+import ServiceWorkerRegistration from '@/components/ServiceWorkerRegistration';
 
 const geist = Geist({
   variable: '--font-geist',
@@ -83,8 +84,15 @@ export default function RootLayout({
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
 
+        {/* -- PWA -- */}
+        <link rel="manifest" href="/manifest.json" />
+        <meta name="mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+        <meta name="apple-mobile-web-app-title" content="GrowLearnHub" />
+
         {/* -- Theme and Icons -- */}
-        <meta name="theme-color" content="#f73e3e" />
+        <meta name="theme-color" content="#6d28d9" />
         <link rel="shortcut icon" href="/favicon/favicon.ico" type="image/x-icon" />
         <link rel="icon" href="/favicon/favicon.ico" type="image/x-icon" />
         <link rel="apple-touch-icon" href="/favicon/apple-touch-icon.png" type="image/png" />
@@ -125,6 +133,7 @@ export default function RootLayout({
         <Provider>
           {children}
           <Toaster />
+          <ServiceWorkerRegistration />
         </Provider>
       </body>
     </html>

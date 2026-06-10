@@ -8,6 +8,7 @@ export const RoleEnum = {
   Student: 'student',
   Teacher: 'teacher',
   SuperAdmin: 'super_admin',
+  Guest: 'guest',
 } as const;
 
 export type RoleType = (typeof RoleEnum)[keyof typeof RoleEnum];
@@ -117,6 +118,12 @@ export const FeedbackTypeEnum = {
   FeatureRequest: 'feature-request',
   ShareStory: 'share-story',
 } as const;
+
+/* =========================
+ * Sort
+ * ========================= */
+
+export type SortOrder = 'asc' | 'desc' | 'ASC' | 'DESC';
 
 export const FeedbackStatusEnum = {
   Pending: 'pending',

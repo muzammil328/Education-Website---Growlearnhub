@@ -32,7 +32,7 @@ export class ChapterRepository extends BaseRepository<IChapter> {
     const normalizedChapter = chapterSlug.trim().toLowerCase();
     const escapedClass = classSlug.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
-    const result = await this.aggregate([
+    const result = await this.aggregate({pipeline: [
       {
         $match: {
           slug: normalizedChapter,
@@ -83,7 +83,7 @@ export class ChapterRepository extends BaseRepository<IChapter> {
         },
       },
       { $limit: 1 },
-    ]);
+    ]});
 
     return result[0] || null;
   }
@@ -94,7 +94,7 @@ export class ChapterRepository extends BaseRepository<IChapter> {
     const escapedClass = className.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     const escapedBook = bookName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
-    return this.aggregate<{ name: string; slug: string }>([
+    return this.aggregate<{ name: string; slug: string }>({pipeline: [
       { $match: { status: 'active' } },
       {
         $lookup: {
@@ -142,7 +142,7 @@ export class ChapterRepository extends BaseRepository<IChapter> {
         },
       },
       { $sort: { order: 1, name: 1 } },
-    ]);
+    ]});
   }
 }
 

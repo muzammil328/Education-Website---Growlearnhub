@@ -30,7 +30,7 @@ export default function InteractiveLessons() {
             <p className="mb-8 text-gray-700 max-w-xl">
               Our platform uses interactive lessons and cool resources like games and quizzes to
               keep your child engaged and excited while learning new things.
-            </Para>
+            </p>
 
             {/* Features List */}
             <div className="space-y-4">

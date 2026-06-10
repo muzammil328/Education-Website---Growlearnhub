@@ -2,6 +2,7 @@ import { AppError } from '@muzammil328/server';
 import { Types, PipelineStage } from 'mongoose';
 import { bookRepository } from '../repository/book.repository';
 import { classRepository } from '../repository/class.repository';
+import type { IVUAssessmentComponent } from '../models/book.model';
 
 function escapeRegex(value: string): string {
   return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -134,7 +135,7 @@ export const bookService = {
       pipeline.push({ $sort: { [sort]: sortOrder } });
     }
 
-    return bookRepository.aggregatePaginate({
+    return bookRepository.aggregate({
       pipeline,
       page: input.page ?? 1,
       limit: input.limit ?? 10,
@@ -146,7 +147,7 @@ export const bookService = {
       throw AppError.badRequest('Invalid book ID format');
     }
 
-    const result = await bookRepository.aggregate([
+    const result = await bookRepository.aggregate({pipeline: [
       { $match: { _id: new Types.ObjectId(id) } },
       {
         $lookup: {
@@ -185,7 +186,7 @@ export const bookService = {
           keywords: 1,
         },
       },
-    ]);
+    ]});
 
     if (!result || result.length === 0) {
       throw AppError.notFound('Book not found');
@@ -205,7 +206,7 @@ export const bookService = {
       throw AppError.notFound('Book not found');
     }
 
-    const classDoc = result.classId ? await classRepository.findById(String(result.classId)) : null;
+    const classDoc = result.classId ? await classRepository.findById(result.classId) : null;
 
     return {
       bookId: String(result._id),
@@ -244,7 +245,7 @@ export const bookService = {
     const classId = parseObjectId(input.classId);
     const formatSearch = escapeRegex(search);
 
-    return bookRepository.aggregate([
+    return bookRepository.aggregate({pipeline: [
       {
         $match: {
           name: { $regex: formatSearch, $options: 'i' },
@@ -259,7 +260,7 @@ export const bookService = {
           name: 1,
         },
       },
-    ]);
+    ]});
   },
 
   async getByName(name: string) {
@@ -339,7 +340,7 @@ export const bookService = {
       pages,
       image,
       totalWeight,
-      components,
+      components: components as IVUAssessmentComponent[],
       keywords,
     });
   },
@@ -408,7 +409,7 @@ export const bookService = {
       bookData.classId = classIdObject;
     }
 
-    const updated = await bookRepository.findByIdAndUpdate(id, bookData, { new: true });
+    const updated = await bookRepository.findByIdAndUpdate(new Types.ObjectId(id), bookData, { new: true });
 
     if (!updated) {
       throw AppError.notFound('Book not found');
@@ -422,7 +423,7 @@ export const bookService = {
       throw AppError.badRequest('Invalid book ID');
     }
 
-    const deleted = await bookRepository.findByIdAndDelete(id);
+    const deleted = await bookRepository.findByIdAndDelete(new Types.ObjectId(id));
 
     if (!deleted) {
       throw AppError.notFound('Book not found');

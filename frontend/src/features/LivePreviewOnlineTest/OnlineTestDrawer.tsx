@@ -14,6 +14,15 @@ import {
   Title,
 } from 'chart.js';
 import type { McqItem } from '../LivePreviewMcqs';
+import { trpc } from '@/trpc/trpc';
+import { useAuth } from '@/context/AuthContext';
+import { useOfflineQueue } from '@/hooks/useOfflineQueue';
+
+type ConfidenceTag = 'sure' | 'guessed' | 'no_idea';
+
+function generateSessionId() {
+  return `${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;
+}
 
 ChartJS.register(ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarElement, Title);
 
@@ -116,10 +125,12 @@ function TestHeader({
 }
 
 function QuestionPanel({
-  mcq, idx, status, selected, onSelect, onMark,
+  mcq, idx, status, selected, onSelect, onMark, confidenceTag, onConfidenceTag,
 }: {
   mcq: McqItem; idx: number; status: QuestionStatus;
   selected: number | undefined; onSelect: (i: number) => void; onMark: () => void;
+  confidenceTag: ConfidenceTag | undefined;
+  onConfidenceTag: (tag: ConfidenceTag) => void;
 }) {
   return (
     <div className="flex-1 overflow-y-auto">
@@ -182,6 +193,31 @@ function QuestionPanel({
           );
         })}
       </div>
+
+      {/* Confidence tag — shown after an option is selected */}
+      {selected !== undefined && (
+        <div className="px-8 pb-4">
+          <p className="text-xs text-muted-foreground mb-2 font-medium">How confident were you?</p>
+          <div className="flex gap-2">
+            {([
+              { tag: 'sure' as ConfidenceTag, label: '✅ Sure', active: 'bg-green-600 text-white border-green-600', inactive: 'border-border text-muted-foreground hover:border-green-400 hover:text-green-600' },
+              { tag: 'guessed' as ConfidenceTag, label: '🤔 Guessed', active: 'bg-amber-500 text-white border-amber-500', inactive: 'border-border text-muted-foreground hover:border-amber-400 hover:text-amber-600' },
+              { tag: 'no_idea' as ConfidenceTag, label: '❓ No Idea', active: 'bg-red-500 text-white border-red-500', inactive: 'border-border text-muted-foreground hover:border-red-400 hover:text-red-500' },
+            ] as const).map(({ tag, label, active, inactive }) => (
+              <button
+                key={tag}
+                onClick={() => onConfidenceTag(tag)}
+                className={cn(
+                  'flex-1 py-2 text-xs font-semibold rounded-lg border transition',
+                  confidenceTag === tag ? active : inactive,
+                )}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* keyboard hint */}
       <p className="text-center text-xs text-foreground/30 pb-6 mt-2">
@@ -332,8 +368,13 @@ function TestFooter({
 // ── main component ──────────────────────────────────────────────────────────
 export default function OnlineTestDrawer({ mcqs, testTitle, onClose }: Props) {
   const n = mcqs.length;
+  const { user } = useAuth();
+  const { queueAttempt } = useOfflineQueue();
+  const submitAttempt = trpc.mcqAttempt.submit.useMutation();
 
   const storageKey = `online-test-${testTitle.replace(/\s/g, '-')}`;
+  const [sessionId] = useState(() => generateSessionId());
+  const [confidenceTags, setConfidenceTags] = useState<Record<string, ConfidenceTag>>({});
 
   // lazy-init state from localStorage on first render
   const [idx, setIdx] = useState<number>(() => {
@@ -389,11 +430,39 @@ export default function OnlineTestDrawer({ mcqs, testTitle, onClose }: Props) {
 
   const handleFinalSubmit = useCallback(() => {
     clearInterval(timerRef.current!);
-    setTimeTaken(TOTAL_SECONDS(n) - timeLeftRef.current);
+    const taken = TOTAL_SECONDS(n) - timeLeftRef.current;
+    setTimeTaken(taken);
     localStorage.removeItem(storageKey);
     setShowSubmitModal(false);
     setShowResults(true);
-  }, [n, storageKey]);
+
+    // Save each answered MCQ attempt to DB if user is logged in
+    if (user) {
+      const perQuestion = taken / Math.max(Object.keys(answers).length, 1);
+      mcqs.forEach(mcq => {
+        const selected = answers[mcq.mcqId];
+        if (selected === undefined) return;
+        const attemptPayload = {
+          mcqId: mcq.mcqId,
+          selectedOption: selected,
+          timeTakenMs: Math.round(perQuestion * 1000),
+          confidenceTag: confidenceTags[mcq.mcqId],
+          sessionId,
+          quizMode: 'practice' as const,
+        };
+        submitAttempt.mutate(attemptPayload, {
+          onError: () => {
+            // Offline fallback — queue for background sync
+            queueAttempt({
+              url: '/trpc/mcqAttempt.submit',
+              body: JSON.stringify({ json: attemptPayload }),
+            });
+          },
+        });
+      });
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [n, storageKey, user, mcqs, answers]);
 
   const handleNext = useCallback(() => { setIdx(i => Math.min(n - 1, i + 1)); }, [n]);
   const handlePrev = useCallback(() => { setIdx(i => Math.max(0, i - 1)); }, []);
@@ -522,6 +591,12 @@ export default function OnlineTestDrawer({ mcqs, testTitle, onClose }: Props) {
                 <p className="text-sm text-muted-foreground leading-relaxed">{reviewMcq.explanation}</p>
               </div>
             )}
+            {reviewMcq?.examinersNote && answers[reviewMcq.mcqId] !== reviewMcq.correctOption && (
+              <div className="p-4 rounded-xl bg-amber-50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-900/40">
+                <p className="text-xs font-semibold text-amber-700 dark:text-amber-400 uppercase tracking-wide mb-1">Examiner&apos;s Note</p>
+                <p className="text-sm text-amber-800 dark:text-amber-300 leading-relaxed">{reviewMcq.examinersNote}</p>
+              </div>
+            )}
           </div>
 
           <div className="shrink-0 border-t border-border bg-background px-6 py-3 flex justify-between">
@@ -549,12 +624,12 @@ export default function OnlineTestDrawer({ mcqs, testTitle, onClose }: Props) {
           </motion.div>
 
           <motion.div initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.2 }}
-            className="grid grid-cols-4 gap-3">
+            className="grid grid-cols-2 sm:grid-cols-4 gap-3">
             {[
-              { label: 'Correct',  value: score,           color: 'text-green-600',  bg: 'bg-green-50 border-green-200' },
-              { label: 'Wrong',    value: wrong,            color: 'text-red-500',    bg: 'bg-red-50 border-red-200' },
-              { label: 'Skipped',  value: counts.skipped,  color: 'text-orange-500', bg: 'bg-orange-50 border-orange-200' },
-              { label: 'Marked',   value: counts.marked,   color: 'text-violet-500', bg: 'bg-violet-50 border-violet-200' },
+              { label: 'Correct',           value: score,                                            color: 'text-green-600',  bg: 'bg-green-50 border-green-200 dark:bg-green-950/20' },
+              { label: 'Wrong',             value: wrong,                                            color: 'text-red-500',    bg: 'bg-red-50 border-red-200 dark:bg-red-950/20' },
+              { label: 'Skipped',           value: counts.skipped,                                   color: 'text-orange-500', bg: 'bg-orange-50 border-orange-200 dark:bg-orange-950/20' },
+              { label: 'Confident Mistakes', value: mcqs.filter(m => confidenceTags[m.mcqId] === 'sure' && answers[m.mcqId] !== undefined && answers[m.mcqId] !== m.correctOption).length, color: 'text-violet-600', bg: 'bg-violet-50 border-violet-200 dark:bg-violet-950/20' },
             ].map(s => (
               <div key={s.label} className={cn('rounded-xl border p-3 text-center', s.bg)}>
                 <p className={cn('text-2xl font-bold', s.color)}>{s.value}</p>
@@ -665,6 +740,8 @@ export default function OnlineTestDrawer({ mcqs, testTitle, onClose }: Props) {
                     selected={answers[cur.mcqId]}
                     onSelect={selectAnswer}
                     onMark={handleMark}
+                    confidenceTag={confidenceTags[cur.mcqId]}
+                    onConfidenceTag={(tag) => setConfidenceTags(p => ({ ...p, [cur.mcqId]: tag }))}
                   />
                 )}
               </motion.div>

@@ -1,4 +1,4 @@
-import type { DifficultyValue } from '../enums';
+import type { DifficultyLevel } from '../enums';
 import { Document, Types } from 'mongoose';
 
 export interface IOfflineAttempt {
@@ -18,7 +18,7 @@ export interface IAnalytics extends Document {
   correct: number;
   incorrect: number;
   timeTakenMinutes?: number;
-  difficultyLevel?: DifficultyValue;
+  difficultyLevel?: DifficultyLevel;
   topicWeaknessScore?: number;
   attemptCount?: number;
   offlineAttempts: IOfflineAttempt[];

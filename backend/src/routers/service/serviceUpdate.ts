@@ -21,14 +21,13 @@ export const serviceUpdate = superAdminProcedure
         throw AppError.badRequest('Service already exists');
       }
 
-      const updated = await serviceRepository.findByIdAndUpdate(
-        input.id,
+      const updated = await serviceRepository.findByIdAndUpdate(new Types.ObjectId(input.id),
         {
           name: input.updates.name,
           code: input.updates.code,
           status: input.updates.status,
-          classId: input.updates.classId,
-          serviceId: input.updates.serviceId,
+          classId: input.updates.classId?.map((id: string) => new Types.ObjectId(id)),
+          serviceId: input.updates.serviceId?.map((id: string) => new Types.ObjectId(id)),
           description: input.updates.description,
           creditHours: input.updates.creditHours,
           fileId: input.updates.fileId,

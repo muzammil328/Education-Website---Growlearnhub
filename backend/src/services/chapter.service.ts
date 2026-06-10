@@ -121,7 +121,7 @@ export const chapterService = {
 
     pipeline.push({ $sort: { [sort]: sortOrder } });
 
-    return chapterRepository.aggregatePaginate({
+    return chapterRepository.aggregate({
       pipeline,
       page: input.page ?? 1,
       limit: input.limit ?? 10,
@@ -133,7 +133,7 @@ export const chapterService = {
       throw AppError.badRequest('Invalid chapter ID format');
     }
 
-    const result = await chapterRepository.aggregate([
+    const result = await chapterRepository.aggregate({pipeline: [
       { $match: { _id: new Types.ObjectId(id) } },
       {
         $lookup: {
@@ -169,7 +169,7 @@ export const chapterService = {
           bookName: { $arrayElemAt: ['$bookData.name', 0] },
         },
       },
-    ]);
+    ]});
 
     if (!result || result.length === 0) {
       throw AppError.notFound('Chapter not found');
@@ -184,7 +184,7 @@ export const chapterService = {
     const bookId = parseObjectId(input.bookId);
     const formatSearch = escapeRegex(search);
 
-    return chapterRepository.aggregate([
+    return chapterRepository.aggregate({pipeline: [
       {
         $match: {
           name: { $regex: formatSearch, $options: 'i' },
@@ -200,7 +200,7 @@ export const chapterService = {
           name: 1,
         },
       },
-    ]);
+    ]});
   },
 
   async getBySlug(slug: string) {
@@ -346,7 +346,7 @@ export const chapterService = {
       chapterData.classId = new Types.ObjectId(classId);
     }
 
-    const updated = await chapterRepository.findByIdAndUpdate(id, chapterData, { new: true });
+    const updated = await chapterRepository.findByIdAndUpdate(new Types.ObjectId(id), chapterData, { new: true });
 
     if (!updated) {
       throw AppError.notFound('Chapter not found');
@@ -360,7 +360,7 @@ export const chapterService = {
       throw AppError.badRequest('Invalid chapter ID');
     }
 
-    const deleted = await chapterRepository.findByIdAndDelete(id);
+    const deleted = await chapterRepository.findByIdAndDelete(new Types.ObjectId(id));
 
     if (!deleted) {
       throw AppError.notFound('Chapter not found');

@@ -46,7 +46,7 @@ export const boardService = {
     const sort = input.sort ?? 'createdAt';
     const match: { status: string } = { status: input.status ?? 'active' };
 
-    return boardRepository.aggregatePaginate({
+    return boardRepository.aggregate({
       pipeline: [
         { $match: match },
         {
@@ -81,7 +81,7 @@ export const boardService = {
       throw AppError.badRequest('Invalid board ID format');
     }
 
-    const result = await boardRepository.aggregate([
+    const result = await boardRepository.aggregate({pipeline: [
       { $match: { _id: new Types.ObjectId(id) } },
       {
         $project: {
@@ -94,7 +94,7 @@ export const boardService = {
           classId: 1,
         },
       },
-    ]);
+    ]});
 
     if (!result || result.length === 0) {
       throw AppError.notFound('Board not found');
@@ -106,7 +106,7 @@ export const boardService = {
   async getDropdown(input: GetDropdownInput) {
     const search = input.search ?? '';
 
-    return boardRepository.aggregate([
+    return boardRepository.aggregate({pipeline: [
       {
         $match: {
           name: { $regex: escapeRegex(search), $options: 'i' },
@@ -115,7 +115,7 @@ export const boardService = {
       },
       { $sort: { name: 1 } },
       { $project: { _id: 1, name: 1 } },
-    ]);
+    ]});
   },
 
   async getBySlug(slug: string) {
@@ -191,8 +191,7 @@ export const boardService = {
       throw AppError.badRequest('Board already exists');
     }
 
-    const updated = await boardRepository.findByIdAndUpdate(
-      id,
+    const updated = await boardRepository.findByIdAndUpdate(new Types.ObjectId(id),
       { name, slug, status, description, classId: parseObjectId(classId) },
       { new: true }
     );
@@ -209,7 +208,7 @@ export const boardService = {
       throw AppError.badRequest('Invalid board ID');
     }
 
-    const deleted = await boardRepository.findByIdAndDelete(id);
+    const deleted = await boardRepository.findByIdAndDelete(new Types.ObjectId(id));
 
     if (!deleted) {
       throw AppError.notFound('Board not found');

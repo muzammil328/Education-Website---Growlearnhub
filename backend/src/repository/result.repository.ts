@@ -1,8 +1,9 @@
+import { Types } from 'mongoose';
 import ResultModel from '../models/result.model';
-import { IResult } from '../../../packages/src/types/result.type';
+import type { IResultPdf } from '../models/result.model';
 import { BaseRepository } from '@/config/db.config';
 
-export class ResultRepository extends BaseRepository<IResult> {
+export class ResultRepository extends BaseRepository<IResultPdf> {
   constructor() {
     super(ResultModel);
   }

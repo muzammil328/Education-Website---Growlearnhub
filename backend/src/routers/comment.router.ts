@@ -22,7 +22,7 @@ export const commentRouter = createTRPCRouter({
 
   getAll: publicProcedure.input(getCommentsSchema).query(async ({ input }) => {
     const sortOrder: 1 | -1 = input.sortDirection === 'desc' ? -1 : 1;
-    const result = await commentRepository.aggregatePaginate<{
+    const result = await commentRepository.aggregate<{
       commentId: Types.ObjectId;
       firstName: string;
       lastName: string;
@@ -70,7 +70,7 @@ export const commentRouter = createTRPCRouter({
     if (!Types.ObjectId.isValid(input.id)) {
       throw toTrpcError(AppError.badRequest('Invalid comment ID'));
     }
-    const result = (await commentRepository.findById(input.id)) as any;
+    const result = (await commentRepository.findById(new Types.ObjectId(input.id))) as any;
     if (!result) throw toTrpcError(AppError.notFound('Comment not found'));
     return {
       commentId: String(result._id),
@@ -87,7 +87,7 @@ export const commentRouter = createTRPCRouter({
     if (!Types.ObjectId.isValid(input.id)) {
       throw toTrpcError(AppError.badRequest('Invalid comment ID'));
     }
-    await commentRepository.findByIdAndDelete(input.id);
+    await commentRepository.findByIdAndDelete(new Types.ObjectId(input.id));
     return { success: true, message: 'Comment deleted successfully' };
   }),
 });

@@ -1,3 +1,4 @@
+import { Types } from 'mongoose';
 import { AppError } from '@muzammil328/server';
 import { toTrpcError } from '@muzammil328/trpc';
 import { subHeadingRepository } from '@/repository/subHeading.repository';
@@ -20,8 +21,8 @@ export const subHeadingCreate = superAdminProcedure
                 name: input.name,
                 code: input.code,
                 status: input.status,
-                classId: input.classId,
-                serviceId: input.serviceId,
+                classId: new Types.ObjectId(input.classId),
+                serviceId: input.serviceId?.map((id: string) => new Types.ObjectId(id)),
                 description: input.description,
                 creditHours: input.creditHours,
                 fileId: input.fileId,

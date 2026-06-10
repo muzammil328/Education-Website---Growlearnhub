@@ -5,13 +5,20 @@ import { StatusEnum } from '../enums';
 export const serviceCreateSchema = z.object({
   name: z.string().trim().min(1),
   slug: z.string().trim().optional(),
+  code: z.string().trim().optional(),
   description: z.string().trim().optional().default(''),
   icon: z.string().trim().optional(),
   keywords: z.array(z.string().trim().min(1)).default([]),
   status: z.nativeEnum(StatusEnum).default(StatusEnum.Active),
   order: z.number().optional(),
   classId: z.array(z.string()).optional(),
+  serviceId: z.array(z.string()).optional(),
   image: z.string().trim().optional(),
+  creditHours: z.number().optional(),
+  fileId: z.string().trim().optional(),
+  pages: z.number().optional(),
+  totalWeight: z.number().optional(),
+  components: z.array(z.any()).optional(),
 });
 export type ServiceCreateInput = z.infer<typeof serviceCreateSchema>;
 

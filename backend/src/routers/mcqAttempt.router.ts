@@ -3,14 +3,20 @@ import { z } from 'zod';
 import { Types } from 'mongoose';
 import Mcqs from '@/models/mcqs.model';
 import McqAttempt from '../models/mcqAttempt.model';
+import UserProgress from '../models/userProgress.model';
 import { McqScopeEnum } from '@muzammil328/education-packages/enums';
 import { createTRPCRouter, protectedProcedure } from '@/trpc/trpc';
 import { resolveUserInstitutionId } from '@/trpc/lib/resolveInstitution';
+import { updateUserProgressOnAttempt } from '../services/userProgress.service';
+import { checkAndAwardBadges, completeBurst } from '../services/gamification.service';
 
 const submitInputSchema = z.object({
   mcqId: z.string().min(1),
   selectedOption: z.number().int().min(0),
   timeTakenMs: z.number().int().min(0).optional(),
+  confidenceTag: z.enum(['sure', 'guessed', 'no_idea']).optional(),
+  sessionId: z.string().optional(),
+  quizMode: z.enum(['practice', 'exam_sim', 'weak_topic', 'focused_drill', 'speed_round', 'challenge', 'revision', 'micro_burst']).optional(),
 });
 
 const historyInputSchema = z.object({
@@ -58,6 +64,7 @@ export const mcqAttemptRouter = createTRPCRouter({
     }
 
     const isCorrect = input.selectedOption === mcq.correctOption;
+    const isConfidentMistake = !isCorrect && input.confidenceTag === 'sure';
 
     const attempt = await McqAttempt.create({
       userId: new Types.ObjectId(user.userId),
@@ -66,7 +73,18 @@ export const mcqAttemptRouter = createTRPCRouter({
       selectedOption: input.selectedOption,
       isCorrect,
       timeTakenMs: input.timeTakenMs,
+      confidenceTag: input.confidenceTag,
+      sessionId: input.sessionId,
+      quizMode: input.quizMode,
     });
+
+    // Fire-and-forget — don't fail the attempt if progress update errors
+    updateUserProgressOnAttempt({
+      userId: user.userId,
+      mcqId: input.mcqId,
+      isCorrect,
+      isConfidentMistake,
+    }).then(() => checkAndAwardBadges(user.userId)).catch(() => {});
 
     return {
       success: true,
@@ -75,6 +93,8 @@ export const mcqAttemptRouter = createTRPCRouter({
         attemptId: String(attempt._id),
         isCorrect,
         correctOption: mcq.correctOption,
+        outcomeType: attempt.outcomeType,
+        explanation: isCorrect ? undefined : (mcq as Record<string, unknown>).explanation as string | undefined,
       },
     };
   }),
@@ -126,6 +146,12 @@ export const mcqAttemptRouter = createTRPCRouter({
           _id: null,
           total: { $sum: 1 },
           correct: { $sum: { $cond: ['$isCorrect', 1, 0] } },
+          confidentMistakes: {
+            $sum: { $cond: [{ $eq: ['$outcomeType', 'confident_mistake'] }, 1, 0] },
+          },
+          luckyGuesses: {
+            $sum: { $cond: [{ $eq: ['$outcomeType', 'lucky_guess'] }, 1, 0] },
+          },
         },
       },
     ]);
@@ -136,8 +162,71 @@ export const mcqAttemptRouter = createTRPCRouter({
       correct,
       incorrect: total - correct,
       accuracy: total > 0 ? correct / total : 0,
+      confidentMistakes: agg?.confidentMistakes ?? 0,
+      luckyGuesses: agg?.luckyGuesses ?? 0,
     };
   }),
+
+  sessionSummary: protectedProcedure
+    .input(z.object({ sessionId: z.string().min(1) }))
+    .query(async ({ ctx, input }) => {
+      const user = ctx.user;
+      if (!user) {
+        throw new TRPCError({ code: 'UNAUTHORIZED', message: 'Not authenticated' });
+      }
+
+      const userId = new Types.ObjectId(user.userId);
+      const attempts = await McqAttempt.find({ userId, sessionId: input.sessionId })
+        .sort({ attemptedAt: 1 })
+        .lean();
+
+      if (!attempts.length) {
+        throw new TRPCError({ code: 'NOT_FOUND', message: 'Session not found' });
+      }
+
+      const total = attempts.length;
+      const correct = attempts.filter(a => a.isCorrect).length;
+      const incorrect = total - correct;
+      const timeTakenMs = attempts.reduce((s, a) => s + (a.timeTakenMs ?? 0), 0);
+      const wrongMcqIds = attempts.filter(a => !a.isCorrect).map(a => String(a.mcqId));
+
+      const outcomeCounts = attempts.reduce(
+        (acc, a) => {
+          if (a.outcomeType) acc[a.outcomeType] = (acc[a.outcomeType] ?? 0) + 1;
+          return acc;
+        },
+        {} as Record<string, number>,
+      );
+
+      // Per-subHeading breakdown via MCQ lookup
+      const mcqIds = attempts.map(a => a.mcqId);
+      const mcqs = await Mcqs.find({ _id: { $in: mcqIds } })
+        .select('subHeadingId headingId chapterId')
+        .lean();
+      const mcqMap = new Map(mcqs.map(m => [String(m._id), m]));
+
+      const subHeadingMap = new Map<string, { correct: number; incorrect: number }>();
+      for (const a of attempts) {
+        const mcq = mcqMap.get(String(a.mcqId));
+        const key = String(mcq?.subHeadingId ?? mcq?.headingId ?? mcq?.chapterId ?? 'unknown');
+        const cur = subHeadingMap.get(key) ?? { correct: 0, incorrect: 0 };
+        if (a.isCorrect) cur.correct++;
+        else cur.incorrect++;
+        subHeadingMap.set(key, cur);
+      }
+
+      return {
+        sessionId: input.sessionId,
+        total,
+        correct,
+        incorrect,
+        accuracy: total > 0 ? correct / total : 0,
+        timeTakenMs,
+        wrongMcqIds,
+        outcomeCounts,
+        subHeadingBreakdown: Object.fromEntries(subHeadingMap),
+      };
+    }),
 
   institutionLeaderboard: protectedProcedure
     .input(leaderboardInputSchema)
@@ -191,4 +280,13 @@ export const mcqAttemptRouter = createTRPCRouter({
 
       return { success: true, data: result };
     }),
+
+  completeBurstSession: protectedProcedure.mutation(async ({ ctx }) => {
+    const userId = ctx.user?.userId;
+    if (!userId || !Types.ObjectId.isValid(userId)) {
+      throw new TRPCError({ code: 'UNAUTHORIZED', message: 'Not authenticated' });
+    }
+    await completeBurst(userId);
+    return { success: true };
+  }),
 });

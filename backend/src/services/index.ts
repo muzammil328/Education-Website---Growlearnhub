@@ -21,7 +21,6 @@ export {
   classGroupService,
   type ClassGroupDetail,
 } from './classGroup.service';
-export { classService } from './class.service';
 export {
   feedbackService,
   type GetFeedbacksInput,

@@ -82,7 +82,7 @@ export const mcqsSetsBySlug = publicProcedure
       pipeline.push({ $match: { status: 'active' } });
       pipeline.push({ $count: 'total' });
 
-      const result = await Mcqs.aggregate(pipeline);
+      const result = await Mcqs.aggregate(pipeline as any);
       const totalMcqs = result[0]?.total ?? 0;
       const totalSets = Math.ceil(totalMcqs / SET_SIZE);
 

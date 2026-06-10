@@ -5,8 +5,9 @@ import { createTRPCRouter, protectedProcedure } from '@/trpc/trpc';
 import { userRepository } from '../repository/user.repository';
 import { classGroupRepository } from '../repository/classGroup.repository';
 import { createBcrypt } from '@muzammil328/services';
-import { emailSchema } from '@muzammil328/types';
 import { RoleEnum } from '@muzammil328/education-packages/enums';
+
+const emailSchema = z.string().email();
 
 const studentSchema = z.object({
   username: z.string().min(3),
@@ -111,7 +112,7 @@ export const studentRouter = createTRPCRouter({
         ];
       }
 
-      const result = await userRepository.aggregatePaginate<StudentListItem>({
+      const result = await userRepository.aggregate<StudentListItem>({
         pipeline: [
           { $match: match },
           { $sort: { createdAt: -1 } },
@@ -149,7 +150,7 @@ export const studentRouter = createTRPCRouter({
   deleteStudent: protectedProcedure
     .input(z.object({ id: z.string() }))
     .mutation(async ({ input }) => {
-      const deleted = await userRepository.findByIdAndDelete(input.id);
+      const deleted = await userRepository.findByIdAndDelete(new Types.ObjectId(input.id));
       if (!deleted) {
         throw new TRPCError({ code: 'NOT_FOUND', message: 'Student not found' });
       }
@@ -186,7 +187,7 @@ export const studentRouter = createTRPCRouter({
       })
     )
     .mutation(async ({ input }) => {
-      const group = await classGroupRepository.findById(input.groupId);
+      const group = await classGroupRepository.findById(new Types.ObjectId(input.groupId));
       if (!group) {
         throw new TRPCError({ code: 'NOT_FOUND', message: 'Class group not found' });
       }
@@ -197,8 +198,7 @@ export const studentRouter = createTRPCRouter({
         )
         .map(id => new Types.ObjectId(id));
 
-      const updated = await classGroupRepository.findByIdAndUpdate(
-        input.groupId,
+      const updated = await classGroupRepository.findByIdAndUpdate(new Types.ObjectId(input.groupId),
         { $addToSet: { members: { $each: newMembers } } },
         { new: true }
       );
@@ -233,38 +233,41 @@ export const studentRouter = createTRPCRouter({
   getClassGroupDetails: protectedProcedure
     .input(z.object({ groupId: z.string() }))
     .query(async ({ input }) => {
-      const group = await classGroupRepository.aggregate([
-        { $match: { _id: new Types.ObjectId(input.groupId) } },
-        {
-          $lookup: {
-            from: 'users',
-            localField: 'members',
-            foreignField: '_id',
-            as: 'memberDetails',
+      const result = await classGroupRepository.aggregate({
+        pipeline: [
+          { $match: { _id: new Types.ObjectId(input.groupId) } },
+          {
+            $lookup: {
+              from: 'users',
+              localField: 'members',
+              foreignField: '_id',
+              as: 'memberDetails',
+            },
           },
-        },
-        {
-          $project: {
-            _id: 0,
-            groupId: '$_id',
-            name: 1,
-            memberCount: { $size: '$members' },
-            members: {
-              $map: {
-                input: '$memberDetails',
-                as: 'member',
-                in: {
-                  userId: { $toString: '$$member._id' },
-                  username: '$$member.username',
-                  email: '$$member.email',
+          {
+            $project: {
+              _id: 0,
+              groupId: '$_id',
+              name: 1,
+              memberCount: { $size: '$members' },
+              members: {
+                $map: {
+                  input: '$memberDetails',
+                  as: 'member',
+                  in: {
+                    userId: { $toString: '$$member._id' },
+                    username: '$$member.username',
+                    email: '$$member.email',
+                  },
                 },
               },
+              createdAt: 1,
             },
-            createdAt: 1,
           },
-        },
-      ]);
+        ],
+      });
 
+      const group = result;
       if (!group.length) {
         throw new TRPCError({ code: 'NOT_FOUND', message: 'Class group not found' });
       }

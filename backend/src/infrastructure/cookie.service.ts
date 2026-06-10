@@ -6,7 +6,7 @@ const REFRESH_COOKIE = COOKIE_CONFIG.REFRESH_TOKEN_NAME;
 
 const BASE_OPTIONS = {
   httpOnly: COOKIE_CONFIG.HTTP_ONLY,
-  secure: COOKIE_CONFIG.SECURE,
+  secure: process.env.NODE_ENV === 'production',
   sameSite: COOKIE_CONFIG.SAME_SITE as unknown as 'lax' | 'strict' | 'none',
   path: '/',
 };

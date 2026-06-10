@@ -57,7 +57,7 @@ export const resultService = {
       match.name = { $regex: searchRegex, $options: 'i' };
     }
 
-    return resultRepository.aggregatePaginate({
+    return resultRepository.aggregate({
       pipeline: [
         { $match: match },
         { $sort: { [sort]: sortOrder } },
@@ -97,7 +97,7 @@ export const resultService = {
       throw AppError.badRequest('Invalid result ID format');
     }
 
-    const result = await resultRepository.aggregate([
+    const result = await resultRepository.aggregate({pipeline: [
       { $match: { _id: new Types.ObjectId(id) } },
       {
         $lookup: {
@@ -127,7 +127,7 @@ export const resultService = {
           },
         },
       },
-    ]);
+    ]});
 
     if (!result || result.length === 0) {
       throw AppError.notFound('Result not found');
@@ -155,7 +155,7 @@ export const resultService = {
     const classId = parseObjectId(input.classId);
     const formatSearch = escapeRegex(search);
 
-    return resultRepository.aggregate([
+    return resultRepository.aggregate({pipeline: [
       {
         $match: {
           name: { $regex: formatSearch, $options: 'i' },
@@ -170,7 +170,7 @@ export const resultService = {
           name: 1,
         },
       },
-    ]);
+    ]});
   },
 
   async getByClassName(className: string) {
@@ -178,7 +178,7 @@ export const resultService = {
       throw AppError.badRequest('Class name is required');
     }
 
-    return resultRepository.aggregate([
+    return resultRepository.aggregate({pipeline: [
       {
         $lookup: {
           from: 'classes',
@@ -192,7 +192,7 @@ export const resultService = {
           'classDoc.name': className,
         },
       },
-    ]);
+    ]});
   },
 
   async create(input: CreateResultInput) {
@@ -250,7 +250,7 @@ export const resultService = {
     if (description !== undefined) updateData.description = description;
     if (status) updateData.status = status;
 
-    const updated = await resultRepository.findByIdAndUpdate(id, updateData, { new: true });
+    const updated = await resultRepository.findByIdAndUpdate(new Types.ObjectId(id), updateData, { new: true });
 
     if (!updated) {
       throw AppError.notFound('Result not found');
@@ -264,7 +264,7 @@ export const resultService = {
       throw AppError.badRequest('Invalid result ID');
     }
 
-    const deleted = await resultRepository.findByIdAndDelete(id);
+    const deleted = await resultRepository.findByIdAndDelete(new Types.ObjectId(id));
 
     if (!deleted) {
       throw AppError.notFound('Result not found');

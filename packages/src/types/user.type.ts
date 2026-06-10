@@ -55,6 +55,10 @@ export interface IUser extends Document {
   lastLogin?: Date;
   subscriptionPlan?: SubscriptionPlanValue;
   subscriptionExpiresAt?: Date;
+  examTarget?: string;
+  examDate?: Date;
+  lastBurstDate?: Date;
+  burstStreakCount?: number;
   hashedOtp?: string;
   expiresOtp?: Date;
   used?: boolean;

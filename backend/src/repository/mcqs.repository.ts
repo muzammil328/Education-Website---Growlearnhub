@@ -1,5 +1,5 @@
 import { Types, FilterQuery } from 'mongoose';
-import type { DifficultyValue } from '@muzammil328/education-packages/enums';
+import type { DifficultyLevel } from '@muzammil328/education-packages/enums';
 import type { Status } from '@muzammil328/education-packages/types';
 import { IMcqs } from '@muzammil328/education-packages/types';
 import McqsModel from '../models/mcqs.model';
@@ -11,7 +11,7 @@ interface McqsFilters {
   chapterId?: Types.ObjectId;
   headingId?: Types.ObjectId;
   subHeadingId?: Types.ObjectId;
-  difficulty?: DifficultyValue;
+  difficulty?: DifficultyLevel;
   status?: Status;
 }
 
@@ -51,7 +51,7 @@ export class McqsRepository extends BaseRepository<IMcqs> {
     return this.findAll({ query });
   }
 
-  async findByDifficulty(difficulty: DifficultyValue, chapterId?: Types.ObjectId) {
+  async findByDifficulty(difficulty: DifficultyLevel, chapterId?: Types.ObjectId) {
     const query: FilterQuery<IMcqs> = { difficulty };
     if (chapterId) query.chapterId = chapterId;
     return this.findAll({ query });
@@ -69,7 +69,7 @@ export class McqsRepository extends BaseRepository<IMcqs> {
     return this.count({ bookId });
   }
 
-  async countByDifficulty(difficulty: DifficultyValue) {
+  async countByDifficulty(difficulty: DifficultyLevel) {
     return this.count({ difficulty });
   }
 }

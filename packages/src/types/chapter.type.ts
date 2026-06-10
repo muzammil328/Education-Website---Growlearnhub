@@ -1,4 +1,4 @@
-import { Status } from '.';
+import type { Status } from '../enums';
 import { Document, Types } from 'mongoose';
 
 export interface IChapter extends Document {

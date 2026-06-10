@@ -15,6 +15,7 @@ type UpdateServiceInput = {
 } & Partial<CreateServiceRequest>;
 type ServiceDropdownInput = z.infer<typeof dropdownInputSchema> & {
   classId?: string;
+  search?: string;
 };
 
 function escapeRegex(value: string): string {
@@ -82,7 +83,7 @@ export const serviceService = {
       });
     }
 
-    return serviceRepository.aggregatePaginate({
+    return serviceRepository.aggregate({
       pipeline,
       page: input.page ?? 1,
       limit: input.limit ?? 10,
@@ -94,7 +95,7 @@ export const serviceService = {
       throw AppError.badRequest('Invalid service ID format');
     }
 
-    const result = await serviceRepository.aggregate([
+    const result = await serviceRepository.aggregate({pipeline: [
       { $match: { _id: new Types.ObjectId(id) } },
       {
         $lookup: {
@@ -121,7 +122,7 @@ export const serviceService = {
           classes: 1,
         },
       },
-    ]);
+    ]});
 
     if (!result || result.length === 0) {
       throw AppError.notFound('Service not found');
@@ -134,7 +135,7 @@ export const serviceService = {
     const search = input.search ?? '';
     const classId = parseObjectId(input.classId as string);
 
-    return serviceRepository.aggregate([
+    return serviceRepository.aggregate({pipeline: [
       {
         $match: {
           name: { $regex: escapeRegex(search), $options: 'i' },
@@ -144,7 +145,7 @@ export const serviceService = {
       },
       { $sort: { name: 1 } },
       { $project: { _id: 1, name: 1 } },
-    ]);
+    ]});
   },
 
   async create(input: CreateServiceInput) {
@@ -198,8 +199,7 @@ export const serviceService = {
       throw AppError.badRequest('Service already exists');
     }
 
-    const updated = await serviceRepository.findByIdAndUpdate(
-      id,
+    const updated = await serviceRepository.findByIdAndUpdate(new Types.ObjectId(id),
       { name, slug, status, classId: parseObjectIdList(classId), description, image, keywords },
       { new: true }
     );
@@ -258,7 +258,7 @@ export const serviceService = {
       throw AppError.badRequest('Invalid service ID');
     }
 
-    const deleted = await serviceRepository.findByIdAndDelete(id);
+    const deleted = await serviceRepository.findByIdAndDelete(new Types.ObjectId(id));
 
     if (!deleted) {
       throw AppError.notFound('Service not found');

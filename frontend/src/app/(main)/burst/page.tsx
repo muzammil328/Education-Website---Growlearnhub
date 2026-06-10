@@ -1,0 +1,10 @@
+import { Suspense } from 'react';
+import BurstClient from './BurstClient';
+
+export default function BurstPage() {
+  return (
+    <Suspense fallback={<div className="flex items-center justify-center h-screen"><div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin" /></div>}>
+      <BurstClient />
+    </Suspense>
+  );
+}

@@ -40,7 +40,7 @@ export const classGroupService = {
   },
 
   async addStudents(input: AddStudentsToClassGroupInput) {
-    const group = await classGroupRepository.findById(input.groupId);
+    const group = await classGroupRepository.findById(new Types.ObjectId(input.groupId));
     if (!group) {
       throw new TRPCError({ code: 'NOT_FOUND', message: 'Class group not found' });
     }
@@ -50,8 +50,7 @@ export const classGroupService = {
       .filter((id: string) => !existingMemberIds.includes(id))
       .map((id: string) => new Types.ObjectId(id));
 
-    const updated = await classGroupRepository.findByIdAndUpdate(
-      input.groupId,
+    const updated = await classGroupRepository.findByIdAndUpdate(new Types.ObjectId(input.groupId),
       { $addToSet: { members: { $each: newMembers } } },
       { new: true }
     );
@@ -76,7 +75,7 @@ export const classGroupService = {
   },
 
   async getById(groupId: string) {
-    const result = await classGroupRepository.aggregate<ClassGroupDetail>([
+    const result = await classGroupRepository.aggregate<ClassGroupDetail>({pipeline: [
       { $match: { _id: new Types.ObjectId(groupId) } },
       {
         $lookup: {
@@ -106,7 +105,7 @@ export const classGroupService = {
           createdAt: 1,
         },
       },
-    ]);
+    ]});
 
     if (!result.length) {
       throw new TRPCError({ code: 'NOT_FOUND', message: 'Class group not found' });

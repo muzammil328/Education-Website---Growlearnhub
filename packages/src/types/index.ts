@@ -1,5 +1,16 @@
 import type { Mode } from '@muzammil328/types';
 
+// Re-export types from enums for backward compatibility
+export type {
+  Status,
+  RoleType,
+  SortOrder,
+  PaymentStatus,
+  PaymentType,
+  DifficultyLevel,
+  McqScopeValue,
+} from '../enums';
+
 export interface ModalProps {
   // trigger?: React.ReactNode;
   triggerLabel?: string;

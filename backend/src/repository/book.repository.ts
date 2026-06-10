@@ -1,6 +1,5 @@
 import { Types } from 'mongoose';
-import BookModel from '../models/book.model';
-import { IBook } from '@muzammil328/education-packages/types';
+import BookModel, { IBook } from '../models/book.model';
 import { BaseRepository } from '@/config/db.config';
 
 export class BookRepository extends BaseRepository<IBook> {
@@ -30,7 +29,7 @@ export class BookRepository extends BaseRepository<IBook> {
     const normalized = name.trim().toLowerCase();
     const escaped = name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
-    const result = await this.aggregate([
+    const result = await this.aggregate({pipeline: [
       {
         $match: {
           status: 'active',
@@ -70,7 +69,7 @@ export class BookRepository extends BaseRepository<IBook> {
         },
       },
       { $limit: 1 },
-    ]);
+    ]});
 
     return result[0] || null;
   }
@@ -79,7 +78,7 @@ export class BookRepository extends BaseRepository<IBook> {
     const normalized = className.trim().toLowerCase();
     const escaped = className.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
-    return this.aggregate<{ name: string; slug: string }>([
+    return this.aggregate<{ name: string; slug: string }>({pipeline: [
       { $match: { status: 'active' } },
       {
         $lookup: {
@@ -107,14 +106,14 @@ export class BookRepository extends BaseRepository<IBook> {
         },
       },
       { $sort: { name: 1 } },
-    ]);
+    ]});
   }
 
   async findByClassSlug(classSlug: string) {
     const normalized = classSlug.trim().toLowerCase();
     const escaped = classSlug.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
-    return this.aggregate<{ name: string; slug: string }>([
+    return this.aggregate<{ name: string; slug: string }>({pipeline: [
       { $match: { status: 'active' } },
       {
         $lookup: {
@@ -142,14 +141,14 @@ export class BookRepository extends BaseRepository<IBook> {
         },
       },
       { $sort: { name: 1 } },
-    ]);
+    ]});
   }
 
   async getBookByServiceName(serviceName: string) {
     const normalized = serviceName.trim().toLowerCase();
     const escaped = serviceName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
-    return this.aggregate<{ name: string; slug: string }>([
+    return this.aggregate<{ name: string; slug: string }>({pipeline: [
       { $match: { status: 'active' } },
       {
         $lookup: {
@@ -198,7 +197,7 @@ export class BookRepository extends BaseRepository<IBook> {
         },
       },
       { $sort: { name: 1 } },
-    ]);
+    ]});
   }
 }
 

@@ -11,6 +11,14 @@ export interface IUserProgress extends Document {
   incorrect: number;
   masteryScore: number;
   lastAttempt?: Date;
+  masteryBand?: 'weak' | 'developing' | 'strong';
+  currentDifficultyBand?: 'easy' | 'medium' | 'hard';
+  nextReviewAt?: Date;
+  spacedRepetitionInterval?: number;
+  retryCount?: number;
+  confidentMistakeCount?: number;
+  openLoopCount?: number;
+  totalAttempts?: number;
   createdAt?: Date;
   updatedAt?: Date;
 }

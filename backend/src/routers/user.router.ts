@@ -1,4 +1,5 @@
 import { Types } from 'mongoose';
+import { z } from 'zod';
 import { AppError } from '@muzammil328/server';
 import { toTrpcError } from '@muzammil328/trpc';
 import { StatusCode } from '@muzammil328/types';
@@ -98,6 +99,80 @@ export const authRouter = createTRPCRouter({
         services: totalServices,
         mcqs: totalMcqs,
       },
+    };
+  }),
+
+  setExamTarget: protectedProcedure
+    .input(z.object({
+      examTarget: z.string().trim().max(100),
+      examDate: z.string().datetime(),
+    }))
+    .mutation(async ({ ctx, input }) => {
+      const userId = ctx.user?.userId;
+      if (!userId || !Types.ObjectId.isValid(userId)) {
+        throw toTrpcError(AppError.unauthorized('Invalid user'));
+      }
+      await User.findByIdAndUpdate(new Types.ObjectId(userId), {
+        examTarget: input.examTarget,
+        examDate: new Date(input.examDate),
+      });
+      return { success: true };
+    }),
+
+  myBadges: protectedProcedure.query(async ({ ctx }) => {
+    const userId = ctx.user?.userId;
+    if (!userId || !Types.ObjectId.isValid(userId)) {
+      throw toTrpcError(AppError.unauthorized('Invalid user'));
+    }
+    const user = await User.findById(new Types.ObjectId(userId)).select('badges burstStreakCount').lean();
+    return {
+      badges: (user?.badges as string[]) ?? [],
+      burstStreakCount: (user?.burstStreakCount as number) ?? 0,
+    };
+  }),
+
+  readinessScore: protectedProcedure.query(async ({ ctx }) => {
+    const userId = ctx.user?.userId;
+    if (!userId || !Types.ObjectId.isValid(userId)) {
+      throw toTrpcError(AppError.unauthorized('Invalid user'));
+    }
+
+    const user = await User.findById(new Types.ObjectId(userId))
+      .select('examTarget examDate burstStreakCount lastBurstDate')
+      .lean();
+
+    if (!user?.examDate) {
+      return { hasExam: false, readinessScore: null, daysRemaining: null, examTarget: null, examDate: null };
+    }
+
+    const now = new Date();
+    const examDate = new Date(user.examDate as Date);
+    const daysRemaining = Math.max(0, Math.ceil((examDate.getTime() - now.getTime()) / 86400000));
+
+    // Readiness = % of subHeadings with masteryBand 'strong'
+    const [strongCount, totalCount] = await Promise.all([
+      SubHeading.countDocuments(),
+      SubHeading.countDocuments(),
+    ]);
+
+    // Use UserProgress for actual mastery
+    const UserProgress = (await import('@/models/userProgress.model')).default;
+    const [strongProgress, totalProgress] = await Promise.all([
+      UserProgress.countDocuments({ user: new Types.ObjectId(userId), masteryBand: 'strong' }),
+      UserProgress.countDocuments({ user: new Types.ObjectId(userId) }),
+    ]);
+
+    const readinessScore = totalProgress > 0 ? Math.round((strongProgress / totalProgress) * 100) : 0;
+
+    return {
+      hasExam: true,
+      examTarget: user.examTarget as string | undefined,
+      examDate: examDate.toISOString(),
+      daysRemaining,
+      readinessScore,
+      strongSubHeadings: strongProgress,
+      totalTrackedSubHeadings: totalProgress,
+      burstStreakCount: (user.burstStreakCount as number) ?? 0,
     };
   }),
 });

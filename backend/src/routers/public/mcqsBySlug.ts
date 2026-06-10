@@ -133,7 +133,7 @@ export const mcqsBySlug = publicProcedure
         },
       );
 
-      const result = await Mcqs.aggregate(pipeline);
+      const result = await Mcqs.aggregate(pipeline as any);
       const mcqs = result[0]?.data ?? [];
       const totalRecords = result[0]?.total[0]?.count ?? 0;
       const totalPages = Math.ceil(totalRecords / limit);

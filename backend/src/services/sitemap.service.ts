@@ -31,7 +31,7 @@ export const sitemapService = {
   },
 
   async getBooks(): Promise<SitemapResult> {
-    const books = await bookRepository.aggregate<{ slug?: string; classSlug?: string }>([
+    const books = await bookRepository.aggregate<{ slug?: string; classSlug?: string }>({pipeline: [
       { $match: { status: 'active' } },
       {
         $lookup: {
@@ -43,7 +43,7 @@ export const sitemapService = {
       },
       { $unwind: { path: '$classDoc', preserveNullAndEmptyArrays: true } },
       { $project: { slug: 1, classSlug: '$classDoc.slug' } },
-    ]);
+    ]});
 
     const urls = [
       ...new Set(books.map(book => `${BASE_URL}/${book.classSlug}/mcqs/${book.slug}/`)),
@@ -57,7 +57,7 @@ export const sitemapService = {
       slug?: string;
       classSlug?: string;
       bookSlug?: string;
-    }>([
+    }>({pipeline: [
       { $match: { status: 'active' } },
       {
         $lookup: {
@@ -78,7 +78,7 @@ export const sitemapService = {
       { $unwind: { path: '$classDoc', preserveNullAndEmptyArrays: true } },
       { $unwind: { path: '$bookDoc', preserveNullAndEmptyArrays: true } },
       { $project: { slug: 1, classSlug: '$classDoc.slug', bookSlug: '$bookDoc.slug' } },
-    ]);
+    ]});
 
     const urls = [
       ...new Set(chapters.map(ch => `${BASE_URL}/${ch.classSlug}/mcqs/${ch.bookSlug}/${ch.slug}/`)),
@@ -88,7 +88,7 @@ export const sitemapService = {
   },
 
   async getHeadings(): Promise<SitemapResult> {
-    const headings = await headingRepository.aggregate<{ slug?: string; bookSlug?: string }>([
+    const headings = await headingRepository.aggregate<{ slug?: string; bookSlug?: string }>({pipeline: [
       { $match: { status: 'active' } },
       {
         $lookup: {
@@ -100,7 +100,7 @@ export const sitemapService = {
       },
       { $unwind: { path: '$bookDoc', preserveNullAndEmptyArrays: true } },
       { $project: { slug: 1, bookSlug: '$bookDoc.slug' } },
-    ]);
+    ]});
 
     const urls = [...new Set(headings.map(h => `${BASE_URL}/mcqs-point/${h.bookSlug}/${h.slug}/`))];
 
@@ -112,7 +112,7 @@ export const sitemapService = {
       slug?: string;
       headingSlug?: string;
       bookSlug?: string;
-    }>([
+    }>({pipeline: [
       { $match: { status: 'active' } },
       {
         $lookup: {
@@ -133,7 +133,7 @@ export const sitemapService = {
       { $unwind: { path: '$headingDoc', preserveNullAndEmptyArrays: true } },
       { $unwind: { path: '$bookDoc', preserveNullAndEmptyArrays: true } },
       { $project: { slug: 1, headingSlug: '$headingDoc.slug', bookSlug: '$bookDoc.slug' } },
-    ]);
+    ]});
 
     const urls = [
       ...new Set(

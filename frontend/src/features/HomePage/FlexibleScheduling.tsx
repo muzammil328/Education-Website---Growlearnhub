@@ -27,7 +27,7 @@ export default function FlexibleScheduling() {
             <p className="mb-8 text-gray-700 max-w-xl">
               There&apos;s no rush! You can take breaks, go back to things you enjoy, and spend as
               much time as you need on each lesson.
-            </Para>
+            </p>
 
             {/* Features Grid */}
             <div className="grid gap-4 md:grid-cols-2">

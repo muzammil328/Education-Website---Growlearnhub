@@ -18,7 +18,7 @@ export default function Topics() {
               <p className="p3 text-white dark:text-white">
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa ab ipsum possimus
                 quos totam voluptates accusamus mollitia facilis dolor ducimus.
-              </Para>
+              </p>
             </div>
             <div className="mt-3 flex justify-start md:mt-0 md:justify-end">
               <Button variant="outline" title="See All Topics" className="rounded-full">

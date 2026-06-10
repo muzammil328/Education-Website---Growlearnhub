@@ -3,7 +3,6 @@ import {
   type ConnectionLogger,
   type ConnectionState,
   type DocumentId,
-  type MongoConnectionOptions,
   defaultLogger,
   STATE_MAP,
   toObjectId,
@@ -12,6 +11,13 @@ import {
 
 export type { DocumentId };
 export { toObjectId, BaseRepository };
+
+interface MongoConnectionOptions {
+  uri: string;
+  maxRetries?: number;
+  retryDelayMs?: number;
+  logger?: ConnectionLogger;
+}
 
 async function attemptConnect(uri: string): Promise<void> {
   await mongoose.connect(uri, {

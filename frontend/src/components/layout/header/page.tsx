@@ -32,10 +32,10 @@ export default function Header() {
               <span className="text-pink-500 text-2xl">✨</span>
             </div>
 
-            <p lineHeight="7" className="mb-8 max-w-[550px] mx-auto text-gray-700">
+            <p className="mb-8 max-w-[550px] mx-auto text-gray-700">
               Discover flexible, engaging, and expert-led homeschooling services that put your
               child&apos;s learning first.
-            </Para>
+            </p>
 
             <Button
               className="rounded-full px-8 py-3 bg-purple-600 hover:bg-purple-700 text-white font-semibold"

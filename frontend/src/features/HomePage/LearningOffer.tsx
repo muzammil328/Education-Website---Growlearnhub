@@ -51,7 +51,7 @@ export default function LearningOffer() {
               language arts, tailored to meet your child&apos;s individual learning needs, all
               managed through an interactive dashboard for real-time tracking and progress
               monitoring.
-            </Para>
+            </p>
 
             {/* Features Grid */}
             <div className="grid gap-4 md:grid-cols-2">

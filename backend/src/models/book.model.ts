@@ -2,7 +2,7 @@ import mongoose, { Schema } from 'mongoose';
 import { StatusEnum } from '@muzammil328/education-packages/enums';
 import { Document, Types } from 'mongoose';
 
-interface IVUAssessmentComponent {
+export interface IVUAssessmentComponent {
   title: string;
   type: 'assignment' | 'quiz' | 'midterm' | 'final' | 'project' | 'lab' | 'other';
   weight: number; // percentage of total grade
@@ -32,7 +32,7 @@ interface IExternalLink {
   url: string;
 }
 
-interface IBook extends Document {
+export interface IBook extends Document {
   name: string;
   slug: string;
   code: string; // CS001, MTH001, MGT211, etc.
@@ -45,6 +45,7 @@ interface IBook extends Document {
   chapters?: number;
   status: 'active' | 'inactive';
   image?: string;
+  order?: number;
   totalWeight?: number; // should equal 100
   components: IVUAssessmentComponent[];
   pairingScheme?: IPairingScheme;

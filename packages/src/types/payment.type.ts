@@ -1,5 +1,5 @@
 import { Document, Types } from 'mongoose';
-import type { PaymentStatus, PaymentType } from '../types';
+import type { PaymentStatus, PaymentType } from '../enums';
 
 export interface IPayment extends Document {
   user?: Types.ObjectId;

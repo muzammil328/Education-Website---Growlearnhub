@@ -45,7 +45,7 @@ const CLASS_STATIC_SERVICES = [
 export const sitemapStatic = publicProcedure.query(() => STATIC_URLS);
 
 export const sitemapClasses = publicProcedure.query(async () => {
-  const classes = (await ClassModel.find().select('slug').lean()) as { slug: string }[];
+  const classes = (await ClassModel.find().select('slug').lean()) as unknown as { slug: string }[];
   const matricClasses = classes.filter(c =>
     ['class-9', 'class-10', 'class-11', 'class-12'].includes(c.slug)
   );
@@ -64,7 +64,7 @@ export const sitemapBooks = publicProcedure.query(async () => {
   const books = (await BookModel.find({ classId: { $ne: null } })
     .populate('classId', 'slug')
     .select('slug classId')
-    .lean()) as { slug: string; classId: { slug: string } }[];
+    .lean()) as unknown as { slug: string; classId: { slug: string } }[];
 
   const urls: string[] = [];
   for (const { slug, classId } of books) {
@@ -98,7 +98,7 @@ export const sitemapChapters = publicProcedure.query(async () => {
     .populate('classId', 'slug')
     .populate('bookId', 'slug')
     .select('slug classId bookId')
-    .lean()) as { slug: string; classId: { slug: string }; bookId: { slug: string } }[];
+    .lean()) as unknown as { slug: string; classId: { slug: string }; bookId: { slug: string } }[];
 
   const urls: string[] = [];
   for (const { slug, classId, bookId } of chapters) {
@@ -123,7 +123,7 @@ export const sitemapBoards = publicProcedure.query(async () => {
   const boards = (await BoardModel.find()
     .populate('classId', 'slug')
     .select('slug classId')
-    .lean()) as { slug: string; classId: { slug: string }[] }[];
+    .lean()) as unknown as { slug: string; classId: { slug: string }[] }[];
 
   const urls: string[] = [];
   for (const { slug, classId } of boards) {
@@ -145,7 +145,7 @@ export const sitemapHeadings = publicProcedure.query(async () => {
   const headings = (await HeadingModel.find({ bookId: { $ne: null } })
     .populate('bookId', 'slug')
     .select('slug bookId')
-    .lean()) as { slug: string; bookId: { slug: string } }[];
+    .lean()) as unknown as { slug: string; bookId: { slug: string } }[];
 
   const urls = headings
     .filter(h => h.bookId?.slug)
@@ -161,7 +161,7 @@ export const sitemapSubHeadings = publicProcedure.query(async () => {
     .populate('headingId', 'slug')
     .populate('bookId', 'slug')
     .select('slug headingId bookId')
-    .lean()) as { slug: string; headingId: { slug: string }; bookId: { slug: string } }[];
+    .lean()) as unknown as { slug: string; headingId: { slug: string }; bookId: { slug: string } }[];
 
   const urls = subHeadings
     .filter(s => s.headingId?.slug && s.bookId?.slug)
@@ -176,7 +176,7 @@ export const sitemapOnlineTest = publicProcedure.query(async () => {
   const headings = (await HeadingModel.find({ bookId: { $ne: null } })
     .populate('bookId', 'slug')
     .select('slug bookId')
-    .lean()) as { slug: string; bookId: { slug: string } }[];
+    .lean()) as unknown as { slug: string; bookId: { slug: string } }[];
 
   const subHeadings = (await SubHeadingModel.find({
     headingId: { $ne: null },
@@ -185,7 +185,7 @@ export const sitemapOnlineTest = publicProcedure.query(async () => {
     .populate('headingId', 'slug')
     .populate('bookId', 'slug')
     .select('slug headingId bookId')
-    .lean()) as { slug: string; headingId: { slug: string }; bookId: { slug: string } }[];
+    .lean()) as unknown as { slug: string; headingId: { slug: string }; bookId: { slug: string } }[];
 
   const headingUrls = headings
     .filter(h => h.bookId?.slug)
@@ -205,7 +205,7 @@ export const sitemapVu = publicProcedure.query(async () => {
   // VU Handouts
   const handouts = (await VuHandoutModel.find({ status: 'active' })
     .select('slug')
-    .lean()) as { slug: string }[];
+    .lean()) as unknown as { slug: string }[];
 
   const handoutUrls = handouts.map(h => `${BASE}/vu/handouts/${h.slug}/`);
 
@@ -214,7 +214,7 @@ export const sitemapVu = publicProcedure.query(async () => {
     .populate('classId', 'slug')
     .populate('serviceId', 'slug')
     .select('slug classId serviceId externalLinks')
-    .lean()) as {
+    .lean()) as unknown as {
     slug: string;
     classId: { slug: string };
     serviceId: { slug: string }[];

@@ -26,14 +26,14 @@ export const getChaptersInputSchema = z.object({
   sortDirection: z.enum(['asc', 'desc']).optional().default('desc'),
   search: z.string().trim().optional(),
 });
-export type GetChaptersInput = z.infer<typeof getChaptersInputSchema>;
+export type ZGetChaptersInput = z.infer<typeof getChaptersInputSchema>;
 
 // Get Chapter Dropdown
 export const getChapterDropdownInputSchema = z.object({
   classId: z.string().optional(),
   bookId: z.string().optional(),
 });
-export type GetChapterDropdownInput = z.infer<typeof getChapterDropdownInputSchema>;
+export type ZGetChapterDropdownInput = z.infer<typeof getChapterDropdownInputSchema>;
 
 // Get Chapter by ID
 export const getChapterByIdInputSchema = z.object({
@@ -59,4 +59,4 @@ export const updateChapterInputSchema = z.object({
   id: z.string().min(1),
   updates: chapterCreateSchema,
 });
-export type UpdateChapterInput = z.infer<typeof updateChapterInputSchema>;
+export type ZUpdateChapterInput = z.infer<typeof updateChapterInputSchema>;

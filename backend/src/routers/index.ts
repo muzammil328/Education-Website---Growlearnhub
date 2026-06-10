@@ -14,3 +14,8 @@ export { serviceRouter } from './service/service.router';
 export { studentRouter } from './student.router';
 export { subHeadingRouter } from './subHeading/subHeading.router';
 export { authRouter as userAuthRouter } from './user.router';
+export { userProgressRouter } from './userProgress.router';
+export { adaptiveMcqRouter } from './adaptiveMcq.router';
+export { analyticsRouter } from './analytics.router';
+export { paymentRouter } from './payment.router';
+export { bulkImportRouter } from './bulkImport.router';

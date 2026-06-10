@@ -11,6 +11,7 @@ export interface McqItem {
   options: string[];
   correctOption: number;
   explanation?: string;
+  examinersNote?: string;
   className?: string;
   bookName?: string;
   chapterName?: string;

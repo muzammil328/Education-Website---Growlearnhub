@@ -31,7 +31,7 @@ export class HeadingRepository extends BaseRepository<IHeading> {
     const normalized = name.trim().toLowerCase();
     const escaped = name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
-    return this.aggregate([
+    return this.aggregate({pipeline: [
       {
         $match: {
           status: 'active',
@@ -50,7 +50,7 @@ export class HeadingRepository extends BaseRepository<IHeading> {
         },
       },
       { $sort: { name: 1 } },
-    ]);
+    ]});
   }
 
   async getHeadingByClassAndBookAndChapterName(
@@ -65,7 +65,7 @@ export class HeadingRepository extends BaseRepository<IHeading> {
     const escapedBook = bookName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     const escapedChapter = chapterName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
-    return this.aggregate([
+    return this.aggregate({pipeline: [
       { $match: { status: 'active' } },
       {
         $lookup: {
@@ -133,7 +133,7 @@ export class HeadingRepository extends BaseRepository<IHeading> {
         },
       },
       { $sort: { order: 1, name: 1 } },
-    ]);
+    ]});
   }
 }
 

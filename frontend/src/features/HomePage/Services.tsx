@@ -42,7 +42,7 @@ export default function Services() {
           <p className="text-gray-600 max-w-2xl">
             Learn how our homeschooling services provide personalized, flexible learning tailored to
             your child&apos;s needs, all from the comfort of home!
-          </Para>
+          </p>
         </div>
 
         {/* Services Grid */}

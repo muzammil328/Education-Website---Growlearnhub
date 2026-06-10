@@ -2,6 +2,9 @@ import mongoose, { Document, Schema, Types } from 'mongoose';
 import { StatusEnum } from '@muzammil328/education-packages/enums';
 
 export interface IResultPdf extends Document {
+  name?: string;
+  slug?: string;
+  description?: string;
   classId: Types.ObjectId;
   boardId: Types.ObjectId;
   year: number;
@@ -12,6 +15,9 @@ export interface IResultPdf extends Document {
 
 const ResultSchema = new Schema<IResultPdf>(
   {
+    name: { type: String },
+    slug: { type: String },
+    description: { type: String },
     classId: { type: Schema.Types.ObjectId, ref: 'Class', required: true, index: true },
     boardId: { type: Schema.Types.ObjectId, ref: 'Board', required: true, index: true },
     year: { type: Number, required: true, default: new Date().getFullYear() },

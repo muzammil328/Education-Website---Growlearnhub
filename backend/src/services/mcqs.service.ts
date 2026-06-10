@@ -81,7 +81,7 @@ export const mcqsService = {
       difficulty: input.difficulty,
     };
 
-    return mcqsRepository.aggregatePaginate({
+    return mcqsRepository.aggregate({
       pipeline: [
         { $match: Object.fromEntries(Object.entries(filters).filter(([, v]) => v !== undefined)) },
         { $sort: { [sort]: sortOrder } },
@@ -147,7 +147,7 @@ export const mcqsService = {
       throw AppError.badRequest('Invalid question ID format');
     }
 
-    const result = await mcqsRepository.aggregate([
+    const result = await mcqsRepository.aggregate({pipeline: [
       { $match: { _id: new Types.ObjectId(id) } },
       {
         $lookup: {
@@ -224,7 +224,7 @@ export const mcqsService = {
           subHeading: { subHeadingId: '$subHeadingDoc._id', subHeadingName: '$subHeadingDoc.name' },
         },
       },
-    ]);
+    ]});
 
     if (!result || result.length === 0) {
       throw AppError.notFound('Question not found');
@@ -237,7 +237,7 @@ export const mcqsService = {
     const chapterId = parseObjectId(input.chapterId);
     const difficulty = input.difficulty;
 
-    return mcqsRepository.aggregate([
+    return mcqsRepository.aggregate({pipeline: [
       {
         $match: {
           status: 'active',
@@ -253,7 +253,7 @@ export const mcqsService = {
           question: 1,
         },
       },
-    ]);
+    ]});
   },
 
   async getByChapter(chapterId: string, status?: string) {
@@ -406,7 +406,7 @@ export const mcqsService = {
     if (subHeadingId !== undefined) updateData.subHeadingId = parseObjectId(subHeadingId);
     if (status) updateData.status = status;
 
-    const updated = await mcqsRepository.findByIdAndUpdate(id, updateData, { new: true });
+    const updated = await mcqsRepository.findByIdAndUpdate(new Types.ObjectId(id), updateData, { new: true });
 
     if (!updated) {
       throw AppError.notFound('Question not found');
@@ -420,7 +420,7 @@ export const mcqsService = {
       throw AppError.badRequest('Invalid question ID');
     }
 
-    const deleted = await mcqsRepository.findByIdAndDelete(id);
+    const deleted = await mcqsRepository.findByIdAndDelete(new Types.ObjectId(id));
 
     if (!deleted) {
       throw AppError.notFound('Question not found');

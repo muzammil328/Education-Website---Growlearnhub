@@ -73,7 +73,7 @@ export const headingService = {
     if (bookId) match.bookId = bookId;
     if (chapterId) match.chapterId = chapterId;
 
-    return headingRepository.aggregatePaginate({
+    return headingRepository.aggregate({
       pipeline: [
         { $match: match },
         { $sort: { [sort]: sortOrder } },
@@ -132,7 +132,7 @@ export const headingService = {
       throw AppError.badRequest('Invalid heading ID format');
     }
 
-    const result = await headingRepository.aggregate([
+    const result = await headingRepository.aggregate({pipeline: [
       { $match: { _id: new Types.ObjectId(id) } },
       {
         $lookup: {
@@ -177,7 +177,7 @@ export const headingService = {
           chapterName: { $arrayElemAt: ['$chapterData.name', 0] },
         },
       },
-    ]);
+    ]});
 
     if (!result || result.length === 0) {
       throw AppError.notFound('Heading not found');
@@ -193,7 +193,7 @@ export const headingService = {
     const chapterId = parseObjectId(input.chapterId);
     const formatSearch = escapeRegex(search);
 
-    return headingRepository.aggregate([
+    return headingRepository.aggregate({pipeline: [
       {
         $match: {
           name: { $regex: formatSearch, $options: 'i' },
@@ -205,7 +205,7 @@ export const headingService = {
       },
       { $sort: { name: 1 } },
       { $project: { _id: 1, name: 1 } },
-    ]);
+    ]});
   },
 
   async getBySlug(slug: string) {
@@ -298,7 +298,7 @@ export const headingService = {
     if (bookId) headingData.bookId = new Types.ObjectId(bookId);
     if (chapterId) headingData.chapterId = new Types.ObjectId(chapterId);
 
-    const updated = await headingRepository.findByIdAndUpdate(id, headingData, { new: true });
+    const updated = await headingRepository.findByIdAndUpdate(new Types.ObjectId(id), headingData, { new: true });
 
     if (!updated) {
       throw AppError.notFound('Heading not found');
@@ -312,7 +312,7 @@ export const headingService = {
       throw AppError.badRequest('Invalid heading ID');
     }
 
-    const deleted = await headingRepository.findByIdAndDelete(id);
+    const deleted = await headingRepository.findByIdAndDelete(new Types.ObjectId(id));
 
     if (!deleted) {
       throw AppError.notFound('Heading not found');

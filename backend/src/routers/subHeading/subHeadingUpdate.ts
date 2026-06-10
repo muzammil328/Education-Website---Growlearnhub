@@ -21,14 +21,13 @@ export const subHeadingUpdate = superAdminProcedure
         throw AppError.badRequest('SubHeading already exists');
       }
 
-      const updated = await subHeadingRepository.findByIdAndUpdate(
-        input.id,
+      const updated = await subHeadingRepository.findByIdAndUpdate(new Types.ObjectId(input.id),
         {
           name: input.updates.name,
           code: input.updates.code,
           status: input.updates.status,
-          classId: input.updates.classId,
-          serviceId: input.updates.serviceId,
+          classId: new Types.ObjectId(input.updates.classId),
+          serviceId: input.updates.serviceId?.map((id: string) => new Types.ObjectId(id)),
           description: input.updates.description,
           creditHours: input.updates.creditHours,
           fileId: input.updates.fileId,

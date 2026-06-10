@@ -21,8 +21,7 @@ export const classUpdate = superAdminProcedure
           throw AppError.badRequest('Class already exists');
         }
 
-        const updated = await classRepository.findByIdAndUpdate(
-          input.id,
+        const updated = await classRepository.findByIdAndUpdate(new Types.ObjectId(input.id),
           {
             ...input.updates,
             serviceId: parseObjectIdList(input.updates.serviceIds),

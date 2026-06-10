@@ -15,6 +15,11 @@ import { studentRouter } from '../routers/student.router';
 import { institutionRouter } from '../routers/institution.router';
 import { mcqAttemptRouter } from '../routers/mcqAttempt.router';
 import { publicRouter } from '../routers/public/public.router';
+import { userProgressRouter } from '../routers/userProgress.router';
+import { adaptiveMcqRouter } from '../routers/adaptiveMcq.router';
+import { analyticsRouter } from '../routers/analytics.router';
+import { paymentRouter } from '../routers/payment.router';
+import { bulkImportRouter } from '../routers/bulkImport.router';
 
 export const appRouter = createTRPCRouter({
   auth: authRouter,
@@ -33,6 +38,11 @@ export const appRouter = createTRPCRouter({
   comment: commentRouter,
   student: studentRouter,
   public: publicRouter,
+  userProgress: userProgressRouter,
+  adaptiveMcq: adaptiveMcqRouter,
+  analytics: analyticsRouter,
+  payment: paymentRouter,
+  bulkImport: bulkImportRouter,
 });
 
 export type AppRouter = typeof appRouter;
