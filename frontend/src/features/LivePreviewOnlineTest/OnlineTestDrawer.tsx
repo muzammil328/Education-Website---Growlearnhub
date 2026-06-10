@@ -16,7 +16,6 @@ import {
 import type { McqItem } from '../LivePreviewMcqs';
 import { trpc } from '@/trpc/trpc';
 import { useAuth } from '@/context/AuthContext';
-import { useOfflineQueue } from '@/hooks/useOfflineQueue';
 
 type ConfidenceTag = 'sure' | 'guessed' | 'no_idea';
 
@@ -369,7 +368,6 @@ function TestFooter({
 export default function OnlineTestDrawer({ mcqs, testTitle, onClose }: Props) {
   const n = mcqs.length;
   const { user } = useAuth();
-  const { queueAttempt } = useOfflineQueue();
   const submitAttempt = trpc.mcqAttempt.submit.useMutation();
 
   const storageKey = `online-test-${testTitle.replace(/\s/g, '-')}`;
@@ -450,15 +448,7 @@ export default function OnlineTestDrawer({ mcqs, testTitle, onClose }: Props) {
           sessionId,
           quizMode: 'practice' as const,
         };
-        submitAttempt.mutate(attemptPayload, {
-          onError: () => {
-            // Offline fallback — queue for background sync
-            queueAttempt({
-              url: '/trpc/mcqAttempt.submit',
-              body: JSON.stringify({ json: attemptPayload }),
-            });
-          },
-        });
+        submitAttempt.mutate(attemptPayload);
       });
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps

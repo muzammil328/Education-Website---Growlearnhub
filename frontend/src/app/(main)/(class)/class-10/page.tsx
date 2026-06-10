@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 import { generatePageMetadata } from '@/lib/seo';
 import Class10 from '@/features/Classes/Class10';
 
-export const revalidate = 604800;
+export const revalidate = 259200; // 3 days
 
 export const metadata: Metadata = generatePageMetadata({
   title: 'Class 10 Study Resources | Notes, MCQs, Online Tests & Past Papers',

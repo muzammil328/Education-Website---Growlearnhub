@@ -2,6 +2,8 @@ import { Metadata } from 'next';
 import { generatePageMetadata } from '@/lib/seo';
 import Class9 from '@/features/Classes/Class9';
 
+export const revalidate = 259200; // 3 days
+
 export const metadata: Metadata = generatePageMetadata({
   title: 'Class 9 Study Resources | Notes, MCQs, Online Tests & Past Papers',
   description:
