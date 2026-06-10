@@ -1,23 +1,8 @@
 'use client';
-import { useSearchParams } from 'next/navigation';
-import LivePreviewOnlineTest from '@/features/LivePreviewOnlineTest';
+import dynamic from 'next/dynamic';
+
+const LiveOnlineTestContent = dynamic(() => import('./content'), { ssr: false });
 
 export default function LiveOnlineTestPage() {
-  const searchParams = useSearchParams();
-
-  const classSlug = searchParams.get('class') || undefined;
-  const bookSlug = searchParams.get('book') || undefined;
-  const chapterSlug = searchParams.get('chapter') || undefined;
-  const headingSlug = searchParams.get('heading') || undefined;
-  const subHeadingSlug = searchParams.get('subHeading') || undefined;
-
-  return (
-    <LivePreviewOnlineTest
-      classSlug={classSlug}
-      bookSlug={bookSlug}
-      chapterSlug={chapterSlug}
-      headingSlug={headingSlug}
-      subHeadingSlug={subHeadingSlug}
-    />
-  );
+  return <LiveOnlineTestContent />;
 }
