@@ -1,7 +1,6 @@
 import React from 'react';
 import styles from './HomeTopics.module.css';
-import { Button } from '@muzammil328/ui';
-import { Container } from '@muzammil328/ui';
+import { Button, Container, Heading3, Para } from '@muzammil328/ui';
 import { TopicCard } from '@/components/cards';
 
 export default function Topics() {
@@ -13,11 +12,11 @@ export default function Topics() {
         <div className="pb-20 md:py-16">
           <div className="grid grid-cols-1 items-center justify-between py-10 md:grid-cols-2">
             <div>
-              <h3 className="mb-5 text-4xl font-bold text-white">Latest Topics</h3>
-              <p className="p3 text-white dark:text-white">
+              <Heading3 className="mb-5 text-4xl font-bold text-white">Latest Topics</Heading3>
+              <Para className="p3 text-white dark:text-white">
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa ab ipsum possimus
                 quos totam voluptates accusamus mollitia facilis dolor ducimus.
-              </p>
+              </Para>
             </div>
             <div className="mt-3 flex justify-start md:mt-0 md:justify-end">
               <Button variant="outline" title="See All Topics" className="rounded-full">

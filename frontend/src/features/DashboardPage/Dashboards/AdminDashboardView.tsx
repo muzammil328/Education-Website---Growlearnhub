@@ -23,6 +23,7 @@ import {
   Circle,
 } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
+import { Heading1, Heading3, Para } from '@muzammil328/ui';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -271,8 +272,8 @@ function ProfileCard({ name, role }: { name: string; role: string }) {
           </span>
         </div>
 
-        <p className="font-semibold text-foreground">{name}</p>
-        <p className="text-xs text-muted-foreground mt-0.5">{role}</p>
+        <Para className="font-semibold text-foreground">{name}</Para>
+        <Para className="text-xs text-muted-foreground mt-0.5">{role}</Para>
       </div>
     </div>
   );
@@ -351,14 +352,14 @@ function TodoCard() {
                 )}
               </div>
               <div className="flex-1 min-w-0">
-                <p
+                <Para
                   className={`text-sm font-medium leading-tight ${item.done ? 'line-through text-muted-foreground' : 'text-foreground'}`}
                 >
                   {item.title}
-                </p>
-                <p className="text-xs text-muted-foreground mt-0.5 leading-snug">{item.subtitle}</p>
+                </Para>
+                <Para className="text-xs text-muted-foreground mt-0.5 leading-snug">{item.subtitle}</Para>
                 <div className="flex items-center justify-between mt-2">
-                  <p className="text-[10px] text-muted-foreground">{item.date}</p>
+                  <Para className="text-[10px] text-muted-foreground">{item.date}</Para>
                   <div className="flex -space-x-1">
                     {item.avatars.map((a, i) => (
                       <Avatar key={i} initials={a} idx={i} />
@@ -398,8 +399,8 @@ function StatCard({
           {change}
         </span>
       </div>
-      <p className="text-2xl font-bold text-foreground">{value.toLocaleString()}</p>
-      <p className="text-xs text-muted-foreground mt-0.5 mb-3">{label}</p>
+      <Para className="text-2xl font-bold text-foreground">{value.toLocaleString()}</Para>
+      <Para className="text-xs text-muted-foreground mt-0.5 mb-3">{label}</Para>
 
       {/* Progress bar */}
       <div className="h-1.5 w-full rounded-full bg-muted overflow-hidden">
@@ -408,7 +409,7 @@ function StatCard({
           style={{ width: `${progress}%` }}
         />
       </div>
-      <p className="text-[10px] text-muted-foreground mt-1">{progress}% of target</p>
+      <Para className="text-[10px] text-muted-foreground mt-1">{progress}% of target</Para>
     </div>
   );
 }
@@ -429,12 +430,12 @@ export function AdminDashboardView() {
         {/* Header */}
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-bold tracking-tight text-foreground">
+            <Heading1 className="text-2xl font-bold tracking-tight text-foreground">
               {greeting}, {name} 👋
-            </h1>
-            <p className="text-sm text-muted-foreground mt-0.5">
+            </Heading1>
+            <Para className="text-sm text-muted-foreground mt-0.5">
               {format(today, "EEEE, d MMMM yyyy")} · School Admin Dashboard
-            </p>
+            </Para>
           </div>
           <button className="relative flex h-9 w-9 items-center justify-center rounded-xl border border-border hover:bg-accent transition-colors">
             <Bell className="h-4 w-4 text-muted-foreground" />
@@ -455,7 +456,7 @@ export function AdminDashboardView() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Subject progress */}
           <div className="rounded-2xl border border-border bg-card p-5 shadow-sm">
-            <h3 className="text-sm font-semibold mb-4">Subject Enrollment Capacity</h3>
+            <Heading3 className="text-sm font-semibold mb-4">Subject Enrollment Capacity</Heading3>
             <div className="space-y-4">
               {SUBJECT_PROGRESS.map(s => {
                 const pct = Math.round((s.enrolled / s.capacity) * 100);
@@ -473,7 +474,7 @@ export function AdminDashboardView() {
                         style={{ width: `${pct}%` }}
                       />
                     </div>
-                    <p className="text-[10px] text-muted-foreground mt-1">{pct}% filled</p>
+                    <Para className="text-[10px] text-muted-foreground mt-1">{pct}% filled</Para>
                   </div>
                 );
               })}
@@ -482,7 +483,7 @@ export function AdminDashboardView() {
 
           {/* Activity feed */}
           <div className="rounded-2xl border border-border bg-card p-5 shadow-sm">
-            <h3 className="text-sm font-semibold mb-4">Recent Activity</h3>
+            <Heading3 className="text-sm font-semibold mb-4">Recent Activity</Heading3>
             <div className="space-y-3">
               {ACTIVITY.map((a, i) => {
                 const Icon = a.icon;
@@ -494,8 +495,8 @@ export function AdminDashboardView() {
                       <Icon className="h-3.5 w-3.5" />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-xs font-medium text-foreground">{a.action}</p>
-                      <p className="text-xs text-muted-foreground">{a.name}</p>
+                      <Para className="text-xs font-medium text-foreground">{a.action}</Para>
+                      <Para className="text-xs text-muted-foreground">{a.name}</Para>
                     </div>
                     <span className="shrink-0 text-[10px] text-muted-foreground whitespace-nowrap">
                       {a.time}
@@ -510,7 +511,7 @@ export function AdminDashboardView() {
         {/* Recent Enrollments */}
         <div className="rounded-2xl border border-border bg-card shadow-sm overflow-hidden">
           <div className="flex items-center justify-between px-5 py-4 border-b border-border">
-            <h3 className="text-sm font-semibold">Recent Enrollments</h3>
+            <Heading3 className="text-sm font-semibold">Recent Enrollments</Heading3>
             <button className="text-xs text-primary hover:underline">View all</button>
           </div>
           <div className="overflow-x-auto">
@@ -550,7 +551,7 @@ export function AdminDashboardView() {
 
         {/* Upcoming Events */}
         <div className="rounded-2xl border border-border bg-card p-5 shadow-sm">
-          <h3 className="text-sm font-semibold mb-4">Upcoming Events</h3>
+          <Heading3 className="text-sm font-semibold mb-4">Upcoming Events</Heading3>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             {UPCOMING_EVENTS.map((ev, i) => (
               <div key={i} className="flex items-start gap-3 rounded-xl border border-border bg-background p-3">
@@ -558,8 +559,8 @@ export function AdminDashboardView() {
                   <Circle className="h-3 w-3 fill-current" />
                 </div>
                 <div>
-                  <p className="text-xs font-medium text-foreground leading-tight">{ev.title}</p>
-                  <p className="text-[10px] text-muted-foreground mt-1">{ev.date}</p>
+                  <Para className="text-xs font-medium text-foreground leading-tight">{ev.title}</Para>
+                  <Para className="text-[10px] text-muted-foreground mt-1">{ev.date}</Para>
                 </div>
               </div>
             ))}

@@ -3,26 +3,34 @@ import { toTrpcError } from '@muzammil328/trpc';
 import { headingRepository } from '@/repository/heading.repository';
 import { headingCreateSchema } from '@muzammil328/education-packages';
 import { superAdminProcedure } from '@/trpc/trpc';
-import { toObjectId } from '@muzammil328/db';
+import { buildMatch, toObjectId } from '@muzammil328/db';
+import { slugify } from '@/utils';
 
 export const headingCreate = superAdminProcedure
     .input(headingCreateSchema)
     .mutation(async ({ input }) => {
         try {
-            const existing = await headingRepository.findOne({
-                name: input.name,
-            });
+            const classId = input.classId ? toObjectId(input.classId) : undefined;
+            const chapterId = input.chapterId ? toObjectId(input.chapterId) : undefined;
+            const bookId = toObjectId(input.bookId);
+
+            const existing = await headingRepository.findOne(buildMatch({
+                slug: slugify(input.name),
+                bookId,
+                classId,
+                chapterId,
+            }));
 
             if (existing) {
-                throw AppError.badRequest('Heading already exists');
+                throw AppError.badRequest('Heading already exists in this chapter');
             }
 
             const created = await headingRepository.create({
                 name: input.name,
                 status: input.status,
-                classId: toObjectId(input.classId),
-                bookId: toObjectId(input.bookId),
-                chapterId: toObjectId(input.chapterId),
+                classId,
+                bookId,
+                chapterId,
                 order: input.order,
             })
 

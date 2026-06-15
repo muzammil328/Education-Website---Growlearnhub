@@ -1,6 +1,6 @@
 'use client';
 import { useState } from 'react';
-import { Button, Form, FormString, FormTextarea } from '@muzammil328/ui';
+import { Button, Form, FormString, FormTextarea, Heading2, Para } from '@muzammil328/ui';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -62,8 +62,8 @@ export default function ReportBugForm({ variant }: { variant?: 'page' | 'drawer'
     <section>
       {variant !== 'drawer' && (
         <div className="mx-auto max-w-2xl text-center">
-          <h2>Report a Bug</h2>
-          <p className="sm">Help us improve by reporting any bugs you encounter.</p>
+          <Heading2>Report a Bug</Heading2>
+          <Para className="sm">Help us improve by reporting any bugs you encounter.</Para>
         </div>
       )}
       <Form {...form}>

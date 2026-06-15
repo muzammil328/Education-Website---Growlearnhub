@@ -111,12 +111,12 @@ export default function MobileNavbar({
                             items: { name: string; href: string }[];
                           }) => (
                             <div key={section.name}>
-                              <p
+                              <Para
                                 id={`${category.id}-${section.id}-heading-mobile`}
                                 className="flex items-center text-base font-semibold"
                               >
                                 {section.name}
-                              </p>
+                              </Para>
                               <ul
                                 aria-labelledby={`${category.id}-${section.id}-heading-mobile`}
                                 className="mt-6 flex flex-col space-y-6"

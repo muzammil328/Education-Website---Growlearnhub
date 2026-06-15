@@ -3,7 +3,7 @@
 import React from 'react';
 import CardSmall from '@/components/card/SmallCard';
 import UserLayout from '@/components/layout/UserLayout';
-import { Heading2 } from '@muzammil328/ui';
+import { Heading2, Heading3, Para } from '@muzammil328/ui';
 import { useBooksByClassAndServiceSlug } from '@/hooks/use-public';
 import McqsInlineSection from '@/components/mcqs/McqsInlineSection';
 
@@ -25,25 +25,25 @@ export default function Class9McqsPage() {
           <Heading2 className="mb-2" weight="bold" size="sm">
             Class 9 MCQs - Subject-wise Practice
           </Heading2>
-          <p className="text-base">
+          <Para className="text-base">
             Practice Class 9 MCQs by subject, then move into chapter and topic-level practice
             with the dedicated server-rendered routes.
-          </p>
+          </Para>
         </header>
 
         <section className="mb-8">
-          <p className="text-muted-foreground">
+          <Para className="text-muted-foreground">
             Our collection is organized by class and subject so students can quickly find the
             material they need. Whether you are revising concepts, preparing for exams, or looking
             for study material, this page helps you reach the right section faster.
-          </p>
-          <p className="mt-4 text-muted-foreground">
+          </Para>
+          <Para className="mt-4 text-muted-foreground">
             Explore{' '}
             <a href={`/${CLASS_SLUG}/${SERVICE_SLUG}`} className="font-medium text-primary hover:underline">
               Class 9 MCQs
             </a>
             {' easily.'}
-          </p>
+          </Para>
         </section>
 
         <section className="mb-12">
@@ -55,7 +55,7 @@ export default function Class9McqsPage() {
               Loading subjects...
             </div>
           ) : error ? (
-            <p className="text-red-500 mt-4">Failed to load subjects. Please try again later.</p>
+            <Para className="text-red-500 mt-4">Failed to load subjects. Please try again later.</Para>
           ) : books && books.length > 0 ? (
             <div className="my-5 grid grid-cols-1 gap-4 md:grid-cols-2">
               {books.map(book => (
@@ -67,7 +67,7 @@ export default function Class9McqsPage() {
               ))}
             </div>
           ) : (
-            <p className="text-muted-foreground mt-4">No subjects available at the moment.</p>
+            <Para className="text-muted-foreground mt-4">No subjects available at the moment.</Para>
           )}
         </section>
 
@@ -78,31 +78,31 @@ export default function Class9McqsPage() {
 
           <div className="my-8 grid grid-cols-1 gap-6 md:grid-cols-2">
             <div className="space-y-3">
-              <h3 className="text-xl font-semibold text-foreground">Class-wise Organization</h3>
-              <p className="text-muted-foreground">
+              <Heading3 className="text-xl font-semibold text-foreground">Class-wise Organization</Heading3>
+              <Para className="text-muted-foreground">
                 Browse MCQs by class level so you can quickly find relevant study material.
-              </p>
+              </Para>
             </div>
 
             <div className="space-y-3">
-              <h3 className="text-xl font-semibold text-foreground">Subject-wise Access</h3>
-              <p className="text-muted-foreground">
+              <Heading3 className="text-xl font-semibold text-foreground">Subject-wise Access</Heading3>
+              <Para className="text-muted-foreground">
                 Open the subjects you need without searching through unrelated content.
-              </p>
+              </Para>
             </div>
 
             <div className="space-y-3">
-              <h3 className="text-xl font-semibold text-foreground">Exam Support</h3>
-              <p className="text-muted-foreground">
+              <Heading3 className="text-xl font-semibold text-foreground">Exam Support</Heading3>
+              <Para className="text-muted-foreground">
                 Use MCQs and study resources to support revision and board exam preparation.
-              </p>
+              </Para>
             </div>
 
             <div className="space-y-3">
-              <h3 className="text-xl font-semibold text-foreground">Mobile-friendly Use</h3>
-              <p className="text-muted-foreground">
+              <Heading3 className="text-xl font-semibold text-foreground">Mobile-friendly Use</Heading3>
+              <Para className="text-muted-foreground">
                 Access MCQ sections easily on desktop, tablet, or mobile devices.
-              </p>
+              </Para>
             </div>
           </div>
         </section>

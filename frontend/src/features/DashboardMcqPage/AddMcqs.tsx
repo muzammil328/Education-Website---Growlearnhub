@@ -1,12 +1,11 @@
 'use client';
 
 import { useState } from 'react';
-import { Stepper } from '@muzammil328/ui';
+import { Heading1, Stepper, toast } from '@muzammil328/ui';
 import { SteepperStep1 } from './SteeperStep1';
 import { SteepperStep2 } from './SteeperStep2';
 import { SteepperStep3 } from './SteeperStep3';
 import { useCreateMcqs } from '@/hooks';
-import { toast } from '@muzammil328/ui';
 import { useRouter } from 'next/navigation';
 
 interface Step1Data {
@@ -118,7 +117,7 @@ export default function McqsPage({ title, image, canonical, url }: McqsPageProps
   return (
     <div className="container mx-auto py-6">
       <div className="mb-6">
-        <h1 className="text-2xl font-bold">Add New MCQs</h1>
+        <Heading1 className="text-2xl font-bold">Add New MCQs</Heading1>
       </div>
 
       <Stepper steps={steps} currentStep={currentStep} showButtons={false} className="mb-8" />

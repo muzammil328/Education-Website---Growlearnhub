@@ -1,6 +1,7 @@
 import mongoose, { Schema } from 'mongoose';
 import type { ISubHeading } from '@muzammil328/education-packages/types';
 import { StatusEnum } from '@muzammil328/education-packages/enums';
+import { slugify } from '@/utils';
 
 const SubHeadingSchema: Schema = new Schema(
   {
@@ -19,10 +20,7 @@ const SubHeadingSchema: Schema = new Schema(
 // save slug from name if not provided
 SubHeadingSchema.pre<ISubHeading>('validate', function (this: ISubHeading, next) {
   if (!this.slug && this.name) {
-    this.slug = this.name
-      .toLowerCase()
-      .replace(/[^a-z0-9]+/g, '-')
-      .replace(/^-+|-+$/g, '');
+    this.slug = slugify(this.name);
   }
   next();
 });

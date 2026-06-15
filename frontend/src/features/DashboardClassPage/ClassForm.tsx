@@ -4,9 +4,8 @@ import React, { useEffect } from 'react';
 
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { toast } from '@muzammil328/ui';
+import { Form, toast } from '@muzammil328/ui';
 
-import { Form } from '@muzammil328/ui';
 
 import { useClassById, useCreateClass, useUpdateClass } from '@/hooks';
 import { classCreateSchema, type ClassCreateInput } from '@muzammil328/education-packages';

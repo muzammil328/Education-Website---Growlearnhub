@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { cn } from '@muzammil328/ui';
+import { cn, Para } from '@muzammil328/ui';
 import Logo from '@/components/elements/Logo';
 import { DarkLightModeButton } from '@/components/elements/Button';
 import { navigation } from './data';
@@ -17,9 +17,9 @@ function FlyoutMenu({ category, onClose }: { category: Category; onClose: () => 
       <div className="mx-auto grid max-w-7xl grid-cols-2 gap-6 px-8 py-8 lg:grid-cols-4">
         {category.sections.map(section => (
           <div key={section.name}>
-            <p className="mb-3 text-xs font-bold uppercase tracking-widest text-primary">
+            <Para className="mb-3 text-xs font-bold uppercase tracking-widest text-primary">
               {section.name}
-            </p>
+            </Para>
             <ul className="space-y-2">
               {section.items.map(item => (
                 <li key={item.name}>
@@ -119,9 +119,9 @@ function MobileDrawer({ open, onClose }: { open: boolean; onClose: () => void })
                   <div className="pb-4 space-y-4">
                     {cat.sections.map(section => (
                       <div key={section.name}>
-                        <p className="mb-2 text-xs font-bold uppercase tracking-widest text-primary">
+                        <Para className="mb-2 text-xs font-bold uppercase tracking-widest text-primary">
                           {section.name}
-                        </p>
+                        </Para>
                         <ul className="space-y-1.5 pl-2">
                           {section.items.map(item => (
                             <li key={item.name}>

@@ -2,9 +2,7 @@
 import Link from 'next/link';
 import { Mail, Lock } from 'lucide-react';
 import * as React from 'react';
-import { Button } from '@muzammil328/ui';
-import { Form, FormEmail, FormPassword } from '@muzammil328/ui';
-import { toast } from '@muzammil328/ui';
+import { Button, FormEmail, Form, FormPassword, Para, toast } from '@muzammil328/ui';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { setCookie } from 'cookies-next';
@@ -74,10 +72,10 @@ export function LoginForm() {
           {isPending ? 'Signing in...' : 'Login'}
         </Button>
 
-        <p className="text-center text-sm text-muted-foreground">
+        <Para className="text-center text-sm text-muted-foreground">
           Not a member?{' '}
           <Link href="/register/" className="font-medium text-primary hover:underline">Sign Up</Link>
-        </p>
+        </Para>
       </form>
     </Form>
   );

@@ -1,6 +1,5 @@
 import Image from 'next/image';
-import { Container } from '@muzammil328/ui';
-import { Heading1, Para } from '@muzammil328/ui';
+import { Container, Heading1, Heading3, Para } from '@muzammil328/ui';
 
 interface ServiceCard {
   title: string;
@@ -39,10 +38,10 @@ export default function Services() {
             <span className="text-3xl">✨</span>
           </div>
 
-          <p className="text-gray-600 max-w-2xl">
+          <Para className="text-gray-600 max-w-2xl">
             Learn how our homeschooling services provide personalized, flexible learning tailored to
             your child&apos;s needs, all from the comfort of home!
-          </p>
+          </Para>
         </div>
 
         {/* Services Grid */}
@@ -53,9 +52,9 @@ export default function Services() {
               <div className="relative bg-linear-to-br from-purple-600 to-purple-700 rounded-3xl overflow-hidden shadow-lg h-96 flex flex-col justify-between p-6">
                 {/* Service Title */}
                 <div className="relative z-10 flex items-start justify-between">
-                  <h3 className="text-white font-bold text-xl md:text-2xl max-w-50 leading-tight">
+                  <Heading3 className="text-white font-bold text-xl md:text-2xl max-w-50 leading-tight">
                     {service.title}
-                  </h3>
+                  </Heading3>
 
                   {/* Yellow Arrow Button */}
                   <button className="shrink-0 w-12 h-12 bg-yellow-400 rounded-full flex items-center justify-center hover:bg-yellow-300 transition-colors shadow-md">

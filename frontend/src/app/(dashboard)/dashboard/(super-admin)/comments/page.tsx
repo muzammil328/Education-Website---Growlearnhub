@@ -1,11 +1,10 @@
 'use client';
 
 import React, { useState } from 'react';
-import { TableRoot as Table, TableHeader, TableRow, TableHead, TableBody, TableCell, Skeleton } from '@muzammil328/ui';
+import { Heading1, Para, Skeleton, TableBody, TableCell, TableHeader, TableHead, TableRoot as Table, TableRow, toast } from '@muzammil328/ui';
 import { DataTablePagination } from '@/components/ui/data-table-pagination';
 import { useComments, useDeleteComment } from '@/hooks/use-comment';
 import { Trash2 } from 'lucide-react';
-import { toast } from '@muzammil328/ui';
 
 export default function Page() {
   const [page, setPage] = useState(1);
@@ -25,7 +24,7 @@ export default function Page() {
 
   return (
     <div className="space-y-4">
-      <h1 className="text-xl font-semibold text-foreground">Comments</h1>
+      <Heading1 className="text-xl font-semibold text-foreground">Comments</Heading1>
       <div className="border rounded-md pb-3">
         <Table className="mt-0">
           <TableHeader className="bg-gray-100 dark:bg-gray-800">
@@ -57,7 +56,7 @@ export default function Page() {
                   <TableCell className="font-medium">{row.firstName} {row.lastName}</TableCell>
                   <TableCell className="text-sm text-muted-foreground">{row.email}</TableCell>
                   <TableCell className="max-w-xs">
-                    <p className="text-sm text-muted-foreground line-clamp-2">{row.message}</p>
+                    <Para className="text-sm text-muted-foreground line-clamp-2">{row.message}</Para>
                   </TableCell>
                   <TableCell className="text-sm text-muted-foreground max-w-[120px] truncate">
                     {row.pageUrl ? (

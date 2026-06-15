@@ -3,6 +3,7 @@ import React from 'react';
 import { useSubHeadingByClassAndSubjectAndChapterAndHeadingSlug } from '@/hooks/use-public';
 import { toDisplayName } from '@/lib/class-filter';
 import SetsInlineSection from '@/components/mcqs/SetsInlineSection';
+import { Heading1, Heading2, Para } from '@muzammil328/ui';
 
 export default function OnlineTestClass9HeadingPage({
   className,
@@ -33,8 +34,8 @@ export default function OnlineTestClass9HeadingPage({
   if (error) {
     return (
       <div className="rounded-2xl border border-red-200 bg-red-50 p-6 text-center">
-        <p className="font-medium text-red-700">Failed to load topics</p>
-        <p className="mt-1 text-sm text-red-600">Please try again in a moment.</p>
+        <Para className="font-medium text-red-700">Failed to load topics</Para>
+        <Para className="mt-1 text-sm text-red-600">Please try again in a moment.</Para>
       </div>
     );
   }
@@ -51,14 +52,14 @@ export default function OnlineTestClass9HeadingPage({
 
   return (
     <div>
-      <h1 className="text-2xl font-bold mb-2">
+      <Heading1 className="text-2xl font-bold mb-2">
         {toDisplayName(bookSlug)} — {toDisplayName(chapterSlug)} — {toDisplayName(headingSlug)}
-      </h1>
-      <p className="text-muted-foreground mb-6">
+      </Heading1>
+      <Para className="text-muted-foreground mb-6">
         {subHeadings.length > 0
           ? 'Select a topic or start the full test.'
           : 'Start your online test for this topic.'}
-      </p>
+      </Para>
 
       <div className="mb-4">
         <a
@@ -77,10 +78,10 @@ export default function OnlineTestClass9HeadingPage({
               href={testLink(sh.slug)}
               className="border rounded-2xl p-4 shadow-sm hover:shadow-md transition block"
             >
-              <h2 className="text-lg font-semibold mb-1">{sh.name}</h2>
-              <p className="text-sm text-muted-foreground">
+              <Heading2 className="text-lg font-semibold mb-1">{sh.name}</Heading2>
+              <Para className="text-sm text-muted-foreground">
                 Practice test for {sh.name}
-              </p>
+              </Para>
             </a>
           ))}
         </div>

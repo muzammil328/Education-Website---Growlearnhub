@@ -2,9 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { Button } from '@muzammil328/ui';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@muzammil328/ui';
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@muzammil328/ui';
+import { Button, Collapsible, CollapsibleContent, CollapsibleTrigger, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@muzammil328/ui';
 import { ChevronDown } from 'lucide-react';
 
 interface SidebarItem {

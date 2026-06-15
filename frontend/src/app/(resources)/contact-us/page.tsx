@@ -2,6 +2,7 @@ import React from 'react';
 import { Metadata } from 'next';
 import UserLayout from '@/components/layout/UserLayout';
 import ContactForm from '@/components/forms/ContactForm';
+import { Heading2, Para } from '@muzammil328/ui';
 
 const data = {
   title: 'Contact Us | GrowLearnHub',
@@ -20,12 +21,12 @@ export default function Page() {
     <UserLayout title={data.title} image={data.image} canonical={data.canonical} url={data.url}>
       <section>
         <div className="mx-auto max-w-2xl text-center">
-          <h2>
+          <Heading2>
             Get in Touch
-          </h2>
-          <p className="sm">
+          </Heading2>
+          <Para className="sm">
             Have questions? We&apos;d love to hear from you.
-          </p>
+          </Para>
         </div>
         <ContactForm />
       </section>

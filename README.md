@@ -18,9 +18,8 @@ This workspace is organized as a `pnpm` monorepo with:
 - Tailwind CSS v4
 - TanStack Query + tRPC React hooks
 - React Hook Form, Zod
-- Recharts, next-themes, Sonner
-- socket.io-client
-- Sentry for error monitoring
+- Chart.js / react-chartjs-2, next-themes, Sonner
+- Framer Motion, Swiper
 
 ### Backend
 
@@ -28,9 +27,9 @@ This workspace is organized as a `pnpm` monorepo with:
 - tRPC server
 - MongoDB + Mongoose
 - JWT authentication (access + refresh tokens)
-- bcryptjs, cookie-parser, CORS, Helmet
-- Nodemailer for email delivery
-- Swagger UI / swagger-jsdoc
+- socket.io
+- bcryptjs, cookie-parser, CORS
+- Nodemailer for email delivery (via `@muzammil328/services`)
 
 ### Shared / Monorepo
 
@@ -49,4 +48,4 @@ This workspace is organized as a `pnpm` monorepo with:
 - Board-wise content organization
 - Virtual University (VU) resources
 - Student progress and analytics
-- Feedback module
+- Feedback, comments, and share-stories modules

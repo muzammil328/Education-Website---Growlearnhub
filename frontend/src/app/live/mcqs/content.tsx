@@ -4,6 +4,7 @@ import { useSearchParams, useRouter } from 'next/navigation';
 import { useMcqsBySlug } from '@/hooks/use-public';
 import LivePreviewMcqs from '@/features/LivePreviewMcqs';
 import UserLayout from '@/components/layout/UserLayout';
+import { Heading2, Para } from '@muzammil328/ui';
 
 const PAGE_TITLE = 'MCQs Practice | GrowLearnHub';
 
@@ -38,7 +39,7 @@ export default function LiveMcqsContent() {
       <UserLayout title={PAGE_TITLE}>
         <div className="flex flex-col items-center justify-center py-24 gap-4">
           <div className="w-10 h-10 border-4 border-primary border-t-transparent rounded-full animate-spin" />
-          <p className="text-foreground/60 font-medium">Loading questions...</p>
+          <Para className="text-foreground/60 font-medium">Loading questions...</Para>
         </div>
       </UserLayout>
     );
@@ -53,8 +54,8 @@ export default function LiveMcqsContent() {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
             </svg>
           </div>
-          <h2 className="text-xl font-semibold text-foreground">Error Loading Questions</h2>
-          <p className="text-foreground/60 text-sm">{error.message}</p>
+          <Heading2 className="text-xl font-semibold text-foreground">Error Loading Questions</Heading2>
+          <Para className="text-foreground/60 text-sm">{error.message}</Para>
           <button onClick={() => router.back()} className="mt-2 px-6 py-2 bg-primary text-white rounded-lg hover:opacity-90 transition text-sm font-medium">
             Go Back
           </button>
@@ -72,8 +73,8 @@ export default function LiveMcqsContent() {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
             </svg>
           </div>
-          <h2 className="text-xl font-semibold text-foreground">No Questions Found</h2>
-          <p className="text-foreground/60 text-sm">There are no MCQs available for the selected criteria.</p>
+          <Heading2 className="text-xl font-semibold text-foreground">No Questions Found</Heading2>
+          <Para className="text-foreground/60 text-sm">There are no MCQs available for the selected criteria.</Para>
           <button onClick={() => router.back()} className="mt-2 px-6 py-2 bg-primary text-white rounded-lg hover:opacity-90 transition text-sm font-medium">
             Go Back
           </button>

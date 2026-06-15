@@ -3,6 +3,7 @@ import { subHeadingRepository } from '@/repository/subHeading.repository';
 import { getSubHeadingsInputSchema } from '@muzammil328/education-packages';
 import { superAdminProcedure } from '@/trpc/trpc';
 import { buildMatch } from '@muzammil328/db';
+import { getSearchWords } from '@/utils';
 
 export const subHeadingGetAll = superAdminProcedure
   .input(getSubHeadingsInputSchema)
@@ -40,7 +41,7 @@ export const subHeadingGetAll = superAdminProcedure
             localField: 'chapterId',
             foreignField: '_id',
             as: 'chapter',
-            pick: ['name'],
+            pick: ['name', 'order'],
             unwind: false,
           })
           .lookupOne({
@@ -48,7 +49,7 @@ export const subHeadingGetAll = superAdminProcedure
             localField: 'headingId',
             foreignField: '_id',
             as: 'heading',
-            pick: ['name'],
+            pick: ['name', 'order'],
             unwind: false,
           })
           .project({
@@ -63,17 +64,31 @@ export const subHeadingGetAll = superAdminProcedure
             className: '$class.name',
             bookName: '$book.name',
             chapterName: '$chapter.name',
+            chapterOrder: { $arrayElemAt: ['$chapter.order', 0] },
             headingName: '$heading.name',
+            headingOrder: { $arrayElemAt: ['$heading.order', 0] },
             order: 1,
             createdAt: 1,
             updatedAt: 1,
             serviceId: 1,
             services: 1,
-          }),
+          })
+          .match(input.search ? {
+            $and: getSearchWords(input.search).map(word => ({
+              $or: [
+                { name: { $regex: word, $options: 'i' } },
+                { className: { $regex: word, $options: 'i' } },
+                { bookName: { $regex: word, $options: 'i' } },
+                { chapterName: { $regex: word, $options: 'i' } },
+                { headingName: { $regex: word, $options: 'i' } },
+                { $expr: { $regexMatch: { input: { $toString: { $ifNull: ['$order', ''] } }, regex: word, options: 'i' } } },
+                { $expr: { $regexMatch: { input: { $toString: { $ifNull: ['$chapterOrder', ''] } }, regex: word, options: 'i' } } },
+                { $expr: { $regexMatch: { input: { $toString: { $ifNull: ['$headingOrder', ''] } }, regex: word, options: 'i' } } },
+              ],
+            })),
+          } : {}),
 
-        search: input.search,
-        searchFields: ['name'],
-        sort: input.sort,
+        sort: `${input.sort}:${input.sortDirection}`,
         page: input.page,
         limit: input.limit,
       });

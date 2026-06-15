@@ -5,6 +5,7 @@ import Link from 'next/link';
 import UnorderedList from '../elements/list/UnorderedList';
 import PDFViewer from '../elements/PDFViewer';
 import SimpleTable from '@/components/elements/table';
+import { Heading2, Heading3, Para } from '@muzammil328/ui';
 
 export function VuHandoutLayout({
   data,
@@ -55,7 +56,7 @@ export function VuHandoutLayout({
 }) {
   return (
     <UserLayout title={data.title} image={data.image} canonical={data.canonical} url={data.url}>
-      <p className="p5">
+      <Para className="p5">
         Welcome to your one-stop source for{' '}
         <em>
           {bookNameAbbr}
@@ -66,14 +67,14 @@ export function VuHandoutLayout({
           Virtual University (VU)
         </Link>
         . Download the handouts in PDF format for free and study at your own pace.
-      </p>
+      </Para>
 
       {/* PDF Viewer  */}
-      <h2>
+      <Heading2>
         PDF Download {bookNameAbbr}
         {bookCode} handouts Now
-      </h2>
-      <p className="p5">
+      </Heading2>
+      <Para className="p5">
         Access the complete{' '}
         <strong>
           {bookNameAbbr}
@@ -82,7 +83,7 @@ export function VuHandoutLayout({
         - {bookName}
         handouts in PDF format by clicking the download link below. Be sure to download and review
         the materials to prepare effectively for your assessments.
-      </p>
+      </Para>
       <SimpleTable
         chapterTitleArray={[
           'Name',
@@ -107,7 +108,7 @@ export function VuHandoutLayout({
         headingArray={['Course Title', `${bookNameAbbr}${bookCode} Book`]}
       />
 
-      <h3>Assessment Scheme:</h3>
+      <Heading3>Assessment Scheme:</Heading3>
       <UnorderedList
         items={[
           {
@@ -136,14 +137,14 @@ export function VuHandoutLayout({
 
       <PDFViewer pdfUrl={fileId} />
 
-      <h2>
+      <Heading2>
         Topics Covered in {bookName} ({bookNameAbbr}
         {bookCode} Handouts)
-      </h2>
-      <p className="p5">
+      </Heading2>
+      <Para className="p5">
         Here are the key topics you&apos;ll find in the {bookNameAbbr}
         {bookCode} handouts:
-      </p>
+      </Para>
       <SimpleTable
         chapterTitleArray={combinedData.map(item => item.title)}
         contentArray={combinedData.map(item => item.content)}

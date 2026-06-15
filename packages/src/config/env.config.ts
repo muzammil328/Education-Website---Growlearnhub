@@ -1,5 +1,6 @@
 // ─── Core Identity ─────────────────────────────────────────────────────────
 const APP_NAME        = 'GrowLearnHub';
+const ORG_NAME        = 'GrowLearnHub';
 const APP_DOMAIN      = 'growlearnhub.com';
 const APP_URL         = `https://${APP_DOMAIN}`;
 const APP_HANDLE      = 'growlearnhub';
@@ -20,6 +21,7 @@ export const APP_CONFIG = {
 
   // ── Identity ─────────────────────────────────────────────────────────────
   name:         APP_NAME,
+  orgName:      ORG_NAME,
   shortName:    'GrowLearn',
   version:      VERSION,
   foundedYear:  FOUNDED_YEAR,

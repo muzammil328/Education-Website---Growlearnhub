@@ -3,8 +3,7 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { toast } from '@muzammil328/ui';
-import { Form } from '@muzammil328/ui';
+import { Form, toast } from '@muzammil328/ui';
 import { useBoardById, useCreateBoard, useUpdateBoard } from '@/hooks';
 import { type RouterOutputs, type TrpcError } from '@/trpc/trpc';
 import { boardCreateSchema, type BoardCreateInput } from '@muzammil328/education-packages';

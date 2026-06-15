@@ -1,12 +1,12 @@
 import type { Metadata } from 'next';
 import UserLayout from '@/components/layout/UserLayout';
-import { Heading2 } from '@muzammil328/ui';
+import { Heading2, Para } from '@muzammil328/ui';
 import { removeDashAndUppercase } from '@/lib/removeDashAndUppercase';
 import { config } from '@/config';
 import Class9McqsHeadingPage from '@/features/McqsPage/Class9/Heading';
 
 interface PageProps {
-  params: Promise<{ subject: string; chapter: string; Heading: string }>;
+  params: Promise<{ subject: string; chapter: string; heading: string }>;
 }
 
 const CLASS_SLUG = 'class-9';
@@ -30,8 +30,8 @@ function buildData(subject: string, chapter: string, heading: string) {
 export const revalidate = 432000;
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-  const { subject, chapter, Heading } = await params;
-  const data = buildData(subject, chapter, Heading);
+  const { subject, chapter, heading } = await params;
+  const data = buildData(subject, chapter, heading);
 
   return {
     title: data.title,
@@ -54,11 +54,11 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 }
 
 export default async function Page({ params }: PageProps) {
-  const { subject, chapter, Heading } = await params;
-  const data = buildData(subject, chapter, Heading);
+  const { subject, chapter, heading } = await params;
+  const data = buildData(subject, chapter, heading);
   const subjectLabel = removeDashAndUppercase(subject);
   const chapterLabel = removeDashAndUppercase(chapter);
-  const headingLabel = removeDashAndUppercase(Heading);
+  const headingLabel = removeDashAndUppercase(heading);
 
   return (
     <UserLayout title={data.title} image={data.image} canonical={data.canonical} url={data.url}>
@@ -67,11 +67,11 @@ export default async function Page({ params }: PageProps) {
           <Heading2 className="mb-2" weight="bold" size="sm">
             Class 9 {subjectLabel} {chapterLabel} {headingLabel} Topics
           </Heading2>
-          <p className="text-base">
+          <Para className="text-base">
             Move from headings into the sub-topic hierarchy for {headingLabel}.
-          </p>
+          </Para>
         </header>
-        <Class9McqsHeadingPage bookSlug={subject} chapterSlug={chapter} headingSlug={Heading} />
+        <Class9McqsHeadingPage bookSlug={subject} chapterSlug={chapter} headingSlug={heading} />
       </article>
     </UserLayout>
   );

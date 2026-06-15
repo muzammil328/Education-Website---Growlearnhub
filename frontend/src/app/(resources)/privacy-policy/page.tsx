@@ -1,6 +1,7 @@
 import React from 'react';
 import UserLayout from '@/components/layout/UserLayout';
 import { Metadata } from 'next';
+import { Heading2, Heading3, Para } from '@muzammil328/ui';
 
 const data = {
   title: 'Privacy Policy | GrowLearnHub',
@@ -18,56 +19,56 @@ export default function page() {
   return (
     <UserLayout title={data.title} image={data.image} canonical={data.canonical} url={data.url}>
       <section>
-        <h2 className="line">
+        <Heading2 className="line">
           Privacy Policy
-        </h2>
+        </Heading2>
 
         <div className="space-y-6">
-          <p>
+          <Para>
             At Growlearnhub, we take your privacy seriously. This Privacy Policy outlines how we
             collect, use, and protect your personal information.
-          </p>
+          </Para>
 
-          <h3>
+          <Heading3>
             Information We Collect
-          </h3>
-          <p>
+          </Heading3>
+          <Para>
             We may collect personal information such as your name, email address, and phone number
             when you contact us or use our services. We also collect non-personal information such
             as browser type and pages visited for analytical purposes.
-          </p>
+          </Para>
 
-          <h3>
+          <Heading3>
             How We Use Your Information
-          </h3>
-          <p>
+          </Heading3>
+          <Para>
             The information we collect is used to provide and improve our services, respond to your
             inquiries, and send you relevant updates about our platform.
-          </p>
+          </Para>
 
-          <h3>
+          <Heading3>
             Data Protection
-          </h3>
-          <p>
+          </Heading3>
+          <Para>
             We implement appropriate security measures to protect your personal information against
             unauthorized access, alteration, disclosure, or destruction.
-          </p>
+          </Para>
 
-          <h3>
+          <Heading3>
             Third-Party Services
-          </h3>
-          <p>
+          </Heading3>
+          <Para>
             We may use third-party services for analytics and website functionality. These services
             have their own privacy policies governing their use of your information.
-          </p>
+          </Para>
 
-          <h3>
+          <Heading3>
             Contact Us
-          </h3>
-          <p>
+          </Heading3>
+          <Para>
             If you have any questions about this Privacy Policy, please contact us through our
             Contact Us page.
-          </p>
+          </Para>
         </div>
       </section>
     </UserLayout>

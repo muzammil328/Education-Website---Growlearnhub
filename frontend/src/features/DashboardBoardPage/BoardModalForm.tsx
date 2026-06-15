@@ -2,9 +2,8 @@
 
 import React, { useMemo } from 'react';
 import { SelectField } from '@/components/ui/select-field'
-import { FormString } from '@muzammil328/ui';
+import { DropdownLoader, FormString } from '@muzammil328/ui';
 import { useDropdownClasses } from '@/hooks';
-import { DropdownLoader } from '@muzammil328/ui';
 import { DropdownSkeleton } from '@/components/DropdownSkeleton';
 
 export default function BoardModalForm({ isOpen = true }: { isOpen?: boolean }) {

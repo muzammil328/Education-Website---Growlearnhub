@@ -3,6 +3,7 @@ import dynamic from 'next/dynamic';
 import { FaFacebook, FaTwitter, FaInstagram, FaYoutube } from 'react-icons/fa';
 import Link from 'next/link';
 import { config } from '@/config';
+import { Heading4, Para } from '@muzammil328/ui';
 
 const Logo = dynamic(() => import('@/components/elements/Logo'));
 
@@ -46,9 +47,9 @@ const socials = [
 function FooterCol({ title, links }: { title: string; links: { name: string; link: string }[] }) {
   return (
     <div>
-      <h4 className="mb-4 text-sm font-bold uppercase tracking-widest text-foreground">
+      <Heading4 className="mb-4 text-sm font-bold uppercase tracking-widest text-foreground">
         {title}
-      </h4>
+      </Heading4>
       <ul className="space-y-2.5">
         {links.map(item => (
           <li key={item.name}>
@@ -77,10 +78,10 @@ export default function Footer() {
           {/* col 1 — brand */}
           <div className="flex flex-col gap-5">
             <Logo />
-            <p className="text-base! text-muted-foreground">
+            <Para className="text-base! text-muted-foreground">
               Pakistan&apos;s free study platform for Class 9, 10, 11, 12 and VU students.
               Notes, MCQs, tests, and past papers — all in one place.
-            </p>
+            </Para>
             <div className="flex items-center gap-3">
               {socials.map(({ icon: Icon, href, label }) => (
                 <Link
@@ -109,8 +110,8 @@ export default function Footer() {
         </div>
 
         {/* bottom bar */}
-        <div className="mt-12 border-t border-border text-center">
-          <p className="text-sm! text-muted-foreground">
+        <div className="mt-12 py-3 border-t border-border">
+          <Para className='text-center'>
             © {new Date().getFullYear()}{' '}
             <span className="text-primary">{config.app.NAME}</span>. All rights reserved. Built by{' '}
             {/* <Link
@@ -121,7 +122,7 @@ export default function Footer() {
               Muzammil Safdar
             </Link> */}
             .
-          </p>
+          </Para>
         </div>
 
       </div>

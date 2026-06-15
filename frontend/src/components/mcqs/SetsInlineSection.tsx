@@ -3,6 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { useMcqsSetsBySlug } from '@/hooks/use-public';
+import { Heading2, Para } from '@muzammil328/ui';
 
 interface Props {
   classSlug: string;
@@ -42,9 +43,9 @@ export default function SetsInlineSection({
   return (
     <section className="border-t border-border pt-8 space-y-4">
       <div className="flex items-center justify-between">
-        <h2 className="text-xl font-semibold text-primary">
+        <Heading2 className="text-xl font-semibold text-primary">
           Online Test Sets {totalMcqs > 0 ? `(${totalMcqs} MCQs)` : ''}
-        </h2>
+        </Heading2>
       </div>
 
       {isLoading ? (
@@ -54,9 +55,9 @@ export default function SetsInlineSection({
           ))}
         </div>
       ) : error ? (
-        <p className="text-sm text-red-500">Failed to load sets.</p>
+        <Para className="text-sm text-red-500">Failed to load sets.</Para>
       ) : sets.length === 0 ? (
-        <p className="text-sm text-muted-foreground">No test sets available yet.</p>
+        <Para className="text-sm text-muted-foreground">No test sets available yet.</Para>
       ) : (
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4">
           {sets.map((set: { setNumber: number; count: number }) => (

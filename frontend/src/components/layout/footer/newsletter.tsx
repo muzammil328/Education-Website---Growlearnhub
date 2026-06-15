@@ -1,11 +1,9 @@
 'use client';
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { Button } from '@muzammil328/ui';
-import { toast } from '@muzammil328/ui';
+import { Button, FormEmail, Form, Para, toast } from '@muzammil328/ui';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { Form, FormEmail } from '@muzammil328/ui';
 
 type FormData = {
   email: string;
@@ -70,7 +68,7 @@ export default function Newsletter() {
             Subscribe
           </Button>
         </div>
-        {errors.email && <p className="mt-2 text-sm text-red-500">{errors.email.message}</p>}
+        {errors.email && <Para className="mt-2 text-sm text-red-500">{errors.email.message}</Para>}
       </form>
     </Form>
   );

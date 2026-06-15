@@ -2,7 +2,7 @@
 
 import React from 'react';
 import UserLayout from '@/components/layout/UserLayout';
-import { Heading2 } from '@muzammil328/ui';
+import { Heading2, Heading3, Para } from '@muzammil328/ui';
 import Link from 'next/link';
 import { useClassesBySlug } from '@/hooks/use-public';
 
@@ -23,20 +23,20 @@ export default function BookPage({ title, image, canonical, url }: BookPageProps
           <Heading2 className="mb-2" weight="bold" size="sm">
             Books – All Classes
           </Heading2>
-          <p className="text-lg text-muted-foreground">
+          <Para className="text-lg text-muted-foreground">
             Welcome to <strong>GrowLearnHub</strong>, your platform for class-wise books and study
             material. Browse subject-wise textbooks for Class 9, 10, 11, and 12 and access organized
             resources for daily study and exam preparation.
-          </p>
+          </Para>
         </header>
 
         <section className="mb-8">
-          <p className="text-muted-foreground">
+          <Para className="text-muted-foreground">
             Our collection is organized by class and subject so students can quickly find the
             material they need. Whether you are revising concepts, preparing for exams, or looking
             for a textbook by subject, this page helps you reach the right section faster.
-          </p>
-          <p className="mt-4 text-muted-foreground">
+          </Para>
+          <Para className="mt-4 text-muted-foreground">
             Explore{' '}
             <Link href="/book-point/class-9" className="font-medium text-primary hover:underline">
               Class 9 books
@@ -46,17 +46,17 @@ export default function BookPage({ title, image, canonical, url }: BookPageProps
               Class 10 books
             </Link>
             {' easily.'}
-          </p>
+          </Para>
         </section>
 
         <section className="mb-12">
           <Heading2>Browse Books by Class</Heading2>
 
-          <p className="mb-8 text-muted-foreground">
+          <Para className="mb-8 text-muted-foreground">
             Select your class below to view available textbooks and study resources. This organized
             structure makes it easier to reach the right subject and class section without
             confusion.
-          </p>
+          </Para>
 
           {isLoading ? (
             <div className="flex items-center gap-2 text-foreground/70">
@@ -64,7 +64,7 @@ export default function BookPage({ title, image, canonical, url }: BookPageProps
               Loading classes...
             </div>
           ) : error ? (
-            <p className="text-red-500">Failed to load classes. Please try again later.</p>
+            <Para className="text-red-500">Failed to load classes. Please try again later.</Para>
           ) : (
             <ul className="list-inside space-y-1 text-muted-foreground">
               {classItems && classItems.length > 0 ? (
@@ -95,31 +95,31 @@ export default function BookPage({ title, image, canonical, url }: BookPageProps
 
           <div className="my-8 grid grid-cols-1 gap-6 md:grid-cols-2">
             <div className="space-y-3">
-              <h3 className="text-xl font-semibold text-foreground">Class-wise Organization</h3>
-              <p className="text-muted-foreground">
+              <Heading3 className="text-xl font-semibold text-foreground">Class-wise Organization</Heading3>
+              <Para className="text-muted-foreground">
                 Browse books by class level so you can quickly find relevant study material.
-              </p>
+              </Para>
             </div>
 
             <div className="space-y-3">
-              <h3 className="text-xl font-semibold text-foreground">Subject-wise Access</h3>
-              <p className="text-muted-foreground">
+              <Heading3 className="text-xl font-semibold text-foreground">Subject-wise Access</Heading3>
+              <Para className="text-muted-foreground">
                 Open the subjects you need without searching through unrelated content.
-              </p>
+              </Para>
             </div>
 
             <div className="space-y-3">
-              <h3 className="text-xl font-semibold text-foreground">Exam Support</h3>
-              <p className="text-muted-foreground">
+              <Heading3 className="text-xl font-semibold text-foreground">Exam Support</Heading3>
+              <Para className="text-muted-foreground">
                 Use textbooks and study resources to support revision and board exam preparation.
-              </p>
+              </Para>
             </div>
 
             <div className="space-y-3">
-              <h3 className="text-xl font-semibold text-foreground">Mobile-friendly Use</h3>
-              <p className="text-muted-foreground">
+              <Heading3 className="text-xl font-semibold text-foreground">Mobile-friendly Use</Heading3>
+              <Para className="text-muted-foreground">
                 Access book sections easily on desktop, tablet, or mobile devices.
-              </p>
+              </Para>
             </div>
           </div>
         </section>
@@ -129,33 +129,33 @@ export default function BookPage({ title, image, canonical, url }: BookPageProps
 
           <div className="my-6 space-y-6">
             <div>
-              <h3 className="mb-2 text-lg font-semibold text-foreground">
+              <Heading3 className="mb-2 text-lg font-semibold text-foreground">
                 Which classes are covered?
-              </h3>
-              <p className="text-muted-foreground">
+              </Heading3>
+              <Para className="text-muted-foreground">
                 This section is designed for multiple classes, including 9, 10, 11, and 12, based on
                 available resources.
-              </p>
+              </Para>
             </div>
 
             <div>
-              <h3 className="mb-2 text-lg font-semibold text-foreground">
+              <Heading3 className="mb-2 text-lg font-semibold text-foreground">
                 Which subjects are available?
-              </h3>
-              <p className="text-muted-foreground">
+              </Heading3>
+              <Para className="text-muted-foreground">
                 Subjects may include Biology, Chemistry, Physics, Mathematics, English, Urdu, and
                 more depending on class availability.
-              </p>
+              </Para>
             </div>
 
             <div>
-              <h3 className="mb-2 text-lg font-semibold text-foreground">
+              <Heading3 className="mb-2 text-lg font-semibold text-foreground">
                 Can I use these books for exam preparation?
-              </h3>
-              <p className="text-muted-foreground">
+              </Heading3>
+              <Para className="text-muted-foreground">
                 Yes, class-wise books and study materials can help with revision, concept building,
                 and exam preparation.
-              </p>
+              </Para>
             </div>
           </div>
         </section>

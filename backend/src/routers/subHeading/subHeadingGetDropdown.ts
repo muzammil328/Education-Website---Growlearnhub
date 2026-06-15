@@ -5,7 +5,8 @@ import {
   StatusEnum,
 } from '@muzammil328/education-packages';
 import { superAdminProcedure } from '@/trpc/trpc';
-import { buildMatch } from '@muzammil328/db';
+import { buildMatch, toObjectId } from '@muzammil328/db';
+import { Types } from 'mongoose';
 
 export const subHeadingGetDropdown = superAdminProcedure
   .input(getSubHeadingDropdownInputSchema)
@@ -19,7 +20,7 @@ export const subHeadingGetDropdown = superAdminProcedure
           .match(
             buildMatch({
               status: StatusEnum.Active,
-              classId: classId,
+              classId: new Types.ObjectId(classId),
             }),
           )
           .sort({ name: 1 })

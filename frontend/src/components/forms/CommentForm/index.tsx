@@ -1,6 +1,6 @@
 'use client';
 import { useState } from 'react';
-import { Button, Form, FormString, FormTextarea } from '@muzammil328/ui';
+import { Button, Form, FormString, FormTextarea, Heading2, Para } from '@muzammil328/ui';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -57,8 +57,8 @@ export default function CommentForm(props: { url?: string }) {
   return (
     <section className="relative my-20">
       <div className="mx-auto max-w-2xl text-center">
-        <h2>Comment Here</h2>
-        <p>Please leave a comment below.</p>
+        <Heading2>Comment Here</Heading2>
+        <Para>Please leave a comment below.</Para>
       </div>
       <Form {...form}>
         <form className="mt-16 sm:mt-20" onSubmit={form.handleSubmit(onSubmit)}>

@@ -1,4 +1,5 @@
 import { CheckIcon } from "@/components/svg";
+import { Heading2, Heading3, Para } from '@muzammil328/ui';
 
 export default function StatsSection() {
   return (
@@ -6,7 +7,7 @@ export default function StatsSection() {
       <div className="mx-auto max-w-275">
         {/* Heading */}
         <div className="mb-14 text-center md:mb-16">
-          <h2 className="text-3xl font-extrabold leading-[1.2] tracking-[-0.8px] text-[#0f1f1a] md:text-[42px]">
+          <Heading2 className="text-3xl font-extrabold leading-[1.2] tracking-[-0.8px] text-[#0f1f1a] md:text-[42px]">
             Join{" "}
             <span className="relative inline-block text-[#1abf8a]">
               Largest NGO
@@ -26,12 +27,12 @@ export default function StatsSection() {
               </svg>
             </span>{" "}
             Learning Platform Today
-          </h2>
+          </Heading2>
 
-          <p className="mx-auto mt-4 max-w-125 text-base leading-[1.7] text-[#6b7c74]">
+          <Para className="mx-auto mt-4 max-w-125 text-base leading-[1.7] text-[#6b7c74]">
             Access world-class study materials, expert facilitators, and a
             thriving community of learners - completely free of cost.
-          </p>
+          </Para>
         </div>
 
         {/* Content */}
@@ -81,25 +82,25 @@ export default function StatsSection() {
               Why Choose Us
             </span>
 
-            <h3 className="text-[30px] font-extrabold leading-tight tracking-[-0.5px] text-[#0f1f1a]">
+            <Heading3 className="text-[30px] font-extrabold leading-tight tracking-[-0.5px] text-[#0f1f1a]">
               Empowering Every
               <br />
               Aspiring Learner
-            </h3>
+            </Heading3>
 
             <div className="mb-5 mt-5 h-0.75 w-12 rounded-full bg-linear-to-r from-[#1abf8a] to-[#0fa06e]" />
 
             <div className="space-y-4 text-[15px] leading-[1.8] text-[#5a7068]">
-              <p>
+              <Para>
                 We believe quality education should be accessible to all. Our
                 platform brings together expert facilitators, structured content,
                 and a supportive community to help you reach your goals.
-              </p>
+              </Para>
 
-              <p>
+              <Para>
                 Whether you&apos;re preparing for civil services or upskilling
                 yourself, we have everything you need - all at zero cost.
-              </p>
+              </Para>
             </div>
 
             <ul className="mt-6 flex flex-col gap-3">
@@ -137,17 +138,17 @@ function StatCard({
     >
       <span className="mb-3.5 block text-[22px] leading-none">{icon}</span>
 
-      <h3
+      <Heading3
         className={`mb-2 text-[38px] font-black leading-none tracking-[-1px] ${valueClassName}`}
       >
         {value}
-      </h3>
+      </Heading3>
 
-      <p
+      <Para
         className={`text-[13px] font-semibold uppercase tracking-[0.3px] ${labelClassName}`}
       >
         {label}
-      </p>
+      </Para>
     </div>
   );
 }

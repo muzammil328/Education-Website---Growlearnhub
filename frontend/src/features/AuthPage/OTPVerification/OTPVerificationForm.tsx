@@ -1,10 +1,8 @@
 'use client';
 
 import * as React from 'react';
-import { Button } from '@muzammil328/ui';
-import { Form, InputOTP, InputOTPGroup, InputOTPSlot } from '@muzammil328/ui';
+import { Button, Form, InputOTPGroup, InputOTP, InputOTPSlot, Para, toast } from '@muzammil328/ui';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { toast } from '@muzammil328/ui';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import {
@@ -48,9 +46,9 @@ export function OTPVerificationForm() {
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col items-center space-y-6">
         {email && (
-          <p className="text-sm text-muted-foreground">
+          <Para className="text-sm text-muted-foreground">
             OTP sent to: <span className="font-medium text-foreground">{email}</span>
-          </p>
+          </Para>
         )}
         <input type="hidden" {...form.register('email')} value={email} />
         <div className="space-y-2">

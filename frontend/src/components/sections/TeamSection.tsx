@@ -1,4 +1,5 @@
 import React from 'react';
+import { Heading2, Para } from '@muzammil328/ui';
 
 const team = [
   {
@@ -57,9 +58,9 @@ function TeamCard({
         </span>
       </div>
 
-      <p className="mt-1 text-sm font-medium text-muted-foreground">{number}</p>
-      <p className="-mt-2 text-lg font-bold leading-snug text-foreground">{name}</p>
-      <p className="-mt-2 text-sm text-muted-foreground">{role}</p>
+      <Para className="mt-1 text-sm font-medium text-muted-foreground">{number}</Para>
+      <Para className="-mt-2 text-lg font-bold leading-snug text-foreground">{name}</Para>
+      <Para className="-mt-2 text-sm text-muted-foreground">{role}</Para>
     </div>
   );
 }
@@ -76,12 +77,12 @@ export function TeamSection() {
       <div className="mx-auto max-w-6xl">
         {/* header */}
         <div className="mx-auto mb-14 max-w-2xl text-center">
-          <h2 className="text-4xl font-extrabold leading-tight tracking-tight text-foreground md:text-5xl">
+          <Heading2 className="text-4xl font-extrabold leading-tight tracking-tight text-foreground md:text-5xl">
             The people behind<br />GrowLearnHub
-          </h2>
-          <p className="mt-4 text-sm text-muted-foreground md:text-base">
+          </Heading2>
+          <Para className="mt-4 text-sm text-muted-foreground md:text-base">
             A dedicated team committed to making quality education free for every Pakistani student.
-          </p>
+          </Para>
         </div>
 
         {/* grid */}

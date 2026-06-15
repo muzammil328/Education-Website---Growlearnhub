@@ -11,17 +11,21 @@ export const bookGetDropdown = superAdminProcedure
   .input(getBookDropdownInputSchema)
   .query(async ({ input }) => {
     try {
-      const { classId } = input;
+      const { classId, noClass } = input;
+
+      const match: Record<string, unknown> = buildMatch({
+        status: StatusEnum.Active,
+        classId: noClass ? undefined : classId,
+      });
+
+      if (noClass) {
+        match.$or = [{ classId: { $exists: false } }, { classId: null }];
+      }
 
       const result = await bookRepository.aggregate({
         pipeline: bookRepository
           .pipeline()
-          .match(
-            buildMatch({
-              status: StatusEnum.Active,
-              classId: classId,
-            }),
-          )
+          .match(match)
           .sort({ name: 1 })
           .project({
             _id: 0,

@@ -3,17 +3,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useLogout } from '@/hooks/use-auth';
 import { useCurrentUser } from '@/hooks/use-user';
-import { Avatar, AvatarFallback, AvatarImage } from '@muzammil328/ui';
-import { Button } from '@muzammil328/ui';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@muzammil328/ui';
+import { Avatar, AvatarFallback, AvatarImage, Button, DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger, Para } from '@muzammil328/ui';
 import { User, Settings, LogOut } from 'lucide-react';
 
 export default function SidebarUserProfile({
@@ -46,8 +36,8 @@ export default function SidebarUserProfile({
           </Avatar>
           {!isSidebarCollapsed && (
             <div className="flex min-w-0 flex-col items-start text-left">
-              <p className="text-sm font-semibold">{user?.username}</p>
-              <p className="text-xs text-muted-foreground">{user?.role}</p>
+              <Para className="text-sm font-semibold">{user?.username}</Para>
+              <Para className="text-xs text-muted-foreground">{user?.role}</Para>
             </div>
           )}
         </Button>

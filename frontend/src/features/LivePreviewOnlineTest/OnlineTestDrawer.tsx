@@ -1,7 +1,7 @@
 'use client';
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { cn } from '@muzammil328/ui';
+import { cn, Heading1, Heading2, Para } from '@muzammil328/ui';
 import { Doughnut, Bar } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
@@ -84,14 +84,14 @@ function TestHeader({
           </svg>
         </div>
         <div className="min-w-0">
-          <p className="text-sm font-semibold text-foreground truncate">{title}</p>
-          <p className="text-xs text-foreground/50 truncate">{subtitle}</p>
+          <Para className="text-sm font-semibold text-foreground truncate">{title}</Para>
+          <Para className="text-xs text-foreground/50 truncate">{subtitle}</Para>
         </div>
       </div>
 
       {/* center: progress */}
       <div className="flex-1 flex flex-col items-center gap-1.5">
-        <p className="text-sm font-medium text-foreground">Question {idx + 1} of {n}</p>
+        <Para className="text-sm font-medium text-foreground">Question {idx + 1} of {n}</Para>
         <div className="w-full max-w-xs h-1.5 bg-muted rounded-full overflow-hidden">
           <motion.div
             className="h-full bg-primary rounded-full"
@@ -156,8 +156,8 @@ function QuestionPanel({
 
       {/* Question */}
       <div className="px-8 pb-4">
-        <p className="text-base font-semibold text-foreground leading-relaxed">{mcq.question}</p>
-        <p className="text-sm text-foreground/40 mt-1">Select the best answer from the options below</p>
+        <Para className="text-base font-semibold text-foreground leading-relaxed">{mcq.question}</Para>
+        <Para className="text-sm text-foreground/40 mt-1">Select the best answer from the options below</Para>
       </div>
 
       {/* Options */}
@@ -196,7 +196,7 @@ function QuestionPanel({
       {/* Confidence tag — shown after an option is selected */}
       {selected !== undefined && (
         <div className="px-8 pb-4">
-          <p className="text-xs text-muted-foreground mb-2 font-medium">How confident were you?</p>
+          <Para className="text-xs text-muted-foreground mb-2 font-medium">How confident were you?</Para>
           <div className="flex gap-2">
             {([
               { tag: 'sure' as ConfidenceTag, label: '✅ Sure', active: 'bg-green-600 text-white border-green-600', inactive: 'border-border text-muted-foreground hover:border-green-400 hover:text-green-600' },
@@ -219,12 +219,12 @@ function QuestionPanel({
       )}
 
       {/* keyboard hint */}
-      <p className="text-center text-xs text-foreground/30 pb-6 mt-2">
+      <Para className="text-center text-xs text-foreground/30 pb-6 mt-2">
         <kbd className="px-1 rounded bg-muted">1–4</kbd> select ·
         <kbd className="ml-1 px-1 rounded bg-muted">S</kbd> skip ·
         <kbd className="ml-1 px-1 rounded bg-muted">M</kbd> mark ·
         <kbd className="ml-1 px-1 rounded bg-muted">→</kbd> next
-      </p>
+      </Para>
     </div>
   );
 }
@@ -244,7 +244,7 @@ function QuestionPalette({
     <div className={cn('w-72 shrink-0 border-l border-border flex flex-col bg-background overflow-y-auto', className)}>
       {/* palette header */}
       <div className="px-5 pt-5 pb-3 border-b border-border">
-        <p className="text-xs font-bold text-foreground/50 uppercase tracking-widest mb-3">Question Palette</p>
+        <Para className="text-xs font-bold text-foreground/50 uppercase tracking-widest mb-3">Question Palette</Para>
         <div className="flex flex-wrap gap-1.5">
           {mcqs.map((m, i) => (
             <button
@@ -275,23 +275,23 @@ function QuestionPalette({
 
       {/* summary */}
       <div className="px-5 py-4">
-        <p className="text-xs font-bold text-foreground/50 uppercase tracking-widest mb-3">Summary</p>
+        <Para className="text-xs font-bold text-foreground/50 uppercase tracking-widest mb-3">Summary</Para>
         <div className="grid grid-cols-2 gap-2">
           <div className="rounded-xl border border-border p-3 text-center">
-            <p className="text-2xl font-bold text-green-600">{counts.answered}</p>
-            <p className="text-xs text-foreground/50 mt-0.5">Answered</p>
+            <Para className="text-2xl font-bold text-green-600">{counts.answered}</Para>
+            <Para className="text-xs text-foreground/50 mt-0.5">Answered</Para>
           </div>
           <div className="rounded-xl border border-border p-3 text-center">
-            <p className="text-2xl font-bold text-orange-500">{counts.skipped}</p>
-            <p className="text-xs text-foreground/50 mt-0.5">Skipped</p>
+            <Para className="text-2xl font-bold text-orange-500">{counts.skipped}</Para>
+            <Para className="text-xs text-foreground/50 mt-0.5">Skipped</Para>
           </div>
           <div className="rounded-xl border border-border p-3 text-center">
-            <p className="text-2xl font-bold text-orange-400">{counts.marked}</p>
-            <p className="text-xs text-foreground/50 mt-0.5">Marked</p>
+            <Para className="text-2xl font-bold text-orange-400">{counts.marked}</Para>
+            <Para className="text-xs text-foreground/50 mt-0.5">Marked</Para>
           </div>
           <div className="rounded-xl border border-border p-3 text-center">
-            <p className="text-2xl font-bold text-foreground/40">{counts.unvisited}</p>
-            <p className="text-xs text-foreground/50 mt-0.5">Unvisited</p>
+            <Para className="text-2xl font-bold text-foreground/40">{counts.unvisited}</Para>
+            <Para className="text-xs text-foreground/50 mt-0.5">Unvisited</Para>
           </div>
         </div>
       </div>
@@ -551,7 +551,7 @@ export default function OnlineTestDrawer({ mcqs, testTitle, onClose }: Props) {
           <div className="flex-1 overflow-y-auto p-6 max-w-3xl mx-auto w-full space-y-4">
             <div className="flex items-start gap-3 p-5 rounded-2xl border border-border shadow-sm">
               <span className="shrink-0 w-8 h-8 bg-primary/10 text-primary rounded-lg flex items-center justify-center font-semibold text-sm">{reviewIdx + 1}</span>
-              <p className="text-base font-semibold leading-relaxed">{reviewMcq?.question}</p>
+              <Para className="text-base font-semibold leading-relaxed">{reviewMcq?.question}</Para>
             </div>
             <div className="space-y-2">
               {reviewMcq?.options.map((opt, i) => {
@@ -577,14 +577,14 @@ export default function OnlineTestDrawer({ mcqs, testTitle, onClose }: Props) {
             </div>
             {reviewMcq?.explanation && (
               <div className="p-4 rounded-xl bg-primary/5 border border-primary/20">
-                <p className="text-xs font-semibold text-primary uppercase tracking-wide mb-1">Explanation</p>
-                <p className="text-sm text-muted-foreground leading-relaxed">{reviewMcq.explanation}</p>
+                <Para className="text-xs font-semibold text-primary uppercase tracking-wide mb-1">Explanation</Para>
+                <Para className="text-sm text-muted-foreground leading-relaxed">{reviewMcq.explanation}</Para>
               </div>
             )}
             {reviewMcq?.examinersNote && answers[reviewMcq.mcqId] !== reviewMcq.correctOption && (
               <div className="p-4 rounded-xl bg-amber-50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-900/40">
-                <p className="text-xs font-semibold text-amber-700 dark:text-amber-400 uppercase tracking-wide mb-1">Examiner&apos;s Note</p>
-                <p className="text-sm text-amber-800 dark:text-amber-300 leading-relaxed">{reviewMcq.examinersNote}</p>
+                <Para className="text-xs font-semibold text-amber-700 dark:text-amber-400 uppercase tracking-wide mb-1">Examiner&apos;s Note</Para>
+                <Para className="text-sm text-amber-800 dark:text-amber-300 leading-relaxed">{reviewMcq.examinersNote}</Para>
               </div>
             )}
           </div>
@@ -609,8 +609,8 @@ export default function OnlineTestDrawer({ mcqs, testTitle, onClose }: Props) {
               <span className="text-3xl font-bold">{pct}%</span>
               <span className="text-sm opacity-80">{score}/{n}</span>
             </div>
-            <h1 className="text-2xl font-bold">Test Completed!</h1>
-            <p className="text-muted-foreground text-sm">Time taken: {mins}m {secs}s</p>
+            <Heading1 className="text-2xl font-bold">Test Completed!</Heading1>
+            <Para className="text-muted-foreground text-sm">Time taken: {mins}m {secs}s</Para>
           </motion.div>
 
           <motion.div initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.2 }}
@@ -622,8 +622,8 @@ export default function OnlineTestDrawer({ mcqs, testTitle, onClose }: Props) {
               { label: 'Confident Mistakes', value: mcqs.filter(m => confidenceTags[m.mcqId] === 'sure' && answers[m.mcqId] !== undefined && answers[m.mcqId] !== m.correctOption).length, color: 'text-violet-600', bg: 'bg-violet-50 border-violet-200 dark:bg-violet-950/20' },
             ].map(s => (
               <div key={s.label} className={cn('rounded-xl border p-3 text-center', s.bg)}>
-                <p className={cn('text-2xl font-bold', s.color)}>{s.value}</p>
-                <p className="text-xs text-foreground/50 mt-0.5">{s.label}</p>
+                <Para className={cn('text-2xl font-bold', s.color)}>{s.value}</Para>
+                <Para className="text-xs text-foreground/50 mt-0.5">{s.label}</Para>
               </div>
             ))}
           </motion.div>
@@ -631,7 +631,7 @@ export default function OnlineTestDrawer({ mcqs, testTitle, onClose }: Props) {
           <motion.div initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.3 }}
             className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="rounded-2xl border border-border bg-background p-5 shadow-sm">
-              <p className="text-sm font-semibold mb-4">Accuracy Overview</p>
+              <Para className="text-sm font-semibold mb-4">Accuracy Overview</Para>
               <div className="w-40 mx-auto">
                 <Doughnut
                   data={{ labels: ['Correct','Wrong','Skipped'], datasets: [{ data: [score, wrong, counts.skipped], backgroundColor: ['#22c55e','#ef4444','#f97316'], borderWidth: 0 }] }}
@@ -640,7 +640,7 @@ export default function OnlineTestDrawer({ mcqs, testTitle, onClose }: Props) {
               </div>
             </div>
             <div className="rounded-2xl border border-border bg-background p-5 shadow-sm">
-              <p className="text-sm font-semibold mb-4">Performance Breakdown</p>
+              <Para className="text-sm font-semibold mb-4">Performance Breakdown</Para>
               <Bar
                 data={{ labels: ['Correct','Wrong','Skipped','Marked'], datasets: [{ label: 'Questions', data: [score, wrong, counts.skipped, counts.marked], backgroundColor: ['#22c55e','#ef4444','#f97316','#8b5cf6'], borderRadius: 6, borderSkipped: false }] }}
                 options={{ plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { stepSize: 1 } }, x: { grid: { display: false } } } }}
@@ -650,7 +650,7 @@ export default function OnlineTestDrawer({ mcqs, testTitle, onClose }: Props) {
 
           <motion.div initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.4 }}
             className="rounded-2xl border border-border bg-background p-5 shadow-sm">
-            <p className="text-sm font-semibold mb-3">Question Map</p>
+            <Para className="text-sm font-semibold mb-3">Question Map</Para>
             <div className="grid grid-cols-8 gap-1.5 sm:grid-cols-10">
               {mcqs.map((m, i) => {
                 const s = statuses[m.mcqId] ?? 'unvisited';
@@ -667,7 +667,7 @@ export default function OnlineTestDrawer({ mcqs, testTitle, onClose }: Props) {
                 );
               })}
             </div>
-            <p className="text-xs text-foreground/40 mt-2">Click any question to review</p>
+            <Para className="text-xs text-foreground/40 mt-2">Click any question to review</Para>
           </motion.div>
 
           <motion.div initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.5 }}
@@ -772,7 +772,7 @@ export default function OnlineTestDrawer({ mcqs, testTitle, onClose }: Props) {
               transition={{ type: 'spring', damping: 30, stiffness: 300 }}
               className="fixed bottom-0 left-0 right-0 z-61 bg-background rounded-t-2xl border-t border-border p-5 max-h-[75vh] overflow-y-auto">
               <div className="w-10 h-1 bg-muted rounded-full mx-auto mb-4" />
-              <p className="text-sm font-bold text-foreground mb-3">Question Palette</p>
+              <Para className="text-sm font-bold text-foreground mb-3">Question Palette</Para>
               <div className="flex flex-wrap gap-2 mb-4">
                 {mcqs.map((m, i) => (
                   <button key={m.mcqId} onClick={() => { navigate(i); setPaletteOpen(false); }}
@@ -792,16 +792,16 @@ export default function OnlineTestDrawer({ mcqs, testTitle, onClose }: Props) {
               </div>
               <div className="grid grid-cols-3 gap-2">
                 <div className="rounded-xl border p-3 text-center">
-                  <p className="text-xl font-bold text-green-600">{counts.answered}</p>
-                  <p className="text-xs text-foreground/50">Answered</p>
+                  <Para className="text-xl font-bold text-green-600">{counts.answered}</Para>
+                  <Para className="text-xs text-foreground/50">Answered</Para>
                 </div>
                 <div className="rounded-xl border p-3 text-center">
-                  <p className="text-xl font-bold text-gray-500">{counts.skipped}</p>
-                  <p className="text-xs text-foreground/50">Skipped</p>
+                  <Para className="text-xl font-bold text-gray-500">{counts.skipped}</Para>
+                  <Para className="text-xs text-foreground/50">Skipped</Para>
                 </div>
                 <div className="rounded-xl border p-3 text-center">
-                  <p className="text-xl font-bold text-orange-400">{counts.marked}</p>
-                  <p className="text-xs text-foreground/50">Marked</p>
+                  <Para className="text-xl font-bold text-orange-400">{counts.marked}</Para>
+                  <Para className="text-xs text-foreground/50">Marked</Para>
                 </div>
               </div>
             </motion.div>
@@ -825,8 +825,8 @@ export default function OnlineTestDrawer({ mcqs, testTitle, onClose }: Props) {
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                     </svg>
                   </div>
-                  <h2 className="text-lg font-bold">Submit Test?</h2>
-                  <p className="text-sm text-muted-foreground mt-1">Make sure you&apos;ve reviewed all questions.</p>
+                  <Heading2 className="text-lg font-bold">Submit Test?</Heading2>
+                  <Para className="text-sm text-muted-foreground mt-1">Make sure you&apos;ve reviewed all questions.</Para>
                 </div>
                 <div className="space-y-0 divide-y divide-border border border-border rounded-xl overflow-hidden">
                   {[
@@ -874,8 +874,8 @@ export default function OnlineTestDrawer({ mcqs, testTitle, onClose }: Props) {
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
                     </svg>
                   </div>
-                  <h2 className="text-lg font-bold">Leave Test?</h2>
-                  <p className="text-sm text-muted-foreground mt-1">Your progress is saved. You can resume later.</p>
+                  <Heading2 className="text-lg font-bold">Leave Test?</Heading2>
+                  <Para className="text-sm text-muted-foreground mt-1">Your progress is saved. You can resume later.</Para>
                 </div>
                 <div className="flex gap-3">
                   <button onClick={() => setShowConfirmLeave(false)}

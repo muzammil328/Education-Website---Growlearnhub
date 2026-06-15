@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import UserLayout from '@/components/layout/UserLayout';
+import { Heading1, Para } from '@muzammil328/ui';
 
 const data = {
   title: 'Notes – All Classes | GrowLearnHub',
@@ -28,8 +29,8 @@ export default function Page() {
   return (
     <UserLayout title={data.title} image={data.image} canonical={data.canonical} url={data.url}>
       <div className="flex min-h-[50vh] flex-col items-center justify-center text-center">
-        <h1 className="mb-4 text-3xl font-bold text-primary">Notes</h1>
-        <p className="text-lg text-muted-foreground">Coming Soon</p>
+        <Heading1 className="mb-4 text-3xl font-bold text-primary">Notes</Heading1>
+        <Para className="text-lg text-muted-foreground">Coming Soon</Para>
       </div>
     </UserLayout>
   );

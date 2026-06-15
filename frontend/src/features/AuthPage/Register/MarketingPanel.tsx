@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { Users, BookOpen, BadgeCheck, TrendingUp } from 'lucide-react';
 import { config } from '@/config';
+import { Heading1, Heading3, Para } from '@muzammil328/ui';
 
 const features = [
   {
@@ -48,12 +49,12 @@ export function MarketingPanel() {
           </span>
 
           <div className="mt-6 mb-8">
-            <h1 className="text-3xl xl:text-4xl font-bold leading-tight text-foreground">
+            <Heading1 className="text-3xl xl:text-4xl font-bold leading-tight text-foreground">
               Learn without
-            </h1>
-            <h1 className="text-3xl xl:text-4xl font-bold italic leading-tight text-primary">
+            </Heading1>
+            <Heading1 className="text-3xl xl:text-4xl font-bold italic leading-tight text-primary">
               limits.
-            </h1>
+            </Heading1>
           </div>
 
           <div className="grid grid-cols-2 gap-4">
@@ -63,21 +64,21 @@ export function MarketingPanel() {
                   <Icon className="h-4 w-4" />
                 </div>
 
-                <h3 className="mb-1.5 text-sm font-semibold text-foreground">
+                <Heading3 className="mb-1.5 text-sm font-semibold text-foreground">
                   {title}
-                </h3>
+                </Heading3>
 
-                <p className="text-xs leading-relaxed text-muted-foreground">
+                <Para className="text-xs leading-relaxed text-muted-foreground">
                   {description}
-                </p>
+                </Para>
               </div>
             ))}
           </div>
         </div>
 
-        <p className="mt-8 text-xs text-muted-foreground">
+        <Para className="mt-8 text-xs text-muted-foreground">
           © {new Date().getFullYear()} {config.app.NAME}. All rights reserved.
-        </p>
+        </Para>
       </div>
     </div>
   );

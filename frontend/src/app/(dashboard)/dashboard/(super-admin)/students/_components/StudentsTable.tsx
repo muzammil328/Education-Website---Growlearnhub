@@ -1,9 +1,7 @@
 'use client';
 
 import React from 'react';
-import { TableRoot as Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from '@muzammil328/ui';
-import { Button } from '@muzammil328/ui';
-import { Skeleton } from '@muzammil328/ui';
+import { Button, Skeleton, TableBody, TableCell, TableHead, TableHeader, TableRoot as Table, TableRow } from '@muzammil328/ui';
 import { Trash2 } from 'lucide-react';
 
 interface StudentData {

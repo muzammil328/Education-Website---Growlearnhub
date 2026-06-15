@@ -9,6 +9,7 @@ import {
   sitemapSubHeadings,
   sitemapOnlineTest,
   sitemapVu,
+  sitemapMcqs,
 } from './sitemap';
 import { serviceByClassSlug } from './serviceByClassSlug';
 import { bookGetByClassAndServiceSlug } from './bookGetByClassAndServiceSlug';
@@ -63,4 +64,5 @@ export const publicRouter = createTRPCRouter({
   sitemapSubHeadings,
   sitemapOnlineTest,
   sitemapVu,
+  sitemapMcqs,
 });

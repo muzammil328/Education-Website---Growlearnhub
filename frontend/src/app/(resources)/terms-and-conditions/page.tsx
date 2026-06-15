@@ -1,6 +1,7 @@
 import React from 'react';
 import { Metadata } from 'next';
 import UserLayout from '@/components/layout/UserLayout';
+import { Heading2, Heading3, Para } from '@muzammil328/ui';
 
 const data = {
   title: 'Terms and Conditions | GrowLearnHub',
@@ -18,58 +19,58 @@ export default function page() {
   return (
     <UserLayout title={data.title} image={data.image} canonical={data.canonical} url={data.url}>
       <section>
-          <h2 className="line">
+          <Heading2 className="line">
             Terms and Conditions
-          </h2>
+          </Heading2>
 
           <div className="space-y-6 ">
-            <p>
+            <Para>
               Welcome to Growlearnhub. By accessing and using our website, you agree to be bound by
               these Terms and Conditions.
-            </p>
+            </Para>
 
-            <h3>
+            <Heading3>
               Use of Website
-            </h3>
-            <p>
+            </Heading3>
+            <Para>
               You may use our website for educational purposes only. You agree not to use the website
               for any unlawful purpose or in any way that could damage, disable, or impair the
               website.
-            </p>
+            </Para>
 
-            <h3>
+            <Heading3>
               Intellectual Property
-            </h3>
-            <p>
+            </Heading3>
+            <Para>
               All content on Growlearnhub, including study materials, past papers, and other
               resources, are protected by copyright laws. You may download materials for personal
               educational use only.
-            </p>
+            </Para>
 
-            <h3>
+            <Heading3>
               User Accounts
-            </h3>
-            <p>
+            </Heading3>
+            <Para>
               If you create an account on our website, you are responsible for maintaining the
               confidentiality of your account and password.
-            </p>
+            </Para>
 
-            <h3>
+            <Heading3>
               Disclaimer
-            </h3>
-            <p>
+            </Heading3>
+            <Para>
               The information provided on Growlearnhub is for educational purposes only. We strive to
               provide accurate information but make no warranties about the completeness or accuracy
               of any content.
-            </p>
+            </Para>
 
-            <h3>
+            <Heading3>
               Changes to Terms
-            </h3>
-            <p>
+            </Heading3>
+            <Para>
               We reserve the right to modify these Terms and Conditions at any time. Your continued
               use of the website constitutes acceptance of any changes.
-            </p>
+            </Para>
           </div>
       </section>
     </UserLayout>

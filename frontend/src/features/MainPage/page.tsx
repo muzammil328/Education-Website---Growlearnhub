@@ -16,6 +16,7 @@ import {
 import Image from 'next/image';
 import Link from 'next/link';
 import Container from '@/components/elements/Container';
+import { Heading2, Heading3, Heading4, Para } from '@muzammil328/ui';
 
 const categoryData = [
   {
@@ -125,16 +126,16 @@ function CategoryCard({
           />
         )}
         <div>
-          <h3
+          <Heading3
             className={`text-xl font-bold ${category.featured ? 'text-white' : 'text-white opacity-0 transition-opacity group-hover:opacity-100'}`}
           >
             {category.title}
-          </h3>
-          <p
+          </Heading3>
+          <Para
             className={`mt-2 ${category.featured ? 'text-white/90' : 'text-white opacity-0 transition-opacity group-hover:opacity-100'}`}
           >
             {category.count}
-          </p>
+          </Para>
         </div>
       </div>
     </Link>
@@ -144,8 +145,8 @@ function CategoryCard({
 function TopicCard({ data }: { data: (typeof topicData)[0] }) {
   return (
     <div className="rounded-xl bg-white p-6 shadow-md">
-      <h4 className="mb-2 text-lg font-semibold">{data.name}</h4>
-      <p className="text-sm text-muted-foreground">{data.date}</p>
+      <Heading4 className="mb-2 text-lg font-semibold">{data.name}</Heading4>
+      <Para className="text-sm text-muted-foreground">{data.date}</Para>
     </div>
   );
 }
@@ -153,12 +154,12 @@ function TopicCard({ data }: { data: (typeof topicData)[0] }) {
 function FeedbackCard({ data }: { data: (typeof feedbackData)[0] }) {
   return (
     <div className="rounded-xl bg-white p-6 shadow-md">
-      <p className="mb-4 text-muted-foreground">{data.description}</p>
+      <Para className="mb-4 text-muted-foreground">{data.description}</Para>
       <div className="flex items-center gap-3">
         <Image src={data.image} alt={data.name} width={48} height={48} className="rounded-full" />
         <div>
-          <p className="font-semibold">{data.name}</p>
-          <p className="text-sm text-muted-foreground">{data.career}</p>
+          <Para className="font-semibold">{data.name}</Para>
+          <Para className="text-sm text-muted-foreground">{data.career}</Para>
         </div>
       </div>
     </div>
@@ -195,11 +196,11 @@ function Topics() {
         <div className="pb-20 md:py-16">
           <div className="grid grid-cols-1 items-center justify-between py-10 md:grid-cols-2">
             <div>
-              <h3 className="mb-5 text-4xl font-bold text-white">Latest Topics</h3>
-              <p className="text-white">
+              <Heading3 className="mb-5 text-4xl font-bold text-white">Latest Topics</Heading3>
+              <Para className="text-white">
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa ab ipsum possimus
                 quos totam voluptates accusamus mollitia facilis dolor ducimus.
-              </p>
+              </Para>
             </div>
             <div className="mt-3 flex justify-start md:mt-0 md:justify-end">
               <button className="rounded-full border bg-transparent px-6 py-2">
@@ -224,13 +225,13 @@ function Feedback() {
       <Container>
         <div>
           <div className="mx-auto flex max-w-xl flex-col items-center">
-            <h3 className="mb-4 text-3xl font-bold text-black dark:text-white lg:text-4xl">
+            <Heading3 className="mb-4 text-3xl font-bold text-black dark:text-white lg:text-4xl">
               Student&apos;s Feedback
-            </h3>
-            <p className="text-center">
+            </Heading3>
+            <Para className="text-center">
               Learning communicate to global world and build a bright future and career development,
               increase your skill with our histudy.
-            </p>
+            </Para>
           </div>
           <div className="my-10 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
             {feedbackData.map((data, index) => (
@@ -252,10 +253,10 @@ export default function HomePage() {
       <section className="bg-muted/50 py-16">
         <div className="container mx-auto px-4">
           <div className="mb-12 text-center">
-            <h2 className="mb-4 text-3xl font-bold">Our Learning Resources</h2>
-            <p>
+            <Heading2 className="mb-4 text-3xl font-bold">Our Learning Resources</Heading2>
+            <Para>
               Everything you need to succeed in your academic journey, all in one place.
-            </p>
+            </Para>
           </div>
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {[
@@ -296,8 +297,8 @@ export default function HomePage() {
                 className="rounded-xl border bg-background p-6 shadow-sm transition-shadow hover:shadow-md"
               >
                 <div className="mb-4">{item.icon}</div>
-                <h3 className="mb-2 text-xl font-semibold">{item.title}</h3>
-                <p>{item.description}</p>
+                <Heading3 className="mb-2 text-xl font-semibold">{item.title}</Heading3>
+                <Para>{item.description}</Para>
               </div>
             ))}
           </div>

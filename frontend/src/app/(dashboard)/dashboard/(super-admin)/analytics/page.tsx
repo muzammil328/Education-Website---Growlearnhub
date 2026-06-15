@@ -3,6 +3,7 @@
 import { trpc } from '@/trpc/trpc';
 import { cn } from '@/lib/utils';
 import { AlertTriangle, TrendingDown, Users, Activity } from 'lucide-react';
+import { Heading1, Heading2, Para } from '@muzammil328/ui';
 
 export default function DistractorIntelligencePage() {
   const { data: distractor, isLoading: distractorLoading } = trpc.analytics.distractorIntelligence.useQuery(
@@ -19,13 +20,13 @@ export default function DistractorIntelligencePage() {
   return (
     <div className="space-y-8 p-6">
       <div>
-        <h1 className="text-2xl font-bold text-foreground">Analytics</h1>
-        <p className="text-muted-foreground text-sm mt-1">Platform-wide performance and distractor intelligence</p>
+        <Heading1 className="text-2xl font-bold text-foreground">Analytics</Heading1>
+        <Para className="text-muted-foreground text-sm mt-1">Platform-wide performance and distractor intelligence</Para>
       </div>
 
       {/* Platform stats */}
       <section>
-        <h2 className="text-base font-semibold text-foreground mb-4">Platform Overview</h2>
+        <Heading2 className="text-base font-semibold text-foreground mb-4">Platform Overview</Heading2>
         {platformLoading ? (
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
             {[1,2,3,4].map(i => <div key={i} className="h-24 rounded-xl bg-muted animate-pulse" />)}
@@ -41,8 +42,8 @@ export default function DistractorIntelligencePage() {
               <div key={c.label} className="rounded-xl border border-border bg-card p-5 flex items-start gap-4">
                 <div className={cn('shrink-0 w-10 h-10 rounded-lg flex items-center justify-center', c.color)}>{c.icon}</div>
                 <div>
-                  <p className="text-xs text-muted-foreground font-medium">{c.label}</p>
-                  <p className="text-2xl font-bold text-foreground mt-0.5">{c.value}</p>
+                  <Para className="text-xs text-muted-foreground font-medium">{c.label}</Para>
+                  <Para className="text-2xl font-bold text-foreground mt-0.5">{c.value}</Para>
                 </div>
               </div>
             ))}
@@ -53,9 +54,9 @@ export default function DistractorIntelligencePage() {
       {/* High error MCQs */}
       {!platformLoading && (platform?.highErrorMcqs ?? []).length > 0 && (
         <section>
-          <h2 className="text-base font-semibold text-foreground mb-4">
+          <Heading2 className="text-base font-semibold text-foreground mb-4">
             MCQs Needing Review <span className="text-xs text-muted-foreground font-normal">(error rate &gt; 60%)</span>
-          </h2>
+          </Heading2>
           <div className="rounded-xl border border-border overflow-hidden">
             <table className="w-full text-sm">
               <thead>
@@ -83,8 +84,8 @@ export default function DistractorIntelligencePage() {
 
       {/* Distractor intelligence */}
       <section>
-        <h2 className="text-base font-semibold text-foreground mb-1">Distractor Intelligence</h2>
-        <p className="text-xs text-muted-foreground mb-4">MCQs with the most wrong answers — and which option students chose most</p>
+        <Heading2 className="text-base font-semibold text-foreground mb-1">Distractor Intelligence</Heading2>
+        <Para className="text-xs text-muted-foreground mb-4">MCQs with the most wrong answers — and which option students chose most</Para>
 
         {distractorLoading ? (
           <div className="space-y-3">
@@ -92,7 +93,7 @@ export default function DistractorIntelligencePage() {
           </div>
         ) : items.length === 0 ? (
           <div className="rounded-xl border border-dashed border-border p-10 text-center">
-            <p className="text-sm text-muted-foreground">No attempt data yet.</p>
+            <Para className="text-sm text-muted-foreground">No attempt data yet.</Para>
           </div>
         ) : (
           <div className="space-y-3">
@@ -106,7 +107,7 @@ export default function DistractorIntelligencePage() {
               return (
                 <div key={String(item.mcqId)} className="rounded-xl border border-border bg-card p-5 space-y-3">
                   <div className="flex items-start justify-between gap-4">
-                    <p className="text-sm font-semibold text-foreground leading-relaxed flex-1">{String(item.question ?? '—')}</p>
+                    <Para className="text-sm font-semibold text-foreground leading-relaxed flex-1">{String(item.question ?? '—')}</Para>
                     <span className={cn(
                       'shrink-0 px-2.5 py-1 rounded-full text-xs font-bold',
                       wrongRate >= 70 ? 'bg-red-100 text-red-700' : wrongRate >= 50 ? 'bg-amber-100 text-amber-700' : 'bg-muted text-muted-foreground',
@@ -131,9 +132,9 @@ export default function DistractorIntelligencePage() {
                     ))}
                   </div>
 
-                  <p className="text-xs text-muted-foreground">
+                  <Para className="text-xs text-muted-foreground">
                     Most students chose <strong className="text-red-600">{String.fromCharCode(65 + topIdx)}: {topOpt}</strong> — {Number(item.topDistractorCount)} out of {Number(item.totalWrong)} wrong answers.
-                  </p>
+                  </Para>
                 </div>
               );
             })}

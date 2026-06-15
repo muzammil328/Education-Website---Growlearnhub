@@ -1,8 +1,7 @@
 'use client';
 import React, { useState, useCallback, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@muzammil328/ui';
-import { Button } from '@muzammil328/ui';
+import { Button, Para, SelectContent, SelectItem, Select, SelectTrigger, SelectValue } from '@muzammil328/ui';
 import { SlidersHorizontal } from 'lucide-react';
 
 import { ChapterTable } from '@/features/DashboardChapterPage/ChapterTable';
@@ -123,7 +122,7 @@ export default function ChapterPage({
   if (error && !isLoading) {
     return (
       <div className="flex flex-col items-center justify-center py-16">
-        <p className="text-red-500 mb-2">Failed to load chapters</p>
+        <Para className="text-red-500 mb-2">Failed to load chapters</Para>
         <button
           onClick={() => window.location.reload()}
           className="text-sm text-muted-foreground hover:text-foreground"

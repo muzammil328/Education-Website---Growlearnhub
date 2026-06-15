@@ -1,8 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@muzammil328/ui';
-import { Progress } from '@muzammil328/ui';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle, Para, Progress } from '@muzammil328/ui';
 import { Trophy, Target } from 'lucide-react';
 import { TrendingUpIcon } from 'lucide-react';
 import { ClockIcon } from 'lucide-react';
@@ -93,7 +92,7 @@ export const AnalyticsPage: React.FC<AnalyticsPageProps> = ({ userId }) => {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{analyticsData.totalQuizzes}</div>
-            <p className="text-xs text-muted-foreground">Quizzes completed</p>
+            <Para className="text-xs text-muted-foreground">Quizzes completed</Para>
           </CardContent>
         </Card>
 
@@ -104,7 +103,7 @@ export const AnalyticsPage: React.FC<AnalyticsPageProps> = ({ userId }) => {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{analyticsData.averageScore}%</div>
-            <p className="text-xs text-muted-foreground">Overall performance</p>
+            <Para className="text-xs text-muted-foreground">Overall performance</Para>
           </CardContent>
         </Card>
 
@@ -115,9 +114,9 @@ export const AnalyticsPage: React.FC<AnalyticsPageProps> = ({ userId }) => {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{accuracy}%</div>
-            <p className="text-xs text-muted-foreground">
+            <Para className="text-xs text-muted-foreground">
               {analyticsData.correctAnswers} / {analyticsData.totalQuestions} correct
-            </p>
+            </Para>
           </CardContent>
         </Card>
 
@@ -128,7 +127,7 @@ export const AnalyticsPage: React.FC<AnalyticsPageProps> = ({ userId }) => {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{analyticsData.totalQuestions}</div>
-            <p className="text-xs text-muted-foreground">Questions answered</p>
+            <Para className="text-xs text-muted-foreground">Questions answered</Para>
           </CardContent>
         </Card>
       </div>
@@ -171,16 +170,16 @@ export const AnalyticsPage: React.FC<AnalyticsPageProps> = ({ userId }) => {
                   className="flex items-center justify-between rounded-lg border p-4"
                 >
                   <div className="space-y-1">
-                    <p className="font-medium">{attempt.quizName}</p>
-                    <p className="text-sm text-muted-foreground">
+                    <Para className="font-medium">{attempt.quizName}</Para>
+                    <Para className="text-sm text-muted-foreground">
                       {new Date(attempt.completedAt).toLocaleDateString()}
-                    </p>
+                    </Para>
                   </div>
                   <div className="text-right">
-                    <p className="font-bold text-primary">
+                    <Para className="font-bold text-primary">
                       {attempt.score}/{attempt.totalQuestions}
-                    </p>
-                    <p className="text-sm text-muted-foreground">{attempt.percentage}%</p>
+                    </Para>
+                    <Para className="text-sm text-muted-foreground">{attempt.percentage}%</Para>
                   </div>
                 </div>
               ))}

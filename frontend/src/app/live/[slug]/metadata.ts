@@ -11,10 +11,15 @@ export interface McqData {
   explanation?: string;
   difficulty?: string;
   className?: string;
+  classSlug?: string;
   bookName?: string;
+  bookSlug?: string;
   chapterName?: string;
+  chapterSlug?: string;
   headingName?: string;
+  headingSlug?: string;
   subHeadingName?: string;
+  subHeadingSlug?: string;
 }
 
 export async function fetchMcqBySlug(slug: string): Promise<McqData | null> {

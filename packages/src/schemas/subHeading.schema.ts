@@ -31,8 +31,8 @@ export const getSubHeadingsInputSchema = z.object({
   status: z.nativeEnum(StatusEnum).optional().default(StatusEnum.Active),
   page: z.number().int().positive().optional().default(1),
   limit: z.number().int().positive().max(100).optional().default(10),
-  sort: z.enum(['name', 'status', 'createdAt', 'updatedAt', 'order']).optional().default('createdAt'),
-  sortDirection: z.enum(['asc', 'desc']).optional().default('desc'),
+  sort: z.enum(['name', 'status', 'createdAt', 'updatedAt', 'order']).optional().default('order'),
+  sortDirection: z.enum(['asc', 'desc']).optional().default('asc'),
   search: z.string().trim().optional(),
   classId: z.string().optional(),
   bookId: z.string().optional(),
@@ -77,3 +77,22 @@ export const updateSubHeadingInputSchema = z.object({
   updates: subHeadingCreateSchema,
 });
 export type UpdateSubHeadingInput = z.infer<typeof updateSubHeadingInputSchema>;
+
+// Bulk Create SubHeadings
+export const bulkCreateSubHeadingsInputSchema = z.object({
+  classId: z.string().trim().min(1),
+  bookId: z.string().trim().min(1),
+  chapterId: z.string().trim().min(1),
+  headingId: z.string().trim().min(1),
+  items: z
+    .array(
+      z.object({
+        name: z.string().trim().min(1),
+        order: z.number().optional(),
+        status: statusSchema,
+      })
+    )
+    .min(1)
+    .max(100),
+});
+export type BulkCreateSubHeadingsInput = z.infer<typeof bulkCreateSubHeadingsInputSchema>;

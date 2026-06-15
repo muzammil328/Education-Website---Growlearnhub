@@ -1,6 +1,6 @@
 # Growlearnhub — Implementation Plan
 
-Last updated: 2026-06-09
+Last updated: 2026-06-10
 
 ---
 
@@ -10,7 +10,11 @@ Last updated: 2026-06-09
 - Auth (register, login, OTP, forgot/reset password, refresh token)
 - Content hierarchy CRUD + public APIs: Board → Class → Book/Subject → Chapter → Heading → SubHeading → MCQ
 - Public browsing pages: Class 9–12 (MCQs, online tests, books, notes, past papers, pairing schemes, date sheets, results), VU (handouts, mid/final MCQs, mark calculator), blogs, explore topics
+- MCQ detail page (`McqDetailClient`, fetched by slug)
 - Admin dashboard: full content management (boards, class, book, chapter, heading, sub-heading, MCQs add/list, service, students, feedback, comments, bug reports, feature requests, contact-us, share-stories)
+- CSV bulk import for MCQs (validation, review UI, dropdowns for class/book/chapter/heading/difficulty)
+- Comment functionality (create, delete, list) + 'share-story' feedback type
+- Sitemap generation via tRPC endpoints
 - MCQ attempt submit (server-side correctness check), attempt history, accuracy stats
 - Basic student dashboard (stats cards + attempt history)
 - Leaderboard (institution-scoped)
@@ -30,8 +34,10 @@ Last updated: 2026-06-09
 - Gamification (badges, streaks, progress rings)
 - Exam Countdown Readiness Score
 - Notifications
-- Offline / PWA sync
 - Monetization / premium subscriptions
+
+### 🗑️ Removed
+- PWA / offline support (service worker, manifest, offline queue) — removed in `dceb36c`
 
 ---
 

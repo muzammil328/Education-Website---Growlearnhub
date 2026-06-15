@@ -15,9 +15,9 @@
 //               <span className="border-primary mb-4 inline-block rounded-full border-[1px] border-solid px-5 py-2 font-sans text-sm font-medium uppercase leading-[15px] text-primary">
 //                 About Grow Learn Hub.
 //               </span>
-//               <h2 className="mb-4 text-4xl font-semibold text-black dark:text-white">
+//               <Heading2 className="mb-4 text-4xl font-semibold text-black dark:text-white">
 //                 What is Growlearnhub For You?.
-//               </h2>
+//               </Heading2>
 //               <Para>
 //                 Welcome to <em>Growlearnhub</em>, which is a complete platform
 //                 for learning, designed to help and support in your education.
@@ -62,18 +62,16 @@ import Image from 'next/image';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination, A11y } from 'swiper/modules';
-import { Button } from '@muzammil328/ui';
+import { Button, Card, Heading1, Heading2, Heading3, Heading4, Para } from '@muzammil328/ui';
 import Link from 'next/link';
 
 import { GraduationCap, MonitorPlay, UserCheck } from 'lucide-react';
-import { Card } from '@muzammil328/ui';
 import { UsersIcon } from 'lucide-react';
 
 // Import Swiper styles
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
-import { Para } from '@muzammil328/ui';
 
 const slides = [
   {
@@ -105,8 +103,8 @@ export default function Component() {
             <div className="flex flex-col space-y-6 md:w-2/12">
               <Card className="flex flex-1 flex-col justify-between p-6">
                 <div>
-                  <h3 className="text-2xl font-bold">2.4k</h3>
-                  <p className="text-sm text-muted-foreground">Positive Reviews</Para>
+                  <Heading3 className="text-2xl font-bold">2.4k</Heading3>
+                  <Para className="text-sm text-muted-foreground">Positive Reviews</Para>
                   <div className="mt-2 flex">
                     {[...Array(5)].map((_, i) => (
                       <svg
@@ -177,10 +175,10 @@ export default function Component() {
                       About Study Hub
                     </span>
                   </div>
-                  <h1 className="text-3xl font-bold tracking-tighter md:text-4xl">
+                  <Heading1 className="text-3xl font-bold tracking-tighter md:text-4xl">
                     Know StudyHub Empowering Learners Worldwide
-                  </h1>
-                  <p>
+                  </Heading1>
+                  <Para>
                     We are passionate about education and dedicated to providing high-quality
                     learning resources for learners of all backgrounds.
                   </Para>
@@ -204,8 +202,8 @@ export default function Component() {
                           </svg>
                         </div>
                         <div>
-                          <h3 className="font-semibold">Learn with Expert</h3>
-                          <p className="text-sm text-muted-foreground">
+                          <Heading3 className="font-semibold">Learn with Expert</Heading3>
+                          <Para className="text-sm text-muted-foreground">
                             We are passionate about education.
                           </Para>
                         </div>
@@ -230,8 +228,8 @@ export default function Component() {
                           </svg>
                         </div>
                         <div>
-                          <h3 className="font-semibold">Expert Instructors</h3>
-                          <p className="text-sm text-muted-foreground">
+                          <Heading3 className="font-semibold">Expert Instructors</Heading3>
+                          <Para className="text-sm text-muted-foreground">
                             Learn from industry experts.
                           </Para>
                         </div>
@@ -253,8 +251,8 @@ export default function Component() {
                       width="48"
                     />
                     <div>
-                      <h4 className="font-semibold">William James</h4>
-                      <p className="text-sm text-muted-foreground">
+                      <Heading4 className="font-semibold">William James</Heading4>
+                      <Para className="text-sm text-muted-foreground">
                         CEO, StudyHub Online Education
                       </Para>
                     </div>
@@ -294,10 +292,10 @@ export default function Component() {
                 <div className="absolute inset-0 bg-linear-to-r from-background/90 to-background/20">
                   <div className="container h-full">
                     <div className="flex h-full max-w-lg flex-col justify-center gap-4 px-4 md:px-6">
-                      <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
+                      <Heading1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
                         {slide.title}
-                      </h1>
-                      <p className="text-muted-foreground md:text-lg">{slide.description}</Para>
+                      </Heading1>
+                      <Para className="text-muted-foreground md:text-lg">{slide.description}</Para>
                       <div className="flex flex-col gap-2 min-[400px]:flex-row">
                         <Button size="lg">Get Started</Button>
                         <Button variant="outline" size="lg">
@@ -335,10 +333,10 @@ export default function Component() {
             <div className="inline-block rounded-lg bg-blue-50 px-3 py-1 text-sm text-blue-600">
               WHY CHOOSE US
             </div>
-            <h2 className="text-3xl font-bold tracking-tighter text-slate-900 sm:text-4xl md:text-5xl">
+            <Heading2 className="text-3xl font-bold tracking-tighter text-slate-900 sm:text-4xl md:text-5xl">
               Why Choose Histudy
-            </h2>
-            <p className="text-slate-500">Language Academic?</Para>
+            </Heading2>
+            <Para className="text-slate-500">Language Academic?</Para>
           </div>
 
           <div className="relative mt-20">
@@ -381,8 +379,8 @@ export default function Component() {
                     <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-blue-50 transition-colors group-hover:bg-blue-100">
                       <item.icon className="h-8 w-8 text-blue-500 transition-colors group-hover:text-blue-600" />
                     </div>
-                    <h3 className="mb-2 text-2xl font-bold text-slate-900">{item.number}</h3>
-                    <p className="text-sm text-slate-500">{item.text}</Para>
+                    <Heading3 className="mb-2 text-2xl font-bold text-slate-900">{item.number}</Heading3>
+                    <Para className="text-sm text-slate-500">{item.text}</Para>
                   </Card>
                 </div>
               ))}

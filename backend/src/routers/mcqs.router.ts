@@ -15,6 +15,7 @@ import { RoleEnum, McqScopeEnum } from '@muzammil328/education-packages/enums';
 import Mcqs from '../models/mcqs.model';
 import { createTRPCRouter, teacherProcedure, protectedProcedure } from '@/trpc/trpc';
 import { resolveUserInstitutionId } from '@/trpc/lib/resolveInstitution';
+import { getSearchWords } from '@/utils';
 
 const SUPER_ADMIN_ROLES = new Set<string>([RoleEnum.SuperAdmin]);
 
@@ -66,10 +67,6 @@ export const mcqsRouter = createTRPCRouter({
 
     if (input.status !== 'all') {
       match.status = input.status;
-    }
-
-    if (input.search) {
-      match.question = { $regex: escapeRegex(input.search), $options: 'i' };
     }
 
     const classId = parseObjectId(input.classId);
@@ -140,6 +137,27 @@ export const mcqsRouter = createTRPCRouter({
         },
       },
       { $unwind: { path: '$subHeadingInfo', preserveNullAndEmptyArrays: true } },
+      ...(input.search
+        ? [
+            {
+              $match: {
+                $and: getSearchWords(input.search).map(word => ({
+                  $or: [
+                    { question: { $regex: escapeRegex(word), $options: 'i' } },
+                    { 'classInfo.name': { $regex: escapeRegex(word), $options: 'i' } },
+                    { 'bookInfo.name': { $regex: escapeRegex(word), $options: 'i' } },
+                    { 'chapterInfo.name': { $regex: escapeRegex(word), $options: 'i' } },
+                    { 'headingInfo.name': { $regex: escapeRegex(word), $options: 'i' } },
+                    { 'subHeadingInfo.name': { $regex: escapeRegex(word), $options: 'i' } },
+                    { $expr: { $regexMatch: { input: { $toString: { $ifNull: ['$chapterInfo.order', ''] } }, regex: escapeRegex(word), options: 'i' } } },
+                    { $expr: { $regexMatch: { input: { $toString: { $ifNull: ['$headingInfo.order', ''] } }, regex: escapeRegex(word), options: 'i' } } },
+                    { $expr: { $regexMatch: { input: { $toString: { $ifNull: ['$subHeadingInfo.order', ''] } }, regex: escapeRegex(word), options: 'i' } } },
+                  ],
+                })),
+              },
+            },
+          ]
+        : []),
       {
         $facet: {
           data: [
@@ -308,22 +326,46 @@ export const mcqsRouter = createTRPCRouter({
         institutionId = new Types.ObjectId(userInstitutionId);
       }
 
-      const mcqData = input.questions.map(q => ({
-        question: q.question,
-        options: q.options,
-        correctOption: q.correctOption,
-        explanation: q.explanation,
-        difficulty: q.difficulty,
-        status: q.status,
-        isPremium: q.isPremium,
-        classId,
-        bookId,
-        chapterId,
-        headingId,
-        subHeadingId,
-        scope,
-        institutionId,
-      }));
+      // Find existing MCQs in the same scope (class, book, chapter, heading, subheading)
+      // so we don't create duplicates with the same question text.
+      const scopeFilter: Record<string, unknown> = { classId, bookId, chapterId };
+      if (headingId) scopeFilter.headingId = headingId;
+      if (subHeadingId) scopeFilter.subHeadingId = subHeadingId;
+
+      const existing = await Mcqs.find(scopeFilter).select('question').lean();
+      const existingQuestions = new Set(
+        existing.map(e => (e.question as string).trim().toLowerCase())
+      );
+
+      const seen = new Set<string>();
+      const mcqData = input.questions
+        .filter(q => {
+          const key = q.question.trim().toLowerCase();
+          if (existingQuestions.has(key) || seen.has(key)) return false;
+          seen.add(key);
+          return true;
+        })
+        .map(q => ({
+          name: q.question,
+          question: q.question,
+          options: q.options,
+          correctOption: q.correctOption,
+          explanation: q.explanation,
+          difficulty: q.difficulty,
+          status: q.status,
+          isPremium: q.isPremium,
+          classId,
+          bookId,
+          chapterId,
+          headingId,
+          subHeadingId,
+          scope,
+          institutionId,
+        }));
+
+      if (mcqData.length === 0) {
+        throw toTrpcError(AppError.badRequest('All MCQs already exist in this scope'));
+      }
 
       const created = await Mcqs.insertMany(mcqData, { ordered: false });
 

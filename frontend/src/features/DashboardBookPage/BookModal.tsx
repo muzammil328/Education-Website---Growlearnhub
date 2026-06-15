@@ -1,6 +1,5 @@
 'use client';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@muzammil328/ui';
-import { Button } from '@muzammil328/ui';
+import { Button, Dialog, DialogContent, DialogHeader, DialogTitle } from '@muzammil328/ui';
 import { ModalProps } from '@muzammil328/education-packages/types';
 import { BookForm } from './BookForm';
 import { Eye, PenLine } from 'lucide-react';

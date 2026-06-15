@@ -1,5 +1,6 @@
 import { ImageResponse } from 'next/og';
 import { fetchMcqBySlug } from './metadata';
+import { Para } from '@muzammil328/ui';
 
 export const runtime = 'edge';
 export const size = { width: 1200, height: 630 };
@@ -49,13 +50,13 @@ export default async function TwitterImage({
           backgroundColor: '#1e293b', borderRadius: '20px',
           border: '1px solid #334155', padding: '36px 40px',
         }}>
-          <p style={{
+          <Para style={{
             fontSize: question.length > 100 ? '26px' : '30px',
             fontWeight: 700, color: '#f1f5f9',
             lineHeight: 1.4, margin: '0 0 28px 0', flex: 1,
           }}>
             {question.length > 140 ? question.slice(0, 137) + '…' : question}
-          </p>
+          </Para>
 
           {correctAnswer && (
             <div style={{

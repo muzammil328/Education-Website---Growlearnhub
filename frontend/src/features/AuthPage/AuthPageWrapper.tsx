@@ -2,6 +2,7 @@ import React from 'react';
 import { DarkLightModeButton } from '@/components/elements/Button';
 import Logo from '@/components/elements/Logo';
 import { config } from '@/config';
+import { Heading1, Para } from '@muzammil328/ui';
 
 export default function AuthPageWrapper({
   children,
@@ -24,8 +25,8 @@ export default function AuthPageWrapper({
       <div className="flex-1 md:p-6 sm:p-4 p-4 flex flex-col justify-center max-w-md">
         {/* Heading */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-foreground mb-2">{title}</h1>
-          <p className="text-sm text-muted-foreground">{para}</p>
+          <Heading1 className="text-3xl font-bold text-foreground mb-2">{title}</Heading1>
+          <Para className="text-sm text-muted-foreground">{para}</Para>
         </div>
 
         {/* Form */}
@@ -33,7 +34,7 @@ export default function AuthPageWrapper({
       </div>
       {/* Footer */}
       <div className="md:pl-8 md:pr-40 md:py-6 p-6">
-        <p className="text-xs text-muted-foreground text-center">© 2024 {config.app.NAME}. All rights reserved.</p>
+        <Para className="text-xs text-muted-foreground text-center">© 2024 {config.app.NAME}. All rights reserved.</Para>
       </div>
     </div>
   );

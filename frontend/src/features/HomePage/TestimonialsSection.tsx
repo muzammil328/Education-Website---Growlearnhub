@@ -1,5 +1,6 @@
 import { CurvedSvg } from '@/components/svg';
 import { Star } from 'lucide-react';
+import { Heading2, Para } from '@muzammil328/ui';
 
 const testimonials = [
   { initials: 'AJ', bg: '#d4f0e0', color: '#128C7E', quote: "Our customer engagement jumped from 35% to 90% using Flow Agent's smart retargeting. The ROI was visible within the first week of going live.", name: 'Akash Jain', role: 'Business Executive, Cosco', featured: true },
@@ -20,7 +21,7 @@ function TestiCard({ t }: { t: (typeof testimonials)[0] }) {
           <Star key={i} size={14} fill="currentColor" color="currentColor" className="text-primary" />
         ))}
       </div>
-      <p className="mb-6 text-sm italic leading-[1.9] text-muted-foreground">&ldquo;{t.quote}&rdquo;</p>
+      <Para className="mb-6 text-sm italic leading-[1.9] text-muted-foreground">&ldquo;{t.quote}&rdquo;</Para>
       <div className="flex items-center gap-3">
         <div
           className="flex h-9.5 w-9.5 shrink-0 items-center justify-center rounded-full border border-border text-[13px] font-extrabold leading-none"
@@ -45,9 +46,9 @@ export default function TestimonialsSection() {
     <section className="px-14 py-22">
       <div className="mb-13 flex flex-col items-center justify-center">
         <div className="text-primary text-base text-center">Customer Stories</div>
-        <h2 className='text-3xl mt-2'>
+        <Heading2 className='text-3xl mt-2'>
           Learner's Feedback
-        </h2>
+        </Heading2>
         <div className='-mt-2'>
         <CurvedSvg />
         </div>

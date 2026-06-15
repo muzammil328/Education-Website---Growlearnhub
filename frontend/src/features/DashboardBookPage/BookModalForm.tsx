@@ -2,10 +2,7 @@
 
 import { useMemo, useState } from 'react';
 import { SelectField } from '@/components/ui/select-field'
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@muzammil328/ui'
-import { Label, FormString, FormNumber } from '@muzammil328/ui';
-import { Button } from '@muzammil328/ui';
-import { DropdownLoader } from '@muzammil328/ui';
+import { Button, DialogContent, Dialog, DialogFooter, DialogHeader, DialogTitle, DropdownLoader, FormNumber, FormString, Label, Para } from '@muzammil328/ui'
 
 import { useFormContext, useFieldArray } from 'react-hook-form';
 import { useDropdownClasses } from '@/hooks';
@@ -44,13 +41,13 @@ function AssessmentComponentsForm() {
       </div>
 
       {fields.length === 0 ? (
-        <p className="text-sm text-muted-foreground py-2">No components added yet.</p>
+        <Para className="text-sm text-muted-foreground py-2">No components added yet.</Para>
       ) : (
         fields.map((field, index) => (
           <div key={field.id} className="flex items-start gap-2 rounded border p-2">
             <div className="flex-1 space-y-2">
-              <p className="font-medium">{field.title || `Component ${index + 1}`}</p>
-              <p className="text-sm text-muted-foreground">Weight: {field.weight}%</p>
+              <Para className="font-medium">{field.title || `Component ${index + 1}`}</Para>
+              <Para className="text-sm text-muted-foreground">Weight: {field.weight}%</Para>
             </div>
             <button
               type="button"

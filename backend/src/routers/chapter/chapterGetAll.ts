@@ -3,6 +3,7 @@ import { chapterRepository } from '@/repository/chapter.repository';
 import { getChaptersInputSchema } from '@muzammil328/education-packages';
 import { superAdminProcedure } from '@/trpc/trpc';
 import { buildMatch } from '@muzammil328/db';
+import { getSearchWords } from '@/utils';
 
 export const chapterGetAll = superAdminProcedure
   .input(getChaptersInputSchema)
@@ -49,10 +50,18 @@ export const chapterGetAll = superAdminProcedure
             updatedAt: 1,
             serviceId: 1,
             services: 1,
-          }),
+          })
+          .match(input.search ? {
+            $and: getSearchWords(input.search).map(word => ({
+              $or: [
+                { name: { $regex: word, $options: 'i' } },
+                { className: { $regex: word, $options: 'i' } },
+                { bookName: { $regex: word, $options: 'i' } },
+                { $expr: { $regexMatch: { input: { $toString: { $ifNull: ['$order', ''] } }, regex: word, options: 'i' } } },
+              ],
+            })),
+          } : {}),
 
-        search: input.search,
-        searchFields: ['name'],
         sort: input.sort,
         page: input.page,
         limit: input.limit,

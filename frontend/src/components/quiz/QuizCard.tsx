@@ -1,6 +1,7 @@
 'use client';
 
 import { MCQSet } from '@/data/dummy-mcq-data';
+import { Heading3, Para } from '@muzammil328/ui';
 
 interface QuizCardProps {
   set: MCQSet;
@@ -19,8 +20,8 @@ export default function QuizCard({ set, onStartQuiz }: QuizCardProps) {
       }}
       onClick={() => onStartQuiz(set)}
     >
-      <h3>{set.name}</h3>
-      <p>{set.mcqs.length} Questions</p>
+      <Heading3>{set.name}</Heading3>
+      <Para>{set.mcqs.length} Questions</Para>
       <button
         style={{
           marginTop: '8px',

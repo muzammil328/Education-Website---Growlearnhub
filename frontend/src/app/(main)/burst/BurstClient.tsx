@@ -7,6 +7,7 @@ import { useAuth } from '@/context/AuthContext';
 import { cn } from '@/lib/utils';
 import { Zap, CheckCircle2, XCircle, ArrowRight, Timer } from 'lucide-react';
 import UserLayout from '@/components/layout/UserLayout';
+import { Heading1, Heading2, Para } from '@muzammil328/ui';
 
 type ConfidenceTag = 'sure' | 'guessed' | 'no_idea';
 
@@ -97,7 +98,7 @@ export default function BurstClient() {
       <UserLayout title="Micro Burst | GrowLearnHub">
         <div className="flex flex-col items-center justify-center py-24 gap-4 text-center">
           <Zap className="w-12 h-12 text-primary" />
-          <h2 className="text-xl font-semibold">Login to start your daily Micro Burst</h2>
+          <Heading2 className="text-xl font-semibold">Login to start your daily Micro Burst</Heading2>
           <button onClick={() => router.push('/login')} className="px-6 py-2 bg-primary text-white rounded-lg text-sm font-medium">Login</button>
         </div>
       </UserLayout>
@@ -109,7 +110,7 @@ export default function BurstClient() {
       <UserLayout title="Micro Burst | GrowLearnHub">
         <div className="flex flex-col items-center justify-center py-32 gap-4">
           <div className="w-10 h-10 border-4 border-primary border-t-transparent rounded-full animate-spin" />
-          <p className="text-sm text-muted-foreground">Loading your burst...</p>
+          <Para className="text-sm text-muted-foreground">Loading your burst...</Para>
         </div>
       </UserLayout>
     );
@@ -120,8 +121,8 @@ export default function BurstClient() {
       <UserLayout title="Micro Burst | GrowLearnHub">
         <div className="flex flex-col items-center justify-center py-24 gap-4 text-center">
           <CheckCircle2 className="w-12 h-12 text-green-500" />
-          <h2 className="text-xl font-semibold">No burst available</h2>
-          <p className="text-muted-foreground text-sm">Practice more MCQs to unlock your daily burst.</p>
+          <Heading2 className="text-xl font-semibold">No burst available</Heading2>
+          <Para className="text-muted-foreground text-sm">Practice more MCQs to unlock your daily burst.</Para>
           <button onClick={() => router.push('/live/mcqs')} className="px-6 py-2 bg-primary text-white rounded-lg text-sm font-medium">Browse MCQs</button>
         </div>
       </UserLayout>
@@ -143,18 +144,18 @@ export default function BurstClient() {
             {pct}%
           </div>
           <div>
-            <h1 className="text-2xl font-bold">Burst Complete! ⚡</h1>
-            <p className="text-muted-foreground text-sm mt-1">{correct} of {results.length} correct</p>
+            <Heading1 className="text-2xl font-bold">Burst Complete! ⚡</Heading1>
+            <Para className="text-muted-foreground text-sm mt-1">{correct} of {results.length} correct</Para>
           </div>
 
           {confidentMistakes > 0 && (
             <div className="rounded-xl border border-red-200 bg-red-50 dark:bg-red-950/20 p-4 text-left">
-              <p className="text-sm font-semibold text-red-700 dark:text-red-400">
+              <Para className="text-sm font-semibold text-red-700 dark:text-red-400">
                 ⚠️ {confidentMistakes} Confident Mistake{confidentMistakes > 1 ? 's' : ''}
-              </p>
-              <p className="text-xs text-red-600 dark:text-red-500 mt-1">
+              </Para>
+              <Para className="text-xs text-red-600 dark:text-red-500 mt-1">
                 You were sure but wrong — review these topics to fix the misconception.
-              </p>
+              </Para>
             </div>
           )}
 
@@ -213,7 +214,7 @@ export default function BurstClient() {
 
         {/* question card */}
         <div className="rounded-2xl border border-border bg-card p-6 space-y-5">
-          <p className="text-base font-semibold text-foreground leading-relaxed">{cur?.question}</p>
+          <Para className="text-base font-semibold text-foreground leading-relaxed">{cur?.question}</Para>
 
           <div className="space-y-0 divide-y divide-border border border-border rounded-xl overflow-hidden">
             {cur?.options?.map((opt, i) => {
@@ -248,7 +249,7 @@ export default function BurstClient() {
           {/* confidence tag — shown after selecting, before submitting */}
           {!submitted && selected !== undefined && (
             <div>
-              <p className="text-xs text-muted-foreground mb-2 font-medium">How confident?</p>
+              <Para className="text-xs text-muted-foreground mb-2 font-medium">How confident?</Para>
               <div className="flex gap-2">
                 {([
                   { tag: 'sure' as ConfidenceTag, label: '✅ Sure', active: 'bg-green-600 text-white border-green-600', inactive: 'border-border text-muted-foreground hover:border-green-400' },

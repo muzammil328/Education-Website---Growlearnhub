@@ -2,11 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useCurrentUser, useLogout } from '@/hooks';
-import { Avatar, AvatarFallback, AvatarImage } from '@muzammil328/ui';
-import { Button } from '@muzammil328/ui';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@muzammil328/ui';
-import { Label, Input } from '@muzammil328/ui';
-import { toast } from '@muzammil328/ui';
+import { Avatar, AvatarFallback, AvatarImage, Button, Card, CardContent, CardDescription, CardHeader, CardTitle, Heading2, Input, Label, Para, toast } from '@muzammil328/ui';
 import { useRouter } from 'next/navigation';
 import { trpc } from '@/trpc/trpc';
 import { cn } from '@/lib/utils';
@@ -58,7 +54,7 @@ export default function ProfilePage() {
   if (isLoading) {
     return (
       <div className="flex items-center justify-center" style={{ minHeight: '400px' }}>
-        <p>Loading...</p>
+        <Para>Loading...</Para>
       </div>
     );
   }
@@ -81,8 +77,8 @@ export default function ProfilePage() {
               <AvatarFallback>{user?.username?.charAt(0).toUpperCase()}</AvatarFallback>
             </Avatar>
             <div>
-              <h2 className="text-xl font-semibold">{user?.username}</h2>
-              <p className="text-sm text-muted-foreground capitalize">{user?.role}</p>
+              <Heading2 className="text-xl font-semibold">{user?.username}</Heading2>
+              <Para className="text-sm text-muted-foreground capitalize">{user?.role}</Para>
             </div>
           </div>
 
@@ -117,15 +113,15 @@ export default function ProfilePage() {
             <div className="rounded-xl border border-border bg-muted/30 p-5 space-y-4">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-semibold text-foreground">{readiness.examTarget}</p>
-                  <p className="text-xs text-muted-foreground flex items-center gap-1 mt-0.5">
+                  <Para className="text-sm font-semibold text-foreground">{readiness.examTarget}</Para>
+                  <Para className="text-xs text-muted-foreground flex items-center gap-1 mt-0.5">
                     <Calendar className="w-3 h-3" />
                     {new Date(readiness.examDate!).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}
-                  </p>
+                  </Para>
                 </div>
                 <div className="text-center">
-                  <p className="text-3xl font-bold text-primary">{daysLeft}</p>
-                  <p className="text-xs text-muted-foreground">days left</p>
+                  <Para className="text-3xl font-bold text-primary">{daysLeft}</Para>
+                  <Para className="text-xs text-muted-foreground">days left</Para>
                 </div>
               </div>
 
@@ -148,9 +144,9 @@ export default function ProfilePage() {
                     style={{ width: `${readinessScore}%` }}
                   />
                 </div>
-                <p className="text-xs text-muted-foreground mt-1.5">
+                <Para className="text-xs text-muted-foreground mt-1.5">
                   {readiness.strongSubHeadings} of {readiness.totalTrackedSubHeadings} tracked topics mastered
-                </p>
+                </Para>
               </div>
 
               {(readiness.burstStreakCount ?? 0) > 0 && (

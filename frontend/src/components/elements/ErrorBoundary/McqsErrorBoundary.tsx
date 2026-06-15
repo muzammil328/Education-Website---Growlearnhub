@@ -2,6 +2,7 @@
 import React, { Suspense } from 'react';
 import './ErrorBoundary.scss';
 import { CardQuizWithLinkLoader } from '@/components/card/CardQuiz/CardQuizWithLink';
+import { Para } from '@muzammil328/ui';
 
 interface McqsErrorBoundaryProps {
   error: Error | null;
@@ -17,9 +18,9 @@ export function McqsSuspenseErrorBoundary({ error, loading, children }: McqsErro
   if (error) {
     return (
       <div className="error-container mt-3">
-        <p className="error-message">{error.message}.</p>
+        <Para className="error-message">{error.message}.</Para>
         {/* <div className="error-details">
-                    <p>{error.message}</p>
+                    <Para>{error.message}</Para>
                 </div> */}
       </div>
     );

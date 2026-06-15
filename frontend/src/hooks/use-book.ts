@@ -36,13 +36,13 @@ export const useBooks = (params: GetBooksInput) => {
 };
 
 export const useDropdownBooks = (
-  params?: { classId?: string },
+  params?: { classId?: string; noClass?: boolean },
   options?: { enabled?: boolean }
 ) => {
   return trpc.book.getDropdown.useQuery(
-    { classId: params?.classId },
+    { classId: params?.classId, noClass: params?.noClass },
     {
-      enabled: Boolean(params?.classId),
+      enabled: options?.enabled ?? Boolean(params?.classId || params?.noClass),
       refetchOnWindowFocus: false,
       staleTime: 60_000,
     }

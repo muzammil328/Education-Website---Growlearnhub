@@ -2,9 +2,7 @@
 
 import React, { useMemo } from 'react';
 import { useForm } from 'react-hook-form';
-import { toast } from '@muzammil328/ui';
-import { Button } from '@muzammil328/ui';
-import { Input, Textarea, Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@muzammil328/ui';
+import { Button, Heading3, Input, Select, SelectContent, SelectItem, SelectTrigger, SelectValue, Textarea, toast } from '@muzammil328/ui';
 import {
   useDropdownClasses,
   useDropdownBooks,
@@ -316,7 +314,7 @@ export function McqForm({ isOpen, mcqId, onClose, mode, initialData }: McqFormPr
 
       <div className="border-t pt-4">
         <div className="flex items-center justify-between mb-4">
-          <h3 className="text-lg font-semibold">Questions</h3>
+          <Heading3 className="text-lg font-semibold">Questions</Heading3>
           {!isView && (
             <Button type="button" variant="outline" onClick={addQuestion}>
               <Plus className="h-4 w-4 mr-2" />

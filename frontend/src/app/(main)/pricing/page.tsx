@@ -7,7 +7,7 @@ import { CheckCircle, Zap } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import UserLayout from '@/components/layout/UserLayout';
 import { useAuth } from '@/context/AuthContext';
-import { toast } from '@muzammil328/ui';
+import { Heading1, Heading2, Para, toast } from '@muzammil328/ui';
 
 export default function PricingPage() {
   const router = useRouter();
@@ -40,10 +40,10 @@ export default function PricingPage() {
             <Zap className="w-4 h-4" />
             Simple, transparent pricing
           </div>
-          <h1 className="text-4xl font-bold text-foreground">Choose your plan</h1>
-          <p className="text-muted-foreground max-w-lg mx-auto">
+          <Heading1 className="text-4xl font-bold text-foreground">Choose your plan</Heading1>
+          <Para className="text-muted-foreground max-w-lg mx-auto">
             Everything you need to ace your exams — adaptive MCQs, spaced repetition, progress tracking, and more.
-          </p>
+          </Para>
         </div>
 
         {isLoading ? (
@@ -71,7 +71,7 @@ export default function PricingPage() {
                   )}
 
                   <div>
-                    <h2 className="text-lg font-bold text-foreground">{plan.label}</h2>
+                    <Heading2 className="text-lg font-bold text-foreground">{plan.label}</Heading2>
                     <div className="mt-2 flex items-baseline gap-1">
                       {plan.price === 0 ? (
                         <span className="text-3xl font-bold text-foreground">Free</span>
@@ -83,7 +83,7 @@ export default function PricingPage() {
                       )}
                     </div>
                     {plan.maxStudents && (
-                      <p className="text-xs text-muted-foreground mt-1">Up to {plan.maxStudents.toLocaleString()} students</p>
+                      <Para className="text-xs text-muted-foreground mt-1">Up to {plan.maxStudents.toLocaleString()} students</Para>
                     )}
                   </div>
 
@@ -120,10 +120,10 @@ export default function PricingPage() {
           </div>
         )}
 
-        <p className="text-center text-xs text-muted-foreground mt-10">
+        <Para className="text-center text-xs text-muted-foreground mt-10">
           All payments are processed manually. Contact us after initiating to confirm your subscription.
           Prices in PKR. No auto-renewal.
-        </p>
+        </Para>
       </div>
     </UserLayout>
   );

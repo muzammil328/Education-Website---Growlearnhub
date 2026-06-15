@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Button } from '@muzammil328/ui';
+import { Button, Heading3 } from '@muzammil328/ui';
 import { Plus, Trash2 } from 'lucide-react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { McqBulkImport } from './McqBulkImport';
@@ -85,9 +85,9 @@ export function SteepperStep2({ questions, onNext, onBack, step1Data }: Steepper
     <div className="space-y-6">
       <div className="border-t pt-4">
         <div className="flex items-center justify-between mb-4">
-          <h3 className="text-lg font-semibold">Questions</h3>
+          <Heading3 className="text-lg font-semibold">Questions</Heading3>
           <div className="flex gap-2">
-            <McqBulkImport onImport={handleBulkImport} />
+            <McqBulkImport onImport={handleBulkImport} defaultStatus={step1Data.status || 'active'} />
             <Button type="button" variant="outline" onClick={addQuestion}>
               <Plus className="h-4 w-4 mr-2" />
               Add Question

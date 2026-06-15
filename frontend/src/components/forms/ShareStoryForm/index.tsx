@@ -1,6 +1,6 @@
 'use client';
 import { useState } from 'react';
-import { Button, Form, FormString, FormTextarea } from '@muzammil328/ui';
+import { Button, Form, FormString, FormTextarea, Heading3 } from '@muzammil328/ui';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -62,7 +62,7 @@ export default function ShareStoryForm({ variant }: { variant?: 'page' | 'drawer
     <section className={`relative ${variant === 'drawer' ? '' : 'my-20'}`}>
       {variant !== 'drawer' && (
         <div className="mx-auto max-w-2xl text-center">
-          <h3>Share Your Success Story</h3>
+          <Heading3>Share Your Success Story</Heading3>
           <span className="mt-3 text-center text-sm leading-7 text-gray-600 dark:text-white sm:text-base md:text-lg md:leading-8">
             Tell us how Growlearnhub helped you achieve academic success.
           </span>

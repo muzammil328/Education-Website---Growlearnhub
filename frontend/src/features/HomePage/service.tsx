@@ -17,9 +17,9 @@
 //           <span className="border-primary mb-2 inline-block rounded-full border-[1px] border-solid px-5 py-2 font-sans text-sm font-medium uppercase leading-[15px] text-primary">
 //             EDUCATION FOR EVERYONE
 //           </span>
-//           <h3 className="mt-2 text-4xl font-bold text-black dark:text-white">
+//           <Heading3 className="mt-2 text-4xl font-bold text-black dark:text-white">
 //             Why Choose Us?
-//           </h3>
+//           </Heading3>
 //         </div>
 //         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
 //           {data.map(
@@ -48,11 +48,11 @@
 //                       href={`/${data.slug}`}
 //                       className="text-black hover:text-primary"
 //                     >
-//                       <h4 className="mb-2 mt-4 font-sans text-xl font-bold">
+//                       <Heading4 className="mb-2 mt-4 font-sans text-xl font-bold">
 //                         {data.name}
-//                       </h4>
+//                       </Heading4>
 //                     </Link>
-//                     <p className="!my-0 text-gray-600"> {data.description}</MutedPara>
+//                     <Para className="!my-0 text-gray-600"> {data.description}</MutedPara>
 //                   </div>
 //                 </div>
 //               );
@@ -123,6 +123,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { Book, FileText, FileQuestion, ListChecks, MonitorPlay, Zap } from 'lucide-react';
+import { Heading3, Heading4, Para } from '@muzammil328/ui';
 
 export default function CategoryGrid() {
   const categories = [
@@ -218,7 +219,7 @@ function CategoryCard({ category, className = '' }: { category: { featured?: boo
           />
         )}
         <div>
-          <h3
+          <Heading3
             className={`text-xl font-bold ${
               category.featured
                 ? 'text-white'
@@ -226,8 +227,8 @@ function CategoryCard({ category, className = '' }: { category: { featured?: boo
             }`}
           >
             {category.title}
-          </h3>
-          <p
+          </Heading3>
+          <Para
             className={`mt-2 ${
               category.featured
                 ? 'text-white/90'
@@ -235,7 +236,7 @@ function CategoryCard({ category, className = '' }: { category: { featured?: boo
             }`}
           >
             {category.count}
-          </p>
+          </Para>
         </div>
       </div>
     </Link>

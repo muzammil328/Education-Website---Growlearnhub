@@ -1,10 +1,9 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Button } from '@muzammil328/ui';
+import { Button, toast } from '@muzammil328/ui';
 import { DataTablePagination } from '@/components/ui/data-table-pagination';
 import { Plus } from 'lucide-react';
-import { toast } from '@muzammil328/ui';
 import { StudentsTable } from './StudentsTable';
 import { AddStudentModal } from './AddStudentModal';
 

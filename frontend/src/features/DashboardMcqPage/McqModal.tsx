@@ -1,7 +1,6 @@
 'use client';
 import { useState } from 'react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@muzammil328/ui';
-import { Button } from '@muzammil328/ui';
+import { Button, Dialog, DialogContent, DialogHeader, DialogTitle } from '@muzammil328/ui';
 import { McqForm } from '@/features/DashboardMcqPage/McqForm';
 import { ModalProps } from '@muzammil328/education-packages/types';
 import { Eye, PenLine } from 'lucide-react';

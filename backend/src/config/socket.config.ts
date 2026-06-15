@@ -19,7 +19,7 @@ export function initSocket(server: HTTPServer) {
   return createSocketServer({
     server,
     cors: {
-      origin: config.CLIENT_URL ? [config.CLIENT_URL] : ['http://localhost:3000'],
+      origin: config.CORS_ORIGIN ? [config.CORS_ORIGIN] : ['http://localhost:3000'],
       credentials: true,
     },
   });

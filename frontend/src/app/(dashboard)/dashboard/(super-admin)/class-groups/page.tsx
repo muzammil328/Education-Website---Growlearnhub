@@ -1,10 +1,8 @@
 'use client';
 
 import React, { useState } from 'react';
-import { Button } from '@muzammil328/ui';
-import { Input } from '@muzammil328/ui';
+import { Button, Heading3, Input, Para, toast } from '@muzammil328/ui';
 import { Plus, Users } from 'lucide-react';
-import { toast } from '@muzammil328/ui';
 
 type ClassGroupRow = {
   groupId: string;
@@ -55,13 +53,13 @@ export default function DashboardClassGroupsPage() {
 
       <div className="border rounded-md">
         <div className="p-4 bg-gray-100">
-          <h3 className="font-semibold">Class Groups</h3>
+          <Heading3 className="font-semibold">Class Groups</Heading3>
         </div>
         <div className="p-4">
           {isLoading ? (
-            <p>Loading...</p>
+            <Para>Loading...</Para>
           ) : groups.length === 0 ? (
-            <p className="text-gray-500">No class groups found</p>
+            <Para className="text-gray-500">No class groups found</Para>
           ) : (
             <div className="space-y-2">
               {groups.map(group => (
@@ -72,8 +70,8 @@ export default function DashboardClassGroupsPage() {
                   <div className="flex items-center gap-3">
                     <Users className="h-5 w-5 text-gray-500" />
                     <div>
-                      <p className="font-medium">{group.name}</p>
-                      <p className="text-sm text-gray-500">{group.memberCount} members</p>
+                      <Para className="font-medium">{group.name}</Para>
+                      <Para className="text-sm text-gray-500">{group.memberCount} members</Para>
                     </div>
                   </div>
                 </div>

@@ -6,6 +6,7 @@ import { BookMarked } from 'lucide-react';
 import UserLayout from '@/components/layout/UserLayout';
 import McqExamReportDrawer from '@/components/forms/McqExamReportDrawer';
 import { useMcqsBySlug } from '@/hooks/use-public';
+import { Heading2, Para } from '@muzammil328/ui';
 
 const CLASS_SLUG = 'class-10';
 
@@ -40,7 +41,7 @@ export default function PastPaperClass10Chapter({ boardSlug, chapterSlug }: Prop
       >
         <article className="max-w-none">
           <header>
-            <p className="text-sm text-muted-foreground mb-2">
+            <Para className="text-sm text-muted-foreground mb-2">
               <Link href="/past-paper" className="hover:underline text-primary">Past Paper</Link>
               {' / '}
               <Link href={`/${CLASS_SLUG}/past-paper`} className="hover:underline text-primary">Class 10</Link>
@@ -48,11 +49,11 @@ export default function PastPaperClass10Chapter({ boardSlug, chapterSlug }: Prop
               <Link href={`/${CLASS_SLUG}/past-paper/${boardSlug}`} className="hover:underline text-primary">{boardName}</Link>
               {' / '}
               <span>{chapterName}</span>
-            </p>
-            <h2 className="text-2xl font-semibold text-primary">{chapterName} – Past Paper MCQs</h2>
-            <p className="text-muted-foreground mt-1">
+            </Para>
+            <Heading2 className="text-2xl font-semibold text-primary">{chapterName} – Past Paper MCQs</Heading2>
+            <Para className="text-muted-foreground mt-1">
               {totalRecords > 0 ? `${totalRecords} MCQs` : 'MCQs'} for Class 10 · {boardName}
-            </p>
+            </Para>
           </header>
 
           <section className="mt-6 space-y-4">
@@ -61,18 +62,18 @@ export default function PastPaperClass10Chapter({ boardSlug, chapterSlug }: Prop
                 {[1, 2, 3, 4].map(i => <div key={i} className="h-14 rounded-lg bg-muted animate-pulse" />)}
               </div>
             ) : error ? (
-              <p className="text-red-500">Failed to load MCQs.</p>
+              <Para className="text-red-500">Failed to load MCQs.</Para>
             ) : mcqs.length === 0 ? (
-              <p className="text-muted-foreground">No MCQs available for this chapter yet.</p>
+              <Para className="text-muted-foreground">No MCQs available for this chapter yet.</Para>
             ) : (
               <>
                 <ol className="space-y-3 list-none">
                   {mcqs.map((mcq: any, idx: number) => (
                     <li key={mcq.mcqId} className="rounded-lg border border-border bg-card p-4 text-sm">
                       <div className="flex items-start justify-between gap-2 mb-2">
-                        <p className="font-medium text-foreground flex-1">
+                        <Para className="font-medium text-foreground flex-1">
                           {(page - 1) * limit + idx + 1}. {mcq.question}
-                        </p>
+                        </Para>
                         <button
                           onClick={() => setDrawerMcq({ question: mcq.question })}
                           className="flex-shrink-0 flex items-center gap-1 rounded-md border border-border px-2 py-1 text-xs text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
@@ -88,7 +89,7 @@ export default function PastPaperClass10Chapter({ boardSlug, chapterSlug }: Prop
                           </li>
                         ))}
                       </ul>
-                      {mcq.explanation && <p className="mt-2 text-xs text-muted-foreground italic">{mcq.explanation}</p>}
+                      {mcq.explanation && <Para className="mt-2 text-xs text-muted-foreground italic">{mcq.explanation}</Para>}
                       {mcq.askedInExams?.length > 0 && (
                         <div className="mt-2 flex flex-wrap gap-1">
                           {mcq.askedInExams.map((e: any, i: number) => (

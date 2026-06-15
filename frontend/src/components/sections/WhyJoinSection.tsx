@@ -1,5 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
+import { Heading2, Heading3, Para } from '@muzammil328/ui';
 
 const cards = [
   {
@@ -65,8 +66,8 @@ function ImageTopCard({ image, title, description }: (typeof cards)[0]) {
         <img src={image} alt={title} className="h-full w-full object-cover" />
       </div>
       <div className="flex flex-col gap-2 p-6">
-        <h3 className="text-lg font-bold text-foreground">{title}</h3>
-        <p className="text-sm leading-relaxed text-muted-foreground">{description}</p>
+        <Heading3 className="text-lg font-bold text-foreground">{title}</Heading3>
+        <Para className="text-sm leading-relaxed text-muted-foreground">{description}</Para>
       </div>
     </div>
   );
@@ -90,8 +91,8 @@ function WideBubbleCard() {
       <div className="relative z-10 flex flex-col items-center gap-8 md:flex-row md:justify-between">
         {/* text */}
         <div className="flex max-w-xs flex-col gap-4">
-          <h3 className="text-xl font-bold text-foreground">{wideCard.title}</h3>
-          <p className="text-sm leading-relaxed text-muted-foreground">{wideCard.description}</p>
+          <Heading3 className="text-xl font-bold text-foreground">{wideCard.title}</Heading3>
+          <Para className="text-sm leading-relaxed text-muted-foreground">{wideCard.description}</Para>
           <Link
             href={wideCard.href}
             className="self-start rounded-full bg-primary px-6 py-2.5 text-sm font-semibold text-white shadow-md transition hover:opacity-90"
@@ -115,12 +116,12 @@ export function WhyJoinSection() {
       <div className="mx-auto max-w-5xl">
         {/* header */}
         <div className="mx-auto mb-12 max-w-xl text-center">
-          <h2 className="text-4xl font-extrabold leading-tight tracking-tight text-foreground md:text-5xl">
+          <Heading2 className="text-4xl font-extrabold leading-tight tracking-tight text-foreground md:text-5xl">
             Why students choose us
-          </h2>
-          <p className="mt-3 text-sm text-muted-foreground md:text-base">
+          </Heading2>
+          <Para className="mt-3 text-sm text-muted-foreground md:text-base">
             Built for Pakistani board students — free, focused, and always up to date.
-          </p>
+          </Para>
         </div>
 
         {/* bento grid */}

@@ -19,11 +19,11 @@ export const getMcqBySlug = publicProcedure
         throw new Error('MCQ not found');
       }
 
-      const c = mcq.classId as { name?: string } | null;
-      const b = mcq.bookId as { name?: string } | null;
-      const ch = mcq.chapterId as { name?: string } | null;
-      const h = mcq.headingId as { name?: string } | null;
-      const sh = mcq.subHeadingId as { name?: string } | null;
+      const c = mcq.classId as { name?: string; slug?: string } | null;
+      const b = mcq.bookId as { name?: string; slug?: string } | null;
+      const ch = mcq.chapterId as { name?: string; slug?: string } | null;
+      const h = mcq.headingId as { name?: string; slug?: string } | null;
+      const sh = mcq.subHeadingId as { name?: string; slug?: string } | null;
 
       return {
         success: true,
@@ -36,10 +36,15 @@ export const getMcqBySlug = publicProcedure
           explanation: mcq.explanation,
           difficulty: mcq.difficulty,
           className: c?.name,
+          classSlug: c?.slug,
           bookName: b?.name,
+          bookSlug: b?.slug,
           chapterName: ch?.name,
+          chapterSlug: ch?.slug,
           headingName: h?.name,
+          headingSlug: h?.slug,
           subHeadingName: sh?.name,
+          subHeadingSlug: sh?.slug,
         },
       };
     } catch (e) {

@@ -4,6 +4,7 @@ import { useState, useRef } from 'react';
 import { trpc } from '@/trpc/trpc';
 import { cn } from '@/lib/utils';
 import { Upload, CheckCircle, XCircle, AlertTriangle, Download } from 'lucide-react';
+import { Heading1, Heading2, Para } from '@muzammil328/ui';
 
 type ParsedRow = {
   question: string;
@@ -99,8 +100,8 @@ export default function BulkImportPage() {
     <div className="space-y-6 p-6 max-w-4xl">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold">Bulk MCQ Import</h1>
-          <p className="text-sm text-muted-foreground mt-1">Upload a CSV file to import up to 500 MCQs at once</p>
+          <Heading1 className="text-2xl font-bold">Bulk MCQ Import</Heading1>
+          <Para className="text-sm text-muted-foreground mt-1">Upload a CSV file to import up to 500 MCQs at once</Para>
         </div>
         <button
           onClick={downloadTemplate}
@@ -113,7 +114,7 @@ export default function BulkImportPage() {
 
       {/* Step 1 — SubHeading ID */}
       <div className="rounded-xl border border-border bg-card p-5 space-y-3">
-        <h2 className="text-sm font-semibold text-foreground">Step 1 — Target SubHeading</h2>
+        <Heading2 className="text-sm font-semibold text-foreground">Step 1 — Target SubHeading</Heading2>
         <input
           type="text"
           placeholder="SubHeading ID (MongoDB ObjectId)"
@@ -121,26 +122,26 @@ export default function BulkImportPage() {
           onChange={e => setSubHeadingId(e.target.value)}
           className="w-full border border-border rounded-lg px-3 py-2 text-sm bg-background focus:outline-none focus:ring-2 focus:ring-primary/50"
         />
-        <p className="text-xs text-muted-foreground">Find the SubHeading ID from the SubHeadings management page</p>
+        <Para className="text-xs text-muted-foreground">Find the SubHeading ID from the SubHeadings management page</Para>
       </div>
 
       {/* Step 2 — Upload */}
       <div className="rounded-xl border border-border bg-card p-5 space-y-3">
-        <h2 className="text-sm font-semibold text-foreground">Step 2 — Upload CSV</h2>
+        <Heading2 className="text-sm font-semibold text-foreground">Step 2 — Upload CSV</Heading2>
         <div
           onClick={() => fileRef.current?.click()}
           className="border-2 border-dashed border-border rounded-xl p-10 flex flex-col items-center gap-3 cursor-pointer hover:border-primary/50 hover:bg-muted/20 transition"
         >
           <Upload className="w-10 h-10 text-muted-foreground" />
-          <p className="text-sm text-muted-foreground">Click to upload CSV file</p>
-          <p className="text-xs text-muted-foreground">Columns: question, A, B, C, D, correctOption, explanation, difficulty</p>
+          <Para className="text-sm text-muted-foreground">Click to upload CSV file</Para>
+          <Para className="text-xs text-muted-foreground">Columns: question, A, B, C, D, correctOption, explanation, difficulty</Para>
         </div>
         <input ref={fileRef} type="file" accept=".csv,.txt" className="hidden" onChange={handleFile} />
 
         {parseErrors.length > 0 && (
           <div className="rounded-lg border border-red-200 bg-red-50 dark:bg-red-950/20 p-3 space-y-1">
-            <p className="text-xs font-semibold text-red-700">Parse errors:</p>
-            {parseErrors.map((e, i) => <p key={i} className="text-xs text-red-600">{e}</p>)}
+            <Para className="text-xs font-semibold text-red-700">Parse errors:</Para>
+            {parseErrors.map((e, i) => <Para key={i} className="text-xs text-red-600">{e}</Para>)}
           </div>
         )}
 
@@ -155,7 +156,7 @@ export default function BulkImportPage() {
       {/* Step 3 — Dry Run */}
       {rows.length > 0 && subHeadingId && (
         <div className="rounded-xl border border-border bg-card p-5 space-y-3">
-          <h2 className="text-sm font-semibold text-foreground">Step 3 — Validate (Dry Run)</h2>
+          <Heading2 className="text-sm font-semibold text-foreground">Step 3 — Validate (Dry Run)</Heading2>
           <button
             onClick={handleDryRun}
             disabled={dryRunMutation.isPending}
@@ -170,12 +171,12 @@ export default function BulkImportPage() {
                 {dryRunResult.errorCount > 0
                   ? <AlertTriangle className="w-4 h-4 text-amber-600" />
                   : <CheckCircle className="w-4 h-4 text-green-600" />}
-                <p className="text-sm font-semibold">
+                <Para className="text-sm font-semibold">
                   {dryRunResult.validCount} valid, {dryRunResult.errorCount} errors
-                </p>
+                </Para>
               </div>
               {dryRunResult.errors.map(e => (
-                <p key={e.row} className="text-xs text-amber-700 dark:text-amber-400">Row {e.row}: {e.message}</p>
+                <Para key={e.row} className="text-xs text-amber-700 dark:text-amber-400">Row {e.row}: {e.message}</Para>
               ))}
             </div>
           )}
@@ -185,11 +186,11 @@ export default function BulkImportPage() {
       {/* Step 4 — Import */}
       {dryRunResult && dryRunResult.validCount > 0 && !importResult && (
         <div className="rounded-xl border border-border bg-card p-5 space-y-3">
-          <h2 className="text-sm font-semibold text-foreground">Step 4 — Import</h2>
-          <p className="text-xs text-muted-foreground">
+          <Heading2 className="text-sm font-semibold text-foreground">Step 4 — Import</Heading2>
+          <Para className="text-xs text-muted-foreground">
             Will insert <strong>{dryRunResult.validCount}</strong> MCQs into the database.
             {dryRunResult.errorCount > 0 && ` ${dryRunResult.errorCount} invalid rows will be skipped.`}
-          </p>
+          </Para>
           <button
             onClick={handleImport}
             disabled={importMutation.isPending}
@@ -208,11 +209,11 @@ export default function BulkImportPage() {
         )}>
           <div className="flex items-center gap-2">
             <CheckCircle className="w-5 h-5 text-green-600" />
-            <p className="text-base font-semibold text-green-700">Import complete</p>
+            <Para className="text-base font-semibold text-green-700">Import complete</Para>
           </div>
-          <p className="text-sm text-green-700">{importResult.inserted} MCQs inserted successfully</p>
+          <Para className="text-sm text-green-700">{importResult.inserted} MCQs inserted successfully</Para>
           {importResult.errorCount > 0 && (
-            <p className="text-sm text-amber-700">{importResult.errorCount} rows skipped due to errors</p>
+            <Para className="text-sm text-amber-700">{importResult.errorCount} rows skipped due to errors</Para>
           )}
           <button
             onClick={() => { setRows([]); setDryRunResult(null); setImportResult(null); setSubHeadingId(''); if (fileRef.current) fileRef.current.value = ''; }}

@@ -1,10 +1,9 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import { Popover, Transition } from '@headlessui/react';
-import { Container } from '@muzammil328/ui';
+import { cn, Container } from '@muzammil328/ui';
 import Logo from '@/components/elements/Logo';
 import { navigation } from '@/components/layout/navbar/data';
 import DesktopNavButtonGroup from './DesktopNavButtonGroup';
-import { cn } from '@muzammil328/ui';
 import Link from 'next/link';
 
 export default function DesktopNavbar({ setOpen }: { setOpen: (value: boolean) => void }) {
@@ -102,12 +101,12 @@ export default function DesktopNavbar({ setOpen }: { setOpen: (value: boolean) =
                                 items: { name: string; href: string }[];
                               }) => (
                                 <div key={section.name} className="min-w-0">
-                                  <p
+                                  <Para
                                     id={`${section.name}-heading`}
                                     className="flex items-center text-base font-semibold text-primary"
                                   >
                                     {section.name}
-                                  </p>
+                                  </Para>
                                   <ul
                                     aria-labelledby={`${section.name}-heading`}
                                     className="mt-6 space-y-6 sm:mt-4 sm:space-y-4"

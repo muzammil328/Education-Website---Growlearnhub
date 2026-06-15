@@ -1,6 +1,6 @@
 'use client';
 
-import { Button } from '@muzammil328/ui';
+import { Button, Heading3, Para } from '@muzammil328/ui';
 import { ChevronLeft } from 'lucide-react';
 import { Step1Data } from './index';
 
@@ -39,43 +39,43 @@ export function SteepperStep3({
   return (
     <div className="space-y-6">
       <div className="border rounded-lg p-4 bg-gray-50">
-        <h3 className="text-lg font-semibold mb-4">Basic Information</h3>
+        <Heading3 className="text-lg font-semibold mb-4">Basic Information</Heading3>
         <div className="grid grid-cols-2 gap-4">
           <div>
             <span className="text-sm text-gray-500">Class</span>
-            <p className="font-medium">
+            <Para className="font-medium">
               {step1Data.className || step1Data.classId || 'Not selected'}
-            </p>
+            </Para>
           </div>
           <div>
             <span className="text-sm text-gray-500">Book</span>
-            <p className="font-medium">
+            <Para className="font-medium">
               {step1Data.bookName || step1Data.bookId || 'Not selected'}
-            </p>
+            </Para>
           </div>
           <div>
             <span className="text-sm text-gray-500">Chapter</span>
-            <p className="font-medium">
+            <Para className="font-medium">
               {step1Data.chapterName || step1Data.chapterId || 'Not selected'}
-            </p>
+            </Para>
           </div>
           {step1Data.headingName && (
             <div>
               <span className="text-sm text-gray-500">Heading</span>
-              <p className="font-medium">{step1Data.headingName}</p>
+              <Para className="font-medium">{step1Data.headingName}</Para>
             </div>
           )}
           {step1Data.subHeadingName && (
             <div>
               <span className="text-sm text-gray-500">Sub Heading</span>
-              <p className="font-medium">{step1Data.subHeadingName}</p>
+              <Para className="font-medium">{step1Data.subHeadingName}</Para>
             </div>
           )}
         </div>
       </div>
 
       <div className="border rounded-lg p-4 bg-gray-50">
-        <h3 className="text-lg font-semibold mb-4">Questions Summary ({questions.length} total)</h3>
+        <Heading3 className="text-lg font-semibold mb-4">Questions Summary ({questions.length} total)</Heading3>
         <div className="space-y-4">
           {questions.map((question, index) => (
             <div key={index} className="border rounded p-3 bg-white">
@@ -96,7 +96,7 @@ export function SteepperStep3({
                   </span>
                 </div>
               </div>
-              <p className="text-sm mb-2">{question.question}</p>
+              <Para className="text-sm mb-2">{question.question}</Para>
               <div className="space-y-1">
                 {question.options.map((option, optIndex) => (
                   <div
@@ -113,9 +113,9 @@ export function SteepperStep3({
                 ))}
               </div>
               {question.explanation && (
-                <p className="text-xs text-gray-500 mt-2">
+                <Para className="text-xs text-gray-500 mt-2">
                   <strong>Explanation:</strong> {question.explanation}
-                </p>
+                </Para>
               )}
             </div>
           ))}

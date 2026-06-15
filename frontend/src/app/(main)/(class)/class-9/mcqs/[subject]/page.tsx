@@ -3,6 +3,7 @@ import UserLayout from '@/components/layout/UserLayout';
 import { removeDashAndUppercase } from '@/lib/removeDashAndUppercase';
 import Class9McqsBookPage from '@/features/McqsPage/Class9/Book';
 import { config } from '@/config';
+import { Heading2, Para } from '@muzammil328/ui';
 
 interface PageProps {
   params: Promise<{ subject: string }>;
@@ -64,8 +65,8 @@ export default async function Page({ params }: PageProps) {
     <UserLayout title={data.title} image={data.image} canonical={data.canonical} url={data.url}>
       <article className="space-y-8">
         <header className="space-y-3">
-          <h2 className="text-xl font-bold">{`Class 9 ${bookLabel} Chapters`}</h2>
-          <p>{`Browse chapters for ${bookLabel} and continue into the nested MCQ hierarchy.`}</p>
+          <Heading2 className="text-xl font-bold">{`Class 9 ${bookLabel} Chapters`}</Heading2>
+          <Para>{`Browse chapters for ${bookLabel} and continue into the nested MCQ hierarchy.`}</Para>
         </header>
         <Class9McqsBookPage bookSlug={subject} />
       </article>

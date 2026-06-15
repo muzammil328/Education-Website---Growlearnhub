@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { BookMarked } from 'lucide-react';
 import { useMcqsBySlug } from '@/hooks/use-public';
 import McqExamReportDrawer from '@/components/forms/McqExamReportDrawer';
+import { Heading2, Para } from '@muzammil328/ui';
 
 interface Props {
   classSlug: string;
@@ -53,9 +54,9 @@ export default function McqsInlineSection({
     <>
       <section className="border-t border-border pt-8 space-y-4">
         <div className="flex items-center justify-between">
-          <h2 className="text-xl font-semibold text-primary">
+          <Heading2 className="text-xl font-semibold text-primary">
             MCQs {totalRecords > 0 ? `(${totalRecords})` : ''}
-          </h2>
+          </Heading2>
           {totalRecords > 0 && (
             <Link href={liveUrl} className="text-sm font-medium text-primary hover:underline">
               Practice All →
@@ -70,18 +71,18 @@ export default function McqsInlineSection({
             ))}
           </div>
         ) : error ? (
-          <p className="text-sm text-red-500">Failed to load MCQs.</p>
+          <Para className="text-sm text-red-500">Failed to load MCQs.</Para>
         ) : mcqs.length === 0 ? (
-          <p className="text-sm text-muted-foreground">No MCQs available yet.</p>
+          <Para className="text-sm text-muted-foreground">No MCQs available yet.</Para>
         ) : (
           <>
             <ol className="space-y-3 list-none">
               {mcqs.map((mcq: any, idx: number) => (
                 <li key={mcq.mcqId} className="rounded-lg border border-border bg-card p-4 text-sm">
                   <div className="flex items-start justify-between gap-2 mb-2">
-                    <p className="font-medium text-foreground flex-1">
+                    <Para className="font-medium text-foreground flex-1">
                       {(page - 1) * limit + idx + 1}. {mcq.question}
-                    </p>
+                    </Para>
                     <button
                       onClick={() => setDrawerMcq({ question: mcq.question })}
                       title="Seen in past paper?"
@@ -106,7 +107,7 @@ export default function McqsInlineSection({
                     ))}
                   </ul>
                   {mcq.explanation && (
-                    <p className="mt-2 text-xs text-muted-foreground italic">{mcq.explanation}</p>
+                    <Para className="mt-2 text-xs text-muted-foreground italic">{mcq.explanation}</Para>
                   )}
                   {mcq.askedInExams?.length > 0 && (
                     <div className="mt-2 flex flex-wrap gap-1">

@@ -1,6 +1,5 @@
 import Image from 'next/image';
-import { Container } from '@muzammil328/ui';
-import { Heading1, Para } from '@muzammil328/ui';
+import { Container, Heading1, Para } from '@muzammil328/ui';
 import { Check } from 'lucide-react';
 
 const features = [
@@ -46,12 +45,12 @@ export default function LearningOffer() {
               Personalized Sessions for Every Subject
             </Heading1>
 
-            <p className="mb-8 text-gray-700 max-w-xl">
+            <Para className="mb-8 text-gray-700 max-w-xl">
               Get personalized sessions with experienced tutors for every subject, from math to
               language arts, tailored to meet your child&apos;s individual learning needs, all
               managed through an interactive dashboard for real-time tracking and progress
               monitoring.
-            </p>
+            </Para>
 
             {/* Features Grid */}
             <div className="grid gap-4 md:grid-cols-2">

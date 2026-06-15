@@ -1,3 +1,4 @@
+import { Para } from '@muzammil328/ui';
 export default function HeadingModalView({
   formValues,
 }: {
@@ -20,34 +21,34 @@ export default function HeadingModalView({
     <div className="space-y-4">
       <div>
         <span className="text-gray-500">Name</span>
-        <p className="font-medium">{formValues.name || '-'}</p>
+        <Para className="font-medium">{formValues.name || '-'}</Para>
       </div>
       <div>
         <span className="text-gray-500">Class</span>
-        <p className="font-medium">
+        <Para className="font-medium">
           {formValues.class?.name || formValues.className || formValues.classId || '-'}
-        </p>
+        </Para>
       </div>
       <div>
         <span className="text-gray-500">Book</span>
-        <p className="font-medium">
+        <Para className="font-medium">
           {formValues.book?.name || formValues.bookName || formValues.bookId || '-'}
-        </p>
+        </Para>
       </div>
       <div>
         <span className="text-gray-500">Chapter</span>
-        <p className="font-medium">
+        <Para className="font-medium">
           {formValues.chapter?.name || formValues.chapterName || formValues.chapterId || '-'}
-        </p>
+        </Para>
       </div>
       <div className="grid grid-cols-2 gap-4">
         <div>
           <span className="text-gray-500">Order</span>
-          <p className="font-medium">{formValues.order ?? '-'}</p>
+          <Para className="font-medium">{formValues.order ?? '-'}</Para>
         </div>
         <div>
           <span className="text-gray-500">Status</span>
-          <p className="font-medium">{formValues.status || '-'}</p>
+          <Para className="font-medium">{formValues.status || '-'}</Para>
         </div>
       </div>
     </div>

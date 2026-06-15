@@ -4,6 +4,7 @@ import { trpc } from '@/trpc/trpc';
 import { cn } from '@/lib/utils';
 import { AlertTriangle, Users, BookOpen, RotateCcw } from 'lucide-react';
 import Link from 'next/link';
+import { Heading1, Heading2, Para } from '@muzammil328/ui';
 
 export default function TeacherDashboardPage() {
   const { data: overview, isLoading: overviewLoading } = trpc.analytics.classProgressOverview.useQuery(undefined, {
@@ -26,8 +27,8 @@ export default function TeacherDashboardPage() {
   return (
     <div className="space-y-8 p-6">
       <div>
-        <h1 className="text-2xl font-bold text-foreground">Teacher Dashboard</h1>
-        <p className="text-muted-foreground text-sm mt-1">Class performance, struggle reports, and student alerts</p>
+        <Heading1 className="text-2xl font-bold text-foreground">Teacher Dashboard</Heading1>
+        <Para className="text-muted-foreground text-sm mt-1">Class performance, struggle reports, and student alerts</Para>
       </div>
 
       {/* Summary cards */}
@@ -37,8 +38,8 @@ export default function TeacherDashboardPage() {
             <Users className="w-5 h-5" />
           </div>
           <div>
-            <p className="text-xs text-muted-foreground font-medium">Total Students</p>
-            <p className="text-2xl font-bold text-foreground mt-0.5">{students.length}</p>
+            <Para className="text-xs text-muted-foreground font-medium">Total Students</Para>
+            <Para className="text-2xl font-bold text-foreground mt-0.5">{students.length}</Para>
           </div>
         </div>
         <div className="rounded-xl border border-amber-200 bg-amber-50 dark:bg-amber-950/20 p-5 flex items-start gap-4">
@@ -46,8 +47,8 @@ export default function TeacherDashboardPage() {
             <AlertTriangle className="w-5 h-5" />
           </div>
           <div>
-            <p className="text-xs text-amber-700 dark:text-amber-400 font-medium">Confident Mistake Alerts</p>
-            <p className="text-2xl font-bold text-amber-800 dark:text-amber-300 mt-0.5">{alertStudents.length}</p>
+            <Para className="text-xs text-amber-700 dark:text-amber-400 font-medium">Confident Mistake Alerts</Para>
+            <Para className="text-2xl font-bold text-amber-800 dark:text-amber-300 mt-0.5">{alertStudents.length}</Para>
           </div>
         </div>
         <div className="rounded-xl border border-border bg-card p-5 flex items-start gap-4">
@@ -55,8 +56,8 @@ export default function TeacherDashboardPage() {
             <BookOpen className="w-5 h-5" />
           </div>
           <div>
-            <p className="text-xs text-muted-foreground font-medium">High-Error MCQs</p>
-            <p className="text-2xl font-bold text-foreground mt-0.5">{topDistractors.length}</p>
+            <Para className="text-xs text-muted-foreground font-medium">High-Error MCQs</Para>
+            <Para className="text-2xl font-bold text-foreground mt-0.5">{topDistractors.length}</Para>
           </div>
         </div>
       </section>
@@ -66,7 +67,7 @@ export default function TeacherDashboardPage() {
         <section>
           <div className="flex items-center gap-2 mb-4">
             <AlertTriangle className="w-4 h-4 text-amber-500" />
-            <h2 className="text-base font-semibold text-foreground">Student Alerts — Confident Mistakes This Week</h2>
+            <Heading2 className="text-base font-semibold text-foreground">Student Alerts — Confident Mistakes This Week</Heading2>
           </div>
           <div className="rounded-xl border border-border overflow-hidden">
             <table className="w-full text-sm">
@@ -82,8 +83,8 @@ export default function TeacherDashboardPage() {
                 {alertStudents.map((s: Record<string, unknown>) => (
                   <tr key={String(s.userId)} className="hover:bg-muted/30">
                     <td className="px-4 py-3">
-                      <p className="font-medium text-foreground">{String(s.name ?? 'Unknown')}</p>
-                      <p className="text-xs text-muted-foreground">{String(s.email ?? '')}</p>
+                      <Para className="font-medium text-foreground">{String(s.name ?? 'Unknown')}</Para>
+                      <Para className="text-xs text-muted-foreground">{String(s.email ?? '')}</Para>
                     </td>
                     <td className="px-4 py-3 text-right">
                       <span className="font-bold text-red-600">{String(s.totalConfidentMistakes)}</span>
@@ -105,7 +106,7 @@ export default function TeacherDashboardPage() {
       {/* Class struggle report — top distractors */}
       <section>
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-base font-semibold text-foreground">Class Struggle Report</h2>
+          <Heading2 className="text-base font-semibold text-foreground">Class Struggle Report</Heading2>
           <Link href="/dashboard/analytics" className="text-xs text-primary hover:underline">View full report →</Link>
         </div>
         {distractorLoading ? (
@@ -152,7 +153,7 @@ export default function TeacherDashboardPage() {
 
       {/* Student progress table */}
       <section>
-        <h2 className="text-base font-semibold text-foreground mb-4">Student Progress Overview</h2>
+        <Heading2 className="text-base font-semibold text-foreground mb-4">Student Progress Overview</Heading2>
         {overviewLoading ? (
           <div className="space-y-2">{[1,2,3,4,5].map(i => <div key={i} className="h-12 rounded-lg bg-muted animate-pulse" />)}</div>
         ) : students.length === 0 ? (

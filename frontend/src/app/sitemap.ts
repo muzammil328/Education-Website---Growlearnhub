@@ -45,6 +45,7 @@ export default async function sitemap(): Promise<SitemapFile[]> {
       subHeadingUrls,
       onlineTestUrls,
       vuUrls,
+      mcqUrls,
     ] = await Promise.all([
       fetchTrpcQuery(config.sitemap.static),
       fetchTrpcQuery(config.sitemap.classes),
@@ -55,6 +56,7 @@ export default async function sitemap(): Promise<SitemapFile[]> {
       fetchTrpcQuery(config.sitemap.subHeadings),
       fetchTrpcQuery(config.sitemap.onlineTest),
       fetchTrpcQuery(config.sitemap.vu),
+      fetchTrpcQuery(config.sitemap.mcqs),
     ]);
 
     return [
@@ -67,6 +69,7 @@ export default async function sitemap(): Promise<SitemapFile[]> {
       ...toEntries(onlineTestUrls, 0.7, 'weekly'),
       ...toEntries(headingUrls, 0.6, 'weekly'),
       ...toEntries(subHeadingUrls, 0.5, 'weekly'),
+      ...toEntries(mcqUrls, 0.5, 'monthly'),
     ];
   } catch (error) {
     console.error('Sitemap generation error:', error);

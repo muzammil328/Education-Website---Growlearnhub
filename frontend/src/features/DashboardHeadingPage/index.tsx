@@ -1,8 +1,7 @@
 'use client';
 import React, { useState, useCallback, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@muzammil328/ui';
-import { Button } from '@muzammil328/ui';
+import { Button, Para, SelectContent, SelectItem, Select, SelectTrigger, SelectValue } from '@muzammil328/ui';
 import { SlidersHorizontal } from 'lucide-react';
 
 import { DataTablePagination } from '@/components/ui/data-table-pagination';
@@ -12,6 +11,7 @@ import { useHeadings } from '@/hooks';
 import { SortOrder, Status } from '@muzammil328/education-packages/types';
 import { StatusEnum } from '@muzammil328/education-packages/enums';
 import { HeadingTable } from './HeadingTable';
+import { BulkAddHeadingModal } from './BulkAddHeadingModal';
 
 type DashboardHeadingPageProps = {
   status?: Status;
@@ -33,6 +33,15 @@ export default function HeadingPage({
   });
   const [limit] = useState(10);
   const [search, setSearch] = useState('');
+  const [debouncedSearch, setDebouncedSearch] = useState('');
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setDebouncedSearch(search);
+      setPage(1);
+    }, 400);
+    return () => clearTimeout(timeout);
+  }, [search]);
 
   const [sortField, setSortField] = useState<
     | 'name'
@@ -63,6 +72,7 @@ export default function HeadingPage({
   const [isHeadingViewOpen, setIsHeadingViewOpen] = useState(false);
   const [isHeadingEditOpen, setIsHeadingEditOpen] = useState(false);
   const [isAddHeadingOpen, setIsAddHeadingOpen] = useState(false);
+  const [isBulkAddHeadingOpen, setIsBulkAddHeadingOpen] = useState(false);
   const [selectedHeadingId, setSelectedHeadingId] = useState<string | null>(null);
 
   const prevUrlRef = React.useRef<string | null>(null);
@@ -136,7 +146,7 @@ export default function HeadingPage({
     limit,
     sort: sortField,
     sortDirection: sortOrder,
-    search,
+    search: debouncedSearch,
   });
 
   const headingData = responseData?.data ?? [];
@@ -151,7 +161,7 @@ export default function HeadingPage({
   if (error && !isLoading) {
     return (
       <div className="flex flex-col items-center justify-center py-16">
-        <p className="text-red-500 mb-2">Failed to load headings</p>
+        <Para className="text-red-500 mb-2">Failed to load headings</Para>
         <button
           onClick={() => window.location.reload()}
           className="text-sm text-muted-foreground hover:text-foreground"
@@ -168,11 +178,17 @@ export default function HeadingPage({
         title="Heading Management"
         description="Create and organize content headings by subject and chapter"
         action={
-          <Button onClick={() => setIsAddHeadingOpen(true)} size="lg">
-            Add Heading
-          </Button>
+          <div className="flex items-center gap-2">
+            <Button onClick={() => setIsBulkAddHeadingOpen(true)} size="lg" variant="outline">
+              Bulk Add
+            </Button>
+            <Button onClick={() => setIsAddHeadingOpen(true)} size="lg">
+              Add Heading
+            </Button>
+          </div>
         }
       />
+      <BulkAddHeadingModal isOpen={isBulkAddHeadingOpen} onOpenChange={setIsBulkAddHeadingOpen} />
       <div className="border rounded-md pb-3">
         <div className="flex items-center justify-between">
           <input
@@ -204,6 +220,7 @@ export default function HeadingPage({
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="name">Name</SelectItem>
+                  <SelectItem value="order">Order</SelectItem>
                   <SelectItem value="className">Class Name</SelectItem>
                   <SelectItem value="bookName">Book Name</SelectItem>
                   <SelectItem value="chapterName">Chapter Name</SelectItem>

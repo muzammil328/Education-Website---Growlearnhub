@@ -1,6 +1,7 @@
 import React from 'react';
 import UserLayout from '@/components/layout/UserLayout';
 import { Metadata } from 'next';
+import { Heading2, Heading3, Para } from '@muzammil328/ui';
 
 const data = {
   title: 'Cookies Policy | GrowLearnHub',
@@ -18,21 +19,21 @@ export default function page() {
   return (
     <UserLayout title={data.title} image={data.image} canonical={data.canonical} url={data.url}>
       <section>
-        <h2 className="line">Cookies Policy</h2>
+        <Heading2 className="line">Cookies Policy</Heading2>
 
         <div className="space-y-6">
-          <p>
+          <Para>
             This Cookies Policy explains what Cookies are and how Growlearnhub uses them.
-          </p>
+          </Para>
 
-          <h3>What Are Cookies</h3>
-          <p>
+          <Heading3>What Are Cookies</Heading3>
+          <Para>
             Cookies are small text files stored on your device when you visit websites. They help
             websites remember your preferences and improve your browsing experience.
-          </p>
+          </Para>
 
-          <h3>How We Use Cookies</h3>
-          <p>Growlearnhub uses cookies to:</p>
+          <Heading3>How We Use Cookies</Heading3>
+          <Para>Growlearnhub uses cookies to:</Para>
           <ul className="list">
             <li>Understand how you use our website</li>
             <li>Improve our services and user experience</li>
@@ -40,22 +41,22 @@ export default function page() {
             <li>Analyze traffic and trends</li>
           </ul>
 
-          <h3>Managing Cookies</h3>
-          <p>
+          <Heading3>Managing Cookies</Heading3>
+          <Para>
             You can control or disable cookies through your browser settings. However, disabling
             cookies may affect the functionality of our website.
-          </p>
+          </Para>
 
-          <h3>Third-Party Cookies</h3>
-          <p>
+          <Heading3>Third-Party Cookies</Heading3>
+          <Para>
             We may use third-party analytics services that set their own cookies. These third parties
             have their own privacy policies.
-          </p>
+          </Para>
 
-          <h3>Contact Us</h3>
-          <p>
+          <Heading3>Contact Us</Heading3>
+          <Para>
             If you have questions about our Cookies Policy, please contact us.
-          </p>
+          </Para>
         </div>
       </section>
     </UserLayout>

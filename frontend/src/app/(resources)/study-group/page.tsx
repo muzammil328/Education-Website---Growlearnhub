@@ -1,6 +1,7 @@
 import React from 'react';
 import { Metadata } from 'next';
 import UserLayout from '@/components/layout/UserLayout';
+import { Heading2, Heading3, Para } from '@muzammil328/ui';
 
 const data = {
   title: 'Study Group | GrowLearnHub',
@@ -18,27 +19,27 @@ export default function page() {
   return (
     <UserLayout title={data.title} image={data.image} canonical={data.canonical} url={data.url}>
       <section>
-        <h2 className="line">
+        <Heading2 className="line">
           Study Groups
-        </h2>
+        </Heading2>
 
         <div className="space-y-6">
-          <p>
+          <Para>
             Join our study groups to collaborate with fellow students, share knowledge, and improve
             your learning experience.
-          </p>
+          </Para>
 
-          <h3>
+          <Heading3>
             What Are Study Groups?
-          </h3>
-          <p>
+          </Heading3>
+          <Para>
             Study groups are communities of students who come together to learn, discuss, and help
             each other succeed academically.
-          </p>
+          </Para>
 
-          <h3>
+          <Heading3>
             Benefits of Study Groups
-          </h3>
+          </Heading3>
           <ul className="list">
             <li>Collaborative learning with peers</li>
             <li>Share notes and study materials</li>
@@ -47,21 +48,21 @@ export default function page() {
             <li>Learn different perspectives</li>
           </ul>
 
-          <h3>
+          <Heading3>
             How to Join
-          </h3>
-          <p>
+          </Heading3>
+          <Para>
             Visit our community page or contact us to learn about available study groups and how to
             join. We welcome students from all classes and subjects.
-          </p>
+          </Para>
 
-          <h3>
+          <Heading3>
             Create Your Own Group
-          </h3>
-          <p>
+          </Heading3>
+          <Para>
             Want to start a study group with your classmates? Contact us and we&apos;ll help you set
             up and manage your own study group.
-          </p>
+          </Para>
         </div>
       </section>
     </UserLayout>

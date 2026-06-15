@@ -1,8 +1,6 @@
 'use client';
-import { Form, FormEmail, FormPassword } from '@muzammil328/ui';
-import { Button } from '@muzammil328/ui';
+import { Button, FormEmail, Form, FormPassword, InputOTPGroup, InputOTP, InputOTPSlot, Para, toast } from '@muzammil328/ui';
 import * as React from 'react';
-import { toast } from '@muzammil328/ui';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
@@ -12,7 +10,6 @@ import {
   otpForgotPasswordFormSchema,
   resetPasswordFormSchema,
 } from '@muzammil328/education-packages';
-import { InputOTP, InputOTPGroup, InputOTPSlot } from '@muzammil328/ui';
 import { z } from 'zod';
 
 const flowSchema = z.object({
@@ -120,9 +117,9 @@ export default function ForgotPasswordForm() {
         {step >= 1 && (
           <>
             {email && (
-              <p className="text-sm text-muted-foreground text-center">
+              <Para className="text-sm text-muted-foreground text-center">
                 OTP sent to: <span className="font-medium text-foreground">{email}</span>
-              </p>
+              </Para>
             )}
             <div className="space-y-2 flex justify-center">
               <InputOTP

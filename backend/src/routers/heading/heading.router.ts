@@ -5,6 +5,7 @@ import { headingGetById } from './headingGetById';
 import { headingDelete } from './headingDelete';
 import { headingCreate } from './headingCreate';
 import { headingUpdate } from './headingUpdate';
+import { headingBulkCreate } from './headingBulkCreate';
 
 export const headingRouter = createTRPCRouter({
   getAll: headingGetAll,
@@ -13,4 +14,5 @@ export const headingRouter = createTRPCRouter({
   create: headingCreate,
   update: headingUpdate,
   delete: headingDelete,
+  bulkCreate: headingBulkCreate,
 });

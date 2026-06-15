@@ -3,8 +3,7 @@
 import React, { useMemo, useEffect, useRef } from 'react';
 import { useFormContext, useWatch } from 'react-hook-form';
 import { SelectField } from '@/components/ui/select-field'
-import { DropdownLoader } from '@muzammil328/ui'
-import { FormString, FormNumber, Label } from '@muzammil328/ui';
+import { DropdownLoader, FormNumber, FormString, Label, Para } from '@muzammil328/ui'
 import { useDropdownClasses } from '@/hooks';
 import { useDropdownBooks } from '@/hooks';
 import { useDropdownChapters } from '@/hooks';
@@ -21,6 +20,7 @@ interface InitialSelection {
 
 interface HeadingModalFormProps {
   initialSelection?: InitialSelection;
+  headingType?: 'class' | 'subject';
 }
 
 interface SelectOption {
@@ -33,8 +33,32 @@ interface DropdownItem {
   label?: string;
 }
 
-export default function HeadingModalForm({ initialSelection }: HeadingModalFormProps) {
+export default function HeadingModalForm({ initialSelection, headingType = 'class' }: HeadingModalFormProps) {
   const { setValue } = useFormContext();
+
+  const {
+    data: subjectBookData,
+    isLoading: subjectBookLoading,
+    error: subjectBookError,
+  } = useDropdownBooks({ noClass: true }, { enabled: headingType === 'subject' });
+
+  const subjectBookOptions = useMemo(() => {
+    const options = (subjectBookData || []).map((item: { value?: string; label?: string }) => ({
+      value: item.value || '',
+      label: item.label || 'Unnamed Book',
+    }));
+
+    if (
+      initialSelection?.bookId &&
+      initialSelection.bookName &&
+      !options.some(option => option.value === initialSelection.bookId)
+    ) {
+      options.unshift({ value: initialSelection.bookId, label: initialSelection.bookName });
+    }
+
+    return options;
+  }, [subjectBookData, initialSelection?.bookId, initialSelection?.bookName]);
+
   const selectedClassId = useWatch({ name: 'classId' });
   const selectedBookId = useWatch({ name: 'bookId' });
   const selectedChapterId = useWatch({ name: 'chapterId' });
@@ -47,19 +71,27 @@ export default function HeadingModalForm({ initialSelection }: HeadingModalFormP
   const previousClassId = useRef<string | undefined>(undefined);
   const previousBookId = useRef<string | undefined>(undefined);
 
-  const { data: classData, isLoading: classLoading, error: classError } = useDropdownClasses();
+  const isClassBased = headingType === 'class';
+
+  const { data: classData, isLoading: classLoading, error: classError } = useDropdownClasses(isClassBased);
 
   const {
     data: bookData,
     isLoading: bookLoading,
     error: bookError,
-  } = useDropdownBooks(effectiveClassId ? { classId: effectiveClassId } : undefined);
+  } = useDropdownBooks(
+    effectiveClassId ? { classId: effectiveClassId } : undefined,
+    { enabled: isClassBased && Boolean(effectiveClassId) }
+  );
 
   const {
     data: chapterData,
     isLoading: chapterLoading,
     error: chapterError,
-  } = useDropdownChapters(effectiveBookId ? { bookId: effectiveBookId, classId: effectiveClassId } : undefined);
+  } = useDropdownChapters(
+    effectiveBookId ? { bookId: effectiveBookId, classId: effectiveClassId } : undefined,
+    { enabled: isClassBased && Boolean(effectiveBookId) }
+  );
 
   useEffect(() => {
     if (didHydrateInitialSelection.current || !initialSelection) {
@@ -176,6 +208,45 @@ export default function HeadingModalForm({ initialSelection }: HeadingModalFormP
     return options;
   }, [chapterData, initialSelection?.chapterId, initialSelection?.chapterName]);
 
+  if (headingType === 'subject') {
+    return (
+      <div>
+        <FormString name="name" label="Name" placeholder="Enter Heading Name" />
+
+        <div className="space-y-2">
+          {subjectBookLoading ? (
+            <DropdownSkeleton />
+          ) : (
+            <DropdownLoader
+              isLoading={subjectBookLoading}
+              error={subjectBookError}
+              isEmpty={subjectBookOptions.length === 0}
+              emptyMessage="No subject-based books found."
+            >
+              <SelectField
+                key={initialSelection?.bookId || 'subject-book'}
+                name="bookId"
+                label="Book"
+                placeholder="Select Book"
+                options={subjectBookOptions}
+              />
+            </DropdownLoader>
+          )}
+        </div>
+
+        <SelectField
+          name="status"
+          label="Status"
+          placeholder="Select Status"
+          options={[
+            { value: 'active', label: 'Active' },
+            { value: 'inactive', label: 'Inactive' },
+          ]}
+        />
+      </div>
+    );
+  }
+
   return (
     <div>
       <FormString name="name" label="Name" placeholder="Enter Heading Name" />
@@ -205,7 +276,7 @@ export default function HeadingModalForm({ initialSelection }: HeadingModalFormP
         {!effectiveClassId ? (
           <div>
             <Label>Book</Label>
-            <p className="text-sm text-muted-foreground py-2">Select a class first</p>
+            <Para className="text-sm text-muted-foreground py-2">Select a class first</Para>
           </div>
         ) : bookLoading ? (
           <DropdownSkeleton />
@@ -231,7 +302,7 @@ export default function HeadingModalForm({ initialSelection }: HeadingModalFormP
         {!effectiveBookId ? (
           <div>
             <Label>Chapter</Label>
-            <p className="text-sm text-muted-foreground py-2">Select a book first</p>
+            <Para className="text-sm text-muted-foreground py-2">Select a book first</Para>
           </div>
         ) : chapterLoading ? (
           <DropdownSkeleton />

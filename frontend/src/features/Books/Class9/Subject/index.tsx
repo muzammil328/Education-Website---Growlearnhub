@@ -5,6 +5,7 @@ import Link from 'next/link';
 import UserLayout from '@/components/layout/UserLayout';
 import { useBookDetail } from '@/hooks/use-public';
 import { removeDashAndUppercase } from '@/lib/removeDashAndUppercase';
+import { Heading2, Heading3, Para } from '@muzammil328/ui';
 
 const CLASS_SLUG = 'class-9';
 
@@ -45,7 +46,7 @@ export default function SubjectClass9Book({ bookSlug }: { bookSlug: string }) {
   if (error || !data?.data) {
     return (
       <UserLayout title="Book Not Found" image="/9th/class_9_book_growlearnhub.png" canonical={canonical} url={url}>
-        <p className="text-red-500">Book not found or failed to load. Please try again later.</p>
+        <Para className="text-red-500">Book not found or failed to load. Please try again later.</Para>
       </UserLayout>
     );
   }
@@ -69,20 +70,20 @@ export default function SubjectClass9Book({ bookSlug }: { bookSlug: string }) {
 
         {/* Intro */}
         <section>
-          <p className="text-muted-foreground">
+          <Para className="text-muted-foreground">
             Download the complete <strong>{displayName} Class 9 textbook</strong> in English or Urdu
             medium, or browse individual chapters below. All PDFs are free and cover the Punjab Board
             (PCTB) and Federal Board syllabus.
-          </p>
+          </Para>
 
         </section>
 
         {/* Full Book Downloads */}
         {fullBookPdfs.length > 0 && (
           <section>
-            <h2 className="border-b border-border pb-2 text-2xl font-semibold text-primary mb-4">
+            <Heading2 className="border-b border-border pb-2 text-2xl font-semibold text-primary mb-4">
               Download Full {displayName} Book
-            </h2>
+            </Heading2>
             <div className="overflow-x-auto rounded-xl border border-border">
               <table className="min-w-full text-sm">
                 <thead>
@@ -118,12 +119,12 @@ export default function SubjectClass9Book({ bookSlug }: { bookSlug: string }) {
         {/* Chapters table — links only, download on chapter page */}
         {chapters.length > 0 && (
           <section>
-            <h2 className="border-b border-border pb-2 text-2xl font-semibold text-primary mb-4">
+            <Heading2 className="border-b border-border pb-2 text-2xl font-semibold text-primary mb-4">
               Chapter-wise {displayName} PDFs
-            </h2>
-            <p className="text-sm text-muted-foreground mb-4">
+            </Heading2>
+            <Para className="text-sm text-muted-foreground mb-4">
               Click a chapter to open its PDF download page with English and Urdu medium options.
-            </p>
+            </Para>
             <div className="overflow-x-auto rounded-xl border border-border">
               <table className="min-w-full text-sm">
                 <thead>
@@ -173,38 +174,38 @@ export default function SubjectClass9Book({ bookSlug }: { bookSlug: string }) {
         {/* SEO Content */}
         <section className="border-t border-border pt-8 space-y-6 text-sm text-foreground/75 leading-relaxed">
           <div>
-            <h2 className="text-xl font-semibold text-foreground mb-2">
+            <Heading2 className="text-xl font-semibold text-foreground mb-2">
               About the Class 9 {displayName} Textbook
-            </h2>
-            <p>
+            </Heading2>
+            <Para>
               The <strong>Class 9 {displayName}</strong> textbook follows the latest Punjab Curriculum
               and Textbook Board (PCTB) and Federal Board (FBISE) syllabus. It is the primary reference
               for 9th class students appearing in annual board examinations across Punjab, Federal, and
               BISE regions. GrowLearnHub provides both the complete book and individual chapter PDFs so
               students can study at their own pace, whether on mobile or desktop.
-            </p>
+            </Para>
           </div>
           <div>
-            <h3 className="text-lg font-semibold text-foreground mb-2">
+            <Heading3 className="text-lg font-semibold text-foreground mb-2">
               English Medium vs Urdu Medium — Which Should You Download?
-            </h3>
-            <p>
+            </Heading3>
+            <Para>
               Both mediums cover the same syllabus content. Choose <strong>English medium</strong> if
               your school teaches in English or if you are preparing for FBISE. Choose{' '}
               <strong>Urdu medium</strong> if your school uses Urdu as the language of instruction.
               Chapter-wise PDFs are available in both mediums on each chapter page.
-            </p>
+            </Para>
           </div>
           <div>
-            <h3 className="text-lg font-semibold text-foreground mb-2">
+            <Heading3 className="text-lg font-semibold text-foreground mb-2">
               How to Prepare {displayName} for Class 9 Board Exams
-            </h3>
-            <p>
+            </Heading3>
+            <Para>
               Start each chapter by reading the summary and key definitions. Then attempt the exercise
               questions at the end of the chapter. Once you are comfortable with the theory, practise
               MCQs and past paper questions for that chapter. Consistent chapter-wise preparation is the
               most effective strategy for scoring well in 9th class {displayName.toLowerCase()} board exams.
-            </p>
+            </Para>
           </div>
         </section>
 

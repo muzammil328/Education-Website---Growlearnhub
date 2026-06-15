@@ -39,7 +39,7 @@ export default function Class9({ children }: { children?: React.ReactNode }) {
       {children}
 
       <div className="mt-10 space-y-2 border-t border-border pt-8">
-        <Heading2>Class 9 Study Resources — Complete Guide for Pakistani Students</Heading2>
+        <Heading2 className='heading2'>Class 9 Study Resources — Complete Guide for Pakistani Students</Heading2>
         <Para>
           Preparing for your 9th class exams can feel overwhelming — but it does not have to be.
           GrowLearnHub brings together <strong className="text-foreground">free Class 9 notes</strong>,
@@ -49,7 +49,7 @@ export default function Class9({ children }: { children?: React.ReactNode }) {
           you need right here — no signup required.
         </Para>
 
-        <Heading2>9th Class Notes — All Subjects</Heading2>
+        <Heading3 className='heading3'>9th Class Notes — All Subjects</Heading3>
         <Para>
           Our 9th class notes are written in simple, easy-to-understand language and follow the
           latest Punjab Curriculum &amp; Textbook Board (PCTB) and Federal Board syllabi.
@@ -59,7 +59,7 @@ export default function Class9({ children }: { children?: React.ReactNode }) {
           Urdu, Islamiyat, Pakistan Studies, Computer Science, and General Knowledge.
         </Para>
 
-        <Heading2>Chapter-wise MCQs for Class 9</Heading2>
+        <Heading3 className='heading3'>Chapter-wise MCQs for Class 9</Heading3>
         <Para>
           Multiple choice questions (MCQs) carry significant marks in board exams. Our
           chapter-wise <strong className="text-foreground">Class 9 MCQs</strong> are carefully
@@ -86,40 +86,42 @@ export default function Class9({ children }: { children?: React.ReactNode }) {
           major BISE boards going back several years, all free to read and download.
         </Para>
 
-        <Heading3>Frequently Asked Questions</Heading3>
-        <Accordion type="single" collapsible className="w-full">
-          {[
-            {
-              value: 'faq-1',
-              q: 'Are the Class 9 notes on GrowLearnHub free?',
-              a: 'Yes, all notes, MCQs, online tests, and past papers on GrowLearnHub are completely free. No account or payment is required.',
-            },
-            {
-              value: 'faq-2',
-              q: 'Which boards are covered for 9th class?',
-              a: 'We cover Punjab Board (PCTB), Federal Board (FBISE), and most regional BISE boards including Lahore, Rawalpindi, Gujranwala, Multan, Faisalabad, Sahiwal, Sargodha, Bahawalpur, and DG Khan.',
-            },
-            {
-              value: 'faq-3',
-              q: 'How many years of past papers are available for Class 9?',
-              a: 'We aim to provide at least five years of past papers per subject. Some subjects have more going back to 2015.',
-            },
-            {
-              value: 'faq-4',
-              q: 'Can I take online tests on mobile?',
-              a: 'Yes. The online test interface is fully responsive and works on any smartphone or tablet browser.',
-            },
-          ].map(({ value, q, a }) => (
-            <AccordionItem key={value} value={value}>
-              <AccordionTrigger className="text-sm font-semibold text-foreground">
-                {q}
-              </AccordionTrigger>
-              <AccordionContent className="text-sm leading-relaxed text-muted-foreground">
-                {a}
-              </AccordionContent>
-            </AccordionItem>
-          ))}
-        </Accordion>
+        <section className='border-t py-6'>
+          <Heading3>Frequently Asked Questions</Heading3>
+          <Accordion type="single" collapsible className="w-full mt-4">
+            {[
+              {
+                value: 'faq-1',
+                q: 'Are the Class 9 notes on GrowLearnHub free?',
+                a: 'Yes, all notes, MCQs, online tests, and past papers on GrowLearnHub are completely free. No account or payment is required.',
+              },
+              {
+                value: 'faq-2',
+                q: 'Which boards are covered for 9th class?',
+                a: 'We cover Punjab Board (PCTB), Federal Board (FBISE), and most regional BISE boards including Lahore, Rawalpindi, Gujranwala, Multan, Faisalabad, Sahiwal, Sargodha, Bahawalpur, and DG Khan.',
+              },
+              {
+                value: 'faq-3',
+                q: 'How many years of past papers are available for Class 9?',
+                a: 'We aim to provide at least five years of past papers per subject. Some subjects have more going back to 2015.',
+              },
+              {
+                value: 'faq-4',
+                q: 'Can I take online tests on mobile?',
+                a: 'Yes. The online test interface is fully responsive and works on any smartphone or tablet browser.',
+              },
+            ].map(({ value, q, a }) => (
+              <AccordionItem key={value} value={value}>
+                <AccordionTrigger className="text-sm font-semibold text-foreground">
+                  {q}
+                </AccordionTrigger>
+                <AccordionContent className="text-sm leading-relaxed text-muted-foreground">
+                  {a}
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
+        </section>
       </div>
     </UserLayout>
   );

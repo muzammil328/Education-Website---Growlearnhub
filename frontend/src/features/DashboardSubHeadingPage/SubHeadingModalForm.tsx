@@ -3,8 +3,7 @@
 import React, { useMemo, useEffect, useRef } from 'react';
 import { useFormContext, useWatch } from 'react-hook-form';
 import { SelectField } from '@/components/ui/select-field'
-import { DropdownLoader } from '@muzammil328/ui'
-import { FormString, FormNumber, Label } from '@muzammil328/ui';
+import { DropdownLoader, FormNumber, FormString, Label, Para } from '@muzammil328/ui'
 import { useDropdownClasses } from '@/hooks/use-class';
 import { useDropdownBooks } from '@/hooks/use-book';
 import { useDropdownChapters } from '@/hooks/use-chapter';
@@ -273,7 +272,7 @@ export default function SubHeadingModalForm({ initialSelection }: SubHeadingModa
         {!effectiveClassId ? (
           <div>
             <Label>Book</Label>
-            <p className="text-sm text-muted-foreground py-2">Select a class first</p>
+            <Para className="text-sm text-muted-foreground py-2">Select a class first</Para>
           </div>
         ) : bookLoading ? (
           <DropdownSkeleton />
@@ -299,7 +298,7 @@ export default function SubHeadingModalForm({ initialSelection }: SubHeadingModa
         {!effectiveBookId ? (
           <div>
             <Label>Chapter</Label>
-            <p className="text-sm text-muted-foreground py-2">Select a book first</p>
+            <Para className="text-sm text-muted-foreground py-2">Select a book first</Para>
           </div>
         ) : chapterLoading ? (
           <DropdownSkeleton />
@@ -325,7 +324,7 @@ export default function SubHeadingModalForm({ initialSelection }: SubHeadingModa
         {!effectiveChapterId ? (
           <div>
             <Label>Heading</Label>
-            <p className="text-sm text-muted-foreground py-2">Select a chapter first</p>
+            <Para className="text-sm text-muted-foreground py-2">Select a chapter first</Para>
           </div>
         ) : headingLoading ? (
           <DropdownSkeleton />

@@ -91,3 +91,12 @@ export const useDeleteSubHeading = () => {
     },
   });
 };
+
+export const useBulkCreateSubHeadings = () => {
+  const utils = trpc.useUtils();
+  return trpc.subHeading.bulkCreate.useMutation({
+    onSuccess: () => {
+      utils.subHeading.getAll.invalidate();
+    },
+  });
+};

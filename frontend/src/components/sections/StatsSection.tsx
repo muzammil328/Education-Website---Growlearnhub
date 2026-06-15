@@ -1,6 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { BarChart2 } from 'lucide-react';
+import { Heading2, Para } from '@muzammil328/ui';
 
 const stats = [
   { value: '50,000+', label: 'Active Students' },
@@ -32,10 +33,10 @@ export function StatsSection() {
 
       <div className="relative mx-auto max-w-6xl">
         {/* headline */}
-        <h2 className="mb-10 text-3xl font-extrabold leading-tight tracking-tight text-foreground md:text-4xl">
+        <Heading2 className="mb-10 text-3xl font-extrabold leading-tight tracking-tight text-foreground md:text-4xl">
           Numbers that speak<br />
           <span className="font-semibold text-muted-foreground">for themselves</span>
-        </h2>
+        </Heading2>
 
         <div className="flex flex-col gap-8 md:flex-row md:items-stretch md:gap-10">
 
@@ -56,8 +57,8 @@ export function StatsSection() {
                 <BarChart2 className="h-4 w-4" />
                 Student Growth
               </div>
-              <p className="text-2xl font-extrabold text-white">50K+</p>
-              <p className="mt-1 text-xs text-white/70">Active this month</p>
+              <Para className="text-2xl font-extrabold text-white">50K+</Para>
+              <Para className="mt-1 text-xs text-white/70">Active this month</Para>
 
               {/* decorative bar chart */}
               <div className="mt-4 flex h-10 items-end gap-1.5">
@@ -77,8 +78,8 @@ export function StatsSection() {
             <div className="grid grid-cols-2 gap-6">
               {stats.map(s => (
                 <div key={s.label} className="flex flex-col gap-1">
-                  <p className="text-3xl font-extrabold text-primary md:text-4xl">{s.value}</p>
-                  <p className="text-sm text-muted-foreground">{s.label}</p>
+                  <Para className="text-3xl font-extrabold text-primary md:text-4xl">{s.value}</Para>
+                  <Para className="text-sm text-muted-foreground">{s.label}</Para>
                 </div>
               ))}
             </div>

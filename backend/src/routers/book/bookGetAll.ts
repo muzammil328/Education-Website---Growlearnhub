@@ -31,15 +31,21 @@ export const bookGetAll = superAdminProcedure
             _id: 0,
             bookId: '$_id',
             name: 1,
+            code: 1,
             status: 1,
             classId: 1,
             className: '$class.name',
             serviceId: 1,
             services: 1,
-          }),
+          })
+          .match(input.search ? {
+            $or: [
+              { className: { $regex: input.search, $options: 'i' } },
+            ],
+          } : {}),
 
         search: input.search,
-        searchFields: ['name'],
+        searchFields: ['name', 'code'],
         sort: input.sort,
         page: input.page,
         limit: input.limit,

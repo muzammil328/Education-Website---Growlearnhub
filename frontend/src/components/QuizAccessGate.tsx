@@ -2,7 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 import { Crown } from 'lucide-react';
-import { Button } from '@muzammil328/ui';
+import { Button, Heading3, Para } from '@muzammil328/ui';
 import { useUser } from '@/hooks';
 
 interface QuizAccessGateProps {
@@ -51,10 +51,10 @@ export function QuizAccessGate({
       <div className="absolute inset-0 flex items-center justify-center">
         <div className="bg-white p-6 rounded-lg text-center shadow-lg max-w-sm mx-auto">
           <Crown className="h-12 w-12 mx-auto mb-4 text-yellow-500" />
-          <h3 className="text-lg font-semibold mb-2">Premium Content</h3>
-          <p className="text-sm text-gray-600 mb-4">
+          <Heading3 className="text-lg font-semibold mb-2">Premium Content</Heading3>
+          <Para className="text-sm text-gray-600 mb-4">
             This content requires a {requiredPlan} subscription or higher
-          </p>
+          </Para>
           <div className="space-y-2">
             <Button onClick={() => router.push('/subscription')} className="w-full">
               Upgrade Now

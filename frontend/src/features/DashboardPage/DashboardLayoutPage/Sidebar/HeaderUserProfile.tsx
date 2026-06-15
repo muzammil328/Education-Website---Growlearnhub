@@ -1,17 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { Avatar, AvatarFallback, AvatarImage } from '@muzammil328/ui';
-import { Button } from '@muzammil328/ui';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@muzammil328/ui';
+import { Avatar, AvatarFallback, AvatarImage, Button, DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger, Para } from '@muzammil328/ui';
 import { User, Settings, LogOut } from 'lucide-react';
 import { useLogout } from '@/hooks/use-auth';
 import { useCurrentUser } from '@/hooks/use-user';
@@ -42,8 +32,8 @@ export default function HeaderUserProfile() {
       <DropdownMenuContent className="w-56" align="end" forceMount>
         <DropdownMenuLabel className="font-normal">
           <div className="flex flex-col space-y-1">
-            <p className="text-sm font-medium leading-none">{user?.username}</p>
-            <p className="text-xs leading-none text-muted-foreground">{user?.email}</p>
+            <Para className="text-sm font-medium leading-none">{user?.username}</Para>
+            <Para className="text-xs leading-none text-muted-foreground">{user?.email}</Para>
           </div>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />

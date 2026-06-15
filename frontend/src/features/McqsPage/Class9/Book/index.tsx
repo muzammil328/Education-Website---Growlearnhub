@@ -3,6 +3,7 @@
 import { useChapterByClassAndBookSlug } from '@/hooks/use-public';
 import Link from 'next/link';
 import McqsInlineSection from '@/components/mcqs/McqsInlineSection';
+import { Para } from '@muzammil328/ui';
 
 interface Props {
   bookSlug: string;
@@ -13,15 +14,15 @@ const CLASS_SLUG = 'class-9';
 export default function Class9McqsBookPage({ bookSlug }: Props) {
   const { data, isLoading, error } = useChapterByClassAndBookSlug(CLASS_SLUG, bookSlug);
 
-  if (isLoading) return <p>Loading chapters...</p>;
-  if (error) return <p>Failed to load chapters.</p>;
+  if (isLoading) return <Para>Loading chapters...</Para>;
+  if (error) return <Para>Failed to load chapters.</Para>;
 
   const chapters = data?.data ?? [];
 
   return (
     <div className="space-y-6">
       {chapters.length === 0 ? (
-        <p>No chapters found.</p>
+        <Para>No chapters found.</Para>
       ) : (
         <ul className="grid gap-3">
           {chapters.map((chapter: any) => (

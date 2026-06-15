@@ -353,3 +353,22 @@ html {
 ul.list {
   @apply list-disc list-inside space-y-2 text-muted-foreground;
 }
+
+h2 + p,
+h3 + p
+ {
+  @apply py-2;
+}
+
+h2 + ol,
+h3 + ol {
+  @apply py-3;
+}
+
+.heading2 {
+  @apply border-b border-border py-2 text-2xl font-semibold text-primary;
+}
+
+.heading3 {
+  @apply text-2xl font-semibold text-primary mb-4;
+}

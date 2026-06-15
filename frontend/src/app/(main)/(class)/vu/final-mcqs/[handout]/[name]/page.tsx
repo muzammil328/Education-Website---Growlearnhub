@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { ArrowLeft, ExternalLink } from 'lucide-react';
 import UserLayout from '@/components/layout/UserLayout';
 import { useBookDetail } from '@/hooks/use-public';
+import { Heading2, Para } from '@muzammil328/ui';
 
 export default function Page({ params }: { params: Promise<{ handout: string; name: string }> }) {
   const [handoutSlug, setHandoutSlug] = React.useState('');
@@ -44,9 +45,9 @@ export default function Page({ params }: { params: Promise<{ handout: string; na
             <span className="text-muted-foreground">/</span>
             <span className="text-sm font-medium text-foreground">{sourceName}</span>
           </div>
-          <h2 className="text-xl font-semibold text-primary mt-2">
+          <Heading2 className="text-xl font-semibold text-primary mt-2">
             {handoutName} – {sourceName}
-          </h2>
+          </Heading2>
         </header>
 
         <section>
@@ -54,7 +55,7 @@ export default function Page({ params }: { params: Promise<{ handout: string; na
             <div className="h-screen rounded-lg bg-muted animate-pulse" />
           ) : !currentLink ? (
             <div className="rounded-lg border border-border p-8 text-center">
-              <p className="text-muted-foreground">Source not found.</p>
+              <Para className="text-muted-foreground">Source not found.</Para>
               <Link href={`/vu/final-mcqs/${handoutSlug}`} className="mt-4 inline-block text-primary hover:underline text-sm">
                 Back to {handoutName}
               </Link>

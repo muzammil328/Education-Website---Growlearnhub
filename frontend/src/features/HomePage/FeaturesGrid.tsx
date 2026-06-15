@@ -7,6 +7,7 @@ import {
   Clock3,
 } from 'lucide-react';
 import type { ReactNode } from 'react';
+import { Heading2, Heading3, Para } from '@muzammil328/ui';
 
 const features: { icon: ReactNode; title: string; desc: string }[] = [
   {
@@ -46,9 +47,9 @@ export default function FeaturesGrid() {
     <section className="px-4 py-20 md:px-10 lg:px-14">
       <div className="mb-13 text-center">
         <div className="text-primary text-lg text-center">Our Learning Resources</div>
-        <h2 className='text-3xl mt-2'>
+        <Heading2 className='text-3xl mt-2'>
           Everything you need to succeed in your academic journey, all in one place.
-        </h2>
+        </Heading2>
       </div>
 
       <div className="grid grid-cols-1 gap-px overflow-hidden rounded-2xl border border-border bg-border sm:grid-cols-2 lg:grid-cols-3">
@@ -57,10 +58,10 @@ export default function FeaturesGrid() {
             <div className="mb-5.5 flex h-11 w-11 items-center justify-center rounded-[10px] border border-border bg-muted/40 text-foreground">
               {f.icon}
             </div>
-            <h3 className="mb-2.5 font-sans text-[17px] font-bold leading-[1.3] text-foreground">
+            <Heading3 className="mb-2.5 font-sans text-[17px] font-bold leading-[1.3] text-foreground">
               {f.title}
-            </h3>
-            <p className="text-sm leading-[1.85] text-muted-foreground">{f.desc}</p>
+            </Heading3>
+            <Para className="text-sm leading-[1.85] text-muted-foreground">{f.desc}</Para>
           </div>
         ))}
       </div>

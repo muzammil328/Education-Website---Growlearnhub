@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { MCQSet } from '@/data/dummy-mcq-data';
 import QuizCard from './QuizCard';
 import QuizModal from './QuizModal';
+import { Heading2, Para } from '@muzammil328/ui';
 
 interface SetsGridProps {
   sets: MCQSet[];
@@ -34,8 +35,8 @@ export default function SetsGrid({ sets, title = 'Available Sets' }: SetsGridPro
 
   return (
     <div>
-      <h2 style={{ marginBottom: '20px' }}>{title}</h2>
-      <p style={{ marginBottom: '20px', color: '#666' }}>Total sets: {sets.length}</p>
+      <Heading2 style={{ marginBottom: '20px' }}>{title}</Heading2>
+      <Para style={{ marginBottom: '20px', color: '#666' }}>Total sets: {sets.length}</Para>
 
       <div
         style={{

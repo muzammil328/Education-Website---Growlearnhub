@@ -1,3 +1,4 @@
+import { Para } from '@muzammil328/ui';
 export default function BoardModalView({
   formValues,
 }: {
@@ -13,27 +14,27 @@ export default function BoardModalView({
     <div className="space-y-4">
       <div>
         <span className="text-gray-500">Name</span>
-        <p className="font-medium">{formValues.name || '-'}</p>
+        <Para className="font-medium">{formValues.name || '-'}</Para>
       </div>
       <div>
         <span className="text-gray-500">Slug</span>
-        <p className="font-medium">{formValues.slug || '-'}</p>
+        <Para className="font-medium">{formValues.slug || '-'}</Para>
       </div>
       <div>
         <span className="text-gray-500">Class</span>
-        <p className="font-medium">
+        <Para className="font-medium">
           {Array.isArray(formValues.classId)
             ? formValues.classId.join(', ')
             : formValues.classId || '-'}
-        </p>
+        </Para>
       </div>
       <div>
         <span className="text-gray-500">Description</span>
-        <p className="font-medium">{formValues.description || '-'}</p>
+        <Para className="font-medium">{formValues.description || '-'}</Para>
       </div>
       <div>
         <span className="text-gray-500">Status</span>
-        <p className="font-medium">{formValues.status || '-'}</p>
+        <Para className="font-medium">{formValues.status || '-'}</Para>
       </div>
     </div>
   );

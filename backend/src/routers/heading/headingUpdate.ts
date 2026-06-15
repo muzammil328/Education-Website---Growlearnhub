@@ -3,21 +3,27 @@ import { toTrpcError } from '@muzammil328/trpc';
 import { headingRepository } from '@/repository/heading.repository';
 import { updateHeadingInputSchema } from '@muzammil328/education-packages';
 import { superAdminProcedure } from '@/trpc/trpc';
-import { resolveObjectId, toObjectId } from '@muzammil328/db';
+import { buildMatch, resolveObjectId, toObjectId } from '@muzammil328/db';
+import { slugify } from '@/utils';
 
 export const headingUpdate = superAdminProcedure
   .input(updateHeadingInputSchema)
   .mutation(async ({ input }) => {
     try {
-      const duplicate = await headingRepository.findOne({
-        name: input.updates.name,
-        _id: {
-          $ne: resolveObjectId(input.id),
-        },
-      });
+      const classId = input.updates.classId ? toObjectId(input.updates.classId) : undefined;
+      const chapterId = input.updates.chapterId ? toObjectId(input.updates.chapterId) : undefined;
+      const bookId = toObjectId(input.updates.bookId);
+
+      const duplicate = await headingRepository.findOne(buildMatch({
+        slug: slugify(input.updates.name),
+        bookId,
+        classId,
+        chapterId,
+        _id: { $ne: resolveObjectId(input.id) },
+      }));
 
       if (duplicate) {
-        throw AppError.badRequest('Heading already exists');
+        throw AppError.badRequest('Heading already exists in this chapter');
       }
 
       const updated = await headingRepository.findByIdAndUpdate(
@@ -25,9 +31,9 @@ export const headingUpdate = superAdminProcedure
         {
           name: input.updates.name,
           status: input.updates.status,
-          classId: toObjectId(input.updates.classId),
-          bookId: toObjectId(input.updates.bookId),
-          chapterId: toObjectId(input.updates.chapterId),
+          classId,
+          bookId,
+          chapterId,
           order: input.updates.order,
         },
         {

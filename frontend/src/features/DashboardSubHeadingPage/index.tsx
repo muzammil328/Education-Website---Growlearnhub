@@ -1,11 +1,11 @@
 'use client';
 import React, { useState, useCallback, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@muzammil328/ui';
-import { Button } from '@muzammil328/ui';
+import { Button, Para, SelectContent, SelectItem, Select, SelectTrigger, SelectValue } from '@muzammil328/ui';
 import { Plus, SlidersHorizontal } from 'lucide-react';
 
 import { SubHeadingTable } from '@/features/DashboardSubHeadingPage/SubHeadingTable';
+import { BulkAddSubHeadingModal } from '@/features/DashboardSubHeadingPage/BulkAddSubHeadingModal';
 import { DataTablePagination } from '@/components/ui/data-table-pagination';
 import { DashboardPageHeader } from '@/components/DashboardPageHeader';
 
@@ -34,6 +34,15 @@ export default function DashboardSubHeadingPage({
   });
   const [limit] = useState(10);
   const [search, setSearch] = useState('');
+  const [debouncedSearch, setDebouncedSearch] = useState('');
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setDebouncedSearch(search);
+      setPage(1);
+    }, 400);
+    return () => clearTimeout(timeout);
+  }, [search]);
 
   const [sortField, setSortField] = useState<
     'name' | 'status' | 'createdAt' | 'updatedAt' | 'order'
@@ -47,6 +56,7 @@ export default function DashboardSubHeadingPage({
   const [isSubHeadingViewOpen, setIsSubHeadingViewOpen] = useState(false);
   const [isSubHeadingEditOpen, setIsSubHeadingEditOpen] = useState(false);
   const [isAddSubHeadingOpen, setIsAddSubHeadingOpen] = useState(false);
+  const [isBulkAddSubHeadingOpen, setIsBulkAddSubHeadingOpen] = useState(false);
   const [selectedSubHeadingId, setSelectedSubHeadingId] = useState<string | null>(null);
 
   const prevUrlRef = React.useRef<string | null>(null);
@@ -110,7 +120,7 @@ export default function DashboardSubHeadingPage({
     limit,
     sort: sortField,
     sortDirection: sortOrder,
-    search,
+    search: debouncedSearch,
   });
 
   const subHeadingData = Array.isArray(responseData?.data) ? responseData.data : [];
@@ -125,7 +135,7 @@ export default function DashboardSubHeadingPage({
   if (error && !isLoading) {
     return (
       <div className="flex flex-col items-center justify-center py-16">
-        <p className="text-red-500 mb-2">Failed to load subheadings</p>
+        <Para className="text-red-500 mb-2">Failed to load subheadings</Para>
         <button
           onClick={() => window.location.reload()}
           className="text-sm text-muted-foreground hover:text-foreground"
@@ -142,10 +152,19 @@ export default function DashboardSubHeadingPage({
         title="Sub Heading Management"
         description="Break down headings into focused sub-topics for deeper learning"
         action={
-          <Button onClick={() => setIsAddSubHeadingOpen(true)} size="lg">
-            Add SubHeading
-          </Button>
+          <div className="flex items-center gap-2">
+            <Button onClick={() => setIsBulkAddSubHeadingOpen(true)} size="lg" variant="outline">
+              Bulk Add
+            </Button>
+            <Button onClick={() => setIsAddSubHeadingOpen(true)} size="lg">
+              Add SubHeading
+            </Button>
+          </div>
         }
+      />
+      <BulkAddSubHeadingModal
+        isOpen={isBulkAddSubHeadingOpen}
+        onOpenChange={setIsBulkAddSubHeadingOpen}
       />
       <div className="border rounded-md pb-3">
         <div className="flex items-center justify-between">
@@ -178,6 +197,7 @@ export default function DashboardSubHeadingPage({
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="name">Name</SelectItem>
+                  <SelectItem value="order">Order</SelectItem>
                   <SelectItem value="className">Class Name</SelectItem>
                   <SelectItem value="bookName">Book Name</SelectItem>
                   <SelectItem value="chapterName">Chapter Name</SelectItem>

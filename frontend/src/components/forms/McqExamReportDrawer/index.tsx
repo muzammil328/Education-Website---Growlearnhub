@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { X, BookOpen } from 'lucide-react';
+import { Heading2, Para } from '@muzammil328/ui';
 
 const BOARDS = [
   'Lahore Board',
@@ -82,7 +83,7 @@ export default function McqExamReportDrawer({ open, onClose, questionText }: Pro
         <div className="flex items-center justify-between border-b border-border px-5 py-4">
           <div className="flex items-center gap-2">
             <BookOpen className="h-5 w-5 text-primary" />
-            <h2 className="text-base font-semibold text-foreground">Report Exam Appearance</h2>
+            <Heading2 className="text-base font-semibold text-foreground">Report Exam Appearance</Heading2>
           </div>
           <button
             onClick={onClose}
@@ -102,10 +103,10 @@ export default function McqExamReportDrawer({ open, onClose, questionText }: Pro
 
           {submitted ? (
             <div className="rounded-lg border border-green-200 bg-green-50 p-4 text-sm text-green-800 dark:border-green-900 dark:bg-green-900/20 dark:text-green-300">
-              <p className="font-medium">Thank you for your report!</p>
-              <p className="mt-1 text-green-700 dark:text-green-400">
+              <Para className="font-medium">Thank you for your report!</Para>
+              <Para className="mt-1 text-green-700 dark:text-green-400">
                 This helps us tag MCQs with their past paper appearances.
-              </p>
+              </Para>
               <button
                 onClick={onClose}
                 className="mt-3 rounded-md bg-green-600 px-3 py-1.5 text-xs font-medium text-white hover:bg-green-700"
@@ -115,10 +116,10 @@ export default function McqExamReportDrawer({ open, onClose, questionText }: Pro
             </div>
           ) : (
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-              <p className="text-sm text-foreground/70">
+              <Para className="text-sm text-foreground/70">
                 Help us track which past papers this question appeared in. Your input improves the
                 experience for all students.
-              </p>
+              </Para>
 
               {/* Exam Name */}
               <div>
@@ -131,7 +132,7 @@ export default function McqExamReportDrawer({ open, onClose, questionText }: Pro
                   className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50"
                 />
                 {errors.examName && (
-                  <p className="mt-1 text-xs text-red-500">{errors.examName.message}</p>
+                  <Para className="mt-1 text-xs text-red-500">{errors.examName.message}</Para>
                 )}
               </div>
 
@@ -148,7 +149,7 @@ export default function McqExamReportDrawer({ open, onClose, questionText }: Pro
                   className="w-full rounded-md border border-border bg-background px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50"
                 />
                 {errors.year && (
-                  <p className="mt-1 text-xs text-red-500">{errors.year.message}</p>
+                  <Para className="mt-1 text-xs text-red-500">{errors.year.message}</Para>
                 )}
               </div>
 
@@ -167,7 +168,7 @@ export default function McqExamReportDrawer({ open, onClose, questionText }: Pro
                   ))}
                 </select>
                 {errors.board && (
-                  <p className="mt-1 text-xs text-red-500">{errors.board.message}</p>
+                  <Para className="mt-1 text-xs text-red-500">{errors.board.message}</Para>
                 )}
               </div>
 

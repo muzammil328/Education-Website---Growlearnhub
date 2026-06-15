@@ -2,9 +2,7 @@
 
 import React from 'react';
 import { useCurrentUser } from '@/hooks';
-import { Avatar, AvatarFallback, AvatarImage } from '@muzammil328/ui';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@muzammil328/ui';
-import { Label, Switch } from '@muzammil328/ui';
+import { Avatar, AvatarFallback, AvatarImage, Card, CardContent, CardDescription, CardHeader, CardTitle, Heading3, Label, Para, Switch } from '@muzammil328/ui';
 
 export default function SettingsPage() {
   const { data: user, isLoading } = useCurrentUser();
@@ -12,7 +10,7 @@ export default function SettingsPage() {
   if (isLoading) {
     return (
       <div className="flex items-center justify-center min-h-[400px]">
-        <p>Loading...</p>
+        <Para>Loading...</Para>
       </div>
     );
   }
@@ -28,9 +26,9 @@ export default function SettingsPage() {
           <div className="flex items-center justify-between">
             <div className="space-y-0.5">
               <Label>Email Notifications</Label>
-              <p className="text-sm text-muted-foreground">
+              <Para className="text-sm text-muted-foreground">
                 Receive email updates about your account
-              </p>
+              </Para>
             </div>
             <Switch defaultChecked />
           </div>
@@ -38,21 +36,21 @@ export default function SettingsPage() {
           <div className="flex items-center justify-between">
             <div className="space-y-0.5">
               <Label>Marketing Emails</Label>
-              <p className="text-sm text-muted-foreground">Receive news and promotional emails</p>
+              <Para className="text-sm text-muted-foreground">Receive news and promotional emails</Para>
             </div>
             <Switch />
           </div>
 
           <div className="pt-4 border-t">
-            <h3 className="text-lg font-semibold mb-4">Account Info</h3>
+            <Heading3 className="text-lg font-semibold mb-4">Account Info</Heading3>
             <div className="flex items-center gap-4">
               <Avatar className="h-12 w-12">
                 <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
                 <AvatarFallback>{user?.username?.charAt(0).toUpperCase()}</AvatarFallback>
               </Avatar>
               <div>
-                <p className="font-medium">{user?.username}</p>
-                <p className="text-sm text-muted-foreground">{user?.email}</p>
+                <Para className="font-medium">{user?.username}</Para>
+                <Para className="text-sm text-muted-foreground">{user?.email}</Para>
               </div>
             </div>
           </div>

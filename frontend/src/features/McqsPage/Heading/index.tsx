@@ -1,9 +1,10 @@
 import React from 'react';
+import { Heading1 } from '@muzammil328/ui';
 
 export default function McqsHeadingPage() {
   return (
     <div>
-      <h1>Mcqs Heading Page</h1>
+      <Heading1>Mcqs Heading Page</Heading1>
     </div>
   );
 }

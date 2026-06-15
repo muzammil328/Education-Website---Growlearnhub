@@ -1,3 +1,4 @@
+import { Para } from '@muzammil328/ui';
 export type ClassViewData = {
   name: string;
   slug?: string;
@@ -24,31 +25,31 @@ export default function ClassModalView({
     <div className="space-y-4">
       <div>
         <span className="text-gray-500">Name</span>
-        <p className="font-medium">{formValues.name || '-'}</p>
+        <Para className="font-medium">{formValues.name || '-'}</Para>
       </div>
       <div>
         <span className="text-gray-500">Description</span>
-        <p className="font-medium">{formValues.description || '-'}</p>
+        <Para className="font-medium">{formValues.description || '-'}</Para>
       </div>
       <div>
         <span className="text-gray-500">Image URL</span>
-        <p className="font-medium">{formValues.image || '-'}</p>
+        <Para className="font-medium">{formValues.image || '-'}</Para>
       </div>
       <div>
         <span className="text-gray-500">Services</span>
-        <p className="font-medium">
+        <Para className="font-medium">
           {services?.length
             ? services.map(s => s.name).join(', ')
             : '-'}
-        </p>
+        </Para>
       </div>
       <div>
         <span className="text-gray-500">Keywords</span>
-        <p className="font-medium">{formValues.keywords?.join(', ') || '-'}</p>
+        <Para className="font-medium">{formValues.keywords?.join(', ') || '-'}</Para>
       </div>
       <div>
         <span className="text-gray-500">Status</span>
-        <p className="font-medium">{formValues.status || '-'}</p>
+        <Para className="font-medium">{formValues.status || '-'}</Para>
       </div>
     </div>
   );

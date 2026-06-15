@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { trpc } from '@/trpc/trpc';
 import { cn } from '@/lib/utils';
 import { DollarSign, Clock, CheckCircle, XCircle } from 'lucide-react';
+import { Heading1, Para } from '@muzammil328/ui';
 
 type StatusFilter = 'all' | 'pending' | 'completed' | 'failed' | 'refunded';
 
@@ -25,7 +26,7 @@ export default function PaymentsAdminPage() {
 
   return (
     <div className="space-y-6 p-6">
-      <h1 className="text-2xl font-bold">Payments</h1>
+      <Heading1 className="text-2xl font-bold">Payments</Heading1>
 
       {/* Summary cards */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
@@ -38,8 +39,8 @@ export default function PaymentsAdminPage() {
           <div key={card.label} className="rounded-xl border border-border bg-card p-5 flex items-center gap-4">
             <card.icon className={cn('w-8 h-8 shrink-0', card.color)} />
             <div>
-              <p className="text-xs text-muted-foreground">{card.label}</p>
-              <p className="text-xl font-bold text-foreground">{card.value}</p>
+              <Para className="text-xs text-muted-foreground">{card.label}</Para>
+              <Para className="text-xl font-bold text-foreground">{card.value}</Para>
             </div>
           </div>
         ))}
@@ -81,8 +82,8 @@ export default function PaymentsAdminPage() {
             {data?.data?.map(p => (
               <tr key={p.id} className="hover:bg-muted/20 transition-colors">
                 <td className="px-4 py-3">
-                  <p className="font-medium text-foreground">{p.user?.username ?? '—'}</p>
-                  <p className="text-xs text-muted-foreground">{p.user?.email}</p>
+                  <Para className="font-medium text-foreground">{p.user?.username ?? '—'}</Para>
+                  <Para className="text-xs text-muted-foreground">{p.user?.email}</Para>
                 </td>
                 <td className="px-4 py-3 font-semibold text-foreground">{p.currency} {p.amount.toLocaleString()}</td>
                 <td className="px-4 py-3 capitalize text-muted-foreground">{p.type}</td>

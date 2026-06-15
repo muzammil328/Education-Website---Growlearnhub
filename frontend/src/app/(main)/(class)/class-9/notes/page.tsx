@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 import UserLayout from '@/components/layout/UserLayout';
+import { Heading1, Para } from '@muzammil328/ui';
 
 const CLASS_SLUG = 'class-9';
 
@@ -18,8 +19,8 @@ export default function NotesPage() {
       url={`https://growlearnhub.com/${CLASS_SLUG}/notes/`}
     >
       <div className="flex min-h-[50vh] flex-col items-center justify-center text-center">
-        <h1 className="mb-4 text-3xl font-bold text-primary">Class 9 Notes</h1>
-        <p className="text-lg text-muted-foreground">Coming Soon</p>
+        <Heading1 className="mb-4 text-3xl font-bold text-primary">Class 9 Notes</Heading1>
+        <Para className="text-lg text-muted-foreground">Coming Soon</Para>
       </div>
     </UserLayout>
   );

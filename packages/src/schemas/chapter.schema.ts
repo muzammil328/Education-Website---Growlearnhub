@@ -22,8 +22,8 @@ export const getChaptersInputSchema = z.object({
   sort: z
     .enum(['name', 'status', 'createdAt', 'order', 'className', 'bookName'])
     .optional()
-    .default('createdAt'),
-  sortDirection: z.enum(['asc', 'desc']).optional().default('desc'),
+    .default('order'),
+  sortDirection: z.enum(['asc', 'desc']).optional().default('asc'),
   search: z.string().trim().optional(),
 });
 export type ZGetChaptersInput = z.infer<typeof getChaptersInputSchema>;

@@ -2,10 +2,8 @@
 
 import React, { useState, useEffect } from 'react';
 import { Mcq, QuizAnswer, QuizResult } from '../online-tests/OnlineTestTypes';
-import { RadioGroup, RadioGroupItem, Button, Progress, Card, CardContent, CardDescription, CardHeader, CardTitle,  } from '@muzammil328/ui'
-import { Label, Checkbox } from '@muzammil328/ui';
+import { Button, Card, CardContent, CardDescription, CardHeader, CardTitle, Checkbox, cn, Heading3, Label, Progress, RadioGroup, RadioGroupItem } from '@muzammil328/ui'
 import { Clock, CheckCircle2, XCircle, Trophy } from 'lucide-react';
-import { cn } from '@muzammil328/ui';
 
 interface QuizProps {
   mcqs: Mcq[];
@@ -168,7 +166,7 @@ export const Quiz: React.FC<QuizProps> = ({ mcqs, onComplete, timeLimit }) => {
             </div>
 
             <div className="space-y-4">
-              <h3 className="text-lg font-semibold">Review Answers</h3>
+              <Heading3 className="text-lg font-semibold">Review Answers</Heading3>
               {result.answers.map((answer, idx) => (
                 <Card
                   key={answer.mcq.id}

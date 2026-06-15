@@ -1,5 +1,4 @@
-import { Container } from '@muzammil328/ui';
-import { Heading1, Para } from '@muzammil328/ui';
+import { Container, Heading1, Para } from '@muzammil328/ui';
 import { Check } from 'lucide-react';
 
 const features = [
@@ -24,10 +23,10 @@ export default function FlexibleScheduling() {
               Learn at a Pace That Works for You
             </Heading1>
 
-            <p className="mb-8 text-gray-700 max-w-xl">
+            <Para className="mb-8 text-gray-700 max-w-xl">
               There&apos;s no rush! You can take breaks, go back to things you enjoy, and spend as
               much time as you need on each lesson.
-            </p>
+            </Para>
 
             {/* Features Grid */}
             <div className="grid gap-4 md:grid-cols-2">

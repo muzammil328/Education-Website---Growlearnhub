@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import { Container } from '@muzammil328/ui';
+import { Container, Heading1, Heading2, Heading3, Para } from '@muzammil328/ui';
 import { BookOpen, CheckSquare, Clock, FileText, CalendarDays, Trophy } from 'lucide-react';
 import { ArticlesSection } from '@/components/sections/ArticlesSection';
 import { StatsSection } from '@/components/sections/StatsSection';
@@ -129,18 +129,18 @@ export default function HomePage() {
               ✦ Free for Pakistani Students
             </span>
 
-            <h1 className="mt-5 text-4xl font-extrabold leading-tight tracking-tight text-foreground md:text-5xl lg:text-6xl">
+            <Heading1 className="mt-5 text-4xl font-extrabold leading-tight tracking-tight text-foreground md:text-5xl lg:text-6xl">
               Notes, MCQs, Tests &amp;{' '}
               <span className="text-primary">Past Papers</span>
               {' '}—{' '}
               <br className="hidden sm:block" />
               All in One Place
-            </h1>
+            </Heading1>
 
-            <p className="mt-5 max-w-md text-base leading-relaxed text-foreground/75 md:text-lg">
+            <Para className="mt-5 max-w-md text-base leading-relaxed text-foreground/75 md:text-lg">
               Pakistan&apos;s free study platform for Class 9, 10, 11, 12 and VU students.
               Chapter-wise notes, MCQs, timed tests, and past papers — for every major board.
-            </p>
+            </Para>
 
             <div className="mt-8 flex flex-wrap items-center gap-3">
               <Link
@@ -175,8 +175,8 @@ export default function HomePage() {
           <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
             {stats.map(s => (
               <div key={s.label} className="rounded-xl border border-border bg-muted/10 py-5 text-center">
-                <p className="text-2xl font-extrabold text-primary md:text-3xl">{s.value}</p>
-                <p className="mt-1 text-xs text-muted-foreground">{s.label}</p>
+                <Para className="text-2xl font-extrabold text-primary md:text-3xl">{s.value}</Para>
+                <Para className="mt-1 text-xs text-muted-foreground">{s.label}</Para>
               </div>
             ))}
           </div>
@@ -188,9 +188,9 @@ export default function HomePage() {
         <Container>
           <div className="mb-8 text-center">
             <SectionLabel>Choose Your Class</SectionLabel>
-            <h2 className="mt-3 text-2xl font-bold text-foreground md:text-3xl">
+            <Heading2 className="mt-3 text-2xl font-bold text-foreground md:text-3xl">
               Where would you like to start?
-            </h2>
+            </Heading2>
           </div>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5">
             {classes.map(c => (
@@ -214,9 +214,9 @@ export default function HomePage() {
 
           {/* social proof bar */}
           <div className="text-center">
-            <p className="text-base font-semibold text-foreground md:text-lg">
+            <Para className="text-base font-semibold text-foreground md:text-lg">
               Trusted by <span className="text-primary">50,000+</span> students across every major Pakistani board
-            </p>
+            </Para>
             <div className="mt-6 flex flex-wrap items-center justify-center gap-6 opacity-50 grayscale md:gap-10">
               {boards.map(b => (
                 <span key={b} className="text-sm font-bold tracking-wide text-foreground">
@@ -228,12 +228,12 @@ export default function HomePage() {
 
           {/* features block */}
           <div className="mx-auto mt-20 max-w-2xl text-center">
-            <h2 className="text-3xl font-extrabold leading-tight tracking-tight text-foreground md:text-5xl">
+            <Heading2 className="text-3xl font-extrabold leading-tight tracking-tight text-foreground md:text-5xl">
               Every resource you need<br />to ace your exams
-            </h2>
-            <p className="mt-4 text-base text-muted-foreground">
+            </Heading2>
+            <Para className="mt-4 text-base text-muted-foreground">
               No textbook hunting. No paid subscriptions. Just everything a Pakistani board student needs, free.
-            </p>
+            </Para>
           </div>
 
           <div className="mt-12 grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-4">
@@ -242,8 +242,8 @@ export default function HomePage() {
                 <div className="flex h-14 w-14 items-center justify-center rounded-full bg-primary">
                   <f.Icon className="h-6 w-6 text-white" />
                 </div>
-                <h3 className="text-lg font-bold text-foreground">{f.title}</h3>
-                <p className="text-sm leading-relaxed text-muted-foreground">{f.desc}</p>
+                <Heading3 className="text-lg font-bold text-foreground">{f.title}</Heading3>
+                <Para className="text-sm leading-relaxed text-muted-foreground">{f.desc}</Para>
               </div>
             ))}
           </div>
@@ -269,14 +269,14 @@ export default function HomePage() {
 
             {/* left: text */}
             <div className="flex max-w-lg flex-col gap-6 md:w-1/2">
-              <h2 className="text-4xl font-extrabold leading-tight tracking-tight text-foreground md:text-5xl">
+              <Heading2 className="text-4xl font-extrabold leading-tight tracking-tight text-foreground md:text-5xl">
                 Study smarter,<br />score higher
-              </h2>
-              <p className="text-sm leading-relaxed text-muted-foreground md:text-base">
+              </Heading2>
+              <Para className="text-sm leading-relaxed text-muted-foreground md:text-base">
                 GrowLearnHub brings together everything a Pakistani board student needs — chapter-wise notes,
                 MCQ practice, timed online tests, and five-plus years of past papers — all in one place,
                 completely free. No sign-up barriers, no paywalls.
-              </p>
+              </Para>
               <ul className="flex flex-col gap-3">
                 {[
                   'Chapter-wise notes aligned to every major board',
@@ -317,7 +317,7 @@ export default function HomePage() {
                   </svg>
                   Active Students
                 </div>
-                <p className="text-3xl font-extrabold text-white">50K+</p>
+                <Para className="text-3xl font-extrabold text-white">50K+</Para>
                 <span className="mt-1 inline-flex items-center gap-1 rounded-full bg-white/20 px-2 py-0.5 text-xs font-semibold text-white">
                   ↑ Growing every day
                 </span>
@@ -345,13 +345,13 @@ export default function HomePage() {
       <section className="py-16">
         <Container>
           <div className="mx-auto max-w-xl rounded-2xl border border-border bg-primary/5 px-8 py-12 text-center">
-            <h2 className="text-2xl font-extrabold text-foreground md:text-3xl">
+            <Heading2 className="text-2xl font-extrabold text-foreground md:text-3xl">
               Ready to start studying smarter?
-            </h2>
-            <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+            </Heading2>
+            <Para className="mt-3 text-sm leading-relaxed text-muted-foreground">
               Join thousands of Pakistani students already using GrowLearnHub to prepare for
               their board exams — completely free.
-            </p>
+            </Para>
             <Link
               href="/class-9/"
               className="mt-6 inline-block rounded-xl bg-primary px-8 py-3 text-sm font-semibold text-white shadow transition hover:opacity-90"

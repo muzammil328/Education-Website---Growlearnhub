@@ -1,7 +1,7 @@
 'use client';
 import React from 'react';
 import CardSmall from '@/components/card/SmallCard';
-import { Heading2 } from '@muzammil328/ui';
+import { Heading2, Para } from '@muzammil328/ui';
 import { useChapterByClassAndBookSlug } from '@/hooks/use-public';
 import SetsInlineSection from '@/components/mcqs/SetsInlineSection';
 import { toDisplayName } from '@/lib/class-filter';
@@ -31,8 +31,8 @@ export default function OnlineTestClass9BookPage({
   if (error) {
     return (
       <div className="rounded-2xl border border-red-200 bg-red-50 p-6 text-center">
-        <p className="font-medium text-red-700">Failed to load chapters</p>
-        <p className="mt-1 text-sm text-red-600">Please try again in a moment.</p>
+        <Para className="font-medium text-red-700">Failed to load chapters</Para>
+        <Para className="mt-1 text-sm text-red-600">Please try again in a moment.</Para>
       </div>
     );
   }
@@ -40,10 +40,10 @@ export default function OnlineTestClass9BookPage({
   if (!chapters.length) {
     return (
       <div className="rounded-2xl border border-amber-200 bg-amber-50 p-6 text-center">
-        <p className="font-medium text-amber-700">No chapters found</p>
-        <p className="mt-1 text-sm text-amber-600">
+        <Para className="font-medium text-amber-700">No chapters found</Para>
+        <Para className="mt-1 text-sm text-amber-600">
           There are no chapters available for this class and book.
-        </p>
+        </Para>
       </div>
     );
   }

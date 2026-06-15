@@ -4,6 +4,7 @@ import React from 'react';
 import Link from 'next/link';
 import UserLayout from '@/components/layout/UserLayout';
 import { useResultByClassAndBoard } from '@/hooks/use-public';
+import { Heading2, Heading3, Para } from '@muzammil328/ui';
 
 const CLASS_SLUG = 'class-11';
 
@@ -20,19 +21,19 @@ export default function ResultBoardClass11({ boardSlug }: { boardSlug: string })
     >
       <article className="max-w-none">
         <header>
-          <p className="text-sm text-muted-foreground mb-2">
+          <Para className="text-sm text-muted-foreground mb-2">
             <Link href="/result" className="hover:underline text-primary">Result</Link>
             {' / '}
             <Link href={`/${CLASS_SLUG}/result`} className="hover:underline text-primary">Class 11</Link>
             {' / '}
             <span>{boardName}</span>
-          </p>
-          <h2 className="text-2xl font-semibold text-primary">
+          </Para>
+          <Heading2 className="text-2xl font-semibold text-primary">
             Class 11 Result 2025 – {boardName}
-          </h2>
-          <p className="text-muted-foreground mt-1">
+          </Heading2>
+          <Para className="text-muted-foreground mt-1">
             View and download the official Class 11 (HSC-I / Inter Part 1) annual result for 2025.
-          </p>
+          </Para>
         </header>
 
         <section className="mt-6">
@@ -42,7 +43,7 @@ export default function ResultBoardClass11({ boardSlug }: { boardSlug: string })
               Loading result...
             </div>
           ) : error ? (
-            <p className="text-red-500">Failed to load result. Please try again later.</p>
+            <Para className="text-red-500">Failed to load result. Please try again later.</Para>
           ) : result ? (
             <div className="space-y-4">
               <div className="flex flex-wrap gap-3">
@@ -66,12 +67,12 @@ export default function ResultBoardClass11({ boardSlug }: { boardSlug: string })
               </div>
             </div>
           ) : (
-            <p className="text-muted-foreground">No result available for this board yet.</p>
+            <Para className="text-muted-foreground">No result available for this board yet.</Para>
           )}
         </section>
 
         <section className="mt-8">
-          <h3 className="text-xl font-semibold text-foreground">How to Use This Result</h3>
+          <Heading3 className="text-xl font-semibold text-foreground">How to Use This Result</Heading3>
           <ul className="list-disc space-y-2 pl-5 text-muted-foreground">
             <li>Open the PDF and search for your roll number.</li>
             <li>Download and save the result for your Part 2 enrollment records.</li>

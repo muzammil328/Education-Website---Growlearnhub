@@ -5,9 +5,9 @@ import { StatusEnum } from '../enums';
 export const headingCreateSchema = z.object({
   name: z.string().trim().min(1),
   slug: z.string().trim().optional(),
-  classId: z.string().trim().min(1),
+  classId: z.string().trim().optional(),
   bookId: z.string().trim().min(1),
-  chapterId: z.string().trim().min(1),
+  chapterId: z.string().trim().optional(),
   status: z.nativeEnum(StatusEnum).default(StatusEnum.Active),
   order: z.number().optional(),
 });
@@ -21,8 +21,8 @@ export const getHeadingsInputSchema = z.object({
   sort: z
     .enum(['name', 'status', 'createdAt', 'updatedAt', 'order', 'className', 'bookName', 'chapterName'])
     .optional()
-    .default('createdAt'),
-  sortDirection: z.enum(['asc', 'desc']).optional().default('desc'),
+    .default('order'),
+  sortDirection: z.enum(['asc', 'desc']).optional().default('asc'),
   search: z.string().trim().optional(),
 });
 
@@ -60,3 +60,21 @@ export const updateHeadingInputSchema = z.object({
   updates: headingCreateSchema,
 });
 export type UpdateHeadingInput = z.infer<typeof updateHeadingInputSchema>;
+
+// Bulk Create Headings
+export const bulkCreateHeadingsInputSchema = z.object({
+  classId: z.string().trim().optional(),
+  bookId: z.string().trim().min(1),
+  chapterId: z.string().trim().optional(),
+  items: z
+    .array(
+      z.object({
+        name: z.string().trim().min(1),
+        order: z.number().optional(),
+        status: z.nativeEnum(StatusEnum).optional().default(StatusEnum.Active),
+      })
+    )
+    .min(1)
+    .max(100),
+});
+export type BulkCreateHeadingsInput = z.infer<typeof bulkCreateHeadingsInputSchema>;

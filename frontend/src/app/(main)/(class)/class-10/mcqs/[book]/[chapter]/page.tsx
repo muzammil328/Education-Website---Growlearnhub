@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import UserLayout from '@/components/layout/UserLayout';
-import { Heading2 } from '@muzammil328/ui';
+import { Heading2, Para } from '@muzammil328/ui';
 import { removeDashAndUppercase } from '@/lib/removeDashAndUppercase';
 import { config } from '@/config';
 import Class10McqsBookChapterPage from '@/features/McqsPage/Class10/Chapter';
@@ -65,9 +65,9 @@ export default async function Page({ params }: PageProps) {
           <Heading2 className="mb-2" weight="bold" size="sm">
             Class 10 {bookLabel} {chapterLabel} Topics
           </Heading2>
-          <p className="text-base">
+          <Para className="text-base">
             Move from chapters into the topic hierarchy for {chapterLabel}.
-          </p>
+          </Para>
         </header>
         <Class10McqsBookChapterPage bookSlug={book} chapterSlug={chapter} />
       </article>

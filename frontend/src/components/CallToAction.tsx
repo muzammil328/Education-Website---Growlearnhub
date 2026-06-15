@@ -1,14 +1,5 @@
 'use client';
-import {
-    Drawer,
-    DrawerTrigger,
-    DrawerContent,
-    DrawerHeader,
-    DrawerTitle,
-    DrawerDescription,
-    Button,
-    useIsMobile,
-} from '@muzammil328/ui';
+import { Button, DrawerContent, DrawerDescription, Drawer, DrawerHeader, DrawerTitle, DrawerTrigger, Heading3, Para, useIsMobile } from '@muzammil328/ui';
 import { Bug, Sparkles } from 'lucide-react';
 import ReportBugForm from '@/components/forms/ReportBugForm';
 import RequestFeatureForm from '@/components/forms/RequestFeatureForm';
@@ -38,13 +29,13 @@ export default function CallToAction() {
                 We&apos;re always improving
             </span>
 
-            <h3 className="mb-3 text-2xl font-extrabold tracking-tight text-foreground md:text-3xl">
+            <Heading3 className="mb-3 text-2xl font-extrabold tracking-tight text-foreground md:text-3xl">
                 Can&apos;t Find What You&apos;re Looking For?
-            </h3>
-            <p className="mx-auto mb-8 max-w-md text-sm leading-relaxed text-muted-foreground md:text-base">
+            </Heading3>
+            <Para className="mx-auto mb-8 max-w-md text-sm leading-relaxed text-muted-foreground md:text-base">
                 We&apos;re constantly adding new subjects and resources. Let us know what you need
                 and we&apos;ll make it available as soon as possible.
-            </p>
+            </Para>
 
             <div className="flex flex-col items-center justify-center gap-3 sm:flex-row">
                 {/* Report a Bug */}

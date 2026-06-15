@@ -2,7 +2,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@muzammil328/ui';
+import { Para, SelectContent, SelectItem, Select, SelectTrigger, SelectValue } from '@muzammil328/ui';
 
 import { DataTablePagination } from '@/components/ui/data-table-pagination';
 import { BoardTable } from '@/features/DashboardBoardPage/BoardTable';
@@ -100,7 +100,7 @@ export default function DashboardBoardPage({
   };
 
   if (error) {
-    return <p className="text-red-500">Failed to load boards</p>;
+    return <Para className="text-red-500">Failed to load boards</Para>;
   }
 
   return (

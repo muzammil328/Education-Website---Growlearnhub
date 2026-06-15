@@ -1,6 +1,7 @@
 import React from 'react';
 import { Metadata } from 'next';
 import UserLayout from '@/components/layout/UserLayout';
+import { Heading2, Heading3, Para } from '@muzammil328/ui';
 
 const data = {
   title: 'User Experience | GrowLearnHub',
@@ -18,54 +19,54 @@ export default function page() {
   return (
     <UserLayout title={data.title} image={data.image} canonical={data.canonical} url={data.url}>
       <section>
-          <h2 className="line">
+          <Heading2 className="line">
             User Experience
-          </h2>
+          </Heading2>
 
           <div className="space-y-6 ">
-            <p>
+            <Para>
               At Growlearnhub, we are committed to providing an exceptional user experience. Our
               platform is designed to be intuitive, accessible, and helpful for students of all ages.
-            </p>
+            </Para>
 
-            <h3>
+            <Heading3>
               Easy Navigation
-            </h3>
-            <p>
+            </Heading3>
+            <Para>
               Our website features a clean, organized layout that makes it easy to find what
               you&apos;re looking for. Browse by class, subject, or content type with just a few
               clicks.
-            </p>
+            </Para>
 
-            <h3>
+            <Heading3>
               Mobile-Friendly Design
-            </h3>
-            <p>
+            </Heading3>
+            <Para>
               Access Growlearnhub from any device. Our responsive design ensures a seamless experience
               on desktops, tablets, and mobile phones.
-            </p>
+            </Para>
 
-            <h3>
+            <Heading3>
               Fast Loading
-            </h3>
-            <p>
+            </Heading3>
+            <Para>
               We understand the importance of quick access to educational materials. Our platform is
               optimized for fast loading times so you can focus on learning.
-            </p>
+            </Para>
 
-            <h3>Accessibility</h3>
-            <p>
+            <Heading3>Accessibility</Heading3>
+            <Para>
               We strive to make our content accessible to all users. Our platform supports screen
               readers and includes features for users with visual impairments.
-            </p>
+            </Para>
 
-            <h3>
+            <Heading3>
               Feedback & Support
-            </h3>
-            <p>
+            </Heading3>
+            <Para>
               Have suggestions or encountered issues? Use our &quot;Report a Bug&quot; or
               &quot;Request Feature&quot; pages to help us improve your experience.
-            </p>
+            </Para>
           </div>
       </section>
     </UserLayout>

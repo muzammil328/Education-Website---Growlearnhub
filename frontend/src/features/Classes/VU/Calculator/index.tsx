@@ -6,7 +6,7 @@ import MidPercentages from '@/features/MainPage/VU/Calculator/MidPercentage';
 import AssignmentPercentage from '@/features/MainPage/VU/Calculator/AssignmentPercentage';
 import Image from 'next/image';
 import { Wrapper1 } from '@/components/wrappers/Wrapper1';
-import { Button } from '@muzammil328/ui';
+import { Button, Heading2, Heading3, Para } from '@muzammil328/ui';
 import { CommentForm } from '@/components/forms';
 
 import { bookData } from '@/features/MainPage/VU/Calculator/SubjectSelect/bookData';
@@ -44,13 +44,13 @@ export default function VUCalculator({ url, data }: { url: string; data: unknown
   return (
     <Wrapper1 title={data.title} image={data.image} canonical={data.canonical} url={data.url}>
       <div className="my-10">
-        <h2>Welcome to the Grow Learnhub Mid Term Mark Calculator</h2>
-        <p>
+        <Heading2>Welcome to the Grow Learnhub Mid Term Mark Calculator</Heading2>
+        <Para>
           Hey there! Welcome to our awesome Mark Calculator, It is created just for the students of
           Virtual University. This tool helps you track your grades, collecting marks in mid-exams,
           quizzes, assignments, and GDB. This <strong>VU Mid Mark Calculator</strong> is your new
           best friend for organizing grades and maintaining grades on your academic journey.
-        </p>{' '}
+        </Para>{' '}
         <Image
           src={data[0]?.image}
           alt={data[0]?.title}
@@ -58,16 +58,16 @@ export default function VUCalculator({ url, data }: { url: string; data: unknown
           height="720"
           width="1280"
         />
-        <h3>Calculate your mid marks</h3>
-        <p>
+        <Heading3>Calculate your mid marks</Heading3>
+        <Para>
           It’s got you covered for all subjects and semesters, making it super easy to calculate
           your marks accurately. Just fill in your scores for assignments, quizzes, midterms, and
           GDB. It’ll give you your overall percentage. And be aware you how many marks you are
           required in the final, to succeed in the final No problem! Our{' '}
           <i>VU Mid Mark Calculator’s</i>
           user-friendly interface makes it easy for everyone to use.
-        </p>
-        <p>If any features more, Plz Comment below, Thanks.</p>
+        </Para>
+        <Para>If any features more, Plz Comment below, Thanks.</Para>
         {/* <SubjectSelect bookData={bookData} setSelectedSubject={setSelectedSubject} selectedSubject={selectedSubject} /> */}
         {/* The following components depend on the selected subject */}
         <QuizPercentage

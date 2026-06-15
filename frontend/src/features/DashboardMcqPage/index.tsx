@@ -3,8 +3,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 
-import { Button } from '@muzammil328/ui';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@muzammil328/ui';
+import { Button, Para, SelectContent, SelectItem, Select, SelectTrigger, SelectValue } from '@muzammil328/ui';
 import { DataTablePagination } from '@/components/ui/data-table-pagination';
 import { DashboardPageHeader } from '@/components/DashboardPageHeader';
 
@@ -100,7 +99,7 @@ export default function DashboardMcqsPage({
   };
 
   if (error) {
-    return <p className="text-red-500">Failed to load MCQs</p>;
+    return <Para className="text-red-500">Failed to load MCQs</Para>;
   }
 
   return (

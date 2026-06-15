@@ -3,7 +3,7 @@
 import React from 'react';
 import CardSmall from '@/components/card/SmallCard';
 import UserLayout from '@/components/layout/UserLayout';
-import { Heading2 } from '@muzammil328/ui';
+import { Heading2, Heading3, Para } from '@muzammil328/ui';
 import { useBooksByClassAndServiceSlug } from '@/hooks/use-public';
 import SetsInlineSection from '@/components/mcqs/SetsInlineSection';
 
@@ -26,14 +26,14 @@ export default function Class10OnlineTestPage() {
           <Heading2 className="mb-2" weight="bold" size="sm">
             Class {CLASS_NUMBER} Online Tests
           </Heading2>
-          <p className="text-base">
+          <Para className="text-base">
             Assess your Class {CLASS_NUMBER} knowledge with chapter-wise quizzes, real-time
             scoring, instant feedback, and detailed performance analytics.
-          </p>
+          </Para>
         </header>
 
         <section className="mb-8">
-          <h3 className="mb-3 text-lg font-semibold">Benefits of Online Testing</h3>
+          <Heading3 className="mb-3 text-lg font-semibold">Benefits of Online Testing</Heading3>
           <ul className="list-inside space-y-2">
             <li><strong>Real-time scoring:</strong> Get instant results and see your performance</li>
             <li><strong>Detailed feedback:</strong> Understand why each answer is correct or wrong</li>
@@ -44,7 +44,7 @@ export default function Class10OnlineTestPage() {
         </section>
 
         <section className="mb-8">
-          <h3 className="mb-3 text-lg font-semibold">Test Features</h3>
+          <Heading3 className="mb-3 text-lg font-semibold">Test Features</Heading3>
           <ul className="list-inside space-y-1">
             <li>Chapter-wise quizzes for focused practice</li>
             <li>Multiple difficulty levels</li>
@@ -56,7 +56,7 @@ export default function Class10OnlineTestPage() {
         </section>
 
         <section className="mb-8">
-          <h3 className="mb-3 text-lg font-semibold">Subjects Available</h3>
+          <Heading3 className="mb-3 text-lg font-semibold">Subjects Available</Heading3>
           <ul className="list-inside space-y-1">
             <li>Biology</li>
             <li>Chemistry</li>
@@ -75,7 +75,7 @@ export default function Class10OnlineTestPage() {
               Loading subjects...
             </div>
           ) : error ? (
-            <p className="text-red-500 mt-6">Failed to load subjects. Please try again later.</p>
+            <Para className="text-red-500 mt-6">Failed to load subjects. Please try again later.</Para>
           ) : books && books.length > 0 ? (
             <div className="my-5 grid grid-cols-1 gap-4 md:grid-cols-2">
               {books.map(book => (
@@ -87,12 +87,12 @@ export default function Class10OnlineTestPage() {
               ))}
             </div>
           ) : (
-            <p className="text-gray-500 mt-6">No subjects available for this class right now.</p>
+            <Para className="text-gray-500 mt-6">No subjects available for this class right now.</Para>
           )}
         </section>
 
         <section className="border-t pt-6">
-          <h3 className="mb-3 text-lg font-semibold">Getting Started</h3>
+          <Heading3 className="mb-3 text-lg font-semibold">Getting Started</Heading3>
           <ol className="list-inside space-y-2">
             <li><strong>1. Choose your subject:</strong> Biology, Chemistry, or Physics</li>
             <li><strong>2. Select a chapter:</strong> Pick the chapter you want to test on</li>

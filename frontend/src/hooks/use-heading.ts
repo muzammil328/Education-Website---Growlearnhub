@@ -97,3 +97,12 @@ export const useDeleteHeading = () => {
     },
   });
 };
+
+export const useBulkCreateHeadings = () => {
+  const utils = trpc.useUtils();
+  return trpc.heading.bulkCreate.useMutation({
+    onSuccess: () => {
+      utils.heading.getAll.invalidate();
+    },
+  });
+};

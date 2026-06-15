@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { BookOpen, Download, ExternalLink, FileText, ChevronDown, ChevronUp, Eye } from 'lucide-react';
 import UserLayout from '@/components/layout/UserLayout';
 import { useBookDetail } from '@/hooks/use-public';
+import { Heading1, Para } from '@muzammil328/ui';
 
 const DUMMY_PDF = 'https://ontheline.trincoll.edu/images/bookdown/sample-local-pdf.pdf';
 
@@ -46,12 +47,12 @@ export default function Page({ params }: { params: Promise<{ course: string }> }
               <BookOpen className="w-6 h-6 text-primary" />
             </div>
             <div className="flex-1 min-w-0">
-              <h1 className="text-2xl font-bold text-foreground">{courseName}</h1>
+              <Heading1 className="text-2xl font-bold text-foreground">{courseName}</Heading1>
               {book?.description && (
-                <p className="text-muted-foreground mt-1 text-sm leading-relaxed">{book.description}</p>
+                <Para className="text-muted-foreground mt-1 text-sm leading-relaxed">{book.description}</Para>
               )}
               {book?.pages && (
-                <p className="text-xs text-muted-foreground mt-1">{book.pages} pages</p>
+                <Para className="text-xs text-muted-foreground mt-1">{book.pages} pages</Para>
               )}
             </div>
           </div>
@@ -61,8 +62,8 @@ export default function Page({ params }: { params: Promise<{ course: string }> }
           <LoadingSkeleton />
         ) : error ? (
           <div className="rounded-xl border border-red-200 bg-red-50 dark:bg-red-950/20 p-6 text-center">
-            <p className="text-red-600 font-medium">Failed to load handout data.</p>
-            <p className="text-sm text-red-500 mt-1">Please try again later.</p>
+            <Para className="text-red-600 font-medium">Failed to load handout data.</Para>
+            <Para className="text-sm text-red-500 mt-1">Please try again later.</Para>
           </div>
         ) : (
           <>

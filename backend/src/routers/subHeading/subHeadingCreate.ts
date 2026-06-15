@@ -4,17 +4,22 @@ import { toTrpcError } from '@muzammil328/trpc';
 import { subHeadingRepository } from '@/repository/subHeading.repository';
 import { subHeadingCreateSchema } from '@muzammil328/education-packages';
 import { superAdminProcedure } from '@/trpc/trpc';
+import { slugify } from '@/utils';
 
 export const subHeadingCreate = superAdminProcedure
     .input(subHeadingCreateSchema)
     .mutation(async ({ input }) => {
         try {
             const existing = await subHeadingRepository.findOne({
-                name: input.name,
+                slug: slugify(input.name),
+                classId: new Types.ObjectId(input.classId),
+                bookId: new Types.ObjectId(input.bookId),
+                chapterId: new Types.ObjectId(input.chapterId),
+                headingId: new Types.ObjectId(input.headingId),
             });
 
             if (existing) {
-                throw AppError.badRequest('SubHeading already exists');
+                throw AppError.badRequest('SubHeading already exists in this heading');
             }
 
             const created = await subHeadingRepository.create({
@@ -22,6 +27,9 @@ export const subHeadingCreate = superAdminProcedure
                 code: input.code,
                 status: input.status,
                 classId: new Types.ObjectId(input.classId),
+                bookId: new Types.ObjectId(input.bookId),
+                chapterId: new Types.ObjectId(input.chapterId),
+                headingId: new Types.ObjectId(input.headingId),
                 serviceId: input.serviceId?.map((id: string) => new Types.ObjectId(id)),
                 description: input.description,
                 creditHours: input.creditHours,

@@ -2,7 +2,7 @@
 import { useState, useCallback, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { AnimatePresence } from 'framer-motion';
-import { cn } from '@muzammil328/ui';
+import { cn, Heading2, Heading3, Para } from '@muzammil328/ui';
 import { useMcqsSetsBySlug } from '@/hooks/use-public';
 import { trpc } from '@/trpc/trpc';
 import type { McqItem } from '../LivePreviewMcqs';
@@ -69,7 +69,7 @@ export default function LivePreviewOnlineTest({ classSlug, bookSlug, chapterSlug
       <UserLayout title={PAGE_TITLE}>
         <div className="flex flex-col items-center justify-center py-24 gap-4">
           <div className="w-10 h-10 border-4 border-primary border-t-transparent rounded-full animate-spin" />
-          <p className="text-muted-foreground font-medium">Loading sets...</p>
+          <Para className="text-muted-foreground font-medium">Loading sets...</Para>
         </div>
       </UserLayout>
     );
@@ -84,8 +84,8 @@ export default function LivePreviewOnlineTest({ classSlug, bookSlug, chapterSlug
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
             </svg>
           </div>
-          <h2 className="text-xl font-semibold text-foreground">No Questions Found</h2>
-          <p className="text-muted-foreground text-sm">No MCQs available for the selected criteria.</p>
+          <Heading2 className="text-xl font-semibold text-foreground">No Questions Found</Heading2>
+          <Para className="text-muted-foreground text-sm">No MCQs available for the selected criteria.</Para>
           <button onClick={() => router.back()} className="mt-2 px-6 py-2 bg-primary text-white rounded-lg hover:opacity-90 transition font-medium text-sm">Go Back</button>
         </div>
       </UserLayout>
@@ -97,10 +97,10 @@ export default function LivePreviewOnlineTest({ classSlug, bookSlug, chapterSlug
       <UserLayout title={PAGE_TITLE}>
         <article className="space-y-8">
           <header className="space-y-3">
-            <h2 className="text-2xl font-bold text-foreground">Online Test Library</h2>
-            <p className="text-foreground/70">
+            <Heading2 className="text-2xl font-bold text-foreground">Online Test Library</Heading2>
+            <Para className="text-foreground/70">
               {totalMcqs} questions across {totalSets} practice sets. Choose a set to begin.
-            </p>
+            </Para>
           </header>
 
           <section>
@@ -118,15 +118,15 @@ export default function LivePreviewOnlineTest({ classSlug, bookSlug, chapterSlug
                     <div className="card">
                       <div className="flex items-start justify-between">
                         <div>
-                          <p className="text-white/70 text-xs font-semibold uppercase tracking-widest mb-1">
+                          <Para className="text-white/70 text-xs font-semibold uppercase tracking-widest mb-1">
                             {i === 0 ? 'Featured' : `Set ${set.setNumber}`}
-                          </p>
+                          </Para>
                           <span className="text-lg font-semibold text-white leading-8">
                             {i === 0 ? 'Take Full Test' : `Practice Set ${set.setNumber}`}
                           </span>
-                          <p className="text-white/70 text-sm mt-1">
+                          <Para className="text-white/70 text-sm mt-1">
                             {set.count} questions · {Math.round(set.count * SECONDS_PER_QUESTION / 60)} min
-                          </p>
+                          </Para>
                         </div>
                         <div className="shrink-0 w-10 h-10 rounded-full flex items-center justify-center bg-white/20">
                           {isLoadingThis ? (
@@ -150,7 +150,7 @@ export default function LivePreviewOnlineTest({ classSlug, bookSlug, chapterSlug
           </section>
 
           <section>
-            <h2 className="text-xl font-semibold text-foreground mb-6">Features</h2>
+            <Heading2 className="text-xl font-semibold text-foreground mb-6">Features</Heading2>
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
               {[
                 { title: 'Fullscreen Focus Mode', desc: 'Distraction-free test environment with smooth animations.' },
@@ -161,8 +161,8 @@ export default function LivePreviewOnlineTest({ classSlug, bookSlug, chapterSlug
                 { title: 'Detailed Results', desc: 'Score, accuracy charts, and per-question answer review.' },
               ].map(f => (
                 <div key={f.title} className="space-y-2">
-                  <h3 className="text-base font-semibold text-foreground">{f.title}</h3>
-                  <p className="text-foreground/70 text-sm">{f.desc}</p>
+                  <Heading3 className="text-base font-semibold text-foreground">{f.title}</Heading3>
+                  <Para className="text-foreground/70 text-sm">{f.desc}</Para>
                 </div>
               ))}
             </div>

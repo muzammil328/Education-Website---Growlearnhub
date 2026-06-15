@@ -1,10 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { TableRoot as Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from '@muzammil328/ui';
-import { DeleteModal } from '@muzammil328/ui';
-import { Skeleton } from '@muzammil328/ui';
-import { toast } from '@muzammil328/ui';
+import { DeleteModal, Skeleton, TableBody, TableCell, TableHead, TableHeader, TableRoot as Table, TableRow, toast } from '@muzammil328/ui';
 import { useDeleteBoard } from '@/hooks';
 import { type RouterOutputs, type TrpcError } from '@/trpc/trpc';
 import BoardTableActionButton from './BoardTableActionButton';

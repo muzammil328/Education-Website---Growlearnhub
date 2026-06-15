@@ -13,7 +13,7 @@ export const bookCreateSchema = z.object({
   name: z.string().trim().min(1),
   slug: z.string().trim().optional(),
   code: z.string().trim().min(1),
-  classId: z.string().trim().min(1),
+  classId: z.string().trim().optional(),
   serviceId: z.array(objectIdSchema).optional(),
   description: z.string().trim().optional().default(''),
   status: z.nativeEnum(StatusEnum).default(StatusEnum.Active),
@@ -61,6 +61,7 @@ export type UpdateBookInput = z.infer<typeof updateBookInputSchema>;
 export const getBookDropdownInputSchema = z
 .object({
     classId: objectIdSchema.optional(),
+    noClass: z.boolean().optional(),
   })
   .default({});
 export type GetBookDropdownInput = z.infer<typeof getBookDropdownInputSchema>;

@@ -27,7 +27,12 @@ export const classGetAll = superAdminProcedure
             name: 1,
             status: 1,
             serviceName: '$service.name',  // flat field, not array
-          }),
+          })
+          .match(input.search ? {
+            $or: [
+              { serviceName: { $regex: input.search, $options: 'i' } },
+            ],
+          } : {}),
 
         search: input.search,
         searchFields: ['name'],

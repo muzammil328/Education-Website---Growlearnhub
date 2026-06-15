@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import './cardQuiz.scss';
-import { Skeleton } from '@muzammil328/ui';
+import { Heading3, Skeleton } from '@muzammil328/ui';
 
 export interface SingleQuiz {
   name: string;
@@ -15,7 +15,7 @@ export default function CardQuizWithLink({ name, slug, options }: SingleQuiz) {
   return (
     <Link href={`/mcqs-point/${slug}/`}>
       <div className="cardquiz mx-2 my-3">
-        <h3>{name}</h3>
+        <Heading3>{name}</Heading3>
         <ul>
           {options?.map((opt: { text: string; isCorrect: boolean }, index: number) => (
             <li key={index}>{opt.text}</li>

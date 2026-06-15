@@ -1,6 +1,7 @@
 import React from 'react';
 import './FeedbackCard.scss';
 import Image from 'next/image';
+import { Heading5, Para } from '@muzammil328/ui';
 
 export default function FeedbackCard({
   data,
@@ -19,12 +20,12 @@ export default function FeedbackCard({
           <Image src={data.image} alt="" title="" height={400} width={400} />
         </div>
         <div className="info">
-          <h5>{data.name}</h5>
+          <Heading5>{data.name}</Heading5>
           <span>{data.career}</span>
         </div>
       </div>
       <div className="footer">
-        <p>{data.description}</p>
+        <Para>{data.description}</Para>
       </div>
     </div>
   );

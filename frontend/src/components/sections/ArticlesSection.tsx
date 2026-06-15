@@ -1,5 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
+import { Heading2, Heading3, Para } from '@muzammil328/ui';
 
 type TagPosition = 'top-right' | 'bottom-left' | 'top-left' | 'bottom-right';
 
@@ -69,10 +70,10 @@ function ArticleCard({
       </div>
 
       <div className="flex flex-col gap-2">
-        <h3 className="text-lg font-bold leading-snug text-foreground group-hover:text-primary transition-colors">
+        <Heading3 className="text-lg font-bold leading-snug text-foreground group-hover:text-primary transition-colors">
           {title}
-        </h3>
-        <p className="text-sm leading-relaxed text-muted-foreground">{description}</p>
+        </Heading3>
+        <Para className="text-sm leading-relaxed text-muted-foreground">{description}</Para>
       </div>
     </Link>
   );
@@ -85,12 +86,12 @@ export function ArticlesSection() {
 
         {/* header */}
         <div className="mx-auto mb-12 max-w-2xl text-center">
-          <h2 className="text-4xl font-extrabold leading-tight tracking-tight text-foreground md:text-5xl">
+          <Heading2 className="text-4xl font-extrabold leading-tight tracking-tight text-foreground md:text-5xl">
             Study guides &amp; resources
-          </h2>
-          <p className="mt-3 text-sm text-muted-foreground md:text-base">
+          </Heading2>
+          <Para className="mt-3 text-sm text-muted-foreground md:text-base">
             Practical tips, strategies, and free resources to help you ace your board exams.
-          </p>
+          </Para>
         </div>
 
         {/* card grid */}

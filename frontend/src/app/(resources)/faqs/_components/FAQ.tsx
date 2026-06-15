@@ -1,10 +1,5 @@
 'use client';
-import {
-  Accordion,
-  AccordionItem,
-  AccordionTrigger,
-  AccordionContent,
-} from '@muzammil328/ui';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger, Para } from '@muzammil328/ui';
 
 const faqs = [
   {
@@ -65,7 +60,7 @@ export default function FAQContent() {
             <AccordionItem key={faq.id} value={faq.id}>
               <AccordionTrigger className="text-left">{faq.question}</AccordionTrigger>
               <AccordionContent>
-                <p className="">{faq.answer}</p>
+                <Para className="">{faq.answer}</Para>
               </AccordionContent>
             </AccordionItem>
           ))}

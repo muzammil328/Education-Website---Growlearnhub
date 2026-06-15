@@ -6,6 +6,7 @@ import SubHeadingModel from '@/models/subHeading.model';
 import ClassModel from '@/models/class.model';
 import BoardModel from '@/models/board.model';
 import VuHandoutModel from '@/models/vuHandout.model';
+import McqsModel from '@/models/mcqs.model';
 
 const BASE = 'https://growlearnhub.com';
 
@@ -199,6 +200,15 @@ export const sitemapOnlineTest = publicProcedure.query(async () => {
     );
 
   return [...new Set([...headingUrls, ...subHeadingUrls])];
+});
+
+export const sitemapMcqs = publicProcedure.query(async () => {
+  const mcqs = (await McqsModel.find({ status: 'active', isPremium: false })
+    .select('slug')
+    .lean()) as unknown as { slug: string }[];
+
+  const urls = mcqs.map(({ slug }) => `${BASE}/live/${slug}/`);
+  return [...new Set(urls)];
 });
 
 export const sitemapVu = publicProcedure.query(async () => {

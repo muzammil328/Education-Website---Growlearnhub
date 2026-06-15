@@ -1,11 +1,8 @@
 'use client';
 
 import React, { useState, useRef, useMemo } from 'react';
-import { Button } from '@muzammil328/ui';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@muzammil328/ui';
-import { Input, Textarea, Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@muzammil328/ui';
+import { Button, DialogContent, Dialog, DialogHeader, DialogTitle, Heading2, Input, Para, SelectContent, SelectItem, Select, SelectTrigger, SelectValue, Textarea, toast } from '@muzammil328/ui';
 import { Upload, Download, X, CheckCircle2, Loader2, Plus, Trash2, ChevronDown, ChevronUp } from 'lucide-react';
-import { toast } from '@muzammil328/ui';
 import { StatusEnum, DifficultyEnum } from '@muzammil328/education-packages/enums';
 import {
   useDropdownClasses,
@@ -41,7 +38,7 @@ interface DraftQuestion extends ParsedQuestion {
 
 // ─── CSV parser ───────────────────────────────────────────────────────────────
 
-function parseCsvLine(line: string): string[] {
+function parseCsvLine(line: string, delimiter: string): string[] {
   const result: string[] = [];
   let current = '';
   let inQuotes = false;
@@ -50,7 +47,7 @@ function parseCsvLine(line: string): string[] {
     if (ch === '"') {
       if (inQuotes && line[i + 1] === '"') { current += '"'; i++; }
       else inQuotes = !inQuotes;
-    } else if (ch === ',' && !inQuotes) {
+    } else if (ch === delimiter && !inQuotes) {
       result.push(current.trim());
       current = '';
     } else {
@@ -65,7 +62,10 @@ function parseCsv(text: string): ParsedQuestion[] {
   const lines = text.split(/\r?\n/).filter(l => l.trim());
   if (lines.length < 2) throw new Error('CSV must have a header row and at least one data row');
 
-  const headers = parseCsvLine(lines[0]).map(h => h.toLowerCase().replace(/\s+/g, '_'));
+  // detect delimiter: tab-separated (pasted from spreadsheets) vs comma-separated CSV
+  const delimiter = lines[0].includes('\t') ? '\t' : ',';
+
+  const headers = parseCsvLine(lines[0], delimiter).map(h => h.toLowerCase().replace(/\s+/g, '_'));
 
   const nameIdx = headers.indexOf('name');
   const correctIdx = headers.indexOf('correct_option');
@@ -82,24 +82,28 @@ function parseCsv(text: string): ParsedQuestion[] {
   const questions: ParsedQuestion[] = [];
 
   for (let r = 1; r < lines.length; r++) {
-    const cells = parseCsvLine(lines[r]);
+    const cells = parseCsvLine(lines[r], delimiter);
     const question = cells[nameIdx] || '';
     if (!question) continue;
-
-    const rawCorrect = cells[correctIdx] || '1';
-    // support "1"-based index or letter A/B/C/D/E/F
-    let correctOption = 0;
-    if (/^[a-fA-F]$/.test(rawCorrect.trim())) {
-      correctOption = rawCorrect.trim().toUpperCase().charCodeAt(0) - 65;
-    } else {
-      correctOption = Math.max(0, parseInt(rawCorrect, 10) - 1);
-    }
 
     const options = optionCols
       .map(idx => cells[idx] || '')
       .filter(o => o.trim() !== '');
 
     if (options.length < 2) continue;
+
+    const rawCorrect = (cells[correctIdx] || '1').trim();
+    // support "1"-based index, letter A/B/C/D/E/F, or the full text of the correct option
+    let correctOption = 0;
+    if (/^[a-fA-F]$/.test(rawCorrect)) {
+      correctOption = rawCorrect.toUpperCase().charCodeAt(0) - 65;
+    } else if (/^\d+$/.test(rawCorrect)) {
+      correctOption = Math.max(0, parseInt(rawCorrect, 10) - 1);
+    } else {
+      const matchIdx = options.findIndex(o => o.toLowerCase() === rawCorrect.toLowerCase());
+      correctOption = matchIdx === -1 ? 0 : matchIdx;
+    }
+
     if (correctOption >= options.length) correctOption = 0;
 
     questions.push({ question, options, correctOption });
@@ -177,9 +181,9 @@ function QuestionCard({ index, draft, onChange, onSubmitOne, dropdowns }: Questi
     return (
       <div className="border border-green-200 bg-green-50 dark:bg-green-900/20 dark:border-green-800 rounded-lg px-4 py-3 flex items-center gap-3">
         <CheckCircle2 className="h-5 w-5 text-green-500 shrink-0" />
-        <p className="text-sm text-green-800 dark:text-green-300 line-clamp-1 flex-1">
+        <Para className="text-sm text-green-800 dark:text-green-300 line-clamp-1 flex-1">
           <span className="font-medium">Q{index + 1}:</span> {draft.question}
-        </p>
+        </Para>
         <span className="text-xs text-green-600 dark:text-green-400 font-medium">Saved</span>
       </div>
     );
@@ -339,7 +343,7 @@ function QuestionCard({ index, draft, onChange, onSubmitOne, dropdowns }: Questi
           </div>
 
           {draft.error && (
-            <p className="text-xs text-red-500 bg-red-50 dark:bg-red-900/20 rounded px-3 py-2">{draft.error}</p>
+            <Para className="text-xs text-red-500 bg-red-50 dark:bg-red-900/20 rounded px-3 py-2">{draft.error}</Para>
           )}
 
           <div className="flex justify-end">
@@ -361,10 +365,31 @@ function QuestionCard({ index, draft, onChange, onSubmitOne, dropdowns }: Questi
 
 // ─── Main component ───────────────────────────────────────────────────────────
 
-export function McqBulkImport() {
+interface ImportedQuestion {
+  question: string;
+  options: string[];
+  correctOption: number;
+  explanation: string;
+  difficulty: 'easy' | 'medium' | 'hard';
+  status: 'active' | 'inactive';
+}
+
+interface McqBulkImportProps {
+  /**
+   * When provided, the parsed questions are handed directly to the caller
+   * instead of going through the standalone review/submit drawer. Used inside
+   * the Add MCQs stepper where class/book/chapter/heading/subHeading are
+   * already selected in step 1.
+   */
+  onImport?: (questions: ImportedQuestion[]) => void;
+  defaultStatus?: 'active' | 'inactive';
+}
+
+export function McqBulkImport({ onImport, defaultStatus = 'active' }: McqBulkImportProps = {}) {
   const [step, setStep] = useState<'guide' | 'drawer'>('guide');
   const [isOpen, setIsOpen] = useState(false);
   const [parseError, setParseError] = useState('');
+  const [pastedText, setPastedText] = useState('');
   const [drafts, setDrafts] = useState<DraftQuestion[]>([]);
   const fileRef = useRef<HTMLInputElement>(null);
   const createMcqsMutation = useCreateMcqs();
@@ -374,7 +399,44 @@ export function McqBulkImport() {
     setIsOpen(false);
     setStep('guide');
     setParseError('');
+    setPastedText('');
     setDrafts([]);
+  };
+
+  const processCsvText = (text: string) => {
+    try {
+      setParseError('');
+      const questions = parseCsv(text);
+      if (questions.length === 0) {
+        setParseError('No valid rows found. Make sure name and at least 2 options are filled.');
+        return;
+      }
+
+      if (onImport) {
+        onImport(
+          questions.map(q => ({
+            ...q,
+            explanation: '',
+            difficulty: 'medium',
+            status: defaultStatus,
+          }))
+        );
+        resetAndClose();
+        return;
+      }
+
+      const newDrafts: DraftQuestion[] = questions.map((q, i) => ({
+        ...q,
+        classId: '', bookId: '', chapterId: '', headingId: '', subHeadingId: '',
+        difficulty: 'medium', explanation: '', status: 'active',
+        submitted: false, submitting: false, error: '',
+        expanded: i === 0,
+      }));
+      setDrafts(newDrafts);
+      setStep('drawer');
+    } catch (err) {
+      setParseError((err as Error).message);
+    }
   };
 
   const handleFile = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -383,25 +445,7 @@ export function McqBulkImport() {
     const reader = new FileReader();
     reader.onload = evt => {
       const text = evt.target?.result as string;
-      try {
-        setParseError('');
-        const questions = parseCsv(text);
-        if (questions.length === 0) {
-          setParseError('No valid rows found. Make sure name and at least 2 options are filled.');
-          return;
-        }
-        const newDrafts: DraftQuestion[] = questions.map((q, i) => ({
-          ...q,
-          classId: '', bookId: '', chapterId: '', headingId: '', subHeadingId: '',
-          difficulty: 'medium', explanation: '', status: 'active',
-          submitted: false, submitting: false, error: '',
-          expanded: i === 0,
-        }));
-        setDrafts(newDrafts);
-        setStep('drawer');
-      } catch (err) {
-        setParseError((err as Error).message);
-      }
+      processCsvText(text);
     };
     reader.readAsText(file);
     e.target.value = '';
@@ -469,10 +513,10 @@ export function McqBulkImport() {
             {/* drawer header */}
             <div className="flex items-center justify-between border-b border-border px-5 py-4 shrink-0">
               <div>
-                <h2 className="text-base font-semibold text-foreground">Review & Submit MCQs</h2>
-                <p className="text-xs text-muted-foreground mt-0.5">
+                <Heading2 className="text-base font-semibold text-foreground">Review & Submit MCQs</Heading2>
+                <Para className="text-xs text-muted-foreground mt-0.5">
                   {submittedCount}/{drafts.length} saved · {pendingCount} pending
-                </p>
+                </Para>
               </div>
               <button
                 onClick={resetAndClose}
@@ -500,7 +544,7 @@ export function McqBulkImport() {
             {/* drawer footer */}
             {pendingCount > 0 && (
               <div className="border-t border-border px-5 py-4 flex items-center justify-between shrink-0 bg-background">
-                <p className="text-sm text-muted-foreground">{pendingCount} question(s) not yet saved</p>
+                <Para className="text-sm text-muted-foreground">{pendingCount} question(s) not yet saved</Para>
                 <Button onClick={submitAll} disabled={anySubmitting}>
                   {anySubmitting ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : null}
                   Submit All ({pendingCount})
@@ -537,7 +581,7 @@ export function McqBulkImport() {
           <div className="space-y-5">
             {/* column guide */}
             <div>
-              <p className="text-sm font-medium text-foreground mb-2">CSV Column Guide</p>
+              <Para className="text-sm font-medium text-foreground mb-2">CSV Column Guide</Para>
               <div className="rounded-lg border border-border overflow-hidden text-sm">
                 <table className="w-full">
                   <thead className="bg-muted/60">
@@ -572,19 +616,46 @@ export function McqBulkImport() {
                   </tbody>
                 </table>
               </div>
-              <p className="text-xs text-muted-foreground mt-2">
+              <Para className="text-xs text-muted-foreground mt-2">
                 Leave <span className="font-mono">option5</span> / <span className="font-mono">option6</span> empty for questions with fewer options. Blank trailing options are ignored.
-              </p>
+              </Para>
             </div>
 
             {/* example snippet */}
             <div>
-              <p className="text-sm font-medium text-foreground mb-1">Example</p>
+              <Para className="text-sm font-medium text-foreground mb-1">Example</Para>
               <pre className="rounded-md bg-muted px-4 py-3 text-xs text-muted-foreground overflow-x-auto">
 {`name,correct_option,option1,option2,option3,option4
 What is 2+2?,2,3,4,5,6
 Capital of Pakistan?,1,Islamabad,Lahore,Karachi,`}
               </pre>
+            </div>
+
+            {/* paste CSV data */}
+            <div>
+              <Para className="text-sm font-medium text-foreground mb-1">Or Paste CSV Data</Para>
+              <Textarea
+                value={pastedText}
+                onChange={e => setPastedText(e.target.value)}
+                onPaste={e => {
+                  const text = e.clipboardData.getData('text');
+                  if (text) {
+                    setPastedText(text);
+                    processCsvText(text);
+                  }
+                }}
+                rows={4}
+                placeholder="Paste CSV data here (Ctrl+V)..."
+                className="text-xs font-mono"
+              />
+              {pastedText.trim() && (
+                <div className="flex justify-end mt-2">
+                  <Button type="button" size="sm" onClick={() => processCsvText(pastedText)}>
+                    <Upload className="h-4 w-4 mr-2" />
+                    Process Pasted Data
+                  </Button>
+                </div>
+              )}
             </div>
 
             {parseError && (

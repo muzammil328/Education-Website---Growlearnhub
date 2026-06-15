@@ -2,6 +2,7 @@ import React from 'react';
 import { Metadata } from 'next';
 import UserLayout from '@/components/layout/UserLayout';
 import FAQ from './_components/FAQ';
+import { Heading2, Para } from '@muzammil328/ui';
 
 const data = {
   title: 'FAQs | GrowLearnHub',
@@ -19,12 +20,12 @@ export default function Page() {
   return (
     <UserLayout title={data.title} image={data.image} canonical={data.canonical} url={data.url}>
       <div className="mx-auto max-w-2xl text-center">
-        <h2>
+        <Heading2>
           Frequently Asked Questions
-        </h2>
-        <p>
+        </Heading2>
+        <Para>
           Find answers to common questions about Growlearnhub.
-        </p>
+        </Para>
       </div>
       <FAQ />
     </UserLayout>

@@ -1,10 +1,8 @@
 'use client';
 
 import React from 'react';
-import { Button } from '@muzammil328/ui';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@muzammil328/ui';
+import { Button, Card, CardContent, CardDescription, CardHeader, CardTitle, cn, Heading2, Para } from '@muzammil328/ui';
 import { Check } from 'lucide-react';
-import { cn } from '@muzammil328/ui';
 
 interface PlanFeature {
   name: string;
@@ -89,8 +87,8 @@ export const SubscriptionPage: React.FC<SubscriptionPage> = ({ onSelectPlan }) =
   return (
     <div className="space-y-8">
       <div className="text-center space-y-2">
-        <h2 className="text-3xl font-bold">Choose Your Plan</h2>
-        <p>Select the perfect plan for your learning journey</p>
+        <Heading2 className="text-3xl font-bold">Choose Your Plan</Heading2>
+        <Para>Select the perfect plan for your learning journey</Para>
       </div>
 
       <div className="grid grid-cols-1 gap-6 md:grid-cols-3">

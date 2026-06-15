@@ -3,10 +3,8 @@
 import React, { useMemo, useEffect, useRef } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { SelectField } from '@/components/ui/select-field'
-import { DropdownLoader } from '@muzammil328/ui'
-import { Label, FormString, FormNumber } from '@muzammil328/ui';
-import { useDropdownClasses } from '@/hooks';
-import { useDropdownBooks } from '@/hooks';
+import { DropdownLoader, FormNumber, FormString, Label, Para } from '@muzammil328/ui'
+import { useDropdownClasses, useDropdownBooks } from '@/hooks';
 import { DropdownSkeleton } from '@/components/DropdownSkeleton';
 
 export default function ChapterModalForm({
@@ -114,7 +112,7 @@ export default function ChapterModalForm({
         {!selectedClassId ? (
           <div>
             <Label>Book</Label>
-            <p className="text-sm text-muted-foreground py-2">Select a class first</p>
+            <Para className="text-sm text-muted-foreground py-2">Select a class first</Para>
           </div>
         ) : isLoadingBooks ? (
           <DropdownSkeleton />

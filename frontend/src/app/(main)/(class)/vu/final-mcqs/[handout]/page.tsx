@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { ExternalLink } from 'lucide-react';
 import UserLayout from '@/components/layout/UserLayout';
 import { useBookDetail } from '@/hooks/use-public';
+import { Heading2, Heading3, Para } from '@muzammil328/ui';
 
 const DUMMY_PDF = 'https://ontheline.trincoll.edu/images/bookdown/sample-local-pdf.pdf';
 
@@ -30,9 +31,9 @@ export default function Page({ params }: { params: Promise<{ handout: string }> 
     >
       <article className="max-w-none">
         <header>
-          <h2 className="text-2xl font-semibold text-primary">{handoutName}</h2>
+          <Heading2 className="text-2xl font-semibold text-primary">{handoutName}</Heading2>
           {book?.description && (
-            <p className="text-muted-foreground mt-1">{book.description}</p>
+            <Para className="text-muted-foreground mt-1">{book.description}</Para>
           )}
         </header>
 
@@ -41,7 +42,7 @@ export default function Page({ params }: { params: Promise<{ handout: string }> 
             <div className="h-96 rounded-lg bg-muted animate-pulse" />
           ) : error ? (
             <div>
-              <p className="text-red-500 mb-4">Failed to load handout. Showing sample PDF.</p>
+              <Para className="text-red-500 mb-4">Failed to load handout. Showing sample PDF.</Para>
               <HandoutPdfViewer pdfUrl={DUMMY_PDF} name={handoutName} />
             </div>
           ) : (
@@ -52,7 +53,7 @@ export default function Page({ params }: { params: Promise<{ handout: string }> 
         {/* Official website links */}
         {externalLinks.length > 0 && (
           <section className="mt-10">
-            <h3 className="text-lg font-semibold text-foreground mb-4">Official Website Sources</h3>
+            <Heading3 className="text-lg font-semibold text-foreground mb-4">Official Website Sources</Heading3>
             <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3">
               {externalLinks.map(link => (
                 <Link

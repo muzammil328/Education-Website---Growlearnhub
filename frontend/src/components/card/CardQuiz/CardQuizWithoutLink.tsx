@@ -1,5 +1,6 @@
 import React from 'react';
 import './cardQuiz.scss';
+import { Heading2 } from '@muzammil328/ui';
 
 export default function CardQuizWithoutLink({
   name,
@@ -14,7 +15,7 @@ export default function CardQuizWithoutLink({
 }) {
   return (
     <div className=" my-4 rounded-lg border border-border bg-background/50 p-4 mx-4">
-      <h2 className="mb-2 text-xl font-semibold text-destructive">{name}</h2>
+      <Heading2 className="mb-2 text-xl font-semibold text-destructive">{name}</Heading2>
 
       {/* Display the list of options */}
       <ul className="mb-4 list-disc pl-5">

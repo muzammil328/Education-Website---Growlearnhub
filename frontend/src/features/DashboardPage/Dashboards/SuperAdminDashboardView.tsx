@@ -4,7 +4,7 @@ import React from 'react';
 import { Users, UserCog, GraduationCap, BookOpen, Book, ListOrdered, Layers, LayoutDashboard, Puzzle, ClipboardList } from 'lucide-react';
 import StatCard from '@/components/card/StatCard';
 import { useDashboardStats } from '@/hooks/use-dashboard';
-import { Card, CardContent } from '@muzammil328/ui';
+import { Card, CardContent, Heading1, Para } from '@muzammil328/ui';
 
 function SkeletonCard() {
   return (
@@ -28,8 +28,8 @@ export function SuperAdminDashboardView() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-bold mb-2">Super Admin Dashboard</h1>
-        <p>Welcome to the super admin dashboard.</p>
+        <Heading1 className="text-3xl font-bold mb-2">Super Admin Dashboard</Heading1>
+        <Para>Welcome to the super admin dashboard.</Para>
       </div>
 
       {isLoading ? (

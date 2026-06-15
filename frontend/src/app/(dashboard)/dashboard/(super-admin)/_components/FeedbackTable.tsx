@@ -1,8 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { TableRoot as Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from '@muzammil328/ui';
-import { Skeleton } from '@muzammil328/ui';
+import { Heading1, Para, Skeleton, TableBody, TableCell, TableHeader, TableHead, TableRoot as Table, TableRow } from '@muzammil328/ui';
 import { DataTablePagination } from '@/components/ui/data-table-pagination';
 import { useFeedback } from '@/hooks/use-feedback';
 import { useUpdateFeedbackStatus } from '@/hooks/use-feedback';
@@ -37,7 +36,7 @@ export default function FeedbackTable({ type, title }: FeedbackTableProps) {
 
   return (
     <div className="space-y-4">
-      <h1 className="text-xl font-semibold text-foreground">{title}</h1>
+      <Heading1 className="text-xl font-semibold text-foreground">{title}</Heading1>
 
       <div className="border rounded-md pb-3">
         <Table className="mt-0">
@@ -72,7 +71,7 @@ export default function FeedbackTable({ type, title }: FeedbackTableProps) {
                   <TableCell className="font-medium">{row.name}</TableCell>
                   <TableCell className="text-muted-foreground text-sm">{row.email}</TableCell>
                   <TableCell className="max-w-xs">
-                    <p className="text-sm text-muted-foreground line-clamp-2">{row.message}</p>
+                    <Para className="text-sm text-muted-foreground line-clamp-2">{row.message}</Para>
                   </TableCell>
                   <TableCell>
                     <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${STATUS_COLORS[row.status as FeedbackStatus]}`}>

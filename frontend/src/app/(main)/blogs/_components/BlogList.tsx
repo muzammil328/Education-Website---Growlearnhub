@@ -1,5 +1,6 @@
 import React from 'react';
 import BlogCard from '@/components/card/BlogCard';
+import { Heading2, Para } from '@muzammil328/ui';
 
 export interface BlogPost {
   id: string;
@@ -93,11 +94,11 @@ const blogPosts: BlogPost[] = [
 export default function BlogList() {
   return (
     <section className="mb-12">
-      <h2 className="mb-4 text-2xl font-bold">Latest Articles</h2>
-      <p className="mb-8 text-foreground/80">
+      <Heading2 className="mb-4 text-2xl font-bold">Latest Articles</Heading2>
+      <Para className="mb-8 text-foreground/80">
         Explore our most recent blog posts and stay updated with the latest study tips and
         educational content.
-      </p>
+      </Para>
 
       <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
         {blogPosts.map(post => (

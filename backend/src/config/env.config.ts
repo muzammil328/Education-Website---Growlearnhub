@@ -9,7 +9,6 @@ const envSchema = z.object({
   NODE_ENV: z.enum(['development', 'production', 'test']).default('development'),
   PORT: z.string().default('7000'),
 
-  CLIENT_URL: z.string().default('http://localhost:3000'),
   CORS_ORIGIN: z.string().default('http://localhost:3000'),
 
   // Database
@@ -66,7 +65,6 @@ export const env = parsedEnv.data;
 export const config = {
   PORT: parseInt(env.PORT, 10) || 7000,
   NODE_ENV: env.NODE_ENV,
-  CLIENT_URL: env.CLIENT_URL,
   CORS_ORIGIN: env.CORS_ORIGIN,
 
   MONGODB_URI: env.MONGODB_URI,

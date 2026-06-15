@@ -1,4 +1,4 @@
-import { Label } from '@muzammil328/ui';
+import { Label, Para } from '@muzammil328/ui';
 
 export default function BookModalView({
   formValues,
@@ -24,49 +24,49 @@ export default function BookModalView({
     <div className="space-y-4">
       <div>
         <span className="text-gray-500">Name</span>
-        <p className="font-medium">{formValues.name || '-'}</p>
+        <Para className="font-medium">{formValues.name || '-'}</Para>
       </div>
       <div>
         <span className="text-gray-500">Code</span>
-        <p className="font-medium">{formValues.code || '-'}</p>
+        <Para className="font-medium">{formValues.code || '-'}</Para>
       </div>
       <div>
         <span className="text-gray-500">Class</span>
-        <p className="font-medium">
+        <Para className="font-medium">
           {formValues.class?.name ||
             formValues.className ||
             (Array.isArray(formValues.classId)
               ? formValues.classId.join(', ')
               : formValues.classId || '-')}
-        </p>
+        </Para>
       </div>
       <div>
         <span className="text-gray-500">Description</span>
-        <p className="font-medium">{formValues.description || '-'}</p>
+        <Para className="font-medium">{formValues.description || '-'}</Para>
       </div>
       <div className="grid grid-cols-2 gap-4">
         <div>
           <span className="text-gray-500">Credit Hours</span>
-          <p className="font-medium">{formValues.creditHours ?? '-'}</p>
+          <Para className="font-medium">{formValues.creditHours ?? '-'}</Para>
         </div>
         <div>
           <span className="text-gray-500">Pages</span>
-          <p className="font-medium">{formValues.pages ?? '-'}</p>
+          <Para className="font-medium">{formValues.pages ?? '-'}</Para>
         </div>
       </div>
       <div className="grid grid-cols-2 gap-4">
         <div>
           <span className="text-gray-500">Total Weight</span>
-          <p className="font-medium">{formValues.totalWeight ?? '-'}</p>
+          <Para className="font-medium">{formValues.totalWeight ?? '-'}</Para>
         </div>
       </div>
       <div>
         <span className="text-gray-500">Image URL</span>
-        <p className="font-medium">{formValues.image || '-'}</p>
+        <Para className="font-medium">{formValues.image || '-'}</Para>
       </div>
       <div>
         <span className="text-gray-500">File ID</span>
-        <p className="font-medium">{formValues.fileId || '-'}</p>
+        <Para className="font-medium">{formValues.fileId || '-'}</Para>
       </div>
       {formValues.components && formValues.components.length > 0 && (
         <div className="space-y-2">
@@ -75,15 +75,15 @@ export default function BookModalView({
             <div key={index} className="rounded border p-2 space-y-1">
               <div className="flex justify-between">
                 <span className="text-gray-500">Title</span>
-                <p className="font-medium">{comp.title || '-'}</p>
+                <Para className="font-medium">{comp.title || '-'}</Para>
               </div>
               <div className="flex justify-between">
                 <span className="text-gray-500">Weight</span>
-                <p className="font-medium">{comp.weight ?? '-'}</p>
+                <Para className="font-medium">{comp.weight ?? '-'}</Para>
               </div>
               <div className="flex justify-between">
                 <span className="text-gray-500">Description</span>
-                <p className="font-medium">{comp.description || '-'}</p>
+                <Para className="font-medium">{comp.description || '-'}</Para>
               </div>
             </div>
           ))}
@@ -91,7 +91,7 @@ export default function BookModalView({
       )}
       <div>
         <span className="text-gray-500">Status</span>
-        <p className="font-medium">{formValues.status || '-'}</p>
+        <Para className="font-medium">{formValues.status || '-'}</Para>
       </div>
     </div>
   );

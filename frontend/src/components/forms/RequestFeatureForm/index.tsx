@@ -1,6 +1,6 @@
 'use client';
 import { useState } from 'react';
-import { Button, Form, FormString, FormTextarea } from '@muzammil328/ui';
+import { Button, Form, FormString, FormTextarea, Heading2, Para } from '@muzammil328/ui';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -62,8 +62,8 @@ export default function RequestFeatureForm({ variant }: { variant?: 'page' | 'dr
     <section>
       {variant !== 'drawer' && (
         <div className="mx-auto max-w-2xl text-center">
-          <h2>Request a Feature</h2>
-          <p className="sm">Let us know what features you&apos;d like to see on Growlearnhub.</p>
+          <Heading2>Request a Feature</Heading2>
+          <Para className="sm">Let us know what features you&apos;d like to see on Growlearnhub.</Para>
         </div>
       )}
       <Form {...form}>

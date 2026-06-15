@@ -66,11 +66,13 @@ McqsSchema.virtual('totalOptions').get(function (this: IMcqs) {
 // generate slug from name before saving
 McqsSchema.pre<IMcqs>('validate', function (next) {
   if (this.isModified('name')) {
-    this.slug = this.name
+    const base = this.name
       .toLowerCase()
       .trim()
       .replace(/[^a-z0-9]+/g, '-') // replace non-alphanumeric with hyphens
       .replace(/^-+|-+$/g, ''); // remove leading/trailing hyphens
+    // append the document id to guarantee uniqueness across repeated question text
+    this.slug = `${base}-${this._id}`;
   }
   next();
 });

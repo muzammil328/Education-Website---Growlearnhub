@@ -1,8 +1,7 @@
 'use client';
 import Link from 'next/link';
 import { User, Mail, Lock } from 'lucide-react';
-import { Button } from '@muzammil328/ui';
-import { toast } from '@muzammil328/ui';
+import { Button, FormEmail, Form, FormPassword, FormString, Para, toast } from '@muzammil328/ui';
 import { useRouter } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
@@ -10,7 +9,6 @@ import { useRegister } from '@/hooks/use-auth';
 import type { AuthRegisterResponse } from '@muzammil328/education-packages/types';
 import { registerFormSchema, RegisterFormValues } from '@muzammil328/education-packages';
 import { getErrorMessage } from '@/lib/core-utils';
-import { Form, FormString, FormEmail, FormPassword } from '@muzammil328/ui';
 
 export function RegisterForm() {
   const router = useRouter();
@@ -84,10 +82,10 @@ export function RegisterForm() {
           {isPending ? 'Creating Account...' : 'Create Account'}
         </Button>
 
-        <p className="text-center text-sm text-muted-foreground">
+        <Para className="text-center text-sm text-muted-foreground">
           Already have an account?{' '}
           <Link href="/login" className="font-medium text-primary hover:underline">Login</Link>
-        </p>
+        </Para>
       </form>
     </Form>
   );

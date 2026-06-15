@@ -1,7 +1,7 @@
 'use client';
 import { useState } from 'react';
 import Link from 'next/link';
-import { cn } from '@muzammil328/ui';
+import { cn, Heading2, Para } from '@muzammil328/ui';
 import UserLayout from '@/components/layout/UserLayout';
 
 export interface McqItem {
@@ -66,10 +66,10 @@ export default function LivePreviewMcqs({ mcqs, page, totalPages, onPageChange }
     <UserLayout title={PAGE_TITLE}>
       <article className="space-y-8">
         <header className="space-y-3">
-          <h2 className="text-2xl font-bold text-foreground">MCQs Practice</h2>
-          <p className="text-foreground/70">
+          <Heading2 className="text-2xl font-bold text-foreground">MCQs Practice</Heading2>
+          <Para className="text-foreground/70">
             Browse and practice multiple choice questions at your own pace.
-          </p>
+          </Para>
         </header>
 
         {/* Mode toggle + stats strip */}
@@ -128,9 +128,9 @@ export default function LivePreviewMcqs({ mcqs, page, totalPages, onPageChange }
                     </Link>
                     <div className="flex-1 min-w-0">
                       <Link href={`/live/${mcq.slug ?? mcq.mcqId}`} className="group">
-                        <p className="text-base font-semibold text-foreground leading-relaxed group-hover:text-primary transition">
+                        <Para className="text-base font-semibold text-foreground leading-relaxed group-hover:text-primary transition">
                           {mcq.question}
-                        </p>
+                        </Para>
                       </Link>
                       {/* Tags */}
                       <div className="flex flex-wrap gap-1.5 mt-2">
@@ -234,8 +234,8 @@ export default function LivePreviewMcqs({ mcqs, page, totalPages, onPageChange }
                 {/* Explanation (shown when answered or revealed) */}
                 {mcq.explanation && (isAnswered || isRevealed) && (
                   <div className="mx-5 mb-4 p-3 rounded-lg bg-primary/5 border border-primary/20">
-                    <p className="text-xs font-semibold text-primary uppercase tracking-wide mb-1">Explanation</p>
-                    <p className="text-sm text-muted-foreground leading-relaxed">{mcq.explanation}</p>
+                    <Para className="text-xs font-semibold text-primary uppercase tracking-wide mb-1">Explanation</Para>
+                    <Para className="text-sm text-muted-foreground leading-relaxed">{mcq.explanation}</Para>
                   </div>
                 )}
               </div>

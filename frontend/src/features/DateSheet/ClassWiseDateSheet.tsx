@@ -2,7 +2,7 @@
 
 import React from 'react';
 import CardSmall from '@/components/card/SmallCard';
-import { Heading2 } from '@muzammil328/ui';
+import { Heading2, Para } from '@muzammil328/ui';
 import { useClassByNames } from '@/hooks';
 
 interface ClassItem {
@@ -45,9 +45,9 @@ export default function ClassWiseDateSheet(): React.ReactElement {
     return (
       <section>
         <Heading2>Class-wise Date Sheets</Heading2>
-        <p className="my-4 text-sm text-red-600">
+        <Para className="my-4 text-sm text-red-600">
           We couldn’t load the date sheet categories right now. Please try again shortly.
-        </p>
+        </Para>
       </section>
     );
   }
@@ -56,9 +56,9 @@ export default function ClassWiseDateSheet(): React.ReactElement {
     return (
       <section>
         <Heading2>Class-wise Date Sheets</Heading2>
-        <p className="my-4 text-sm text-gray-600">
+        <Para className="my-4 text-sm text-gray-600">
           Date sheet categories are not available at the moment.
-        </p>
+        </Para>
       </section>
     );
   }

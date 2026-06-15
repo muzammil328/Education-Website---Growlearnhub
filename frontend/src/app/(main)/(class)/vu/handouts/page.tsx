@@ -4,6 +4,7 @@ import React from 'react';
 import CardSmall from '@/components/card/SmallCard';
 import UserLayout from '@/components/layout/UserLayout';
 import { useBooksByClassAndServiceSlug } from '@/hooks/use-public';
+import { Heading2, Para } from '@muzammil328/ui';
 
 const DEPT_LABELS: Record<string, string> = {
   cs: 'Computer Science (CS)',
@@ -44,10 +45,10 @@ export default function Page() {
     >
       <article className="max-w-none">
         <section className="mb-8">
-          <p className="text-muted-foreground">
+          <Para className="text-muted-foreground">
             Browse and download <strong>Virtual University handouts</strong> by course code. All
             courses are grouped by department so you can find study material quickly.
-          </p>
+          </Para>
         </section>
 
         {isLoading ? (
@@ -62,17 +63,17 @@ export default function Page() {
             ))}
           </div>
         ) : error ? (
-          <p className="text-red-500">Failed to load handouts. Please try again later.</p>
+          <Para className="text-red-500">Failed to load handouts. Please try again later.</Para>
         ) : books.length === 0 ? (
-          <p className="text-muted-foreground">No handouts available at the moment.</p>
+          <Para className="text-muted-foreground">No handouts available at the moment.</Para>
         ) : (
           deptOrder
             .filter(dept => grouped[dept]?.length)
             .map(dept => (
               <section key={dept} className="mb-12">
-                <h2 className="border-b border-border py-2 text-2xl font-semibold text-primary">
+                <Heading2 className="border-b border-border py-2 text-2xl font-semibold text-primary">
                   {DEPT_LABELS[dept] ?? dept.toUpperCase()} Handouts
-                </h2>
+                </Heading2>
                 <div className="my-6 grid grid-cols-1 gap-4 md:grid-cols-2">
                   {grouped[dept].map(book => (
                     <CardSmall

@@ -1,11 +1,4 @@
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@muzammil328/ui';
-import { Button } from '@muzammil328/ui';
+import { Button, DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from '@muzammil328/ui';
 import { Eye, PenLine, Trash2, MoreHorizontal } from 'lucide-react';
 import { McqModal } from './McqModal';
 

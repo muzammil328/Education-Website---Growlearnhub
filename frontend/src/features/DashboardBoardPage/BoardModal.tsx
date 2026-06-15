@@ -1,8 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@muzammil328/ui';
-import { Button } from '@muzammil328/ui';
+import { Button, Dialog, DialogContent, DialogHeader, DialogTitle } from '@muzammil328/ui';
 import { ModalProps } from '@muzammil328/education-packages/types';
 import { BoardForm } from './BoardForm';
 import { Eye, PenLine } from 'lucide-react';

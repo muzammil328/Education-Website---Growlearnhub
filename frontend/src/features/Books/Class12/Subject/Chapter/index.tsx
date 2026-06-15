@@ -5,6 +5,7 @@ import Link from 'next/link';
 import UserLayout from '@/components/layout/UserLayout';
 import { useChapterDetail } from '@/hooks/use-public';
 import { removeDashAndUppercase } from '@/lib/removeDashAndUppercase';
+import { Heading2, Heading3, Para } from '@muzammil328/ui';
 
 const CLASS_SLUG = 'class-12';
 
@@ -57,7 +58,7 @@ export default function ChapterClass12Book({
   if (error || !data?.data) {
     return (
       <UserLayout title="Chapter Not Found" image="/12th/class_12_book_growlearnhub.png" canonical={canonical} url={url}>
-        <p className="text-red-500">Chapter not found or failed to load.</p>
+        <Para className="text-red-500">Chapter not found or failed to load.</Para>
       </UserLayout>
     );
   }
@@ -90,18 +91,18 @@ export default function ChapterClass12Book({
         </nav>
 
         <section>
-          <p className="text-muted-foreground">
+          <Para className="text-muted-foreground">
             Download <strong>{chapterLabel}: {displayChapter}</strong> from the Class 12{' '}
             <strong>{bookName}</strong> textbook. Available free in both English and Urdu medium PDF
             for inter-part 2 students.
-          </p>
+          </Para>
         </section>
 
         {pdfs.length > 0 && (
           <section>
-            <h2 className="border-b border-border pb-2 text-2xl font-semibold text-primary mb-4">
+            <Heading2 className="border-b border-border pb-2 text-2xl font-semibold text-primary mb-4">
               Download {chapterLabel} PDF
-            </h2>
+            </Heading2>
             <div className="overflow-x-auto rounded-xl border border-border">
               <table className="min-w-full text-sm">
                 <thead>
@@ -140,9 +141,9 @@ export default function ChapterClass12Book({
 
         {fullBookPdfs.length > 0 && (
           <section>
-            <h2 className="border-b border-border pb-2 text-xl font-semibold text-primary mb-4">
+            <Heading2 className="border-b border-border pb-2 text-xl font-semibold text-primary mb-4">
               Download Full {bookName} Book
-            </h2>
+            </Heading2>
             <div className="flex flex-wrap gap-3">
               {fullBookPdfs.map(pdf => (
                 <a
@@ -161,9 +162,9 @@ export default function ChapterClass12Book({
 
         {otherChapters.length > 0 && (
           <section>
-            <h2 className="border-b border-border pb-2 text-xl font-semibold text-primary mb-4">
+            <Heading2 className="border-b border-border pb-2 text-xl font-semibold text-primary mb-4">
               Other Chapters in {bookName}
-            </h2>
+            </Heading2>
             <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 md:grid-cols-3">
               {otherChapters.map((ch, idx) => (
                 <Link
@@ -180,38 +181,38 @@ export default function ChapterClass12Book({
 
         <section className="border-t border-border pt-8 space-y-5 text-sm text-foreground/75 leading-relaxed">
           <div>
-            <h2 className="text-xl font-semibold text-foreground mb-2">
+            <Heading2 className="text-xl font-semibold text-foreground mb-2">
               About {chapterLabel}: {displayChapter}
-            </h2>
-            <p>
+            </Heading2>
+            <Para>
               <strong>{chapterLabel}: {displayChapter}</strong> is part of the Class 12{' '}
               <strong>{bookName}</strong> curriculum prescribed by Punjab Board (PCTB) and Federal
               Board (FBISE). This chapter covers key concepts that appear regularly in HSC-II annual
               board exams. Studying it chapter by chapter — along with exercises and past paper
               questions — is the most effective strategy for scoring well in 12th class{' '}
               {bookName.toLowerCase()}.
-            </p>
+            </Para>
           </div>
           <div>
-            <h3 className="text-lg font-semibold text-foreground mb-2">
+            <Heading3 className="text-lg font-semibold text-foreground mb-2">
               How to Study This Chapter Effectively
-            </h3>
-            <p>
+            </Heading3>
+            <Para>
               Read the full chapter PDF once to get an overview. Go back and highlight key
               definitions, formulas, and diagrams. Solve all in-text and end-of-chapter questions.
               Practise past paper MCQs and short questions from this chapter before the HSC-II board
               exam.
-            </p>
+            </Para>
           </div>
           <div>
-            <h3 className="text-lg font-semibold text-foreground mb-2">
+            <Heading3 className="text-lg font-semibold text-foreground mb-2">
               English Medium or Urdu Medium?
-            </h3>
-            <p>
+            </Heading3>
+            <Para>
               Both PDFs cover the same {bookName} content for this chapter. Choose English medium
               if your school teaches in English or if you are preparing for FBISE. Choose Urdu
               medium if your school uses Urdu as the language of instruction.
-            </p>
+            </Para>
           </div>
         </section>
 

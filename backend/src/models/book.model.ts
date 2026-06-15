@@ -37,7 +37,7 @@ export interface IBook extends Document {
   slug: string;
   code: string; // CS001, MTH001, MGT211, etc.
   description?: string;
-  classId: Types.ObjectId;
+  classId?: Types.ObjectId;
   serviceId?: Types.ObjectId[];
   creditHours?: number;
   fileId?: string; // Google Drive file ID
@@ -91,7 +91,7 @@ const BookSchema: Schema = new Schema(
     slug: { type: String, required: true, lowercase: true, index: true },
     code: { type: String, required: true, unique: true, uppercase: true },
     description: { type: String },
-    classId: { type: Schema.Types.ObjectId, ref: 'Class', required: true, index: true },
+    classId: { type: Schema.Types.ObjectId, ref: 'Class', index: true },
     serviceId: [{ type: Schema.Types.ObjectId, ref: 'Service', index: true }],
     creditHours: { type: Number },
     fileId: { type: String },

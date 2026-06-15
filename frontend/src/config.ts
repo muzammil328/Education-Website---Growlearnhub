@@ -187,6 +187,7 @@ export const config = {
     subHeadings: createTrpcUrl('public.sitemapSubHeadings'),
     onlineTest: createTrpcUrl('public.sitemapOnlineTest'),
     vu: createTrpcUrl('public.sitemapVu'),
+    mcqs: createTrpcUrl('public.sitemapMcqs'),
   },
 
   subHeading: {

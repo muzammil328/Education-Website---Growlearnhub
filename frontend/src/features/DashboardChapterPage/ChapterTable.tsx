@@ -1,10 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-import { TableRoot as Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from '@muzammil328/ui';
-import { DeleteModal } from '@muzammil328/ui';
-import { Skeleton } from '@muzammil328/ui';
-import { toast } from '@muzammil328/ui';
+import { DeleteModal, Heading3, Para, Skeleton, TableBody, TableCell, TableHeader, TableHead, TableRoot as Table, TableRow, toast } from '@muzammil328/ui';
 import { FolderOpen } from 'lucide-react';
 import { useDeleteChapter } from '@/hooks';
 import { type RouterOutputs, type TrpcError } from '@/trpc/trpc';
@@ -130,13 +127,13 @@ export function ChapterTable({
                   <div className="flex flex-col items-center justify-center rounded-full bg-gray-100 dark:bg-gray-800 p-6 mb-4">
                     <FolderOpen className="h-12 w-12 text-muted-foreground" />
                   </div>
-                  <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2">
+                  <Heading3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2">
                     No Chapters Available
-                  </h3>
-                  <p className="text-sm text-muted-foreground text-center max-w-sm">
+                  </Heading3>
+                  <Para className="text-sm text-muted-foreground text-center max-w-sm">
                     There are currently no chapters added. Once chapters are created, they will
                     appear here.
-                  </p>
+                  </Para>
                 </div>
               </TableCell>
             </TableRow>

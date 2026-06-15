@@ -1,5 +1,6 @@
 import { ImageResponse } from 'next/og';
 import { fetchMcqBySlug } from './metadata';
+import { Para } from '@muzammil328/ui';
 
 export const runtime = 'edge';
 export const size = { width: 1200, height: 630 };
@@ -73,7 +74,7 @@ export default async function OpenGraphImage({
             )}
           </div>
 
-          <p style={{
+          <Para style={{
             fontSize: question.length > 100 ? '24px' : '28px',
             fontWeight: 700,
             color: '#f1f5f9',
@@ -82,7 +83,7 @@ export default async function OpenGraphImage({
             flex: 1,
           }}>
             {question.length > 140 ? question.slice(0, 137) + '…' : question}
-          </p>
+          </Para>
 
           {correctAnswer && (
             <div style={{

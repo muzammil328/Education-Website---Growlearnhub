@@ -1,5 +1,6 @@
 'use client';
 import React, { useRef, useState, useEffect } from 'react';
+import { Heading2, Para } from '@muzammil328/ui';
 
 // ── data ──────────────────────────────────────────────────────────────────────
 
@@ -130,11 +131,11 @@ function TestimonialCard({ t, onClick }: { t: Testimonial; onClick: (t: Testimon
       <div className="flex items-center gap-3">
         <Avatar initials={t.initials} color={t.color} />
         <div>
-          <p className="text-sm font-semibold text-foreground">{t.name}</p>
-          <p className="text-xs text-muted-foreground">{t.role}</p>
+          <Para className="text-sm font-semibold text-foreground">{t.name}</Para>
+          <Para className="text-xs text-muted-foreground">{t.role}</Para>
         </div>
       </div>
-      <p className="text-sm leading-relaxed text-muted-foreground line-clamp-5">{t.review}</p>
+      <Para className="text-sm leading-relaxed text-muted-foreground line-clamp-5">{t.review}</Para>
       <StarRating rating={t.rating} />
     </div>
   );
@@ -233,25 +234,25 @@ function TestimonialModal({ t, onClose }: { t: Testimonial; onClose: () => void 
           <div className="flex items-center gap-3 sm:hidden">
             <Avatar initials={t.initials} color={t.color} size={48} />
             <div>
-              <p className="font-bold text-foreground">{t.name}</p>
-              <p className="text-sm text-muted-foreground">{t.role}</p>
+              <Para className="font-bold text-foreground">{t.name}</Para>
+              <Para className="text-sm text-muted-foreground">{t.role}</Para>
             </div>
           </div>
           <div className="hidden sm:block">
-            <p className="text-lg font-bold text-foreground">{t.name}</p>
-            <p className="text-sm text-muted-foreground">{t.role}</p>
+            <Para className="text-lg font-bold text-foreground">{t.name}</Para>
+            <Para className="text-sm text-muted-foreground">{t.role}</Para>
             <StarRating rating={t.rating} />
           </div>
 
           {/* review */}
-          <p className="flex-1 text-sm leading-relaxed text-muted-foreground">
+          <Para className="flex-1 text-sm leading-relaxed text-muted-foreground">
             &ldquo;{t.review}&rdquo;
-          </p>
+          </Para>
 
           {/* footer */}
           <div className="flex items-center justify-between border-t border-border pt-4">
             <div className="sm:hidden"><StarRating rating={t.rating} /></div>
-            <p className="ml-auto text-xs text-muted-foreground">{t.date}</p>
+            <Para className="ml-auto text-xs text-muted-foreground">{t.date}</Para>
           </div>
         </div>
       </div>
@@ -280,12 +281,12 @@ export function TestimonialsSection() {
         <div className="mx-auto max-w-6xl">
           {/* header */}
           <div className="mx-auto mb-14 max-w-xl text-center">
-            <h2 className="text-4xl font-extrabold leading-tight tracking-tight text-foreground md:text-5xl">
+            <Heading2 className="text-4xl font-extrabold leading-tight tracking-tight text-foreground md:text-5xl">
               What students are saying
-            </h2>
-            <p className="mt-3 text-sm text-muted-foreground md:text-base">
+            </Heading2>
+            <Para className="mt-3 text-sm text-muted-foreground md:text-base">
               Thousands of Pakistani students trust GrowLearnHub to prepare for their board exams.
-            </p>
+            </Para>
           </div>
 
           {/* mobile: flat list */}

@@ -2,6 +2,7 @@ import React from 'react';
 import { Metadata } from 'next';
 import UserLayout from '@/components/layout/UserLayout';
 import ShareStoryButton from './_components/ShareStoryButton';
+import { Heading3, Para } from '@muzammil328/ui';
 
 const data = {
   title: 'Success Stories | GrowLearnHub',
@@ -20,12 +21,12 @@ export default function page() {
     <UserLayout title={data.title} image={data.image} canonical={data.canonical} url={data.url}>
       <section>
         <div className="mt-16 text-center">
-          <h3>
+          <Heading3>
             Share Your Story
-          </h3>
-          <p>
+          </Heading3>
+          <Para>
             Have you achieved academic success using Growlearnhub? We&apos;d love to hear from you!
-          </p>
+          </Para>
           <div className="mt-6">
             <ShareStoryButton />
           </div>

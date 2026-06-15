@@ -3,6 +3,7 @@
 import { useHeadingByClassAndSubjectAndChapterSlug } from '@/hooks/use-public';
 import Link from 'next/link';
 import McqsInlineSection from '@/components/mcqs/McqsInlineSection';
+import { Para } from '@muzammil328/ui';
 
 interface Props {
   bookSlug: string;
@@ -14,15 +15,15 @@ const CLASS_SLUG = 'class-10';
 export default function Class10McqsBookChapterPage({ bookSlug, chapterSlug }: Props) {
   const { data, isLoading, error } = useHeadingByClassAndSubjectAndChapterSlug(CLASS_SLUG, bookSlug, chapterSlug);
 
-  if (isLoading) return <p>Loading headings...</p>;
-  if (error) return <p>Failed to load headings.</p>;
+  if (isLoading) return <Para>Loading headings...</Para>;
+  if (error) return <Para>Failed to load headings.</Para>;
 
   const headings = data?.data ?? [];
 
   return (
     <div className="space-y-6">
       {headings.length === 0 ? (
-        <p>No headings found.</p>
+        <Para>No headings found.</Para>
       ) : (
         <ul className="grid gap-3">
           {headings.map((heading: any) => (

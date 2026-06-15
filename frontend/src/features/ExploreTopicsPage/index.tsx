@@ -1,6 +1,7 @@
 'use client';
 import UserLayout from '@/components/elements/wrapper/SimpleWrapper';
 import CallToAction from '@/components/CallToAction';
+import { Heading2, Para } from '@muzammil328/ui';
 
 type ExploreTopicsPageProps = {
   title: string;
@@ -18,13 +19,13 @@ export default function ExploreTopicsPage({
   return (
     <UserLayout title={title} image={image} canonical={canonical} url={url}>
       <section className="">
-        <h2>
+        <Heading2>
           Explore Topics
-        </h2>
-        <p className="text-lg text-muted-foreground">
+        </Heading2>
+        <Para className="text-lg text-muted-foreground">
           Discover comprehensive learning resources for each subject. Click on a topic to explore
           detailed chapters, study materials, and practice resources.
-        </p>
+        </Para>
       </section>
       <CallToAction />
     </UserLayout>

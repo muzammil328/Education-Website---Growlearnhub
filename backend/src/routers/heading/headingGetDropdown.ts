@@ -5,13 +5,13 @@ import {
   StatusEnum,
 } from '@muzammil328/education-packages';
 import { superAdminProcedure } from '@/trpc/trpc';
-import { buildMatch } from '@muzammil328/db';
+import { buildMatch, toObjectId } from '@muzammil328/db';
 
 export const headingGetDropdown = superAdminProcedure
   .input(getHeadingDropdownInputSchema)
   .query(async ({ input }) => {
     try {
-      const { classId } = input;
+      const { classId, bookId, chapterId } = input;
 
       const result = await headingRepository.aggregate({
         pipeline: headingRepository
@@ -19,7 +19,9 @@ export const headingGetDropdown = superAdminProcedure
           .match(
             buildMatch({
               status: StatusEnum.Active,
-              classId: classId,
+              classId: classId ? toObjectId(classId) : undefined,
+              bookId: bookId ? toObjectId(bookId) : undefined,
+              chapterId: chapterId ? toObjectId(chapterId) : undefined,
             }),
           )
           .sort({ name: 1 })

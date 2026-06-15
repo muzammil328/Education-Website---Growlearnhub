@@ -1,6 +1,7 @@
 import React from 'react';
 import type { Metadata } from 'next';
 import UserLayout from '@/components/elements/wrapper/SimpleWrapper';
+import { Heading2, Para } from '@muzammil328/ui';
 
 const data = {
   title: 'Jobs & Opportunities | GrowLearnHub',
@@ -19,11 +20,11 @@ export default function Page() {
     <UserLayout title={data.title} image={data.image} canonical={data.canonical} url={data.url}>
       <section className="flex flex-col items-center justify-center py-24 text-center">
         <span className="mb-4 text-6xl">🚧</span>
-        <h2 className="mb-3 text-3xl font-extrabold text-foreground">Coming Soon</h2>
-        <p className="max-w-md text-base text-muted-foreground">
+        <Heading2 className="mb-3 text-3xl font-extrabold text-foreground">Coming Soon</Heading2>
+        <Para className="max-w-md text-base text-muted-foreground">
           We&apos;re working on bringing you the best job listings and career opportunities for
           Pakistani students. Check back soon!
-        </p>
+        </Para>
       </section>
     </UserLayout>
   );

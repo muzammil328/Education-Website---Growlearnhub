@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import UserLayout from '@/components/layout/UserLayout';
-import { Heading2 } from '@muzammil328/ui';
 import { removeDashAndUppercase } from '@/lib/removeDashAndUppercase';
 import { config } from '@/config';
 import Class9McqsBookChapterPage from '@/features/McqsPage/Class9/Chapter';
@@ -11,64 +10,96 @@ interface PageProps {
 
 const CLASS_SLUG = 'class-9';
 const image = '/9th/class_9_mcqs.webp';
+const REVALIDATE = 432000;
 
-function buildData(subject: string, chapter: string) {
+interface PageData {
+  subjectLabel: string;
+  chapterLabel: string;
+  canonical: string;
+  url: string;
+}
+
+function buildBase(subject: string, chapter: string): PageData {
   const subjectLabel = removeDashAndUppercase(subject);
   const chapterLabel = removeDashAndUppercase(chapter);
 
   return {
-    title: `Class 9 ${subjectLabel} ${chapterLabel} Topics`,
-    description: `Explore topics in Class 9 ${subjectLabel} ${chapterLabel} and continue to topic-specific MCQs.`,
-    keywords: [`Class 9 ${subjectLabel} ${chapterLabel} topics`, `${chapterLabel} MCQs for Class 9`],
+    subjectLabel,
+    chapterLabel,
     canonical: `/${CLASS_SLUG}/mcqs/${subject}/${chapter}/`,
     url: `${config.SITE_URL}/${CLASS_SLUG}/mcqs/${subject}/${chapter}/`,
-    image,
   };
 }
 
-export const revalidate = 432000;
+async function fetchChapterOrder(classSlug: string, bookSlug: string, chapterSlug: string): Promise<number | null> {
+  if (!config.API_URL) return null;
+  try {
+    const input = JSON.stringify({ 0: { classSlug, bookSlug, chapterSlug } });
+    const url = `${config.API_URL}/trpc/public.getChapterDetail?batch=1&input=${encodeURIComponent(input)}`;
+    const res = await fetch(url, { next: { revalidate: REVALIDATE } });
+    if (!res.ok) return null;
+    const json = await res.json();
+    return json?.[0]?.result?.data?.data?.chapter?.order ?? null;
+  } catch {
+    return null;
+  }
+}
+
+function buildTitle(subjectLabel: string, chapterLabel: string, order: number | null): string {
+  const prefix = order ? `chapter ${order} ` : '';
+  return `${subjectLabel} ${prefix}${chapterLabel} MCQs - Class 9 Practice Questions`;
+}
+
+function buildDescription(subjectLabel: string, chapterLabel: string): string {
+  return `Practice Class 9 ${subjectLabel} ${chapterLabel} with chapter-wise MCQs. Test your knowledge with multiple choice questions, get instant answers, and improve your exam preparation.`;
+}
+
+function buildKeywords(subjectLabel: string, chapterLabel: string): string[] {
+  return [
+    `Class 9 ${subjectLabel} ${chapterLabel} MCQs`,
+    `${chapterLabel} MCQs for Class 9`,
+    `${subjectLabel} ${chapterLabel} practice questions`,
+    `Class 9 ${subjectLabel} chapter wise MCQs`,
+  ];
+}
+
+export const revalidate = REVALIDATE;
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { subject, chapter } = await params;
-  const data = buildData(subject, chapter);
+  const base = buildBase(subject, chapter);
+  const order = await fetchChapterOrder(CLASS_SLUG, subject, chapter);
+  const title = buildTitle(base.subjectLabel, base.chapterLabel, order);
 
   return {
-    title: data.title,
-    description: data.description,
-    keywords: data.keywords,
-    alternates: { canonical: data.canonical },
+    title,
+    description: buildDescription(base.subjectLabel, base.chapterLabel),
+    keywords: buildKeywords(base.subjectLabel, base.chapterLabel),
+    alternates: { canonical: base.canonical },
     robots: { index: true, follow: true, googleBot: { index: true, follow: true } },
     openGraph: {
-      title: data.title,
-      description: data.description,
-      url: data.url,
-      images: [{ url: data.image, alt: data.title }],
+      title,
+      description: buildDescription(base.subjectLabel, base.chapterLabel),
+      url: base.url,
+      images: [{ url: image, alt: title }],
     },
     twitter: {
-      title: data.title,
-      description: data.description,
-      images: { url: data.image, alt: data.title },
+      title,
+      description: buildDescription(base.subjectLabel, base.chapterLabel),
+      images: { url: image, alt: title },
     },
   };
 }
 
 export default async function Page({ params }: PageProps) {
   const { subject, chapter } = await params;
-  const data = buildData(subject, chapter);
-  const subjectLabel = removeDashAndUppercase(subject);
-  const chapterLabel = removeDashAndUppercase(chapter);
+  const base = buildBase(subject, chapter);
+  const order = await fetchChapterOrder(CLASS_SLUG, subject, chapter);
+  const title = buildTitle(base.subjectLabel, base.chapterLabel, order);
 
   return (
-    <UserLayout title={data.title} image={data.image} canonical={data.canonical} url={data.url}>
+    <UserLayout title={title} image={image} canonical={base.canonical} url={base.url}>
       <article className="space-y-8">
-        <header className="space-y-3">
-          <Heading2 className="mb-2" weight="bold" size="sm">
-            Class 9 {subjectLabel} {chapterLabel} Topics
-          </Heading2>
-          <p className="text-base">
-            Move from chapters into the topic hierarchy for {chapterLabel}.
-          </p>
-        </header>
         <Class9McqsBookChapterPage bookSlug={subject} chapterSlug={chapter} />
       </article>
     </UserLayout>

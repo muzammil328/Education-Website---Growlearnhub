@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { MCQSet, MCQ } from '@/data/dummy-mcq-data';
+import { Heading2, Heading3, Para } from '@muzammil328/ui';
 
 interface QuizModalProps {
   set: MCQSet;
@@ -136,11 +137,11 @@ export default function QuizModal({ set, isOpen, onClose }: QuizModalProps) {
     return (
       <div style={overlayStyle}>
         <div style={modalStyle}>
-          <h2>Quiz Results</h2>
-          <p style={{ fontSize: '48px', fontWeight: 'bold', margin: '20px 0' }}>
+          <Heading2>Quiz Results</Heading2>
+          <Para style={{ fontSize: '48px', fontWeight: 'bold', margin: '20px 0' }}>
             {score}/{totalQuestions}
-          </p>
-          <p style={{ fontSize: '24px', marginBottom: '20px' }}>{percentage}% Correct</p>
+          </Para>
+          <Para style={{ fontSize: '24px', marginBottom: '20px' }}>{percentage}% Correct</Para>
 
           <div style={{ maxHeight: '300px', overflowY: 'auto', textAlign: 'left' }}>
             {set.mcqs.map((mcq, index) => {
@@ -158,15 +159,15 @@ export default function QuizModal({ set, isOpen, onClose }: QuizModalProps) {
                     borderRadius: '4px',
                   }}
                 >
-                  <p style={{ fontWeight: 'bold' }}>
+                  <Para style={{ fontWeight: 'bold' }}>
                     Q{index + 1}: {mcq.question}
-                  </p>
-                  <p style={{ color: isCorrect ? '#28a745' : '#dc3545' }}>
+                  </Para>
+                  <Para style={{ color: isCorrect ? '#28a745' : '#dc3545' }}>
                     Your answer:{' '}
                     {mcq.options.find(o => o.id === selectedOptionId)?.text || 'Not answered'}
-                  </p>
+                  </Para>
                   {!isCorrect && (
-                    <p style={{ color: '#28a745' }}>Correct: {getCorrectAnswer(mcq)}</p>
+                    <Para style={{ color: '#28a745' }}>Correct: {getCorrectAnswer(mcq)}</Para>
                   )}
                 </div>
               );
@@ -203,7 +204,7 @@ export default function QuizModal({ set, isOpen, onClose }: QuizModalProps) {
             marginBottom: '20px',
           }}
         >
-          <h2>{set.name}</h2>
+          <Heading2>{set.name}</Heading2>
           <button
             onClick={onClose}
             style={{ background: 'none', border: 'none', fontSize: '24px', cursor: 'pointer' }}
@@ -254,7 +255,7 @@ export default function QuizModal({ set, isOpen, onClose }: QuizModalProps) {
           />
         </div>
 
-        <h3 style={{ marginBottom: '20px' }}>{currentQuestion.question}</h3>
+        <Heading3 style={{ marginBottom: '20px' }}>{currentQuestion.question}</Heading3>
 
         <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
           {currentQuestion.options.map(option => {

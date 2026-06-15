@@ -11,7 +11,7 @@ export const chapterGetDropdown = superAdminProcedure
   .input(getChapterDropdownInputSchema)
   .query(async ({ input }) => {
     try {
-      const { classId } = input;
+      const { classId, bookId } = input;
 
       if(!classId) {
         throw new Error('Class ID is required');
@@ -23,7 +23,8 @@ export const chapterGetDropdown = superAdminProcedure
           .match(
             buildMatch({
               status: StatusEnum.Active,
-              classId: toObjectId(classId)
+              classId: toObjectId(classId),
+              bookId: bookId ? toObjectId(bookId) : undefined,
             }),
           )
           .sort({ name: 1 })

@@ -4,10 +4,7 @@ import { useState, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { toast } from '@muzammil328/ui';
-import { Button } from '@muzammil328/ui';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@muzammil328/ui';
-import { Input } from '@muzammil328/ui';
+import { Button, DialogContent, Dialog, DialogHeader, DialogTitle, Input, Para, toast } from '@muzammil328/ui';
 import { Upload, FileSpreadsheet } from 'lucide-react';
 import { emailSchema } from '@muzammil328/types';
 
@@ -143,7 +140,7 @@ export function AddStudentModal({ triggerLabel }: AddStudentModalProps) {
                   placeholder="Enter username"
                 />
                 {form.formState.errors.username && (
-                  <p className="text-sm text-red-500">{form.formState.errors.username.message}</p>
+                  <Para className="text-sm text-red-500">{form.formState.errors.username.message}</Para>
                 )}
               </div>
 
@@ -158,7 +155,7 @@ export function AddStudentModal({ triggerLabel }: AddStudentModalProps) {
                   placeholder="Enter email"
                 />
                 {form.formState.errors.email && (
-                  <p className="text-sm text-red-500">{form.formState.errors.email.message}</p>
+                  <Para className="text-sm text-red-500">{form.formState.errors.email.message}</Para>
                 )}
               </div>
 
@@ -173,7 +170,7 @@ export function AddStudentModal({ triggerLabel }: AddStudentModalProps) {
                   placeholder="Enter password"
                 />
                 {form.formState.errors.password && (
-                  <p className="text-sm text-red-500">{form.formState.errors.password.message}</p>
+                  <Para className="text-sm text-red-500">{form.formState.errors.password.message}</Para>
                 )}
               </div>
 
@@ -197,9 +194,9 @@ export function AddStudentModal({ triggerLabel }: AddStudentModalProps) {
                   className="hidden"
                 />
                 <FileSpreadsheet className="h-12 w-12 mx-auto mb-2 text-gray-400" />
-                <p className="text-sm text-gray-600 mb-2">
+                <Para className="text-sm text-gray-600 mb-2">
                   Upload CSV file with columns: username, email, password
-                </p>
+                </Para>
                 <Button
                   type="button"
                   variant="outline"

@@ -1,5 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
+import { Heading2, Para } from '@muzammil328/ui';
 
 const plans = [
   {
@@ -86,7 +87,7 @@ function PricingCard({
         {name}
       </span>
 
-      <p className="text-sm text-muted-foreground">{description}</p>
+      <Para className="text-sm text-muted-foreground">{description}</Para>
 
       {/* price */}
       <div className="flex items-baseline gap-1">
@@ -96,7 +97,7 @@ function PricingCard({
 
       {/* features */}
       <div className="flex flex-col gap-2">
-        <p className="text-sm font-bold text-foreground">Features include:</p>
+        <Para className="text-sm font-bold text-foreground">Features include:</Para>
         <ul className="flex flex-col gap-2">
           {features.map(f => (
             <li key={f} className="flex items-start gap-2 text-sm text-muted-foreground">
@@ -131,12 +132,12 @@ export function PricingSection() {
 
         {/* header */}
         <div className="mx-auto mb-12 max-w-2xl text-center">
-          <h2 className="text-4xl font-extrabold leading-tight tracking-tight text-foreground md:text-5xl">
+          <Heading2 className="text-4xl font-extrabold leading-tight tracking-tight text-foreground md:text-5xl">
             Always free — for every student
-          </h2>
-          <p className="mt-3 text-sm text-muted-foreground md:text-base">
+          </Heading2>
+          <Para className="mt-3 text-sm text-muted-foreground md:text-base">
             No subscriptions, no paywalls. Pick your class and start studying today.
-          </p>
+          </Para>
         </div>
 
         {/* grid */}

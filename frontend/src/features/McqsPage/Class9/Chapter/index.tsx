@@ -1,8 +1,9 @@
 'use client';
 
-import { useHeadingByClassAndSubjectAndChapterSlug } from '@/hooks/use-public';
+import { useChapterDetail, useHeadingByClassAndSubjectAndChapterSlug } from '@/hooks/use-public';
 import Link from 'next/link';
 import McqsInlineSection from '@/components/mcqs/McqsInlineSection';
+import { Heading2, Para } from '@muzammil328/ui';
 
 interface Props {
   bookSlug: string;
@@ -12,17 +13,37 @@ interface Props {
 const CLASS_SLUG = 'class-9';
 
 export default function Class9McqsBookChapterPage({ bookSlug, chapterSlug }: Props) {
+  const { data: chapterData } = useChapterDetail(CLASS_SLUG, bookSlug, chapterSlug);
   const { data, isLoading, error } = useHeadingByClassAndSubjectAndChapterSlug(CLASS_SLUG, bookSlug, chapterSlug);
 
-  if (isLoading) return <p>Loading headings...</p>;
-  if (error) return <p>Failed to load headings.</p>;
+  const chapterInfo = chapterData?.data?.chapter;
+
+  if (isLoading) return <Para>Loading headings...</Para>;
+  if (error) return <Para>Failed to load headings.</Para>;
 
   const headings = data?.data ?? [];
 
   return (
     <div className="space-y-6">
+      {chapterInfo && (
+        <header className="space-y-3">
+          <Heading2 className="mb-2" weight="bold" size="sm">
+            {chapterInfo.order ? `Chapter ${chapterInfo.order} ${chapterInfo.name} - Class 9 MCQs` : `${chapterInfo.name} - Class 9 MCQs`}
+          </Heading2>
+          {chapterInfo.description && (
+            <Para className="text-base">
+              {chapterInfo.description}
+            </Para>
+          )}
+          {!chapterInfo.description && (
+            <Para className="text-base">
+              Practice chapter-wise MCQs for Class 9 {chapterInfo.name}. Test your understanding with multiple-choice questions covering all key topics.
+            </Para>
+          )}
+        </header>
+      )}
       {headings.length === 0 ? (
-        <p>No headings found.</p>
+        <Para>No headings found.</Para>
       ) : (
         <ul className="grid gap-3">
           {headings.map((heading: any) => (

@@ -7,6 +7,7 @@ import { useAuth } from '@/context/AuthContext';
 import { cn } from '@/lib/utils';
 import { CheckCircle2, XCircle, AlertTriangle, RotateCcw, ArrowRight } from 'lucide-react';
 import UserLayout from '@/components/layout/UserLayout';
+import { Heading1, Heading2, Para } from '@muzammil328/ui';
 
 type ConfidenceTag = 'sure' | 'guessed' | 'no_idea';
 
@@ -99,8 +100,8 @@ export default function FocusedDrillClient({ subHeadingId }: Props) {
       <UserLayout title="Focused Drill | GrowLearnHub">
         <div className="flex flex-col items-center justify-center py-24 gap-4 text-center">
           <CheckCircle2 className="w-12 h-12 text-green-500" />
-          <h2 className="text-xl font-semibold">No questions to drill!</h2>
-          <p className="text-muted-foreground text-sm">You&apos;ve cleared this topic.</p>
+          <Heading2 className="text-xl font-semibold">No questions to drill!</Heading2>
+          <Para className="text-muted-foreground text-sm">You&apos;ve cleared this topic.</Para>
           <button onClick={() => router.back()} className="mt-2 px-6 py-2 bg-primary text-white rounded-lg text-sm font-medium">Go Back</button>
         </div>
       </UserLayout>
@@ -121,27 +122,27 @@ export default function FocusedDrillClient({ subHeadingId }: Props) {
           )}>
             {pct}%
           </div>
-          <h1 className="text-2xl font-bold text-center">Drill Complete!</h1>
+          <Heading1 className="text-2xl font-bold text-center">Drill Complete!</Heading1>
           <div className="grid grid-cols-3 gap-3">
             <div className="rounded-xl border p-4 text-center bg-green-50 dark:bg-green-950/20">
-              <p className="text-2xl font-bold text-green-600">{correct}</p>
-              <p className="text-xs text-muted-foreground mt-1">Correct</p>
+              <Para className="text-2xl font-bold text-green-600">{correct}</Para>
+              <Para className="text-xs text-muted-foreground mt-1">Correct</Para>
             </div>
             <div className="rounded-xl border p-4 text-center bg-red-50 dark:bg-red-950/20">
-              <p className="text-2xl font-bold text-red-500">{results.length - correct}</p>
-              <p className="text-xs text-muted-foreground mt-1">Wrong</p>
+              <Para className="text-2xl font-bold text-red-500">{results.length - correct}</Para>
+              <Para className="text-xs text-muted-foreground mt-1">Wrong</Para>
             </div>
             <div className="rounded-xl border p-4 text-center bg-violet-50 dark:bg-violet-950/20">
-              <p className="text-2xl font-bold text-violet-600">{confidentMistakes}</p>
-              <p className="text-xs text-muted-foreground mt-1">Confident Mistakes</p>
+              <Para className="text-2xl font-bold text-violet-600">{confidentMistakes}</Para>
+              <Para className="text-xs text-muted-foreground mt-1">Confident Mistakes</Para>
             </div>
           </div>
           {confidentMistakes > 0 && (
             <div className="flex items-start gap-3 rounded-xl border border-red-200 bg-red-50 dark:bg-red-950/20 p-4">
               <AlertTriangle className="w-5 h-5 text-red-500 shrink-0 mt-0.5" />
-              <p className="text-sm text-red-700 dark:text-red-400">
+              <Para className="text-sm text-red-700 dark:text-red-400">
                 You had {confidentMistakes} confident mistake{confidentMistakes > 1 ? 's' : ''} — these are misconceptions, not knowledge gaps. Review the explanations carefully.
-              </p>
+              </Para>
             </div>
           )}
           <div className="flex gap-3">
@@ -182,7 +183,7 @@ export default function FocusedDrillClient({ subHeadingId }: Props) {
                 </span>
               )}
             </div>
-            <p className="text-muted-foreground text-sm">Question {idx + 1} of {mcqs.length}</p>
+            <Para className="text-muted-foreground text-sm">Question {idx + 1} of {mcqs.length}</Para>
           </div>
           <div className="w-32 h-2 bg-muted rounded-full overflow-hidden">
             <div className="h-full bg-primary rounded-full transition-all" style={{ width: `${((idx + 1) / mcqs.length) * 100}%` }} />
@@ -196,7 +197,7 @@ export default function FocusedDrillClient({ subHeadingId }: Props) {
               <RotateCcw className="w-3.5 h-3.5" /> Recovery question — you got this wrong before
             </div>
           )}
-          <p className="text-base font-semibold text-foreground leading-relaxed">{cur?.question}</p>
+          <Para className="text-base font-semibold text-foreground leading-relaxed">{cur?.question}</Para>
 
           <div className="space-y-0 divide-y divide-border border border-border rounded-xl overflow-hidden">
             {cur?.options.map((opt, i) => {
@@ -225,7 +226,7 @@ export default function FocusedDrillClient({ subHeadingId }: Props) {
           {/* confidence tag */}
           {!submitted && selected !== undefined && (
             <div>
-              <p className="text-xs text-muted-foreground mb-2 font-medium">How confident were you?</p>
+              <Para className="text-xs text-muted-foreground mb-2 font-medium">How confident were you?</Para>
               <div className="flex gap-2">
                 {([
                   { tag: 'sure' as ConfidenceTag, label: '✅ Sure', active: 'bg-green-600 text-white border-green-600', inactive: 'border-border text-muted-foreground hover:border-green-400' },

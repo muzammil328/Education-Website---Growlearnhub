@@ -19,6 +19,7 @@ import { trpc } from '@/trpc/trpc';
 import { useAuth } from '@/context/AuthContext';
 import Link from 'next/link';
 import { cn } from '@/lib/utils';
+import { Heading1, Heading2, Para } from '@muzammil328/ui';
 
 export function StudentDashboardView() {
   const { user } = useAuth();
@@ -101,10 +102,10 @@ export function StudentDashboardView() {
     <div className="space-y-8">
       {/* Header */}
       <div>
-        <h1 className="text-2xl font-bold text-foreground">
+        <Heading1 className="text-2xl font-bold text-foreground">
           Welcome back, {user?.name?.split(' ')[0] ?? 'Student'} 👋
-        </h1>
-        <p className="text-muted-foreground text-sm mt-1">{currentDate}</p>
+        </Heading1>
+        <Para className="text-muted-foreground text-sm mt-1">{currentDate}</Para>
       </div>
 
       {/* Adaptive Alerts Row */}
@@ -117,10 +118,10 @@ export function StudentDashboardView() {
             >
               <RotateCcw className="w-5 h-5 text-amber-500 shrink-0" />
               <div>
-                <p className="text-sm font-semibold text-amber-800 dark:text-amber-300">
+                <Para className="text-sm font-semibold text-amber-800 dark:text-amber-300">
                   {openLoopCount} Open {openLoopCount === 1 ? 'Loop' : 'Loops'}
-                </p>
-                <p className="text-xs text-amber-600 dark:text-amber-400">Tap to start focused drill →</p>
+                </Para>
+                <Para className="text-xs text-amber-600 dark:text-amber-400">Tap to start focused drill →</Para>
               </div>
             </Link>
           )}
@@ -128,10 +129,10 @@ export function StudentDashboardView() {
             <div className="flex items-center gap-3 rounded-xl border border-blue-200 bg-blue-50 dark:border-blue-900/40 dark:bg-blue-950/20 px-4 py-3">
               <CalendarClock className="w-5 h-5 text-blue-500 shrink-0" />
               <div>
-                <p className="text-sm font-semibold text-blue-800 dark:text-blue-300">
+                <Para className="text-sm font-semibold text-blue-800 dark:text-blue-300">
                   {dueCount} Due for Review
-                </p>
-                <p className="text-xs text-blue-600 dark:text-blue-400">Spaced repetition due today</p>
+                </Para>
+                <Para className="text-xs text-blue-600 dark:text-blue-400">Spaced repetition due today</Para>
               </div>
             </div>
           )}
@@ -139,10 +140,10 @@ export function StudentDashboardView() {
             <div className="flex items-center gap-3 rounded-xl border border-red-200 bg-red-50 dark:border-red-900/40 dark:bg-red-950/20 px-4 py-3">
               <AlertTriangle className="w-5 h-5 text-red-500 shrink-0" />
               <div>
-                <p className="text-sm font-semibold text-red-800 dark:text-red-300">
+                <Para className="text-sm font-semibold text-red-800 dark:text-red-300">
                   {stats?.confidentMistakes} Confident Mistakes
-                </p>
-                <p className="text-xs text-red-600 dark:text-red-400">Sure but wrong — misconceptions</p>
+                </Para>
+                <Para className="text-xs text-red-600 dark:text-red-400">Sure but wrong — misconceptions</Para>
               </div>
             </div>
           )}
@@ -158,10 +159,10 @@ export function StudentDashboardView() {
                 <Calendar className="w-5 h-5 text-primary" />
               </div>
               <div>
-                <p className="text-sm font-semibold text-foreground">{readiness.examTarget}</p>
-                <p className="text-xs text-muted-foreground">
+                <Para className="text-sm font-semibold text-foreground">{readiness.examTarget}</Para>
+                <Para className="text-xs text-muted-foreground">
                   {new Date(readiness.examDate!).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}
-                </p>
+                </Para>
               </div>
             </div>
             <div className="flex items-center gap-6 shrink-0">
@@ -173,8 +174,8 @@ export function StudentDashboardView() {
                 </div>
               )}
               <div className="text-center">
-                <p className="text-2xl font-bold text-primary">{readiness.daysRemaining}</p>
-                <p className="text-xs text-muted-foreground">days left</p>
+                <Para className="text-2xl font-bold text-primary">{readiness.daysRemaining}</Para>
+                <Para className="text-xs text-muted-foreground">days left</Para>
               </div>
             </div>
           </div>
@@ -205,7 +206,7 @@ export function StudentDashboardView() {
 
       {/* Stat Cards */}
       <section>
-        <h2 className="text-base font-semibold text-foreground mb-4">Your MCQ Stats</h2>
+        <Heading2 className="text-base font-semibold text-foreground mb-4">Your MCQ Stats</Heading2>
         {statsLoading ? (
           <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
             {[1, 2, 3, 4].map(i => (
@@ -228,8 +229,8 @@ export function StudentDashboardView() {
                   {card.icon}
                 </div>
                 <div>
-                  <p className="text-xs text-muted-foreground font-medium">{card.label}</p>
-                  <p className="text-2xl font-bold text-foreground mt-0.5">{card.value}</p>
+                  <Para className="text-xs text-muted-foreground font-medium">{card.label}</Para>
+                  <Para className="text-2xl font-bold text-foreground mt-0.5">{card.value}</Para>
                 </div>
               </div>
             ))}
@@ -269,7 +270,7 @@ export function StudentDashboardView() {
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
               <Flame className="w-4 h-4 text-red-500" />
-              <h2 className="text-base font-semibold text-foreground">Weak Topics</h2>
+              <Heading2 className="text-base font-semibold text-foreground">Weak Topics</Heading2>
             </div>
             <span className="text-xs text-muted-foreground">{weakCount} topics need attention</span>
           </div>
@@ -284,16 +285,16 @@ export function StudentDashboardView() {
                   key={String(p._id)}
                   className="rounded-xl border border-red-200 dark:border-red-900/40 bg-card p-4"
                 >
-                  <p className="text-sm font-medium text-foreground line-clamp-1">{label}</p>
+                  <Para className="text-sm font-medium text-foreground line-clamp-1">{label}</Para>
                   <div className="mt-2 w-full h-1.5 rounded-full bg-muted overflow-hidden">
                     <div
                       className="h-full rounded-full bg-red-500 transition-all"
                       style={{ width: `${score}%` }}
                     />
                   </div>
-                  <p className="text-xs text-muted-foreground mt-1">
+                  <Para className="text-xs text-muted-foreground mt-1">
                     Mastery: {score}% · {p.incorrect ?? 0} wrong
-                  </p>
+                  </Para>
                 </div>
               );
             })}
@@ -304,7 +305,7 @@ export function StudentDashboardView() {
       {/* Recent Attempts */}
       <section>
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-base font-semibold text-foreground">Recent Attempts</h2>
+          <Heading2 className="text-base font-semibold text-foreground">Recent Attempts</Heading2>
           <Link href="/live/mcqs" className="text-xs text-primary hover:underline">
             Practice more →
           </Link>
@@ -319,10 +320,10 @@ export function StudentDashboardView() {
         ) : history.length === 0 ? (
           <div className="rounded-xl border border-dashed border-border p-10 text-center">
             <BookOpen className="w-8 h-8 text-muted-foreground mx-auto mb-3" />
-            <p className="text-sm font-medium text-foreground">No attempts yet</p>
-            <p className="text-xs text-muted-foreground mt-1">
+            <Para className="text-sm font-medium text-foreground">No attempts yet</Para>
+            <Para className="text-xs text-muted-foreground mt-1">
               Take an online test to see your history here.
-            </p>
+            </Para>
             <Link
               href="/live/online-test"
               className="mt-4 inline-block rounded-lg bg-primary px-4 py-2 text-xs font-medium text-primary-foreground hover:bg-primary/90 transition-colors"
@@ -391,7 +392,7 @@ export function StudentDashboardView() {
       {/* Progress Rings */}
       {(myProgressData?.data?.length ?? 0) > 0 && (
         <section>
-          <h2 className="text-base font-semibold text-foreground mb-4">Mastery Progress</h2>
+          <Heading2 className="text-base font-semibold text-foreground mb-4">Mastery Progress</Heading2>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
             {(myProgressData!.data as Array<{ subHeadingId: { name?: string }; masteryBand: string; masteryScore: number }>).slice(0, 8).map((p, i) => {
               const name = p.subHeadingId?.name ?? `Topic ${i + 1}`;
@@ -413,7 +414,7 @@ export function StudentDashboardView() {
                     />
                     <text x="36" y="41" textAnchor="middle" fontSize="14" fontWeight="700" fill={ringColor}>{score}%</text>
                   </svg>
-                  <p className="text-xs font-medium text-center text-foreground leading-tight line-clamp-2">{name}</p>
+                  <Para className="text-xs font-medium text-center text-foreground leading-tight line-clamp-2">{name}</Para>
                   <span className={cn(
                     'text-[10px] font-semibold px-2 py-0.5 rounded-full',
                     band === 'strong' ? 'bg-green-100 text-green-700 dark:bg-green-950/40 dark:text-green-300' :
@@ -432,7 +433,7 @@ export function StudentDashboardView() {
       {/* Badges */}
       {(badgesData?.badges?.length ?? 0) > 0 && (
         <section>
-          <h2 className="text-base font-semibold text-foreground mb-3">Badges</h2>
+          <Heading2 className="text-base font-semibold text-foreground mb-3">Badges</Heading2>
           <div className="flex flex-wrap gap-2">
             {badgesData!.badges.map((badge: string) => {
               const BADGE_META: Record<string, { label: string; icon: string; color: string }> = {
@@ -458,7 +459,7 @@ export function StudentDashboardView() {
 
       {/* Quick Actions */}
       <section>
-        <h2 className="text-base font-semibold text-foreground mb-4">Quick Actions</h2>
+        <Heading2 className="text-base font-semibold text-foreground mb-4">Quick Actions</Heading2>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           {[
             { label: 'Micro Burst ⚡', href: '/burst', desc: '5 targeted questions in under 5 min' },
@@ -472,10 +473,10 @@ export function StudentDashboardView() {
               className="flex items-center justify-between rounded-xl border border-border bg-card px-5 py-4 hover:border-primary/40 hover:bg-muted/40 transition-colors group"
             >
               <div>
-                <p className="text-sm font-semibold text-foreground group-hover:text-primary transition-colors">
+                <Para className="text-sm font-semibold text-foreground group-hover:text-primary transition-colors">
                   {action.label}
-                </p>
-                <p className="text-xs text-muted-foreground mt-0.5">{action.desc}</p>
+                </Para>
+                <Para className="text-xs text-muted-foreground mt-0.5">{action.desc}</Para>
               </div>
               <svg
                 className="w-4 h-4 text-muted-foreground group-hover:text-primary transition-colors"

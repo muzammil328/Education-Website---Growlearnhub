@@ -1,6 +1,5 @@
 import React from 'react';
-import { Card, CardContent, CardHeader } from '@muzammil328/ui';
-import { Skeleton } from '@muzammil328/ui';
+import { Card, CardContent, CardHeader, Skeleton } from '@muzammil328/ui';
 
 export const QuizSkeleton: React.FC = () => {
   return (
